@@ -9,9 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface PiggybackViewController : UIViewController
-adfsdf
-another bug!
-testing mike gao
-from kim.
-from mike.
 @end
