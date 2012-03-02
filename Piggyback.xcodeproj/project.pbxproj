@@ -23,15 +23,15 @@
 		3E9472FA15008EF900A261DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E9472FC15008EF900A261DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3E9472FE15008EF900A261DD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		3E94730215008EF900A261DD /* Piggyback-Info.plist */ = {isa = PBXFileReference; path = "Piggyback-Info.plist"; sourceTree = "<group>"; };
+		3E94730215008EF900A261DD /* Piggyback-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Piggyback-Info.plist"; sourceTree = "<group>"; };
 		3E94730415008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3E94730615008EF900A261DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		3E94730815008EF900A261DD /* Piggyback-Prefix.pch */ = {isa = PBXFileReference; path = "Piggyback-Prefix.pch"; sourceTree = "<group>"; };
-		3E94730915008EF900A261DD /* PiggybackAppDelegate.h */ = {isa = PBXFileReference; path = PiggybackAppDelegate.h; sourceTree = "<group>"; };
+		3E94730815008EF900A261DD /* Piggyback-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Piggyback-Prefix.pch"; sourceTree = "<group>"; };
+		3E94730915008EF900A261DD /* PiggybackAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiggybackAppDelegate.h; sourceTree = "<group>"; };
 		3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiggybackAppDelegate.m; sourceTree = "<group>"; };
 		3E94730D15008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		3E94731015008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		3E94731215008EF900A261DD /* PiggybackViewController.h */ = {isa = PBXFileReference; path = PiggybackViewController.h; sourceTree = "<group>"; };
+		3E94731215008EF900A261DD /* PiggybackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiggybackViewController.h; sourceTree = "<group>"; };
 		3E94731315008EF900A261DD /* PiggybackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiggybackViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -255,6 +255,7 @@
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -266,6 +267,7 @@
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
