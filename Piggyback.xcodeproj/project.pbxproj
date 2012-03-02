@@ -15,7 +15,7 @@
 		3E94730B15008EF900A261DD /* PiggybackAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */; };
 		3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */; };
 		3E94731115008EF900A261DD /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */; };
-		3E94731415008EF900A261DD /* PiggybackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* PiggybackViewController.m */; };
+		3E94731415008EF900A261DD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* LoginViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,8 +31,8 @@
 		3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiggybackAppDelegate.m; sourceTree = "<group>"; };
 		3E94730D15008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		3E94731015008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		3E94731215008EF900A261DD /* PiggybackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiggybackViewController.h; sourceTree = "<group>"; };
-		3E94731315008EF900A261DD /* PiggybackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiggybackViewController.m; sourceTree = "<group>"; };
+		3E94731215008EF900A261DD /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		3E94731315008EF900A261DD /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,8 +81,8 @@
 			children = (
 				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
 				3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */,
-				3E94731215008EF900A261DD /* PiggybackViewController.h */,
-				3E94731315008EF900A261DD /* PiggybackViewController.m */,
+				3E94731215008EF900A261DD /* LoginViewController.h */,
+				3E94731315008EF900A261DD /* LoginViewController.m */,
 				3E94730115008EF900A261DD /* Supporting Files */,
 			);
 			path = Piggyback;
@@ -167,7 +167,7 @@
 			files = (
 				3E94730715008EF900A261DD /* main.m in Sources */,
 				3E94730B15008EF900A261DD /* PiggybackAppDelegate.m in Sources */,
-				3E94731415008EF900A261DD /* PiggybackViewController.m in Sources */,
+				3E94731415008EF900A261DD /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +291,7 @@
 				3E94731915008EF900A261DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
