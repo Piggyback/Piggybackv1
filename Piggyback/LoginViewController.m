@@ -7,8 +7,14 @@
 //
 
 #import "LoginViewController.h"
+#import "PiggybackAppDelegate.h"
+
+@interface LoginViewController() 
+
+@end
 
 @implementation LoginViewController
+@synthesize greeting = _greeting;
 
 - (void)didReceiveMemoryWarning
 {
@@ -26,6 +32,7 @@
 
 - (void)viewDidUnload
 {
+    [self setGreeting:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -61,4 +68,13 @@
     }
 }
 
+- (IBAction)loginWithFacebook:(id)sender {
+    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate loginWithFacebookIfSessionIsInvalid];
+}
+
+- (IBAction)logout:(id)sender {
+    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate logoutWithFacebook];
+}
 @end

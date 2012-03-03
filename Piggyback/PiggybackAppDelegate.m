@@ -7,15 +7,70 @@
 //
 
 #import "PiggybackAppDelegate.h"
+#import "LoginViewController.h"     // remove
 
 @implementation PiggybackAppDelegate
 
 @synthesize window = _window;
+@synthesize facebook = _facebook;
+
+- (void)fbDidLogin {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[_facebook accessToken] forKey:@"FBAccessTokenKey"];
+    [defaults setObject:[_facebook expirationDate] forKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
+    
+    // remove test snippet
+    LoginViewController *loginVC = (LoginViewController *)self.window.rootViewController;
+    loginVC.greeting.text = @"logged in!!!!!!!!";
+}
+
+- (void) fbDidLogout {
+    // Remove saved authorization information if it exists
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"FBAccessTokenKey"]) {
+        [defaults removeObjectForKey:@"FBAccessTokenKey"];
+        [defaults removeObjectForKey:@"FBExpirationDateKey"];
+        [defaults synchronize];
+    }
+    
+    LoginViewController *loginVC = (LoginViewController *)self.window.rootViewController;
+    loginVC.greeting.text = @"LOGGED OUT!";
+}
+
+// Pre 4.2 support
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [_facebook handleOpenURL:url]; 
+}
+
+// For 4.2+ support
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [_facebook handleOpenURL:url]; 
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    _facebook = [[Facebook alloc] initWithAppId:@"251920381531962" andDelegate:self];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"FBAccessTokenKey"] 
+        && [defaults objectForKey:@"FBExpirationDateKey"]) {
+        _facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
+        _facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
+    }
+    
     return YES;
+}
+
+- (void)loginWithFacebookIfSessionIsInvalid {
+    if (![_facebook isSessionValid]) {
+        [_facebook authorize:nil];
+    }
+}
+
+- (void)logoutWithFacebook {
+    [_facebook logout];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

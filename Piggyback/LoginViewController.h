@@ -9,4 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface LoginViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UILabel *greeting;
+- (IBAction)loginWithFacebook:(id)sender;
+- (IBAction)logout:(id)sender;
+
 @end
