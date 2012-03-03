@@ -14,15 +14,27 @@
 @synthesize window = _window;
 @synthesize facebook = _facebook;
 
+- (void)request:(FBRequest *)request didLoad:(id)result {
+    if ([result isKindOfClass:[NSArray class]] && ([result count] > 0)) {
+        result = [result objectAtIndex:0];
+    }
+    
+    NSString *nameID = [[NSString alloc] initWithFormat: @"%@ (%@)", 
+                        [result objectForKey:@"name"], 
+                        [result objectForKey:@"id"]];
+    
+    // remove test snippet
+    LoginViewController *loginVC = (LoginViewController *)self.window.rootViewController;
+    loginVC.greeting.text = nameID;
+}
+
 - (void)fbDidLogin {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[_facebook accessToken] forKey:@"FBAccessTokenKey"];
     [defaults setObject:[_facebook expirationDate] forKey:@"FBExpirationDateKey"];
     [defaults synchronize];
     
-    // remove test snippet
-    LoginViewController *loginVC = (LoginViewController *)self.window.rootViewController;
-    loginVC.greeting.text = @"logged in!!!!!!!!";
+    FBRequest *meGraphAPIRequest = [_facebook requestWithGraphPath:@"me" andDelegate:self];
 }
 
 - (void) fbDidLogout {
@@ -34,6 +46,7 @@
         [defaults synchronize];
     }
     
+    // remove test snippet
     LoginViewController *loginVC = (LoginViewController *)self.window.rootViewController;
     loginVC.greeting.text = @"LOGGED OUT!";
 }

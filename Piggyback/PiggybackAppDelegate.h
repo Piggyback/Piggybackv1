@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FBConnect.h"
 
-@interface PiggybackAppDelegate : UIResponder <UIApplicationDelegate, FBSessionDelegate> 
+@interface PiggybackAppDelegate : UIResponder <UIApplicationDelegate, FBSessionDelegate, FBRequestDelegate> 
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) Facebook *facebook;
