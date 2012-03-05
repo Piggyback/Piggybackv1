@@ -34,7 +34,7 @@
     [defaults setObject:[_facebook expirationDate] forKey:@"FBExpirationDateKey"];
     [defaults synchronize];
     
-    FBRequest *meGraphAPIRequest = [_facebook requestWithGraphPath:@"me" andDelegate:self];
+    [_facebook requestWithGraphPath:@"me" andDelegate:self];
 }
 
 - (void) fbDidLogout {

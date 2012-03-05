@@ -100,6 +100,8 @@
 		3E94730015008EF900A261DD /* Piggyback */ = {
 			isa = PBXGroup;
 			children = (
+				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
+				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
 				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
 				3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */,
 				3E94731215008EF900A261DD /* LoginViewController.h */,
@@ -113,8 +115,6 @@
 		3E94730115008EF900A261DD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
-				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
 				3E94730215008EF900A261DD /* Piggyback-Info.plist */,
 				3E94730315008EF900A261DD /* InfoPlist.strings */,
 				3E94730615008EF900A261DD /* main.m */,
