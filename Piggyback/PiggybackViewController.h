@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Restkit/Restkit.h>
 
 @interface PiggybackViewController : UIViewController
 @end
