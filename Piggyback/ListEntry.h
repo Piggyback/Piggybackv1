@@ -13,6 +13,6 @@
 
 @property (nonatomic, strong) NSString* comment;
 
-- (void)sendRequests;
+- (void)sendRequest;
 
 @end
