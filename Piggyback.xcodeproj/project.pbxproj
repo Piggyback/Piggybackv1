@@ -23,6 +23,44 @@
 		3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F9B9B637150197420002BCDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9B9B62D150197420002BCDE /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160D1614564E810060A5C5;
+			remoteInfo = RestKit;
+		};
+		F9B9B639150197420002BCDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9B9B62D150197420002BCDE /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160D2614564E820060A5C5;
+			remoteInfo = RestKitTests;
+		};
+		F9B9B63B150197420002BCDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9B9B62D150197420002BCDE /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160E62145651060060A5C5;
+			remoteInfo = RestKitFramework;
+		};
+		F9B9B63D150197420002BCDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9B9B62D150197420002BCDE /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160E78145651060060A5C5;
+			remoteInfo = RestKitFrameworkTests;
+		};
+		F9B9B63F150197D00002BCDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9B9B62D150197420002BCDE /* RestKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 25160D1514564E810060A5C5;
+			remoteInfo = RestKit;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		3E7429361505956A005A272C /* LoginWithFacebookNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginWithFacebookNormal.png; path = "../facebook-ios-sdk/FBConnect.bundle/images/LoginWithFacebookNormal.png"; sourceTree = "<group>"; };
 		3E9472F615008EF900A261DD /* Piggyback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piggyback.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +101,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9B9B641150197F00002BCDE /* libRestKit.a in Frameworks */,
+				F9B9B62C150193B60002BCDE /* libxml2.dylib in Frameworks */,
+				F9B9B62A150193AC0002BCDE /* QuartzCore.framework in Frameworks */,
+				F9B9B628150193A30002BCDE /* SystemConfiguration.framework in Frameworks */,
+				F9B9B6261501939A0002BCDE /* Security.framework in Frameworks */,
+				F9B9B624150193920002BCDE /* MobileCoreServices.framework in Frameworks */,
+				F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */,
+				F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */,
 				3E9472FB15008EF900A261DD /* UIKit.framework in Frameworks */,
 				3E9472FD15008EF900A261DD /* Foundation.framework in Frameworks */,
 				3E9472FF15008EF900A261DD /* CoreGraphics.framework in Frameworks */,
@@ -94,6 +140,13 @@
 		3E9472F915008EF900A261DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F9B9B62B150193B60002BCDE /* libxml2.dylib */,
+				F9B9B629150193AC0002BCDE /* QuartzCore.framework */,
+				F9B9B627150193A30002BCDE /* SystemConfiguration.framework */,
+				F9B9B6251501939A0002BCDE /* Security.framework */,
+				F9B9B623150193920002BCDE /* MobileCoreServices.framework */,
+				F9B9B621150193880002BCDE /* CoreData.framework */,
+				F9B9B61F150193810002BCDE /* CFNetwork.framework */,
 				3E9472FA15008EF900A261DD /* UIKit.framework */,
 				3E9472FC15008EF900A261DD /* Foundation.framework */,
 				3E9472FE15008EF900A261DD /* CoreGraphics.framework */,
@@ -173,6 +226,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F9B9B640150197D00002BCDE /* PBXTargetDependency */,
 			);
 			name = Piggyback;
 			productName = Piggyback;
@@ -198,12 +252,49 @@
 			mainGroup = 3E9472EB15008EF900A261DD;
 			productRefGroup = 3E9472F715008EF900A261DD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F9B9B62E150197420002BCDE /* Products */;
+					ProjectRef = F9B9B62D150197420002BCDE /* RestKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				3E9472F515008EF900A261DD /* Piggyback */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F9B9B638150197420002BCDE /* libRestKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRestKit.a;
+			remoteRef = F9B9B637150197420002BCDE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F9B9B63A150197420002BCDE /* RestKitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitTests.octest;
+			remoteRef = F9B9B639150197420002BCDE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F9B9B63C150197420002BCDE /* RestKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RestKit.framework;
+			remoteRef = F9B9B63B150197420002BCDE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F9B9B63E150197420002BCDE /* RestKitFrameworkTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitFrameworkTests.octest;
+			remoteRef = F9B9B63D150197420002BCDE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		3E9472F415008EF900A261DD /* Resources */ = {
@@ -234,6 +325,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F9B9B640150197D00002BCDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RestKit;
+			targetProxy = F9B9B63F150197D00002BCDE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		3E94730315008EF900A261DD /* InfoPlist.strings */ = {
@@ -315,6 +414,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SOURCE_ROOT)/RestKit/Build\"";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -331,6 +431,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SOURCE_ROOT)/RestKit/Build\"";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

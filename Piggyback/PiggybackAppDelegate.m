@@ -11,7 +11,7 @@
 
 static NSString* fbAppId = @"251920381531962";
 
-@implementation PiggybackAppDelegate
+@implementation PiggybackAppDelegate 
 
 @synthesize window = _window;
 @synthesize facebook = _facebook;
@@ -31,7 +31,21 @@ static NSString* fbAppId = @"251920381531962";
     
     return YES;
 }
-							
+				
+- (void)request:(RKRequest*)request didLoadResponse:(RKResponse *)response {
+    NSLog(@"and then this function was called");
+        if ([request isGET]) {
+            NSLog(@"response status code: %ld",(long)response.statusCode);
+//            if ([response isOK]) {
+//                NSLog(@"Get request succeeded!");
+//            }
+        }
+}
+
+- (void)request:(RKRequest *)request didFailLoadWithError:(NSError *)error{
+    NSLog(@"an error occurred: %@",error);
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*

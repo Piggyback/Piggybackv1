@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "PiggybackAppDelegate.h"
+#import "ListEntry.h"
 
 int main(int argc, char *argv[])
 {
