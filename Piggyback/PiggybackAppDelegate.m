@@ -9,81 +9,27 @@
 #import "PiggybackAppDelegate.h"
 #import "LoginViewController.h"     // remove
 
+static NSString* fbAppId = @"251920381531962";
+
 @implementation PiggybackAppDelegate
 
 @synthesize window = _window;
 @synthesize facebook = _facebook;
 
-- (void)request:(FBRequest *)request didLoad:(id)result {
-    if ([result isKindOfClass:[NSArray class]] && ([result count] > 0)) {
-        result = [result objectAtIndex:0];
-    }
-    
-    NSString *nameID = [[NSString alloc] initWithFormat: @"%@ (%@)", 
-                        [result objectForKey:@"name"], 
-                        [result objectForKey:@"id"]];
-    
-    // remove test snippet
-    LoginViewController *loginVC = (LoginViewController *)self.window.rootViewController;
-    loginVC.greeting.text = nameID;
-}
-
-- (void)fbDidLogin {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[_facebook accessToken] forKey:@"FBAccessTokenKey"];
-    [defaults setObject:[_facebook expirationDate] forKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
-    
-    [_facebook requestWithGraphPath:@"me" andDelegate:self];
-}
-
-- (void) fbDidLogout {
-    // Remove saved authorization information if it exists
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"FBAccessTokenKey"]) {
-        [defaults removeObjectForKey:@"FBAccessTokenKey"];
-        [defaults removeObjectForKey:@"FBExpirationDateKey"];
-        [defaults synchronize];
-    }
-    
-    // remove test snippet
-    LoginViewController *loginVC = (LoginViewController *)self.window.rootViewController;
-    loginVC.greeting.text = @"LOGGED OUT!";
-}
-
-// Pre 4.2 support
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    return [_facebook handleOpenURL:url]; 
-}
-
-// For 4.2+ support
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [_facebook handleOpenURL:url]; 
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    _facebook = [[Facebook alloc] initWithAppId:@"251920381531962" andDelegate:self];
+    LoginViewController *rootViewController = (LoginViewController *)self.window.rootViewController; // explicitly declare as LoginViewController or as broad UIViewController? 
     
+    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set LoginViewController as delegate?
+    
+    // Check and retrieve authorization information
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"FBAccessTokenKey"] 
-        && [defaults objectForKey:@"FBExpirationDateKey"]) {
-        _facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
-        _facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
+    if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
+        self.facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
+        self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
     }
     
     return YES;
-}
-
-- (void)loginWithFacebookIfSessionIsInvalid {
-    if (![_facebook isSessionValid]) {
-        [_facebook authorize:nil];
-    }
-}
-
-- (void)logoutWithFacebook {
-    [_facebook logout];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -111,9 +57,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-     */
+    [self.facebook extendAccessTokenIfNeeded];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -123,6 +67,14 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [self.facebook handleOpenURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [self.facebook handleOpenURL:url];
 }
 
 @end

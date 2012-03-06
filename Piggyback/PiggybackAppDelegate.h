@@ -9,12 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "FBConnect.h"
 
-@interface PiggybackAppDelegate : UIResponder <UIApplicationDelegate, FBSessionDelegate, FBRequestDelegate> 
+@interface PiggybackAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) Facebook *facebook;
-
-- (void)loginWithFacebookIfSessionIsInvalid;
-- (void)logoutWithFacebook;
 
 @end

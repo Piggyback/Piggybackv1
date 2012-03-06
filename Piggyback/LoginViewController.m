@@ -9,17 +9,92 @@
 #import "LoginViewController.h"
 #import "PiggybackAppDelegate.h"
 
-@interface LoginViewController() 
-
-@end
 
 @implementation LoginViewController
+
 @synthesize greeting = _greeting;
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Release any cached data, images, etc that aren't in use.
+}
+
+#pragma - Private Helper Methods
+
+- (void)showLoggedIn {
+    self.greeting.text = @"logged in";
+}
+
+- (void)showLoggedOut {
+    self.greeting.text = @"logged out";
+}
+
+- (void)storeAuthData:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:accessToken forKey:@"FBAccessTokenKey"];
+    [defaults setObject:expiresAt forKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
+}
+
+#pragma - IBAction definitions
+
+- (IBAction)loginWithFacebook:(id)sender {
+    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (![[appDelegate facebook] isSessionValid]) {
+        [[appDelegate facebook] authorize:nil];
+    } else {
+        [self showLoggedIn];
+    }
+}
+
+- (IBAction)logout:(id)sender {
+    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [[appDelegate facebook] logout];
+}
+
+#pragma mark - FBSessionDelegate Methods
+
+- (void)fbDidLogin {
+    [self showLoggedIn];
+    
+    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [self storeAuthData:[[appDelegate facebook] accessToken] expiresAt:[[appDelegate facebook] expirationDate]];
+}
+
+-(void)fbDidNotLogin:(BOOL)cancelled {
+    // do nothing for now
+}
+
+-(void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
+    NSLog(@"token extended");
+    [self storeAuthData:accessToken expiresAt:expiresAt];
+}
+
+- (void)fbDidLogout {   
+    // Remove saved authorization information if it exists and it is
+    // ok to clear it (logout, session invalid, app unauthorized)
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"FBAccessTokenKey"];
+    [defaults removeObjectForKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
+    
+    [self showLoggedOut];
+}
+
+/**
+ * Called when the session has expired.
+ */
+- (void)fbSessionInvalidated {
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:@"Auth Exception"
+                              message:@"Your session has expired."
+                              delegate:nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil,
+                              nil];
+    [alertView show];
+    [self fbDidLogout];
 }
 
 #pragma mark - View lifecycle
@@ -41,6 +116,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (![[appDelegate facebook] isSessionValid]) {
+        [self showLoggedOut];
+    } else {
+        [self showLoggedIn];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -60,21 +141,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
+    return NO;
 }
 
-- (IBAction)loginWithFacebook:(id)sender {
-    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate loginWithFacebookIfSessionIsInvalid];
-}
-
-- (IBAction)logout:(id)sender {
-    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate logoutWithFacebook];
-}
 @end

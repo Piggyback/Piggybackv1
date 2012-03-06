@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Facebook.h"
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <FBSessionDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *greeting;
 - (IBAction)loginWithFacebook:(id)sender;

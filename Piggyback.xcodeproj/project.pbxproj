@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E7429371505956A005A272C /* LoginWithFacebookNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7429361505956A005A272C /* LoginWithFacebookNormal.png */; };
 		3E9472FB15008EF900A261DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FA15008EF900A261DD /* UIKit.framework */; };
 		3E9472FD15008EF900A261DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FC15008EF900A261DD /* Foundation.framework */; };
 		3E9472FF15008EF900A261DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FE15008EF900A261DD /* CoreGraphics.framework */; };
@@ -16,12 +17,14 @@
 		3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */; };
 		3E94731115008EF900A261DD /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */; };
 		3E94731415008EF900A261DD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* LoginViewController.m */; };
+		3EB2D043150580600028E664 /* FBConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EB2D042150580600028E664 /* FBConnect.bundle */; };
 		3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB51D1501795800CC57A8 /* piggyback_login.png */; };
 		3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB52215017C6500CC57A8 /* FBDialog.bundle */; };
 		3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E7429361505956A005A272C /* LoginWithFacebookNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginWithFacebookNormal.png; path = "../facebook-ios-sdk/FBConnect.bundle/images/LoginWithFacebookNormal.png"; sourceTree = "<group>"; };
 		3E9472F615008EF900A261DD /* Piggyback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piggyback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E9472FA15008EF900A261DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E9472FC15008EF900A261DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -36,6 +39,7 @@
 		3E94731015008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		3E94731215008EF900A261DD /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		3E94731315008EF900A261DD /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		3EB2D042150580600028E664 /* FBConnect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBConnect.bundle; sourceTree = "<group>"; };
 		3EFDB51D1501795800CC57A8 /* piggyback_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piggyback_login.png; sourceTree = "<group>"; };
 		3EFDB52015017C6500CC57A8 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		3EFDB52115017C6500CC57A8 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 		3EFDB51C1501793200CC57A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E7429361505956A005A272C /* LoginWithFacebookNormal.png */,
 				3EFDB51D1501795800CC57A8 /* piggyback_login.png */,
 			);
 			name = Resources;
@@ -135,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				3EFDB52015017C6500CC57A8 /* Facebook.h */,
+				3EB2D042150580600028E664 /* FBConnect.bundle */,
 				3EFDB52115017C6500CC57A8 /* FBConnect.h */,
 				3EFDB52215017C6500CC57A8 /* FBDialog.bundle */,
 				3EFDB52315017C6500CC57A8 /* FBDialog.h */,
@@ -209,6 +215,8 @@
 				3E94731115008EF900A261DD /* MainStoryboard_iPad.storyboard in Resources */,
 				3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */,
 				3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */,
+				3EB2D043150580600028E664 /* FBConnect.bundle in Resources */,
+				3E7429371505956A005A272C /* LoginWithFacebookNormal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
