@@ -9,38 +9,29 @@
 #import "PiggybackAppDelegate.h"
 #import <RestKit/RestKit.h>
 
-@implementation PiggybackAppDelegate 
+static NSString* fbAppId = @"251920381531962";
+
+@implementation PiggybackAppDelegate
 
 @synthesize window = _window;
+@synthesize facebook = _facebook;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    LoginViewController *rootViewController = (LoginViewController *)self.window.rootViewController;
     
-    RKClient *client = [RKClient clientWithBaseURL:@"https://maps.googleapis.com/maps/api/place/search/json?"];
+    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set LoginViewController as delegate?
     
-    [client get:@"location=-33.8670522,151.1957362&radius=500&types=food&name=harbour&sensor=false&key=AIzaSyA4g2M3awvxLFMxKfTyM2rBwoWxfs_1Ljs" delegate:self];
-    //    NSLog(@"I am the client you just created: %@",client);
-    //    [client.HTTPHeaders setValue:@"SOhi1ZzY3e0aQaStZdAroUGfo2y4Hrc4pGnV3IyH" forKey:@"X-Parse-Application-Id"];
-    //    [client.HTTPHeaders setValue:@"JyQv835eCDNiY42wyhxvkhZy0qMdBKIAdkL1GSRu" forKey:@"X-Parse-REST-API-Key"];
-
+    // Check and retrieve authorization information
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
+        self.facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
+        self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
+    }
+    
     return YES;
 }
-				
-- (void)request:(RKRequest*)request didLoadResponse:(RKResponse *)response {
-    NSLog(@"and then this function was called");
-        if ([request isGET]) {
-            NSLog(@"response status code: %ld",(long)response.statusCode);
-//            if ([response isOK]) {
-//                NSLog(@"Get request succeeded!");
-//            }
-        }
-}
-
-- (void)request:(RKRequest *)request didFailLoadWithError:(NSError *)error{
-    NSLog(@"an error occurred: %@",error);
-}
-
+							
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*
@@ -66,9 +57,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-     */
+    [self.facebook extendAccessTokenIfNeeded];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -78,6 +67,14 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [self.facebook handleOpenURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [self.facebook handleOpenURL:url];
 }
 
 @end

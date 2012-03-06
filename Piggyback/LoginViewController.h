@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Restkit/Restkit.h>
+#import "Facebook.h"
 
-@interface PiggybackViewController : UIViewController
+@interface LoginViewController : UIViewController <FBSessionDelegate>
+
+- (IBAction)loginWithFacebook:(id)sender;
+
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E7429371505956A005A272C /* LoginWithFacebookNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7429361505956A005A272C /* LoginWithFacebookNormal.png */; };
 		3E9472FB15008EF900A261DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FA15008EF900A261DD /* UIKit.framework */; };
 		3E9472FD15008EF900A261DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FC15008EF900A261DD /* Foundation.framework */; };
 		3E9472FF15008EF900A261DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FE15008EF900A261DD /* CoreGraphics.framework */; };
@@ -15,7 +16,11 @@
 		3E94730B15008EF900A261DD /* PiggybackAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */; };
 		3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */; };
 		3E94731115008EF900A261DD /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */; };
-		3E94731415008EF900A261DD /* PiggybackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* PiggybackViewController.m */; };
+		3E94731415008EF900A261DD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* LoginViewController.m */; };
+		3EB2D043150580600028E664 /* FBConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EB2D042150580600028E664 /* FBConnect.bundle */; };
+		3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB51D1501795800CC57A8 /* piggyback_login.png */; };
+		3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB52215017C6500CC57A8 /* FBDialog.bundle */; };
+		3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */; };
 		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
 		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
 		F9B9B624150193920002BCDE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B623150193920002BCDE /* MobileCoreServices.framework */; };
@@ -66,6 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E7429361505956A005A272C /* LoginWithFacebookNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginWithFacebookNormal.png; path = "../facebook-ios-sdk/FBConnect.bundle/images/LoginWithFacebookNormal.png"; sourceTree = "<group>"; };
 		3E9472F615008EF900A261DD /* Piggyback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piggyback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E9472FA15008EF900A261DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E9472FC15008EF900A261DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -78,8 +84,25 @@
 		3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiggybackAppDelegate.m; sourceTree = "<group>"; };
 		3E94730D15008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		3E94731015008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		3E94731215008EF900A261DD /* PiggybackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiggybackViewController.h; sourceTree = "<group>"; };
-		3E94731315008EF900A261DD /* PiggybackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiggybackViewController.m; sourceTree = "<group>"; };
+		3E94731215008EF900A261DD /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		3E94731315008EF900A261DD /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		3EB2D042150580600028E664 /* FBConnect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBConnect.bundle; sourceTree = "<group>"; };
+		3EFDB51D1501795800CC57A8 /* piggyback_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piggyback_login.png; sourceTree = "<group>"; };
+		3EFDB52015017C6500CC57A8 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
+		3EFDB52115017C6500CC57A8 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
+		3EFDB52215017C6500CC57A8 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
+		3EFDB52315017C6500CC57A8 /* FBDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBDialog.h; sourceTree = "<group>"; };
+		3EFDB52415017C6500CC57A8 /* FBFrictionlessRequestSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFrictionlessRequestSettings.h; sourceTree = "<group>"; };
+		3EFDB52515017C6500CC57A8 /* FBLoginDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLoginDialog.h; sourceTree = "<group>"; };
+		3EFDB52615017C6500CC57A8 /* FBRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBRequest.h; sourceTree = "<group>"; };
+		3EFDB52715017C6500CC57A8 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfacebook_ios_sdk.a; sourceTree = "<group>"; };
+		3EFDB52915017C6500CC57A8 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		3EFDB52A15017C6500CC57A8 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		3EFDB52B15017C6500CC57A8 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
+		3EFDB52C15017C6500CC57A8 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		3EFDB52D15017C6500CC57A8 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		3EFDB52E15017C6500CC57A8 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F9B9B621150193880002BCDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F9B9B623150193920002BCDE /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -108,6 +131,7 @@
 				3E9472FB15008EF900A261DD /* UIKit.framework in Frameworks */,
 				3E9472FD15008EF900A261DD /* Foundation.framework in Frameworks */,
 				3E9472FF15008EF900A261DD /* CoreGraphics.framework in Frameworks */,
+				3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +141,7 @@
 		3E9472EB15008EF900A261DD = {
 			isa = PBXGroup;
 			children = (
+				3EFDB51F15017C6500CC57A8 /* facebook-ios-sdk */,
 				F9B9B62D150197420002BCDE /* RestKit.xcodeproj */,
 				3E94730015008EF900A261DD /* Piggyback */,
 				3E9472F915008EF900A261DD /* Frameworks */,
@@ -152,12 +177,15 @@
 		3E94730015008EF900A261DD /* Piggyback */ = {
 			isa = PBXGroup;
 			children = (
+				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
+				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
 				F9B9B6421501A3490002BCDE /* ListEntry.h */,
 				F9B9B6431501A3490002BCDE /* ListEntry.m */,
 				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
 				3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */,
-				3E94731215008EF900A261DD /* PiggybackViewController.h */,
-				3E94731315008EF900A261DD /* PiggybackViewController.m */,
+				3E94731215008EF900A261DD /* LoginViewController.h */,
+				3E94731315008EF900A261DD /* LoginViewController.m */,
+				3EFDB51C1501793200CC57A8 /* Resources */,
 				3E94730115008EF900A261DD /* Supporting Files */,
 			);
 			path = Piggyback;
@@ -166,14 +194,44 @@
 		3E94730115008EF900A261DD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
-				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
 				3E94730215008EF900A261DD /* Piggyback-Info.plist */,
 				3E94730315008EF900A261DD /* InfoPlist.strings */,
 				3E94730615008EF900A261DD /* main.m */,
 				3E94730815008EF900A261DD /* Piggyback-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3EFDB51C1501793200CC57A8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3E7429361505956A005A272C /* LoginWithFacebookNormal.png */,
+				3EFDB51D1501795800CC57A8 /* piggyback_login.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		3EFDB51F15017C6500CC57A8 /* facebook-ios-sdk */ = {
+			isa = PBXGroup;
+			children = (
+				3EFDB52015017C6500CC57A8 /* Facebook.h */,
+				3EB2D042150580600028E664 /* FBConnect.bundle */,
+				3EFDB52115017C6500CC57A8 /* FBConnect.h */,
+				3EFDB52215017C6500CC57A8 /* FBDialog.bundle */,
+				3EFDB52315017C6500CC57A8 /* FBDialog.h */,
+				3EFDB52415017C6500CC57A8 /* FBFrictionlessRequestSettings.h */,
+				3EFDB52515017C6500CC57A8 /* FBLoginDialog.h */,
+				3EFDB52615017C6500CC57A8 /* FBRequest.h */,
+				3EFDB52715017C6500CC57A8 /* JSON.h */,
+				3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */,
+				3EFDB52915017C6500CC57A8 /* NSObject+SBJSON.h */,
+				3EFDB52A15017C6500CC57A8 /* NSString+SBJSON.h */,
+				3EFDB52B15017C6500CC57A8 /* SBJSON.h */,
+				3EFDB52C15017C6500CC57A8 /* SBJsonBase.h */,
+				3EFDB52D15017C6500CC57A8 /* SBJsonParser.h */,
+				3EFDB52E15017C6500CC57A8 /* SBJsonWriter.h */,
+			);
+			path = "facebook-ios-sdk";
 			sourceTree = "<group>";
 		};
 		F9B9B62E150197420002BCDE /* Products */ = {
@@ -279,6 +337,10 @@
 				3E94730515008EF900A261DD /* InfoPlist.strings in Resources */,
 				3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */,
 				3E94731115008EF900A261DD /* MainStoryboard_iPad.storyboard in Resources */,
+				3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */,
+				3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */,
+				3EB2D043150580600028E664 /* FBConnect.bundle in Resources */,
+				3E7429371505956A005A272C /* LoginWithFacebookNormal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +353,7 @@
 			files = (
 				3E94730715008EF900A261DD /* main.m in Sources */,
 				3E94730B15008EF900A261DD /* PiggybackAppDelegate.m in Sources */,
-				3E94731415008EF900A261DD /* PiggybackViewController.m in Sources */,
+				3E94731415008EF900A261DD /* LoginViewController.m in Sources */,
 				F9B9B6441501A3490002BCDE /* ListEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
