@@ -22,10 +22,14 @@
 
 - (void)showLoggedIn {
     // segue to inbox view
+    // present listview programatically (no segue). possibly display loginView as a modal view. dismiss once user is logged in.
+    // modal sounds ideal. switch rootViewController to listView (eventually inboxView) and check if user is logged in within piggybackAppDelegate.
+    // if not logged in, then display login modal view. dismiss once user logs in.
 }
 
 - (void)showLoggedOut {
     // show login view
+    // present loginView (self) programatically. possibly display loginView as a modal view. present once user is logged out.
 }
 
 - (void)storeAuthData:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
@@ -35,20 +39,38 @@
     [defaults synchronize];
 }
 
-#pragma - IBAction definitions
+- (void)storeCurrentUserFbInformation:(id)meGraphApiResult {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[meGraphApiResult objectForKey:@"name"] forKey:@"Name"];
+    [defaults setObject:[meGraphApiResult objectForKey:@"first_name"] forKey:@"FirstName"];
+    [defaults setObject:[meGraphApiResult objectForKey:@"last_name"] forKey:@"LastName"];
+    [defaults setObject:[meGraphApiResult objectForKey:@"id"] forKey:@"FBID"];
+    [defaults synchronize];
+}
 
-- (IBAction)loginWithFacebook:(id)sender {
+- (void)getCurrentUserFbInformation {
     PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (![[appDelegate facebook] isSessionValid]) {
-        [[appDelegate facebook] authorize:nil];
-    } else {
-        // do nothing for now
+    [[appDelegate facebook] requestWithGraphPath:@"me" andDelegate:self];
+}
+
+#pragma mark - FBRequestDelegate Methods
+
+- (void)request:(FBRequest *)request didLoad:(id)result {
+    if ([result isKindOfClass:[NSArray class]]) {
+        result = [result objectAtIndex:0];
+    }    
+    
+    if ([result objectForKey:@"name"]) {
+        [self storeCurrentUserFbInformation:result];
     }
 }
 
 #pragma mark - FBSessionDelegate Methods
 
 - (void)fbDidLogin {
+    // get information about the currently logged in user
+    [self getCurrentUserFbInformation];
+    
     [self showLoggedIn];
     
     PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -134,6 +156,17 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma - IBAction definitions
+
+- (IBAction)loginWithFacebook:(id)sender {
+    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (![[appDelegate facebook] isSessionValid]) {
+        [[appDelegate facebook] authorize:nil];
+    } else {
+        // do nothing for now
+    }
 }
 
 @end

@@ -37,13 +37,15 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.greeting.text = [NSString stringWithFormat:@"Welcome %@!", [defaults objectForKey:@"Name"]];
 }
-*/
+
 
 - (void)viewDidUnload
 {

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Facebook.h"
 
-@interface LoginViewController : UIViewController <FBSessionDelegate>
+@interface LoginViewController : UIViewController <FBSessionDelegate, FBRequestDelegate>
 
 - (IBAction)loginWithFacebook:(id)sender;
 
