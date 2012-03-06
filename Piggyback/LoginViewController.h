@@ -11,8 +11,6 @@
 
 @interface LoginViewController : UIViewController <FBSessionDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *greeting;
 - (IBAction)loginWithFacebook:(id)sender;
-- (IBAction)logout:(id)sender;
 
 @end

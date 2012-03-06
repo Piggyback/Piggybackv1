@@ -12,8 +12,6 @@
 
 @implementation LoginViewController
 
-@synthesize greeting = _greeting;
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -23,11 +21,11 @@
 #pragma - Private Helper Methods
 
 - (void)showLoggedIn {
-    self.greeting.text = @"logged in";
+    // segue to inbox view
 }
 
 - (void)showLoggedOut {
-    self.greeting.text = @"logged out";
+    // show login view
 }
 
 - (void)storeAuthData:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
@@ -46,11 +44,6 @@
     } else {
         [self showLoggedIn];
     }
-}
-
-- (IBAction)logout:(id)sender {
-    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [[appDelegate facebook] logout];
 }
 
 #pragma mark - FBSessionDelegate Methods
@@ -107,7 +100,6 @@
 
 - (void)viewDidUnload
 {
-    [self setGreeting:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
