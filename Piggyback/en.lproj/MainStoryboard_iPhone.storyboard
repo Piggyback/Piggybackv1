@@ -16,9 +16,14 @@
                     </view>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="223" y="435"/>
+            <point key="canvasLocation" x="281" y="143"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="PiggybackViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PiggybackViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
