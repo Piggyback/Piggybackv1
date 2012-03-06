@@ -8,16 +8,38 @@
 
 #import "PiggybackAppDelegate.h"
 
-@implementation PiggybackAppDelegate
+@implementation PiggybackAppDelegate 
 
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    RKClient *client = [RKClient clientWithBaseURL:@"https://maps.googleapis.com/maps/api/place/search/json?"];
+    
+    [client get:@"location=-33.8670522,151.1957362&radius=500&types=food&name=harbour&sensor=false&key=AIzaSyA4g2M3awvxLFMxKfTyM2rBwoWxfs_1Ljs" delegate:self];
+    //    NSLog(@"I am the client you just created: %@",client);
+    //    [client.HTTPHeaders setValue:@"SOhi1ZzY3e0aQaStZdAroUGfo2y4Hrc4pGnV3IyH" forKey:@"X-Parse-Application-Id"];
+    //    [client.HTTPHeaders setValue:@"JyQv835eCDNiY42wyhxvkhZy0qMdBKIAdkL1GSRu" forKey:@"X-Parse-REST-API-Key"];
+
     return YES;
 }
-							
+				
+- (void)request:(RKRequest*)request didLoadResponse:(RKResponse *)response {
+    NSLog(@"and then this function was called");
+        if ([request isGET]) {
+            NSLog(@"response status code: %ld",(long)response.statusCode);
+//            if ([response isOK]) {
+//                NSLog(@"Get request succeeded!");
+//            }
+        }
+}
+
+- (void)request:(RKRequest *)request didFailLoadWithError:(NSError *)error{
+    NSLog(@"an error occurred: %@",error);
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*

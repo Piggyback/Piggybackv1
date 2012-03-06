@@ -7,6 +7,7 @@
 //
 
 #import "PiggybackViewController.h"
+#import "ListEntry.h"
 
 @implementation PiggybackViewController
 
@@ -22,6 +23,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+//    
+//    NSLog(@"I am your shared client from controller: %@",[RKClient sharedClient]);
+//    ListEntry *l1 = [ListEntry alloc];
+//    [l1 sendRequests];
 }
 
 - (void)viewDidUnload
