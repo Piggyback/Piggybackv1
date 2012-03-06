@@ -42,7 +42,7 @@
     if (![[appDelegate facebook] isSessionValid]) {
         [[appDelegate facebook] authorize:nil];
     } else {
-        [self showLoggedIn];
+        // do nothing for now
     }
 }
 

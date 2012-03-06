@@ -18,7 +18,7 @@ static NSString* fbAppId = @"251920381531962";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    LoginViewController *rootViewController = (LoginViewController *)self.window.rootViewController; // explicitly declare as LoginViewController or as broad UIViewController? 
+    LoginViewController *rootViewController = (LoginViewController *)self.window.rootViewController;
     
     self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set LoginViewController as delegate?
     
