@@ -21,6 +21,15 @@
 		3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB51D1501795800CC57A8 /* piggyback_login.png */; };
 		3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB52215017C6500CC57A8 /* FBDialog.bundle */; };
 		3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */; };
+		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
+		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
+		F9B9B624150193920002BCDE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B623150193920002BCDE /* MobileCoreServices.framework */; };
+		F9B9B6261501939A0002BCDE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B6251501939A0002BCDE /* Security.framework */; };
+		F9B9B628150193A30002BCDE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B627150193A30002BCDE /* SystemConfiguration.framework */; };
+		F9B9B62A150193AC0002BCDE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B629150193AC0002BCDE /* QuartzCore.framework */; };
+		F9B9B62C150193B60002BCDE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B62B150193B60002BCDE /* libxml2.dylib */; };
+		F9B9B641150197F00002BCDE /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B638150197420002BCDE /* libRestKit.a */; };
+		F9B9B6441501A3490002BCDE /* ListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B9B6431501A3490002BCDE /* ListEntry.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +103,16 @@
 		3EFDB52C15017C6500CC57A8 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		3EFDB52D15017C6500CC57A8 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		3EFDB52E15017C6500CC57A8 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		F9B9B621150193880002BCDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		F9B9B623150193920002BCDE /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		F9B9B6251501939A0002BCDE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		F9B9B627150193A30002BCDE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		F9B9B629150193AC0002BCDE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		F9B9B62B150193B60002BCDE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		F9B9B62D150197420002BCDE /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
+		F9B9B6421501A3490002BCDE /* ListEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListEntry.h; sourceTree = "<group>"; };
+		F9B9B6431501A3490002BCDE /* ListEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListEntry.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				3EFDB51F15017C6500CC57A8 /* facebook-ios-sdk */,
+				F9B9B62D150197420002BCDE /* RestKit.xcodeproj */,
 				3E94730015008EF900A261DD /* Piggyback */,
 				3E9472F915008EF900A261DD /* Frameworks */,
 				3E9472F715008EF900A261DD /* Products */,
@@ -159,6 +179,8 @@
 			children = (
 				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
 				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
+				F9B9B6421501A3490002BCDE /* ListEntry.h */,
+				F9B9B6431501A3490002BCDE /* ListEntry.m */,
 				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
 				3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */,
 				3E94731215008EF900A261DD /* LoginViewController.h */,
@@ -210,6 +232,17 @@
 				3EFDB52E15017C6500CC57A8 /* SBJsonWriter.h */,
 			);
 			path = "facebook-ios-sdk";
+			sourceTree = "<group>";
+		};
+		F9B9B62E150197420002BCDE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F9B9B638150197420002BCDE /* libRestKit.a */,
+				F9B9B63A150197420002BCDE /* RestKitTests.octest */,
+				F9B9B63C150197420002BCDE /* RestKit.framework */,
+				F9B9B63E150197420002BCDE /* RestKitFrameworkTests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,6 +354,7 @@
 				3E94730715008EF900A261DD /* main.m in Sources */,
 				3E94730B15008EF900A261DD /* PiggybackAppDelegate.m in Sources */,
 				3E94731415008EF900A261DD /* LoginViewController.m in Sources */,
+				F9B9B6441501A3490002BCDE /* ListEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +454,10 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/facebook-ios-sdk\"",
 				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -436,6 +474,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/facebook-ios-sdk\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
