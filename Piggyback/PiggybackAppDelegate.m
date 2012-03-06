@@ -7,6 +7,7 @@
 //
 
 #import "PiggybackAppDelegate.h"
+#import <RestKit/RestKit.h>
 
 @implementation PiggybackAppDelegate 
 
