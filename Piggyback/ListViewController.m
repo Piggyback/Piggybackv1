@@ -68,6 +68,8 @@
     [facebook requestWithGraphPath:@"me" andDelegate:self];
 }
 
+#pragma mark - RKRequestDelegate Methods
+
 #pragma mark - FBSessionDelegate Methods
 
 - (void)fbDidLogin {
@@ -99,9 +101,6 @@
     [self showLoggedOut];
 }
 
-/**
- * Called when the session has expired.
- */
 - (void)fbSessionInvalidated {
     UIAlertView *alertView = [[UIAlertView alloc]
                               initWithTitle:@"Auth Exception"
@@ -133,6 +132,12 @@
         default: 
             break;
     }
+}
+
+- (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
+    NSLog(@"Error message: %@", [[error userInfo] objectForKey:@"error_msg"]);
+    // implement showMessage
+//    [self showMessage:@"Oops, something went haywire."];
 }
 
 

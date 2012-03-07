@@ -9,6 +9,7 @@
 #import "PiggybackAppDelegate.h"
 #import "ListViewController.h"
 #import "LoginViewController.h"
+#import <RestKit/RestKit.h>
 
 static NSString* fbAppId = @"251920381531962";
 
@@ -19,6 +20,8 @@ static NSString* fbAppId = @"251920381531962";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [RKClient clientWithBaseURL:@"http://graph.facebook.com"];
+    
     ListViewController *rootViewController = (ListViewController *)self.window.rootViewController;
     
     self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set ListViewController as delegate?
