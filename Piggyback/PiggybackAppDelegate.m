@@ -7,7 +7,8 @@
 //
 
 #import "PiggybackAppDelegate.h"
-#import "LoginViewController.h"     // remove
+#import "ListViewController.h"
+#import "LoginViewController.h"
 
 static NSString* fbAppId = @"251920381531962";
 
@@ -18,15 +19,22 @@ static NSString* fbAppId = @"251920381531962";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    LoginViewController *rootViewController = (LoginViewController *)self.window.rootViewController;
+    ListViewController *rootViewController = (ListViewController *)self.window.rootViewController;
     
-    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set LoginViewController as delegate?
+    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set ListViewController as delegate?
     
     // Check and retrieve authorization information
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
         self.facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
         self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
+    }
+    
+    if (![self.facebook isSessionValid]) {
+        UIStoryboard *iphoneStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+        LoginViewController *loginViewController = (LoginViewController *)[iphoneStoryboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+        [self.window makeKeyAndVisible];    // making window visible so loginViewController is pushed modally
+        [rootViewController presentViewController:loginViewController animated:NO completion:nil];
     }
     
     return YES;

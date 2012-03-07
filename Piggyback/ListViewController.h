@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FBConnect.h"
 
-@interface ListViewController : UIViewController
+@interface ListViewController : UIViewController <FBSessionDelegate, FBRequestDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *greeting;
+- (IBAction)logout:(id)sender;
 
 @end
