@@ -10,8 +10,15 @@
 #import "PiggybackAppDelegate.h"
 #import "LoginViewController.h"
 
+@interface ListViewController () 
+
+@property int currentAPICall;
+
+@end
+
 @implementation ListViewController
 @synthesize greeting;
+@synthesize currentAPICall;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -68,6 +75,7 @@
     [self storeAuthData:[facebook accessToken] expiresAt:[facebook expirationDate]];
     
     // get information about the currently logged in user
+    currentAPICall = kAPIGraphMeFromLogin;
     [self getCurrentUserFbInformation:facebook];
 }
 
@@ -113,12 +121,17 @@
         result = [result objectAtIndex:0];
     }    
     
-    if ([result objectForKey:@"name"]) {
-        NSLog(@"showLoggedIn called from request method in ListViewController.m");
-        [self storeCurrentUserFbInformation:result];
-        // might need to make if statement more specific OR a block should be added so showLoggedIn gets called after information is stored in NSUserDefaults -- showLoggedIn should only be called upon initial 'me' API call. should also add spinner while rootView is being prepared
-        [self showLoggedIn];
-        
+    switch (currentAPICall) {
+        case kAPIGraphMeFromLogin:
+        {
+            NSLog(@"showLoggedIn called from request method in ListViewController.m");
+            [self storeCurrentUserFbInformation:result];
+
+            [self showLoggedIn];
+            break;
+        }
+        default: 
+            break;
     }
 }
 

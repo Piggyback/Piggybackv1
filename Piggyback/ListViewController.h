@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "FBConnect.h"
 
+typedef enum apiCall {
+    kAPIGraphMeFromLogin,
+} apiCall;
+
 @interface ListViewController : UIViewController <FBSessionDelegate, FBRequestDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *greeting;
