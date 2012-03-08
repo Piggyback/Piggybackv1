@@ -16,6 +16,7 @@
 @synthesize vendorImage = _vendorImage;
 @synthesize referralComments = _referralComments;
 @synthesize referralCommentsLabel = _referralCommentsLabel;
+@synthesize referralCommentsTable = _referralCommentsTable;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,13 +44,16 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // set delegate and datasource for UITableView (referral comments)
+    [self.referralCommentsTable setDelegate:self];
+    [self.referralCommentsTable setDataSource:self];
 }
-*/
 
 - (void)viewDidUnload
 {
@@ -57,6 +61,7 @@
     [self setPhoneButton:nil];
     [self setVendorImage:nil];
     [self setReferralCommentsLabel:nil];
+    [self setReferralCommentsTable:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -68,25 +73,60 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects {
+// **** PROTOCOL FUNCTIONS FOR RKOBJECTDELEGATE **** //
+- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
+{
+    // retrieve data from API and use information for displaying
     if(objectLoader.userData == @"vendorLoader") {
-        self.vendor = [objects objectAtIndex:0];
-        self.title = self.vendor.name;
-        [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
-        [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
-        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
-        [self.vendorImage setImage:image];
+        [self retrieveVendorData:objects];
     } else if (objectLoader.userData == @"referralCommentsLoader") {
-        self.referralComments = objects;
-        if (self.referralComments.count > 0) {
-            NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
-            self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
-        }
+        [self retrieveReferralCommentsData:objects];
     }
 }
 
-- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error {
+- (void)retrieveVendorData:(NSArray*)objects
+{
+    self.vendor = [objects objectAtIndex:0];
+    self.title = self.vendor.name;
+    [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
+    [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
+    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
+    [self.vendorImage setImage:image];
+}
+
+- (void)retrieveReferralCommentsData:(NSArray*)objects
+{
+    self.referralComments = objects;
+    if (self.referralComments.count > 0) {
+        NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
+        self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
+        [self.referralCommentsTable reloadData];
+    }
+}
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
+{
     NSLog(@"Encountered an error: %@", error);
 }
+
+// **** PROTOCOL FUNCTIONS FOR UITABLEVIEWDATASOURCE **** // 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+    NSLog(@"count in numberOfRowsInSection: %i", [self.referralComments count]);
+    return [self.referralComments count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"referralCommentCell"];
+    VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
+    NSLog(@"vendor referral comment: %@",vendorReferralComment.comment);
+    cell.textLabel.text = vendorReferralComment.comment;
+    
+    return cell;
+}
+
+// **** PROTOCOL FUNCTIONS FOR UITABLEVIEWDELEGATE **** //
+// none yet
 
 @end

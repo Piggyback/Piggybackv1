@@ -19,5 +19,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *vendorItemButton;
 
 - (void)setupVendorMapping;
+- (void)setupReferralCommentsMapping;
+- (void)fetchVendorData:(id)destinationViewController;
+- (void)fetchReferralCommentsData:(id)destinationViewController;
 
 @end

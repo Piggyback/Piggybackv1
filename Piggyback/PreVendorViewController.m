@@ -47,40 +47,56 @@
 {
     [super viewDidLoad];
     
+    // create mapping from API data to objective-c objects
     [self setupVendorMapping];
-}
-
-- (void)setupVendorMapping
-{
-    // set up mapping from API data to objective-c Vendor object
-    self.vendorMapping = [RKObjectMapping mappingForClass:[Vendor class]];
-    [self.vendorMapping mapAttributes:@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
-    [self.vendorMapping mapKeyPath:@"id" toAttribute:@"vid"];
+    [self setupReferralCommentsMapping];
     
-    // set up mapping from APi data to referral comments object
-    self.referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
-    [self.referralCommentsMapping mapAttributes:@"firstName",@"lastName",@"comment",nil];
-    [self.referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
-    
-    // set up manager to handle requests
+    // set up manager to handle API reqs: can access through [RKObjectManager sharedManager] also
     self.manager = [RKObjectManager objectManagerWithBaseURL:@"http://192.168.11.28/api"];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+// **** HELPER FUNCTIONS TO MAP DATA FROM API TO OBJECTS **** //
+- (void)setupVendorMapping 
+{
+    self.vendorMapping = [RKObjectMapping mappingForClass:[Vendor class]];
+    [self.vendorMapping mapAttributes:@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
+    [self.vendorMapping mapKeyPath:@"id" toAttribute:@"vid"];
+}
+
+- (void)setupReferralCommentsMapping
+{
+    self.referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
+    [self.referralCommentsMapping mapAttributes:@"firstName",@"lastName",@"comment",nil];
+    [self.referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"]; 
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     if ([[segue identifier] isEqualToString:@"goToVendorPage"]) {
         
         // fetch API data for vendor info
-        NSString* vendorPath = [@"vendorapi/vendor/vid/" stringByAppendingString:self.vendorItemButton.currentTitle];
-        RKObjectLoader* vendorLoader = [self.manager loadObjectsAtResourcePath:vendorPath objectMapping:self.vendorMapping delegate:segue.destinationViewController];
-        vendorLoader.userData = @"vendorLoader";
+        [self fetchVendorData:segue.destinationViewController];
         
         // fetch API data for referral comments
-        NSString* uid = @"2";
-        NSString* vid = @"20e88edee4c1c8bb4c59e58015b66146e21ff45b";
-        NSString* referralCommentsPath = [[[@"vendorapi/referredby/uid/" stringByAppendingString:uid] stringByAppendingString: @"/vid/"] stringByAppendingString:vid];
-        RKObjectLoader* referralCommentsLoader = [self.manager loadObjectsAtResourcePath:referralCommentsPath objectMapping:self.referralCommentsMapping delegate:segue.destinationViewController];
-        referralCommentsLoader.userData = @"referralCommentsLoader";
+        [self fetchReferralCommentsData:segue.destinationViewController];
     }
+}
+
+// **** HELPER FUNCTIONS TO FETCH DATA DURING SEGUE **** //
+- (void)fetchVendorData:(id)destinationViewController
+{
+    NSString* vendorPath = [@"vendorapi/vendor/vid/" stringByAppendingString:self.vendorItemButton.currentTitle];
+    RKObjectLoader* vendorLoader = [self.manager loadObjectsAtResourcePath:vendorPath objectMapping:self.vendorMapping delegate:destinationViewController];
+    vendorLoader.userData = @"vendorLoader";
+}
+
+- (void)fetchReferralCommentsData:(id)destinationViewController
+{
+    NSString* uid = @"2";
+    NSString* vid = @"20e88edee4c1c8bb4c59e58015b66146e21ff45b";
+    NSString* referralCommentsPath = [[[@"vendorapi/referredby/uid/" stringByAppendingString:uid] stringByAppendingString: @"/vid/"] stringByAppendingString:vid];
+    RKObjectLoader* referralCommentsLoader = [self.manager loadObjectsAtResourcePath:referralCommentsPath objectMapping:self.referralCommentsMapping delegate:destinationViewController];
+    referralCommentsLoader.userData = @"referralCommentsLoader";
 }
 
 - (void)viewDidUnload
