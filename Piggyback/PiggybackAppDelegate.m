@@ -10,6 +10,7 @@
 #import "ListViewController.h"
 #import "LoginViewController.h"
 #import <RestKit/RestKit.h>
+#import "RKUser.h"
 
 static NSString* fbAppId = @"251920381531962";
 
@@ -20,10 +21,23 @@ static NSString* fbAppId = @"251920381531962";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    /* Setting up RestKit SDK */
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:@"http://192.168.11.28/api"];
     
     objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
     
+    // Setup our object mappings
+    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[RKUser class]];
+    [userMapping mapKeyPath:@"uid" toAttribute:@"uid"];
+    [userMapping mapKeyPath:@"fbid" toAttribute:@"fbid"];
+    [userMapping mapKeyPath:@"email" toAttribute:@"email"];
+    [userMapping mapKeyPath:@"firstName" toAttribute:@"firstName"];
+    [userMapping mapKeyPath:@"lastName" toAttribute:@"lastName"];  
+    
+    // Register our mappings with the provider
+    [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
+    
+    /* Setting up Facebook SDK */
     ListViewController *rootViewController = (ListViewController *)self.window.rootViewController;
     
     self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set ListViewController as delegate?

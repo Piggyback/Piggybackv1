@@ -9,16 +9,18 @@
 #import "ListViewController.h"
 #import "PiggybackAppDelegate.h"
 #import "LoginViewController.h"
+#import "RKUser.h"
 
 @interface ListViewController () 
 
 @property int currentAPICall;
+- (void)loadUser:(NSString *)fbid;
 
 @end
 
 @implementation ListViewController
-@synthesize greeting;
-@synthesize currentAPICall;
+@synthesize greeting = _greeting;
+@synthesize currentAPICall = _currentAPICall;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -77,7 +79,7 @@
     [self storeAuthData:[facebook accessToken] expiresAt:[facebook expirationDate]];
     
     // get information about the currently logged in user
-    currentAPICall = kAPIGraphMeFromLogin;
+    self.currentAPICall = kAPIGraphMeFromLogin;
     [self getCurrentUserFbInformation:facebook];
 }
 
@@ -120,13 +122,13 @@
         result = [result objectAtIndex:0];
     }    
     
-    switch (currentAPICall) {
+    switch (self.currentAPICall) {
         case kAPIGraphMeFromLogin:
         {
             NSLog(@"showLoggedIn called from request method in ListViewController.m");
             [self storeCurrentUserFbInformation:result];
-
-            [self showLoggedIn];
+            
+            [self loadUser:[result objectForKey:@"id"]];
             break;
         }
         default: 
@@ -140,6 +142,23 @@
 //    [self showMessage:@"Oops, something went haywire."];
 }
 
+#pragma mark - RKObjectLoaderDelegate methods
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
+    RKUser *currentUser = (RKUser *)[objects objectAtIndex:0];
+	NSLog(@"Loaded user: %@", currentUser.firstName);
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:currentUser.uid forKey:@"UID"];
+    
+    [self showLoggedIn];
+}
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alert show];
+	NSLog(@"Hit error: %@", error);
+}
+
 
 #pragma mark - View lifecycle
 
@@ -150,6 +169,19 @@
 }
 */
 
+- (void)loadUser:(NSString *)fbid {
+    // Load the user object via RestKit	
+    RKObjectManager* objectManager = [RKObjectManager sharedManager];
+    NSString* resourcePath = [@"/userapi/user/fbid/" stringByAppendingString:fbid];
+    [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
+        // Twitter returns statuses as a naked array in JSON, so we instruct the loader
+        // to user the appropriate object mapping
+        if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
+            loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[RKUser class]];
+        }
+        NSLog(@"in loaduser");
+    }];
+}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
@@ -169,7 +201,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.greeting.text = [NSString stringWithFormat:@"Welcome %@!", [defaults objectForKey:@"Name"]];
+    self.greeting.text = [NSString stringWithFormat:@"Welcome %@ (UID: %@)!", [defaults objectForKey:@"Name"], [defaults objectForKey:@"UID"]];
+    NSLog(@"in viewWillAppear");
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

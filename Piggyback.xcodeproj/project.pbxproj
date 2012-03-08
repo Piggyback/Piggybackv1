@@ -31,7 +31,6 @@
 		F9B9B62A150193AC0002BCDE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B629150193AC0002BCDE /* QuartzCore.framework */; };
 		F9B9B62C150193B60002BCDE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B62B150193B60002BCDE /* libxml2.dylib */; };
 		F9B9B641150197F00002BCDE /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B638150197420002BCDE /* libRestKit.a */; };
-		F9B9B6441501A3490002BCDE /* ListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B9B6431501A3490002BCDE /* ListEntry.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,8 +116,6 @@
 		F9B9B629150193AC0002BCDE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F9B9B62B150193B60002BCDE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		F9B9B62D150197420002BCDE /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
-		F9B9B6421501A3490002BCDE /* ListEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListEntry.h; sourceTree = "<group>"; };
-		F9B9B6431501A3490002BCDE /* ListEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListEntry.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,11 +181,9 @@
 			isa = PBXGroup;
 			children = (
 				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
+				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
 				3E734B701508C24C003FD9CB /* RKUser.h */,
 				3E734B711508C24C003FD9CB /* RKUser.m */,
-				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
-				F9B9B6421501A3490002BCDE /* ListEntry.h */,
-				F9B9B6431501A3490002BCDE /* ListEntry.m */,
 				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
 				3E7416EA1506235400500D58 /* ListViewController.h */,
 				3E7416EB1506235400500D58 /* ListViewController.m */,
@@ -364,7 +359,6 @@
 				3E94730715008EF900A261DD /* main.m in Sources */,
 				3E94730B15008EF900A261DD /* PiggybackAppDelegate.m in Sources */,
 				3E94731415008EF900A261DD /* LoginViewController.m in Sources */,
-				F9B9B6441501A3490002BCDE /* ListEntry.m in Sources */,
 				3E7416EC1506235400500D58 /* ListViewController.m in Sources */,
 				3E734B721508C24C003FD9CB /* RKUser.m in Sources */,
 			);
