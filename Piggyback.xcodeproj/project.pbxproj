@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E734B721508C24C003FD9CB /* RKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B711508C24C003FD9CB /* RKUser.m */; };
 		3E7416EC1506235400500D58 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7416EB1506235400500D58 /* ListViewController.m */; };
 		3E7429371505956A005A272C /* LoginWithFacebookNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E7429361505956A005A272C /* LoginWithFacebookNormal.png */; };
 		3E9472FB15008EF900A261DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FA15008EF900A261DD /* UIKit.framework */; };
@@ -72,6 +73,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E734B701508C24C003FD9CB /* RKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKUser.h; sourceTree = "<group>"; };
+		3E734B711508C24C003FD9CB /* RKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKUser.m; sourceTree = "<group>"; };
 		3E7416EA1506235400500D58 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		3E7416EB1506235400500D58 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		3E7429361505956A005A272C /* LoginWithFacebookNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginWithFacebookNormal.png; path = "../facebook-ios-sdk/FBConnect.bundle/images/LoginWithFacebookNormal.png"; sourceTree = "<group>"; };
@@ -181,6 +184,8 @@
 			isa = PBXGroup;
 			children = (
 				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
+				3E734B701508C24C003FD9CB /* RKUser.h */,
+				3E734B711508C24C003FD9CB /* RKUser.m */,
 				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
 				F9B9B6421501A3490002BCDE /* ListEntry.h */,
 				F9B9B6431501A3490002BCDE /* ListEntry.m */,
@@ -361,6 +366,7 @@
 				3E94731415008EF900A261DD /* LoginViewController.m in Sources */,
 				F9B9B6441501A3490002BCDE /* ListEntry.m in Sources */,
 				3E7416EC1506235400500D58 /* ListViewController.m in Sources */,
+				3E734B721508C24C003FD9CB /* RKUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

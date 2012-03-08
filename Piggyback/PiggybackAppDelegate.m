@@ -20,7 +20,9 @@ static NSString* fbAppId = @"251920381531962";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [RKClient clientWithBaseURL:@"http://graph.facebook.com"];
+    RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:@"http://192.168.11.28/api"];
+    
+    objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
     
     ListViewController *rootViewController = (ListViewController *)self.window.rootViewController;
     

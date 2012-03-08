@@ -14,7 +14,7 @@ typedef enum apiCall {
     kAPIGraphMeFromLogin,
 } apiCall;
 
-@interface ListViewController : UIViewController <FBSessionDelegate, FBRequestDelegate, RKRequestDelegate>
+@interface ListViewController : UIViewController <FBSessionDelegate, FBRequestDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *greeting;
 - (IBAction)logout:(id)sender;
