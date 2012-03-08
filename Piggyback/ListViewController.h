@@ -10,9 +10,13 @@
 #import "FBConnect.h"
 #import <RestKit/RestKit.h>
 
-typedef enum apiCall {
-    kAPIGraphMeFromLogin,
+typedef enum fbApiCall {
+    fbAPIGraphMeFromLogin,
 } fbApiCall;
+
+typedef enum pbApiCall {
+    pbAPICurrentUserUidFromLogin,
+} pbApiCall;
 
 @interface ListViewController : UIViewController <FBSessionDelegate, FBRequestDelegate, RKObjectLoaderDelegate>
 

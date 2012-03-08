@@ -13,14 +13,16 @@
 
 @interface ListViewController () 
 
-@property int currentAPICall;
-- (void)loadUser:(NSString *)fbid;
+@property int currentFbAPICall;
+@property int currentPbAPICall;
 
 @end
 
 @implementation ListViewController
+
 @synthesize greeting = _greeting;
-@synthesize currentAPICall = _currentAPICall;
+@synthesize currentFbAPICall = _currentFbAPICall;
+@synthesize currentPbAPICall = _currentPbAPICall;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -66,11 +68,26 @@
     [defaults synchronize];
 }
 
-- (void)getCurrentUserFbInformation:(Facebook *)facebook {
+- (void)getCurrentUserFbInformationAndUid:(Facebook *)facebook {
+    // Uid is retrieved from request:didLoad: method (FBRequestDelegate method) -- for synchronous purposes
+    self.currentFbAPICall = fbAPIGraphMeFromLogin;
+    self.currentPbAPICall = pbAPICurrentUserUidFromLogin;
     [facebook requestWithGraphPath:@"me" andDelegate:self];
 }
 
-#pragma mark - RKRequestDelegate Methods
+- (void)getCurrentUserUidFromLogin:(NSString *)fbid {
+    // Load the user object via RestKit	
+    RKObjectManager* objectManager = [RKObjectManager sharedManager];
+    NSString* resourcePath = [@"/userapi/user/fbid/" stringByAppendingString:fbid];
+    [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
+        // returns user as a naked array in JSON, so we instruct the loader
+        // to user the appropriate object mapping
+        if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
+            loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[RKUser class]];
+        }
+        NSLog(@"in loaduser");
+    }];
+}
 
 #pragma mark - FBSessionDelegate Methods
 
@@ -79,8 +96,7 @@
     [self storeAuthData:[facebook accessToken] expiresAt:[facebook expirationDate]];
     
     // get information about the currently logged in user
-    self.currentAPICall = kAPIGraphMeFromLogin;
-    [self getCurrentUserFbInformation:facebook];
+    [self getCurrentUserFbInformationAndUid:facebook];
 }
 
 -(void)fbDidNotLogin:(BOOL)cancelled {
@@ -93,12 +109,8 @@
 }
 
 - (void)fbDidLogout {   
-    // Remove saved authorization information if it exists and it is
-    // ok to clear it (logout, session invalid, app unauthorized)
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"FBAccessTokenKey"];
-    [defaults removeObjectForKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
+    // clear NSUserDefaults
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
     
     [self showLoggedOut];
 }
@@ -122,13 +134,13 @@
         result = [result objectAtIndex:0];
     }    
     
-    switch (self.currentAPICall) {
-        case kAPIGraphMeFromLogin:
+    switch (self.currentFbAPICall) {
+        case fbAPIGraphMeFromLogin:
         {
-            NSLog(@"showLoggedIn called from request method in ListViewController.m");
+            NSLog(@"in request:didLoad: callback function, case fbAPIGraphMeFromLogin");
             [self storeCurrentUserFbInformation:result];
             
-            [self loadUser:[result objectForKey:@"id"]];
+            [self getCurrentUserUidFromLogin:[result objectForKey:@"id"]];
             break;
         }
         default: 
@@ -161,27 +173,6 @@
 
 
 #pragma mark - View lifecycle
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-- (void)loadUser:(NSString *)fbid {
-    // Load the user object via RestKit	
-    RKObjectManager* objectManager = [RKObjectManager sharedManager];
-    NSString* resourcePath = [@"/userapi/user/fbid/" stringByAppendingString:fbid];
-    [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
-        // Twitter returns statuses as a naked array in JSON, so we instruct the loader
-        // to user the appropriate object mapping
-        if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
-            loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[RKUser class]];
-        }
-        NSLog(@"in loaduser");
-    }];
-}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
