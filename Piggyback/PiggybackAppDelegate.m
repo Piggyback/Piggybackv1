@@ -15,7 +15,6 @@ static NSString* fbAppId = @"251920381531962";
 
 @synthesize window = _window;
 @synthesize facebook = _facebook;
-@synthesize l1 = _l1;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -30,24 +29,7 @@ static NSString* fbAppId = @"251920381531962";
         self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
     }
     
-    // create restkit client
-    RKClient *client = [RKClient clientWithBaseURL:@"https://maps.googleapis.com/maps/api/place/search"];
-    [self.l1 sendRequest];
-    
     return YES;
-}
-
-- (ListEntry*)l1 {
-    if (_l1 == nil) {
-        _l1 = [[ListEntry alloc] init];
-    }
-    return _l1;
-}
-
-- (void)request:(RKRequest *)request didLoadResponse:(RKResponse *)response {
-    if ([request isGET]) {
-        NSLog(@"response for get request returned with: %ld",(long)response.statusCode);
-    }
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

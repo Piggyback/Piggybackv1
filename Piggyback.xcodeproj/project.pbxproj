@@ -21,6 +21,7 @@
 		3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB51D1501795800CC57A8 /* piggyback_login.png */; };
 		3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB52215017C6500CC57A8 /* FBDialog.bundle */; };
 		3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */; };
+		F936AB7F1508F12F0019F191 /* VendorReferralComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB7E1508F12F0019F191 /* VendorReferralComment.m */; };
 		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
 		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
 		F9B9B624150193920002BCDE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B623150193920002BCDE /* MobileCoreServices.framework */; };
@@ -29,7 +30,9 @@
 		F9B9B62A150193AC0002BCDE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B629150193AC0002BCDE /* QuartzCore.framework */; };
 		F9B9B62C150193B60002BCDE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B62B150193B60002BCDE /* libxml2.dylib */; };
 		F9B9B641150197F00002BCDE /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B638150197420002BCDE /* libRestKit.a */; };
-		F9B9B6441501A3490002BCDE /* ListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B9B6431501A3490002BCDE /* ListEntry.m */; };
+		F9D0BDBB1508B76000D963B7 /* Vendor.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBA1508B76000D963B7 /* Vendor.m */; };
+		F9D0BDBE1508BC9000D963B7 /* VendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */; };
+		F9D0BDC11508BDED00D963B7 /* PreVendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDC01508BDED00D963B7 /* PreVendorViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +106,8 @@
 		3EFDB52C15017C6500CC57A8 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		3EFDB52D15017C6500CC57A8 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		3EFDB52E15017C6500CC57A8 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		F936AB7D1508F12F0019F191 /* VendorReferralComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorReferralComment.h; sourceTree = "<group>"; };
+		F936AB7E1508F12F0019F191 /* VendorReferralComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorReferralComment.m; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F9B9B621150193880002BCDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F9B9B623150193920002BCDE /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -111,8 +116,12 @@
 		F9B9B629150193AC0002BCDE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F9B9B62B150193B60002BCDE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		F9B9B62D150197420002BCDE /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
-		F9B9B6421501A3490002BCDE /* ListEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListEntry.h; sourceTree = "<group>"; };
-		F9B9B6431501A3490002BCDE /* ListEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListEntry.m; sourceTree = "<group>"; };
+		F9D0BDB91508B76000D963B7 /* Vendor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vendor.h; sourceTree = "<group>"; };
+		F9D0BDBA1508B76000D963B7 /* Vendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vendor.m; sourceTree = "<group>"; };
+		F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorViewController.h; sourceTree = "<group>"; };
+		F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorViewController.m; sourceTree = "<group>"; };
+		F9D0BDBF1508BDED00D963B7 /* PreVendorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreVendorViewController.h; sourceTree = "<group>"; };
+		F9D0BDC01508BDED00D963B7 /* PreVendorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreVendorViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,8 +188,14 @@
 			children = (
 				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
 				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
-				F9B9B6421501A3490002BCDE /* ListEntry.h */,
-				F9B9B6431501A3490002BCDE /* ListEntry.m */,
+				F9D0BDB91508B76000D963B7 /* Vendor.h */,
+				F9D0BDBA1508B76000D963B7 /* Vendor.m */,
+				F9D0BDBF1508BDED00D963B7 /* PreVendorViewController.h */,
+				F9D0BDC01508BDED00D963B7 /* PreVendorViewController.m */,
+				F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */,
+				F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */,
+				F936AB7D1508F12F0019F191 /* VendorReferralComment.h */,
+				F936AB7E1508F12F0019F191 /* VendorReferralComment.m */,
 				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
 				3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */,
 				3E94731215008EF900A261DD /* LoginViewController.h */,
@@ -354,7 +369,10 @@
 				3E94730715008EF900A261DD /* main.m in Sources */,
 				3E94730B15008EF900A261DD /* PiggybackAppDelegate.m in Sources */,
 				3E94731415008EF900A261DD /* LoginViewController.m in Sources */,
-				F9B9B6441501A3490002BCDE /* ListEntry.m in Sources */,
+				F9D0BDBB1508B76000D963B7 /* Vendor.m in Sources */,
+				F9D0BDBE1508BC9000D963B7 /* VendorViewController.m in Sources */,
+				F9D0BDC11508BDED00D963B7 /* PreVendorViewController.m in Sources */,
+				F936AB7F1508F12F0019F191 /* VendorReferralComment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
