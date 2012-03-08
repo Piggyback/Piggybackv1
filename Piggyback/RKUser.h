@@ -10,4 +10,10 @@
 
 @interface RKUser : NSObject
 
+@property (nonatomic, strong) NSNumber* uid;
+@property (nonatomic, strong) NSNumber* fbid;
+@property (nonatomic, strong) NSString* email;
+@property (nonatomic, strong) NSString* firstName;
+@property (nonatomic, strong) NSString* lastName;
+
 @end

@@ -10,4 +10,10 @@
 
 @implementation RKUser
 
+@synthesize uid = _uid;
+@synthesize fbid = _fbid;
+@synthesize email = _email;
+@synthesize firstName = _firstName;
+@synthesize lastName = _lastName;
+
 @end
