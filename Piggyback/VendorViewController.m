@@ -7,6 +7,7 @@
 //
 
 #import "VendorViewController.h"
+#import "Constants.h"
 
 @implementation VendorViewController
 
@@ -17,6 +18,7 @@
 @synthesize referralComments = _referralComments;
 @synthesize referralCommentsLabel = _referralCommentsLabel;
 @synthesize referralCommentsTable = _referralCommentsTable;
+@synthesize scrollView = _scrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,6 +55,9 @@
     // set delegate and datasource for UITableView (referral comments)
     [self.referralCommentsTable setDelegate:self];
     [self.referralCommentsTable setDataSource:self];
+    
+    [self.scrollView setScrollEnabled:YES];    
+
 }
 
 - (void)viewDidUnload
@@ -62,6 +67,7 @@
     [self setVendorImage:nil];
     [self setReferralCommentsLabel:nil];
     [self setReferralCommentsTable:nil];
+    [self setScrollView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -100,7 +106,28 @@
     if (self.referralComments.count > 0) {
         NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
         self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
+        
+        // refresh data so table is loaded with retrieved data
         [self.referralCommentsTable reloadData];
+        
+        // set table height so that it fits all rows without scrolling
+        float totalTableHeight = [self.referralCommentsTable rectForSection:0].size.height;
+        CGRect tableBounds = [self.referralCommentsTable bounds];
+        [self.referralCommentsTable setBounds:CGRectMake(tableBounds.origin.x,
+                                                         tableBounds.origin.y,
+                                                         tableBounds.size.width,
+                                                         totalTableHeight+20)];
+        
+        // set frame so that the newly sized table is positioned correctly in parent view
+        CGRect tableFrame = [self.referralCommentsTable frame];
+        [self.referralCommentsTable setFrame:CGRectMake(tableFrame.origin.x,
+                                                        tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
+                                                        tableFrame.size.width,
+                                                        tableFrame.size.height)];
+        
+        // set scrollView
+        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+280)];
+
     }
 }
 
@@ -129,7 +156,6 @@
     cell.detailTextLabel.numberOfLines = 0;
     
     NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:vendorReferralComment.referredByFBID] stringByAppendingString:@"/picture"];
-    NSLog(@"url of facebook image: %@",imgURL);
     UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
     cell.imageView.image = img;
     return cell;
@@ -139,16 +165,12 @@
 {
     VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
     CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-    
-    return size.height + 20;
-//    VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];    
-//    NSString* subtitle = vendorReferralComment.comment;
-//    
-//    UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:17.0];
-//    CGSize constraintSize = CGSizeMake(280.0f, MAXFLOAT);
-//    CGSize labelSize = [subtitle sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
-//    
-//    return labelSize.height + 15;
+
+    if (size.height < FACEBOOKPICHEIGHT) {
+        return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
+    } else {
+        return size.height + 2*FACEBOOKPICMARGIN;
+    }
 }
 
 // **** PROTOCOL FUNCTIONS FOR UITABLEVIEWDELEGATE **** //

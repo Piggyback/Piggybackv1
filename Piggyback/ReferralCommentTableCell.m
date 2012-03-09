@@ -14,8 +14,21 @@
 {   
     [super layoutSubviews];
     
-    self.imageView.frame = CGRectMake(0,10,50,50); // your positioning here
-    NSLog(@"hi we are in the baby cell");
+    // set alignment of friend's picture to top left of the table cell
+    self.imageView.frame = CGRectMake(0,
+                                      FACEBOOKPICMARGIN,
+                                      FACEBOOKPICWIDTH,
+                                      FACEBOOKPICHEIGHT);
+    
+    self.textLabel.frame = CGRectMake(FACEBOOKPICWIDTH + 2*FACEBOOKPICMARGIN,
+                                      FACEBOOKPICMARGIN,
+                                      self.textLabel.frame.size.width,
+                                      self.textLabel.frame.size.height);
+    
+    self.detailTextLabel.frame = CGRectMake(FACEBOOKPICWIDTH + 2*FACEBOOKPICMARGIN,
+                                      3.2*FACEBOOKPICMARGIN,
+                                      self.detailTextLabel.frame.size.width,
+                                      self.detailTextLabel.frame.size.height);
 }
 
 @end
