@@ -7,10 +7,11 @@
 //
 
 #import "PiggybackAppDelegate.h"
-#import "ListViewController.h"
+#import "ListsTableViewController.h"
 #import "LoginViewController.h"
 #import <RestKit/RestKit.h>
-#import "RKUser.h"
+#import "PBUser.h"
+#import "PBList.h"
 
 static NSString* fbAppId = @"251920381531962";
 
@@ -27,20 +28,28 @@ static NSString* fbAppId = @"251920381531962";
     objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
     
     // Setup our object mappings
-    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[RKUser class]];
+    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[PBUser class]];
     [userMapping mapKeyPath:@"uid" toAttribute:@"uid"];
     [userMapping mapKeyPath:@"fbid" toAttribute:@"fbid"];
     [userMapping mapKeyPath:@"email" toAttribute:@"email"];
     [userMapping mapKeyPath:@"firstName" toAttribute:@"firstName"];
     [userMapping mapKeyPath:@"lastName" toAttribute:@"lastName"];  
     
+    RKObjectMapping* listMapping = [RKObjectMapping mappingForClass:[PBList class]];
+    [listMapping mapKeyPath:@"uid" toAttribute:@"uid"];
+    [listMapping mapKeyPath:@"lid" toAttribute:@"lid"];
+    [listMapping mapKeyPath:@"date" toAttribute:@"date"];
+    [listMapping mapKeyPath:@"name" toAttribute:@"name"];
+    [listMapping mapKeyPath:@"deleted" toAttribute:@"deleted"];  
+    
     // Register our mappings with the provider
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
+    [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];
     
     /* Setting up Facebook SDK */
-    ListViewController *rootViewController = (ListViewController *)self.window.rootViewController;
+    ListsTableViewController *rootViewController = (ListsTableViewController *)self.window.rootViewController;
     
-    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set ListViewController as delegate?
+    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set ListTableViewController as delegate?
     
     // Check and retrieve authorization information
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -73,6 +82,8 @@ static NSString* fbAppId = @"251920381531962";
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+#warning remove this line
+    [self.facebook logout];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

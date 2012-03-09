@@ -21,6 +21,9 @@ typedef enum pbApiCall {
 @interface ListViewController : UIViewController <FBSessionDelegate, FBRequestDelegate, RKObjectLoaderDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *greeting;
+@property (weak, nonatomic) IBOutlet UITableView *listTableView;
+@property (nonatomic, strong) NSArray *lists;
+
 - (IBAction)logout:(id)sender;
 
 @end

@@ -1,34 +1,44 @@
 //
-//  ListViewController.m
+//  ListTableViewController.m
 //  Piggyback
 //
-//  Created by Michael Gao on 3/6/12.
+//  Created by Michael Gao on 3/8/12.
 //  Copyright (c) 2012 Calimucho. All rights reserved.
 //
 
-#import "ListViewController.h"
+#warning app currently shows alert message if user has no lists (uid does not exist in UserLists table)
+
+#import "ListsTableViewController.h"
 #import "PiggybackAppDelegate.h"
 #import "LoginViewController.h"
 #import "PBUser.h"
+#import "PBList.h"
 
-@interface ListViewController () 
+@interface ListsTableViewController ()
 
 @property int currentFbAPICall;
 @property int currentPbAPICall;
 
 @end
 
-@implementation ListViewController
-@synthesize listTableView = _listTableView;
-@synthesize greeting = _greeting;
+@implementation ListsTableViewController
+
 @synthesize lists = _lists;
 
 @synthesize currentFbAPICall = _currentFbAPICall;
 @synthesize currentPbAPICall = _currentPbAPICall;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (NSArray *)lists {
+    if (!_lists) {
+        _lists = [[NSArray alloc] init];
+    }
+    
+    return _lists;
+}
+
+- (id)initWithStyle:(UITableViewStyle)style
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
     }
@@ -87,7 +97,23 @@
         if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
             loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[PBUser class]];
         }
-        NSLog(@"in loaduser");
+        NSLog(@"in getCurrentUserUidFromLogin:");
+    }];
+}
+
+- (void)getCurrentUserLists:(NSString *)uid {
+    // Load the user object via RestKit	
+    self.currentPbAPICall = pbAPIGetCurrentUserLists;
+    
+    RKObjectManager* objectManager = [RKObjectManager sharedManager];
+    NSString* resourcePath = [@"/listapi/lists/id/" stringByAppendingString:uid];
+    [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
+        // returns user as a naked array in JSON, so we instruct the loader
+        // to user the appropriate object mapping
+        if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
+            loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[PBList class]];
+        }
+        NSLog(@"in getCurrentUserLists:");
     }];
 }
 
@@ -141,7 +167,7 @@
         {
             NSLog(@"in request:didLoad: callback function, case fbAPIGraphMeFromLogin");
             [self storeCurrentUserFbInformation:result];
-            
+
             [self getCurrentUserUidFromLogin:[result objectForKey:@"id"]];
             break;
         }
@@ -153,18 +179,36 @@
 - (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Error message: %@", [[error userInfo] objectForKey:@"error_msg"]);
     // implement showMessage
-//    [self showMessage:@"Oops, something went haywire."];
+    //    [self showMessage:@"Oops, something went haywire."];
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
-    PBUser *currentUser = (PBUser *)[objects objectAtIndex:0];
-	NSLog(@"Loaded user: %@", currentUser.firstName);
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:currentUser.uid forKey:@"UID"];
-    
-    [self showLoggedIn];
+    switch (self.currentPbAPICall) {
+        case pbAPICurrentUserUidFromLogin:
+        {
+            PBUser *currentUser = (PBUser *)[objects objectAtIndex:0];
+            NSLog(@"Loaded user: %@", currentUser.firstName);
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:currentUser.uid forKey:@"UID"];
+            
+            [self getCurrentUserLists:[currentUser.uid stringValue]];
+            break;
+        }
+        case pbAPIGetCurrentUserLists:
+        {
+            NSLog(@"in pbAPIGetCurrentUserLists");
+            self.lists = objects;
+            [self.tableView reloadData];
+            
+#warning decide where to place this message call -- does not belong here
+            [self showLoggedIn];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
@@ -173,30 +217,45 @@
 	NSLog(@"Hit error: %@", error);
 }
 
-
 #pragma mark - View lifecycle
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
 
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+ 
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
 
 - (void)viewDidUnload
 {
-    [self setGreeting:nil];
-    [self setListTableView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-     
-- (void)viewWillAppear:(BOOL)animated {
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.greeting.text = [NSString stringWithFormat:@"Welcome %@ (UID: %@)!", [defaults objectForKey:@"Name"], [defaults objectForKey:@"UID"]];
-    NSLog(@"in viewWillAppear");
+    NSLog(@"viewWillAppear");
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -205,11 +264,84 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma - IBAction methods
+#pragma mark - Table view data source
 
-- (IBAction)logout:(id)sender {
-    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [[appDelegate facebook] logout];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.lists count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+#warning table not reloading correctly
+    // this method is not being called each time the login modal view disappears -- must reload table view every time the view is about to appear
+    // refer to paul hagerty's flickr demos 
+    static NSString *CellIdentifier = @"listTableViewCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    // Configure the cell...
+    PBList* myList = [self.lists objectAtIndex:indexPath.row];
+    cell.textLabel.text = myList.name;
+    
+    NSLog(@"cellForRowAtIndexPath list name: %@", myList.name);
+    
+    return cell;
+}
+
+/*
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+*/
+
+/*
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }   
+    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+*/
+
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     */
 }
 
 @end
