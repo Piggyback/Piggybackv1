@@ -68,6 +68,7 @@
     self.referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
     [self.referralCommentsMapping mapAttributes:@"firstName",@"lastName",@"comment",nil];
     [self.referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"]; 
+    [self.referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"]; 
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

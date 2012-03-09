@@ -22,6 +22,7 @@
 		3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB52215017C6500CC57A8 /* FBDialog.bundle */; };
 		3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */; };
 		F936AB7F1508F12F0019F191 /* VendorReferralComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB7E1508F12F0019F191 /* VendorReferralComment.m */; };
+		F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */; };
 		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
 		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
 		F9B9B624150193920002BCDE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B623150193920002BCDE /* MobileCoreServices.framework */; };
@@ -108,6 +109,8 @@
 		3EFDB52E15017C6500CC57A8 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		F936AB7D1508F12F0019F191 /* VendorReferralComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorReferralComment.h; sourceTree = "<group>"; };
 		F936AB7E1508F12F0019F191 /* VendorReferralComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorReferralComment.m; sourceTree = "<group>"; };
+		F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferralCommentTableCell.h; sourceTree = "<group>"; };
+		F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferralCommentTableCell.m; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F9B9B621150193880002BCDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F9B9B623150193920002BCDE /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -186,6 +189,8 @@
 		3E94730015008EF900A261DD /* Piggyback */ = {
 			isa = PBXGroup;
 			children = (
+				F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */,
+				F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */,
 				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
 				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
 				F9D0BDB91508B76000D963B7 /* Vendor.h */,
@@ -373,6 +378,7 @@
 				F9D0BDBE1508BC9000D963B7 /* VendorViewController.m in Sources */,
 				F9D0BDC11508BDED00D963B7 /* PreVendorViewController.m in Sources */,
 				F936AB7F1508F12F0019F191 /* VendorReferralComment.m in Sources */,
+				F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

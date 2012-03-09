@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString* firstName;
 @property (nonatomic, strong) NSString* lastName;
 @property (nonatomic, strong) NSNumber* referredByUID;
+@property (nonatomic, strong) NSString* referredByFBID;
 
 @end

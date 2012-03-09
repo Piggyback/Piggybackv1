@@ -14,5 +14,6 @@
 @synthesize firstName = _firstName;
 @synthesize lastName = _lastName;
 @synthesize referredByUID = _referredByUID;
+@synthesize referredByFBID = _referredByFBID;
 
 @end

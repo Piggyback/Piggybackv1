@@ -118,12 +118,37 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+    // get cell for displaying current comment
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"referralCommentCell"];
     VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
-    NSLog(@"vendor referral comment: %@",vendorReferralComment.comment);
-    cell.textLabel.text = vendorReferralComment.comment;
     
+    // set name, comment, and image
+    cell.textLabel.text = [[vendorReferralComment.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.lastName];
+    
+    cell.detailTextLabel.text = vendorReferralComment.comment;
+    cell.detailTextLabel.numberOfLines = 0;
+    
+    NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:vendorReferralComment.referredByFBID] stringByAppendingString:@"/picture"];
+    NSLog(@"url of facebook image: %@",imgURL);
+    UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
+    cell.imageView.image = img;
     return cell;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
+{
+    VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
+    CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+    
+    return size.height + 20;
+//    VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];    
+//    NSString* subtitle = vendorReferralComment.comment;
+//    
+//    UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:17.0];
+//    CGSize constraintSize = CGSizeMake(280.0f, MAXFLOAT);
+//    CGSize labelSize = [subtitle sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+//    
+//    return labelSize.height + 15;
 }
 
 // **** PROTOCOL FUNCTIONS FOR UITABLEVIEWDELEGATE **** //
