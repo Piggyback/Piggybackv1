@@ -9,14 +9,10 @@
 #warning app currently shows alert message if user has no lists (uid does not exist in UserLists table)
 
 #import "ListsTableViewController.h"
-#import "PiggybackAppDelegate.h"
-#import "LoginViewController.h"
-#import "PBUser.h"
 #import "PBList.h"
 
 @interface ListsTableViewController ()
 
-@property int currentFbAPICall;
 @property int currentPbAPICall;
 
 @end
@@ -24,16 +20,20 @@
 @implementation ListsTableViewController
 
 @synthesize lists = _lists;
-
-@synthesize currentFbAPICall = _currentFbAPICall;
 @synthesize currentPbAPICall = _currentPbAPICall;
 
+// is this getter necessary?
 - (NSArray *)lists {
     if (!_lists) {
         _lists = [[NSArray alloc] init];
     }
     
     return _lists;
+}
+
+- (void)setLists:(NSArray *)lists {
+    _lists = lists;
+    [self.tableView reloadData];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -55,52 +55,6 @@
 
 #pragma - Private Helper Methods
 
-- (void)showLoggedIn {
-    [self dismissViewControllerAnimated:NO completion:nil];
-}
-
-- (void)showLoggedOut {
-    LoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
-    [self presentViewController:loginViewController animated:NO completion:nil];
-}
-
-- (void)storeAuthData:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:accessToken forKey:@"FBAccessTokenKey"];
-    [defaults setObject:expiresAt forKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
-}
-
-- (void)storeCurrentUserFbInformation:(id)meGraphApiResult {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[meGraphApiResult objectForKey:@"name"] forKey:@"Name"];
-    [defaults setObject:[meGraphApiResult objectForKey:@"first_name"] forKey:@"FirstName"];
-    [defaults setObject:[meGraphApiResult objectForKey:@"last_name"] forKey:@"LastName"];
-    [defaults setObject:[meGraphApiResult objectForKey:@"id"] forKey:@"FBID"];
-    [defaults synchronize];
-}
-
-- (void)getCurrentUserFbInformationAndUid:(Facebook *)facebook {
-    // Uid is retrieved from request:didLoad: method (FBRequestDelegate method) -- for synchronous purposes
-    self.currentFbAPICall = fbAPIGraphMeFromLogin;
-    self.currentPbAPICall = pbAPICurrentUserUidFromLogin;
-    [facebook requestWithGraphPath:@"me" andDelegate:self];
-}
-
-- (void)getCurrentUserUidFromLogin:(NSString *)fbid {
-    // Load the user object via RestKit	
-    RKObjectManager* objectManager = [RKObjectManager sharedManager];
-    NSString* resourcePath = [@"/userapi/user/fbid/" stringByAppendingString:fbid];
-    [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
-        // returns user as a naked array in JSON, so we instruct the loader
-        // to user the appropriate object mapping
-        if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
-            loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[PBUser class]];
-        }
-        NSLog(@"in getCurrentUserUidFromLogin:");
-    }];
-}
-
 - (void)getCurrentUserLists:(NSString *)uid {
     // Load the user object via RestKit	
     self.currentPbAPICall = pbAPIGetCurrentUserLists;
@@ -113,97 +67,19 @@
         if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
             loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[PBList class]];
         }
-        NSLog(@"in getCurrentUserLists:");
+        NSLog(@"in getCurrentUserLists: block");
     }];
-}
-
-#pragma mark - FBSessionDelegate Methods
-
-- (void)fbDidLogin {
-    Facebook *facebook = [(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook];
-    [self storeAuthData:[facebook accessToken] expiresAt:[facebook expirationDate]];
-    
-    // get information about the currently logged in user
-    [self getCurrentUserFbInformationAndUid:facebook];
-}
-
--(void)fbDidNotLogin:(BOOL)cancelled {
-    // do nothing for now
-}
-
--(void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
-    NSLog(@"token extended");
-    [self storeAuthData:accessToken expiresAt:expiresAt];
-}
-
-- (void)fbDidLogout {   
-    // clear NSUserDefaults
-    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
-    
-    [self showLoggedOut];
-}
-
-- (void)fbSessionInvalidated {
-    UIAlertView *alertView = [[UIAlertView alloc]
-                              initWithTitle:@"Auth Exception"
-                              message:@"Your session has expired."
-                              delegate:nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil,
-                              nil];
-    [alertView show];
-    [self fbDidLogout];
-}
-
-#pragma mark - FBRequestDelegate Methods
-
-- (void)request:(FBRequest *)request didLoad:(id)result {
-    if ([result isKindOfClass:[NSArray class]]) {
-        result = [result objectAtIndex:0];
-    }    
-    
-    switch (self.currentFbAPICall) {
-        case fbAPIGraphMeFromLogin:
-        {
-            NSLog(@"in request:didLoad: callback function, case fbAPIGraphMeFromLogin");
-            [self storeCurrentUserFbInformation:result];
-
-            [self getCurrentUserUidFromLogin:[result objectForKey:@"id"]];
-            break;
-        }
-        default: 
-            break;
-    }
-}
-
-- (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
-    NSLog(@"Error message: %@", [[error userInfo] objectForKey:@"error_msg"]);
-    // implement showMessage
-    //    [self showMessage:@"Oops, something went haywire."];
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
     switch (self.currentPbAPICall) {
-        case pbAPICurrentUserUidFromLogin:
-        {
-            PBUser *currentUser = (PBUser *)[objects objectAtIndex:0];
-            NSLog(@"Loaded user: %@", currentUser.firstName);
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:currentUser.uid forKey:@"UID"];
-            
-            [self getCurrentUserLists:[currentUser.uid stringValue]];
-            break;
-        }
         case pbAPIGetCurrentUserLists:
         {
             NSLog(@"in pbAPIGetCurrentUserLists");
             self.lists = objects;
-            [self.tableView reloadData];
-            
-#warning decide where to place this message call -- does not belong here
-            [self showLoggedIn];
+
             break;
         }
         default:
@@ -221,7 +97,9 @@
 
 - (void)viewDidLoad
 {
+    NSLog(@"lists viewDidLoad");
     [super viewDidLoad];
+    [self getCurrentUserLists:[[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"] stringValue]];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -239,8 +117,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"lists viewWillAppear");
     [super viewWillAppear:animated];
-    NSLog(@"viewWillAppear");
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -273,7 +151,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-#warning table not reloading correctly
     // this method is not being called each time the login modal view disappears -- must reload table view every time the view is about to appear
     // refer to paul hagerty's flickr demos 
     static NSString *CellIdentifier = @"listTableViewCell";

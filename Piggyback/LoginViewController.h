@@ -7,9 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Facebook.h"
+#import <Restkit/Restkit.h>
 
-@interface LoginViewController : UIViewController
+typedef enum fbApiCall {
+    fbAPIGraphMeFromLogin,
+} fbApiCall;
 
+typedef enum pbApiCall {
+    pbAPICurrentUserUidFromLogin,
+} pbApiCall;
+
+@protocol LoginViewControllerDelegate <NSObject>
+- (void)showLoggedIn;
+@end
+
+@interface LoginViewController : UIViewController <FBRequestDelegate, RKObjectLoaderDelegate>
+@property (nonatomic, weak) id <LoginViewControllerDelegate> delegate;
+
+- (void)getAndStoreCurrentUserFbInformationAndUid;
 - (IBAction)loginWithFacebook:(id)sender;
-
 @end

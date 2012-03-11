@@ -7,20 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FBConnect.h"
 #import <RestKit/RestKit.h>
 
-typedef enum fbApiCall {
-    fbAPIGraphMeFromLogin,
-} fbApiCall;
-
 typedef enum pbApiCall {
-    pbAPICurrentUserUidFromLogin,
     pbAPIGetCurrentUserLists,
 } pbApiCall;
 
 
-@interface ListsTableViewController : UITableViewController <FBSessionDelegate, FBRequestDelegate, RKObjectLoaderDelegate>
+@interface ListsTableViewController : UITableViewController <RKObjectLoaderDelegate>
 
 @property (nonatomic, strong) NSArray* lists;
 

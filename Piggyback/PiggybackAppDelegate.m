@@ -7,7 +7,7 @@
 //
 
 #import "PiggybackAppDelegate.h"
-#import "ListsTableViewController.h"
+#import "PiggybackTabBarController.h"
 #import "LoginViewController.h"
 #import <RestKit/RestKit.h>
 #import "PBUser.h"
@@ -47,9 +47,8 @@ static NSString* fbAppId = @"251920381531962";
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];
     
     /* Setting up Facebook SDK */
-    ListsTableViewController *rootViewController = (ListsTableViewController *)self.window.rootViewController;
-    
-    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set ListTableViewController as delegate?
+    PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;
+    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController];
     
     // Check and retrieve authorization information
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -60,7 +59,9 @@ static NSString* fbAppId = @"251920381531962";
     
     if (![self.facebook isSessionValid]) {
         UIStoryboard *iphoneStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
-        LoginViewController *loginViewController = (LoginViewController *)[iphoneStoryboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+        LoginViewController *loginViewController = [iphoneStoryboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+        loginViewController.delegate = rootViewController;
+        
         [self.window makeKeyAndVisible];    // making window visible so loginViewController is pushed modally
         [rootViewController presentViewController:loginViewController animated:NO completion:nil];
     }
@@ -82,8 +83,6 @@ static NSString* fbAppId = @"251920381531962";
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
-#warning remove this line
-    [self.facebook logout];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -105,6 +104,7 @@ static NSString* fbAppId = @"251920381531962";
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+    [self.facebook logout];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
