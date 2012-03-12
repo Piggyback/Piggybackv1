@@ -21,9 +21,28 @@ static NSString* fbAppId = @"251920381531962";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    LoginViewController *rootViewController = (LoginViewController *)self.window.rootViewController;
+    /* Setting up RestKit SDK */
+    RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:@"http://192.168.11.28/api"];
     
-    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController]; // better way to set LoginViewController as delegate?
+    objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
+    
+    // Setup our object mappings
+    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[PBUser class]];
+    [userMapping mapAttributes:@"uid", @"fbid", @"email", @"firstName", @"lastName", nil];
+    [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
+    
+    RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
+    [listEntryMapping mapAttributes:@"lid", @"vid", @"date", @"comment", nil];
+    [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
+    
+    RKObjectMapping* listMapping = [RKObjectMapping mappingForClass:[PBList class]];
+    [listMapping mapAttributes:@"uid", @"lid", @"date", @"name", nil];
+    [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
+    [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
+    
+    /* Setting up Facebook SDK */
+    PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;
+    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController];
     
     // Check and retrieve authorization information
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
