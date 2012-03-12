@@ -96,13 +96,18 @@
     self.title = self.vendor.name;
     [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
     [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
-    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
-    [self.vendorImage setImage:image];
+    
+    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
+    dispatch_async(downloadImageQueue, ^{
+        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.vendorImage setImage:image];
+        });
+    });
 }
 
 - (void)retrieveReferralCommentsData:(NSArray*)objects
 {
-//    self.referralComments = objects;
     if (objects.count > 0) {
         
         // get list of unique people who referred vendor to you
@@ -112,7 +117,6 @@
                 [uniqueReferredByUIDs addObject:commentObject.referredByUID];
                 [self.referralComments addObject:commentObject];
             }
-            NSLog(@"size of unique comment objects is: %ld",(long)self.referralComments.count);
         }
         
         NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
@@ -150,7 +154,6 @@
 // **** PROTOCOL FUNCTIONS FOR UITABLEVIEWDATASOURCE **** // 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    NSLog(@"count in numberOfRowsInSection: %i", [self.referralComments count]);
     return [self.referralComments count];
 }
 
