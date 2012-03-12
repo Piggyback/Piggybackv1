@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */; };
 		3E734B721508C24C003FD9CB /* PBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B711508C24C003FD9CB /* PBUser.m */; };
 		3E734B751508F4AA003FD9CB /* ListsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B741508F4AA003FD9CB /* ListsTableViewController.m */; };
 		3E734B781508F983003FD9CB /* PBList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B771508F983003FD9CB /* PBList.m */; };
@@ -75,6 +76,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBListEntry.h; sourceTree = "<group>"; };
+		3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBListEntry.m; sourceTree = "<group>"; };
 		3E734B701508C24C003FD9CB /* PBUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBUser.h; sourceTree = "<group>"; };
 		3E734B711508C24C003FD9CB /* PBUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBUser.m; sourceTree = "<group>"; };
 		3E734B731508F4AA003FD9CB /* ListsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsTableViewController.h; sourceTree = "<group>"; };
@@ -202,6 +205,8 @@
 				3E734B741508F4AA003FD9CB /* ListsTableViewController.m */,
 				3E734B761508F983003FD9CB /* PBList.h */,
 				3E734B771508F983003FD9CB /* PBList.m */,
+				3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */,
+				3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */,
 				3E734B701508C24C003FD9CB /* PBUser.h */,
 				3E734B711508C24C003FD9CB /* PBUser.m */,
 				3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */,
@@ -379,6 +384,7 @@
 				3E734B751508F4AA003FD9CB /* ListsTableViewController.m in Sources */,
 				3E734B781508F983003FD9CB /* PBList.m in Sources */,
 				3EBD2CF2150A0C9800715DD0 /* PiggybackTabBarController.m in Sources */,
+				3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -39,8 +39,7 @@ static NSString* fbAppId = @"251920381531962";
     [listMapping mapKeyPath:@"uid" toAttribute:@"uid"];
     [listMapping mapKeyPath:@"lid" toAttribute:@"lid"];
     [listMapping mapKeyPath:@"date" toAttribute:@"date"];
-    [listMapping mapKeyPath:@"name" toAttribute:@"name"];
-    [listMapping mapKeyPath:@"deleted" toAttribute:@"deleted"];  
+    [listMapping mapKeyPath:@"name" toAttribute:@"name"]; 
     
     // Register our mappings with the provider
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];

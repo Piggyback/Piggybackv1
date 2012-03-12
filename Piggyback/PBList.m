@@ -14,6 +14,6 @@
 @synthesize lid = _lid;
 @synthesize date = _date;
 @synthesize name = _name;
-@synthesize deleted = _deleted;
+@synthesize listEntrys = _listEntrys;
 
 @end

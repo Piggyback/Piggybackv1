@@ -14,6 +14,6 @@
 @property (nonatomic, strong) NSNumber* lid;
 @property (nonatomic, strong) NSDate* date;
 @property (nonatomic, strong) NSString* name;
-@property (nonatomic, strong) NSNumber* deleted;
+@property (nonatomic, strong) NSArray* listEntrys;
 
 @end
