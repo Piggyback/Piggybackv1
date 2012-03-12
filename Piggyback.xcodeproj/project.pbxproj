@@ -22,6 +22,7 @@
 		3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */; };
 		3E94731115008EF900A261DD /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */; };
 		3E94731415008EF900A261DD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* LoginViewController.m */; };
+		3E9795C9150EAFDF00E0E662 /* IndividualListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */; };
 		3EB2D043150580600028E664 /* FBConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EB2D042150580600028E664 /* FBConnect.bundle */; };
 		3EBD2CF2150A0C9800715DD0 /* PiggybackTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */; };
 		3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB51D1501795800CC57A8 /* piggyback_login.png */; };
@@ -101,6 +102,8 @@
 		3E94731015008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		3E94731215008EF900A261DD /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		3E94731315008EF900A261DD /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndividualListViewController.h; sourceTree = "<group>"; };
+		3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndividualListViewController.m; sourceTree = "<group>"; };
 		3EB2D042150580600028E664 /* FBConnect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBConnect.bundle; sourceTree = "<group>"; };
 		3EBD2CF0150A0C9800715DD0 /* PiggybackTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiggybackTabBarController.h; sourceTree = "<group>"; };
 		3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiggybackTabBarController.m; sourceTree = "<group>"; };
@@ -203,6 +206,8 @@
 				3E7416EB1506235400500D58 /* InboxViewController.m */,
 				3E734B731508F4AA003FD9CB /* ListsTableViewController.h */,
 				3E734B741508F4AA003FD9CB /* ListsTableViewController.m */,
+				3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */,
+				3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */,
 				3E734B761508F983003FD9CB /* PBList.h */,
 				3E734B771508F983003FD9CB /* PBList.m */,
 				3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */,
@@ -385,6 +390,7 @@
 				3E734B781508F983003FD9CB /* PBList.m in Sources */,
 				3EBD2CF2150A0C9800715DD0 /* PiggybackTabBarController.m in Sources */,
 				3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */,
+				3E9795C9150EAFDF00E0E662 /* IndividualListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

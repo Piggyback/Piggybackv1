@@ -38,6 +38,9 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <connections>
+                                    <segue destination="or2-4f-6uS" kind="push" id="0nG-wF-meu"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -49,6 +52,20 @@
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="2373" y="-272"/>
+        </scene>
+        <scene sceneID="1Eo-1b-xNB">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JBy-Sr-45b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="or2-4f-6uS" customClass="IndividualListViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Ee-ds-6RC">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="n8l-0c-QnT"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2792" y="-272"/>
         </scene>
         <scene sceneID="5">
             <objects>
@@ -203,6 +220,30 @@
         <image name="LoginWithFacebookNormal.png" width="159" height="29"/>
         <image name="piggyback_login.png" width="354" height="190"/>
     </resources>
+    <classes>
+        <class className="InboxViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="logout:"/>
+                <relationship kind="outlet" name="greeting" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="IndividualListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/IndividualListViewController.h"/>
+        </class>
+        <class className="ListsTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListsTableViewController.h"/>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="loginWithFacebook:"/>
+            </relationships>
+        </class>
+        <class className="PiggybackTabBarController" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PiggybackTabBarController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

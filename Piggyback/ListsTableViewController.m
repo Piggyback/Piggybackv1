@@ -9,6 +9,7 @@
 #import "ListsTableViewController.h"
 #import "PBList.h"
 #import "PBListEntry.h"
+#import "IndividualListViewController.h"
 
 @interface ListsTableViewController ()
 
@@ -160,6 +161,14 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
+    if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
+        [segue.destinationViewController setList:list];
+    }
 }
 
 #pragma mark - Table view data source
