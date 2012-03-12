@@ -14,6 +14,7 @@
 #pragma - Private Helper Methods
 
 - (void)showLoggedOut {
+    // release all pre-existing view controllers
     self.viewControllers = nil;
     
     LoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
