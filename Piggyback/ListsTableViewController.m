@@ -14,7 +14,6 @@
 @interface ListsTableViewController ()
 
 @property int currentPbAPICall;
-@property (nonatomic, strong) PBList* currentListAddingListEntrys;
 
 @end
 
@@ -22,7 +21,6 @@
 
 @synthesize lists = _lists;
 @synthesize currentPbAPICall = _currentPbAPICall;
-@synthesize currentListAddingListEntrys = _currentListAddingListEntrys;
 
 - (NSArray *)lists {
     if (!_lists) {
@@ -60,7 +58,7 @@
 
 - (void)getCurrentUserLists:(NSString *)uid {
     // Load the user object via RestKit	
-    self.currentPbAPICall = pbAPIGetCurrentUserLists;
+    self.currentPbAPICall = pbAPIGetCurrentUserListsAndListEntrys;
     
     RKObjectManager* objectManager = [RKObjectManager sharedManager];
     NSString* resourcePath = [@"/listapi/lists/id/" stringByAppendingString:uid];
@@ -78,9 +76,9 @@
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
     switch (self.currentPbAPICall) {
-        case pbAPIGetCurrentUserLists:
+        case pbAPIGetCurrentUserListsAndListEntrys:
         {
-            NSLog(@"in pbAPIGetCurrentUserLists");
+            NSLog(@"in pbAPIGetCurrentUserListsAndListEntrys");
             // retrieve listEntrys for each list
             self.lists = objects;
 
@@ -93,9 +91,9 @@
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     switch (self.currentPbAPICall) {
-        case pbAPIGetCurrentUserLists:
+        case pbAPIGetCurrentUserListsAndListEntrys:
         {
-            NSLog(@"in pbAPIGetCurrentUserLists error handler");
+            NSLog(@"in pbAPIGetCurrentUserListsAndListEntrys error handler");
             // handle case where user has no lists
             NSArray *userHasNoLists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
             self.lists = userHasNoLists;

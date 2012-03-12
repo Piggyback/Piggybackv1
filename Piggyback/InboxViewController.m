@@ -46,7 +46,8 @@
     // e.g. self.myOutlet = nil;
 }
      
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated 
+{
     [super viewWillAppear:animated];
     if([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid])
     {
@@ -64,7 +65,9 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction)logout:(id)sender {
+- (IBAction)logout:(id)sender 
+{
     [[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] logout];
 }
+
 @end
