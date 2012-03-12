@@ -14,15 +14,17 @@
 #pragma - Private Helper Methods
 
 - (void)showLoggedOut {
+    self.viewControllers = nil;
+    
     LoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
     loginViewController.delegate = self;
     [self presentViewController:loginViewController animated:NO completion:nil];
     
+    // release existing view controllers and create new instances for next user who logs in
     UIViewController* inboxViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"inboxViewController"];
     UIViewController* listsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"listsTableViewController"];
     NSArray* newTabViewControllers = [NSArray arrayWithObjects:inboxViewController, listsTableViewController, nil];
     NSLog(@"setting view controllers");
-    self.viewControllers = nil;
     self.viewControllers = newTabViewControllers;
     NSLog(@"finished setting view controllers");
     self.selectedIndex = 0;

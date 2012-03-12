@@ -7,7 +7,7 @@
 //
 
 #import "InboxViewController.h"
-#import "PiggybackAppDelegate.h"    // added this for logout IBAction -- remove later
+#import "PiggybackAppDelegate.h"
 
 @implementation InboxViewController
 @synthesize greeting = _greeting;
@@ -47,10 +47,15 @@
 }
      
 - (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"inbox viewWillAppear");
     [super viewWillAppear:animated];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.greeting.text = [NSString stringWithFormat:@"Welcome %@ (UID: %@)!", [defaults objectForKey:@"Name"], [defaults objectForKey:@"UID"]];
+    if([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid])
+    {
+        NSLog(@"inbox viewWillAppear -- session is valid");
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        self.greeting.text = [NSString stringWithFormat:@"Welcome %@ (UID: %@)!", [defaults objectForKey:@"Name"], [defaults objectForKey:@"UID"]];
+    } else {
+        NSLog(@"inbox viewWillAppear -- session is NOT valid");
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

@@ -17,18 +17,10 @@
 
 @implementation LoginViewController
 @synthesize delegate = _delegate;
-
 @synthesize currentFbAPICall = _currentFbAPICall;
 @synthesize currentPbAPICall = _currentPbAPICall;
 
 #pragma - Private Helper Methods
-
-- (void)getCurrentUserFbInformationAndUid:(Facebook *)facebook {
-    // Uid is retrieved from request:didLoad: method (FBRequestDelegate method) -- for synchronous purposes
-    self.currentFbAPICall = fbAPIGraphMeFromLogin;
-    self.currentPbAPICall = pbAPICurrentUserUidFromLogin;
-    [facebook requestWithGraphPath:@"me" andDelegate:self];
-}
 
 - (void)storeCurrentUserFbInformation:(id)meGraphApiResult {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -56,7 +48,11 @@
 #pragma mark - Public Methods
 - (void)getAndStoreCurrentUserFbInformationAndUid {
     Facebook *facebook = [(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook];
-    [self getCurrentUserFbInformationAndUid:facebook];
+    
+    // Uid is retrieved from request:didLoad: method (FBRequestDelegate method) -- for synchronous purposes
+    self.currentFbAPICall = fbAPIGraphMeFromLogin;
+    self.currentPbAPICall = pbAPICurrentUserUidFromLogin;
+    [facebook requestWithGraphPath:@"me" andDelegate:self];
 }
 
 #pragma mark - FBRequestDelegate Methods
@@ -97,8 +93,6 @@
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:currentUser.uid forKey:@"UID"];
             
-            // remove delegate and just use [self presentingView]
-            // show login screen
             [self.delegate showLoggedIn];
 
             break;

@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 Calimucho. All rights reserved.
 //
 
-#warning app currently shows alert message if user has no lists (uid does not exist in UserLists table)
-
 #import "ListsTableViewController.h"
 #import "PBList.h"
 
@@ -22,7 +20,6 @@
 @synthesize lists = _lists;
 @synthesize currentPbAPICall = _currentPbAPICall;
 
-// is this getter necessary?
 - (NSArray *)lists {
     if (!_lists) {
         _lists = [[NSArray alloc] init];
@@ -32,8 +29,10 @@
 }
 
 - (void)setLists:(NSArray *)lists {
-    _lists = lists;
-    [self.tableView reloadData];
+    if (_lists != lists) {
+        _lists = lists;
+        [self.tableView reloadData];
+    }
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -88,9 +87,25 @@
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
-	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alert show];
-	NSLog(@"Hit error: %@", error);
+    switch (self.currentPbAPICall) {
+        case pbAPIGetCurrentUserLists:
+        {
+            NSLog(@"in pbAPIGetCurrentUserLists error handler");
+            // handle case where user has no lists
+            NSArray *userHasNoLists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
+            self.lists = userHasNoLists;
+            
+            break;
+        }
+        default:
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            NSLog(@"Hit error: %@", error);
+            
+            break;
+        }
+    }
 }
 
 #pragma mark - View lifecycle
@@ -99,7 +114,6 @@
 {
     NSLog(@"lists viewDidLoad");
     [super viewDidLoad];
-    [self getCurrentUserLists:[[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"] stringValue]];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -119,6 +133,8 @@
 {
     NSLog(@"lists viewWillAppear");
     [super viewWillAppear:animated];
+#warning: need to optimize so that lists do not get retrieved each time the view appears
+    [self getCurrentUserLists:[[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"] stringValue]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -151,8 +167,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // this method is not being called each time the login modal view disappears -- must reload table view every time the view is about to appear
-    // refer to paul hagerty's flickr demos 
     static NSString *CellIdentifier = @"listTableViewCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -161,10 +175,16 @@
     }
     
     // Configure the cell...
-    PBList* myList = [self.lists objectAtIndex:indexPath.row];
-    cell.textLabel.text = myList.name;
+    if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
+        PBList* myList = [self.lists objectAtIndex:indexPath.row];
+        cell.textLabel.text = myList.name;
     
-    NSLog(@"cellForRowAtIndexPath list name: %@", myList.name);
+        NSLog(@"cellForRowAtIndexPath list name: %@", myList.name);
+    } else {
+        // user has no lists
+        NSString* userHasNoLists = [self.lists objectAtIndex:indexPath.row];
+        cell.textLabel.text = userHasNoLists;
+    }
     
     return cell;
 }

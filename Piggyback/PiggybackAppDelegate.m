@@ -104,7 +104,6 @@ static NSString* fbAppId = @"251920381531962";
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
-    [self.facebook logout];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
