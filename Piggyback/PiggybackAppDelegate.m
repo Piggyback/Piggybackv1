@@ -12,6 +12,7 @@
 #import <RestKit/RestKit.h>
 #import "PBUser.h"
 #import "PBList.h"
+#import "PBListEntry.h"
 
 static NSString* fbAppId = @"251920381531962";
 
@@ -41,9 +42,16 @@ static NSString* fbAppId = @"251920381531962";
     [listMapping mapKeyPath:@"date" toAttribute:@"date"];
     [listMapping mapKeyPath:@"name" toAttribute:@"name"]; 
     
+    RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
+    [listEntryMapping mapKeyPath:@"lid" toAttribute:@"lid"];
+    [listEntryMapping mapKeyPath:@"vid" toAttribute:@"vid"];
+    [listEntryMapping mapKeyPath:@"date" toAttribute:@"date"];
+    [listEntryMapping mapKeyPath:@"comment" toAttribute:@"comment"]; 
+    
     // Register our mappings with the provider
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
-    [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];
+    [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"lists"];
+    [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listentrys"];
     
     /* Setting up Facebook SDK */
     PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;

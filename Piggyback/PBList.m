@@ -16,4 +16,12 @@
 @synthesize name = _name;
 @synthesize listEntrys = _listEntrys;
 
+- (NSArray *)listEntrys {
+    if (!_listEntrys) {
+        _listEntrys = [[NSArray alloc] init];
+    }
+    
+    return _listEntrys;
+}
+
 @end

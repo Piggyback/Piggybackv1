@@ -8,10 +8,12 @@
 
 #import "ListsTableViewController.h"
 #import "PBList.h"
+#import "PBListEntry.h"
 
 @interface ListsTableViewController ()
 
 @property int currentPbAPICall;
+@property (nonatomic, strong) PBList* currentListAddingListEntrys;
 
 @end
 
@@ -19,6 +21,7 @@
 
 @synthesize lists = _lists;
 @synthesize currentPbAPICall = _currentPbAPICall;
+@synthesize currentListAddingListEntrys = _currentListAddingListEntrys;
 
 - (NSArray *)lists {
     if (!_lists) {
@@ -70,6 +73,24 @@
     }];
 }
 
+- (void)getListEntrysForList:(PBList*)list {
+    NSLog(@"in getListEntrysForList:");
+    // Load the user object via RestKit	
+    self.currentPbAPICall = pbAPIGetListEntrysForSingleList;
+    self.currentListAddingListEntrys = list;
+    
+    RKObjectManager* objectManager = [RKObjectManager sharedManager];
+    NSString* resourcePath = [@"/listapi/listentrys/lid/" stringByAppendingString:[list.lid stringValue]];
+    [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
+        // returns user as a naked array in JSON, so we instruct the loader
+        // to user the appropriate object mapping
+        if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
+            loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[PBListEntry class]];
+        }
+        NSLog(@"in getListEntrysForList: block");
+    }];
+}
+
 #pragma mark - RKObjectLoaderDelegate methods
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
@@ -77,9 +98,20 @@
         case pbAPIGetCurrentUserLists:
         {
             NSLog(@"in pbAPIGetCurrentUserLists");
+            // retrieve listEntrys for each list
+            for (PBList* list in objects) {
+                [self getListEntrysForList:list];
+            }
             self.lists = objects;
 
             break;
+        }
+        case pbAPIGetListEntrysForSingleList:
+        {
+            NSLog(@"in pbAPIGetListEntrysForSingleList");
+            self.currentListAddingListEntrys.listEntrys = objects;
+            NSLog(@"LISTENTRYS SIZE: %d", [objects count]);
+            [self.tableView reloadData];
         }
         default:
             break;
@@ -94,6 +126,12 @@
             // handle case where user has no lists
             NSArray *userHasNoLists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
             self.lists = userHasNoLists;
+            
+            break;
+        }
+        case pbAPIGetListEntrysForSingleList:
+        {
+            // handle case where list has no listEntrys
             
             break;
         }
@@ -178,6 +216,7 @@
     if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
         PBList* myList = [self.lists objectAtIndex:indexPath.row];
         cell.textLabel.text = myList.name;
+        cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" items"];
     
         NSLog(@"cellForRowAtIndexPath list name: %@", myList.name);
     } else {
