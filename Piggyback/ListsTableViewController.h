@@ -11,7 +11,6 @@
 
 typedef enum pbApiCall {
     pbAPIGetCurrentUserLists,
-    pbAPIGetListEntrysForSingleList,
 } pbApiCall;
 
 

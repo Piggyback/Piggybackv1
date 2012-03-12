@@ -30,28 +30,17 @@ static NSString* fbAppId = @"251920381531962";
     
     // Setup our object mappings
     RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[PBUser class]];
-    [userMapping mapKeyPath:@"uid" toAttribute:@"uid"];
-    [userMapping mapKeyPath:@"fbid" toAttribute:@"fbid"];
-    [userMapping mapKeyPath:@"email" toAttribute:@"email"];
-    [userMapping mapKeyPath:@"firstName" toAttribute:@"firstName"];
-    [userMapping mapKeyPath:@"lastName" toAttribute:@"lastName"];  
-    
-    RKObjectMapping* listMapping = [RKObjectMapping mappingForClass:[PBList class]];
-    [listMapping mapKeyPath:@"uid" toAttribute:@"uid"];
-    [listMapping mapKeyPath:@"lid" toAttribute:@"lid"];
-    [listMapping mapKeyPath:@"date" toAttribute:@"date"];
-    [listMapping mapKeyPath:@"name" toAttribute:@"name"]; 
+    [userMapping mapAttributes:@"uid", @"fbid", @"email", @"firstName", @"lastName", nil];
+    [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
     
     RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
-    [listEntryMapping mapKeyPath:@"lid" toAttribute:@"lid"];
-    [listEntryMapping mapKeyPath:@"vid" toAttribute:@"vid"];
-    [listEntryMapping mapKeyPath:@"date" toAttribute:@"date"];
-    [listEntryMapping mapKeyPath:@"comment" toAttribute:@"comment"]; 
+    [listEntryMapping mapAttributes:@"lid", @"vid", @"date", @"comment", nil];
+    [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
     
-    // Register our mappings with the provider
-    [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
-    [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"lists"];
-    [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listentrys"];
+    RKObjectMapping* listMapping = [RKObjectMapping mappingForClass:[PBList class]];
+    [listMapping mapAttributes:@"uid", @"lid", @"date", @"name", nil];
+    [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
+    [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
     
     /* Setting up Facebook SDK */
     PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;

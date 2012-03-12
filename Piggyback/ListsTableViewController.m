@@ -67,27 +67,9 @@
         // returns user as a naked array in JSON, so we instruct the loader
         // to user the appropriate object mapping
         if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
-            loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[PBList class]];
+            loader.objectMapping = [objectManager.mappingProvider mappingForKeyPath:@"list"];
         }
         NSLog(@"in getCurrentUserLists: block");
-    }];
-}
-
-- (void)getListEntrysForList:(PBList*)list {
-    NSLog(@"in getListEntrysForList:");
-    // Load the user object via RestKit	
-    self.currentPbAPICall = pbAPIGetListEntrysForSingleList;
-    self.currentListAddingListEntrys = list;
-    
-    RKObjectManager* objectManager = [RKObjectManager sharedManager];
-    NSString* resourcePath = [@"/listapi/listentrys/lid/" stringByAppendingString:[list.lid stringValue]];
-    [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
-        // returns user as a naked array in JSON, so we instruct the loader
-        // to user the appropriate object mapping
-        if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
-            loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[PBListEntry class]];
-        }
-        NSLog(@"in getListEntrysForList: block");
     }];
 }
 
@@ -99,19 +81,9 @@
         {
             NSLog(@"in pbAPIGetCurrentUserLists");
             // retrieve listEntrys for each list
-            for (PBList* list in objects) {
-                [self getListEntrysForList:list];
-            }
             self.lists = objects;
 
             break;
-        }
-        case pbAPIGetListEntrysForSingleList:
-        {
-            NSLog(@"in pbAPIGetListEntrysForSingleList");
-            self.currentListAddingListEntrys.listEntrys = objects;
-            NSLog(@"LISTENTRYS SIZE: %d", [objects count]);
-            [self.tableView reloadData];
         }
         default:
             break;
@@ -126,12 +98,6 @@
             // handle case where user has no lists
             NSArray *userHasNoLists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
             self.lists = userHasNoLists;
-            
-            break;
-        }
-        case pbAPIGetListEntrysForSingleList:
-        {
-            // handle case where list has no listEntrys
             
             break;
         }
