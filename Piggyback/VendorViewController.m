@@ -102,8 +102,19 @@
 
 - (void)retrieveReferralCommentsData:(NSArray*)objects
 {
-    self.referralComments = objects;
-    if (self.referralComments.count > 0) {
+//    self.referralComments = objects;
+    if (objects.count > 0) {
+        
+        // get list of unique people who referred vendor to you
+        NSMutableOrderedSet* uniqueReferredByUIDs = [[NSMutableOrderedSet alloc] init];
+        for (VendorReferralComment* commentObject in objects) {
+            if (![uniqueReferredByUIDs containsObject:commentObject.referredByUID]) {
+                [uniqueReferredByUIDs addObject:commentObject.referredByUID];
+                [self.referralComments addObject:commentObject];
+            }
+            NSLog(@"size of unique comment objects is: %ld",(long)self.referralComments.count);
+        }
+        
         NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
         self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
         
@@ -175,5 +186,12 @@
 
 // **** PROTOCOL FUNCTIONS FOR UITABLEVIEWDELEGATE **** //
 // none yet
+
+- (NSMutableArray*)referralComments {
+    if (_referralComments == nil) {
+        _referralComments = [[NSMutableArray alloc] init];
+    }
+    return _referralComments;
+}
 
 @end

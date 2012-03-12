@@ -8,6 +8,9 @@
 
 #import "PiggybackAppDelegate.h"
 #import "LoginViewController.h"
+#import <RestKit/RestKit.h>
+#import "Vendor.h"
+#import "VendorReferralComment.h"
 
 static NSString* fbAppId = @"251920381531962";
 
@@ -29,9 +32,23 @@ static NSString* fbAppId = @"251920381531962";
         self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
     }
     
+    RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:@"http://192.168.11.28/api"];
+    objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;
+
+    RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
+    [vendorObjectMapping mapAttributes:@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
+    [vendorObjectMapping mapKeyPath:@"id" toAttribute:@"vid"];
+    [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
+    
+    RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
+    [referralCommentsMapping mapAttributes:@"firstName",@"lastName",@"comment",nil];
+    [referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
+    [referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
+    [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
+    
     return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*

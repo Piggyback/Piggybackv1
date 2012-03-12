@@ -210,8 +210,6 @@
 				3E94731315008EF900A261DD /* LoginViewController.m */,
 				3EFDB51C1501793200CC57A8 /* Resources */,
 				3E94730115008EF900A261DD /* Supporting Files */,
-				F936AB83150A5AC60019F191 /* Constants.h */,
-				F936AB84150A5AC60019F191 /* Constants.m */,
 			);
 			path = Piggyback;
 			sourceTree = "<group>";
@@ -219,6 +217,8 @@
 		3E94730115008EF900A261DD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F936AB83150A5AC60019F191 /* Constants.h */,
+				F936AB84150A5AC60019F191 /* Constants.m */,
 				3E94730215008EF900A261DD /* Piggyback-Info.plist */,
 				3E94730315008EF900A261DD /* InfoPlist.strings */,
 				3E94730615008EF900A261DD /* main.m */,

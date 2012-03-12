@@ -21,12 +21,12 @@
                                       FACEBOOKPICHEIGHT);
     
     self.textLabel.frame = CGRectMake(FACEBOOKPICWIDTH + 2*FACEBOOKPICMARGIN,
-                                      FACEBOOKPICMARGIN,
+                                      FACEBOOKPICMARGIN/1.5,
                                       self.textLabel.frame.size.width,
                                       self.textLabel.frame.size.height);
     
     self.detailTextLabel.frame = CGRectMake(FACEBOOKPICWIDTH + 2*FACEBOOKPICMARGIN,
-                                      3.2*FACEBOOKPICMARGIN,
+                                      2.8*FACEBOOKPICMARGIN,
                                       self.detailTextLabel.frame.size.width,
                                       self.detailTextLabel.frame.size.height);
 }

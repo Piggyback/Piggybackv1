@@ -10,9 +10,6 @@
 
 @implementation PreVendorViewController
 
-@synthesize vendorMapping = _vendorMapping;
-@synthesize referralCommentsMapping = _referralCommentsMapping;
-@synthesize manager = _manager;
 @synthesize vendorItemButton = _vendorItemButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -34,42 +31,17 @@
 
 #pragma mark - View lifecycle
 
-/*
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
+//- (void)loadView
+//{
+//}
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    // create mapping from API data to objective-c objects
-    [self setupVendorMapping];
-    [self setupReferralCommentsMapping];
-    
-    // set up manager to handle API reqs: can access through [RKObjectManager sharedManager] also
-    self.manager = [RKObjectManager objectManagerWithBaseURL:@"http://192.168.11.28/api"];
-}
-
-// **** HELPER FUNCTIONS TO MAP DATA FROM API TO OBJECTS **** //
-- (void)setupVendorMapping 
-{
-    self.vendorMapping = [RKObjectMapping mappingForClass:[Vendor class]];
-    [self.vendorMapping mapAttributes:@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
-    [self.vendorMapping mapKeyPath:@"id" toAttribute:@"vid"];
-}
-
-- (void)setupReferralCommentsMapping
-{
-    self.referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
-    [self.referralCommentsMapping mapAttributes:@"firstName",@"lastName",@"comment",nil];
-    [self.referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"]; 
-    [self.referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"]; 
-}
+//- (void)viewDidLoad
+//{
+//    [super viewDidLoad];
+//}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -87,7 +59,8 @@
 - (void)fetchVendorData:(id)destinationViewController
 {
     NSString* vendorPath = [@"vendorapi/vendor/vid/" stringByAppendingString:self.vendorItemButton.currentTitle];
-    RKObjectLoader* vendorLoader = [self.manager loadObjectsAtResourcePath:vendorPath objectMapping:self.vendorMapping delegate:destinationViewController];
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
+    RKObjectLoader* vendorLoader = [objManager loadObjectsAtResourcePath:vendorPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor"] delegate:destinationViewController];
     vendorLoader.userData = @"vendorLoader";
 }
 
@@ -95,8 +68,9 @@
 {
     NSString* uid = @"2";
     NSString* vid = @"20e88edee4c1c8bb4c59e58015b66146e21ff45b";
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
     NSString* referralCommentsPath = [[[@"vendorapi/referredby/uid/" stringByAppendingString:uid] stringByAppendingString: @"/vid/"] stringByAppendingString:vid];
-    RKObjectLoader* referralCommentsLoader = [self.manager loadObjectsAtResourcePath:referralCommentsPath objectMapping:self.referralCommentsMapping delegate:destinationViewController];
+    RKObjectLoader* referralCommentsLoader = [objManager loadObjectsAtResourcePath:referralCommentsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"referral-comment"] delegate:destinationViewController];
     referralCommentsLoader.userData = @"referralCommentsLoader";
 }
 

@@ -13,13 +13,8 @@
 
 @interface PreVendorViewController : UIViewController
 
-@property (nonatomic, strong) RKObjectMapping *vendorMapping;
-@property (nonatomic, strong) RKObjectMapping *referralCommentsMapping;
-@property (nonatomic, strong) RKObjectManager *manager;
 @property (weak, nonatomic) IBOutlet UIButton *vendorItemButton;
 
-- (void)setupVendorMapping;
-- (void)setupReferralCommentsMapping;
 - (void)fetchVendorData:(id)destinationViewController;
 - (void)fetchReferralCommentsData:(id)destinationViewController;
 

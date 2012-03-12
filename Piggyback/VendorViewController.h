@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *addrButton;
 @property (weak, nonatomic) IBOutlet UIButton *phoneButton;
 @property (weak, nonatomic) IBOutlet UIImageView *vendorImage;
-@property (nonatomic, strong) NSArray *referralComments;
+@property (nonatomic, strong) NSMutableArray *referralComments;
 @property (weak, nonatomic) IBOutlet UILabel *referralCommentsLabel;
 @property (weak, nonatomic) IBOutlet UITableView *referralCommentsTable;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
