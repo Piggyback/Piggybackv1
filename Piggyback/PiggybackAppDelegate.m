@@ -7,10 +7,14 @@
 //
 
 #import "PiggybackAppDelegate.h"
+#import "PiggybackTabBarController.h"
 #import "LoginViewController.h"
 #import <RestKit/RestKit.h>
 #import "Vendor.h"
 #import "VendorReferralComment.h"
+#import "PBUser.h"
+#import "PBList.h"
+#import "PBListEntry.h"
 
 static NSString* fbAppId = @"251920381531962";
 
@@ -40,6 +44,17 @@ static NSString* fbAppId = @"251920381531962";
     [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
     
+    RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
+    [vendorObjectMapping mapAttributes:@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
+    [vendorObjectMapping mapKeyPath:@"id" toAttribute:@"vid"];
+    [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
+    
+    RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
+    [referralCommentsMapping mapAttributes:@"firstName",@"lastName",@"comment",nil];
+    [referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
+    [referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
+    [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
+    
     /* Setting up Facebook SDK */
     PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;
     self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController];
@@ -51,19 +66,14 @@ static NSString* fbAppId = @"251920381531962";
         self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
     }
     
-    RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:@"http://192.168.11.28/api"];
-    objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;
-
-    RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
-    [vendorObjectMapping mapAttributes:@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
-    [vendorObjectMapping mapKeyPath:@"id" toAttribute:@"vid"];
-    [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
-    
-    RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
-    [referralCommentsMapping mapAttributes:@"firstName",@"lastName",@"comment",nil];
-    [referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
-    [referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
-    [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
+    if (![self.facebook isSessionValid]) {
+        UIStoryboard *iphoneStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+        LoginViewController *loginViewController = [iphoneStoryboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+        loginViewController.delegate = rootViewController;
+        
+        [self.window makeKeyAndVisible];    // making window visible so loginViewController is pushed modally
+        [rootViewController presentViewController:loginViewController animated:NO completion:nil];
+    }
     
     return YES;
 }

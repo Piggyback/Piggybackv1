@@ -227,6 +227,8 @@
 				F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */,
 				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
 				3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */,
+				3EBD2CF0150A0C9800715DD0 /* PiggybackTabBarController.h */,
+				3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */,
 				3E94731215008EF900A261DD /* LoginViewController.h */,
 				3E94731315008EF900A261DD /* LoginViewController.m */,
 				3E7416EA1506235400500D58 /* InboxViewController.h */,
@@ -419,6 +421,13 @@
 				F936AB7F1508F12F0019F191 /* VendorReferralComment.m in Sources */,
 				F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */,
 				F936AB85150A5AC70019F191 /* Constants.m in Sources */,
+				3E7416EC1506235400500D58 /* InboxViewController.m in Sources */,
+				3E734B721508C24C003FD9CB /* PBUser.m in Sources */,
+				3E734B751508F4AA003FD9CB /* ListsTableViewController.m in Sources */,
+				3E734B781508F983003FD9CB /* PBList.m in Sources */,
+				3EBD2CF2150A0C9800715DD0 /* PiggybackTabBarController.m in Sources */,
+				3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */,
+				3E9795C9150EAFDF00E0E662 /* IndividualListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +523,7 @@
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SOURCE_ROOT)/RestKit/Build\"";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/facebook-ios-sdk\"",
@@ -535,6 +545,7 @@
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SOURCE_ROOT)/RestKit/Build\"";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/facebook-ios-sdk\"",

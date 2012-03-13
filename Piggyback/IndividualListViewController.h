@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <RestKit/RestKit.h>
 #import "PBList.h"
 
 @interface IndividualListViewController : UIViewController
 
 @property (nonatomic, strong) PBList* list;
+@property (weak, nonatomic) IBOutlet UIButton *vendorItemButton;
+
+- (void)fetchVendorData:(id)destinationViewController;
+- (void)fetchReferralCommentsData:(id)destinationViewController;
 
 @end

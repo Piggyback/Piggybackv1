@@ -11,11 +11,44 @@
 @implementation IndividualListViewController
 
 @synthesize list = _list;
+@synthesize vendorItemButton = _vendorItemButton;
 
 - (void)setList:(PBList *)list
 {
     _list = list;
     self.title = list.name;
+}
+
+// functions from kim
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"goToVendorPage"]) {
+        
+        // fetch API data for vendor info
+        [self fetchVendorData:segue.destinationViewController];
+        
+        // fetch API data for referral comments
+        [self fetchReferralCommentsData:segue.destinationViewController];
+    }
+}
+
+// **** HELPER FUNCTIONS TO FETCH DATA DURING SEGUE **** //
+- (void)fetchVendorData:(id)destinationViewController
+{
+    NSString* vendorPath = [@"vendorapi/vendor/vid/" stringByAppendingString:self.vendorItemButton.currentTitle];
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
+    RKObjectLoader* vendorLoader = [objManager loadObjectsAtResourcePath:vendorPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor"] delegate:destinationViewController];
+    vendorLoader.userData = @"vendorLoader";
+}
+
+- (void)fetchReferralCommentsData:(id)destinationViewController
+{
+    NSString* uid = @"2";
+    NSString* vid = @"20e88edee4c1c8bb4c59e58015b66146e21ff45b";
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
+    NSString* referralCommentsPath = [[[@"vendorapi/referredby/uid/" stringByAppendingString:uid] stringByAppendingString: @"/vid/"] stringByAppendingString:vid];
+    RKObjectLoader* referralCommentsLoader = [objManager loadObjectsAtResourcePath:referralCommentsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"referral-comment"] delegate:destinationViewController];
+    referralCommentsLoader.userData = @"referralCommentsLoader";
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -54,6 +87,7 @@
 
 - (void)viewDidUnload
 {
+    [self setVendorItemButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

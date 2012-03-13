@@ -84,8 +84,10 @@
 {
     // retrieve data from API and use information for displaying
     if(objectLoader.userData == @"vendorLoader") {
+        NSLog(@"loading vendor data from APi: size of return set is %ld",(long)[objects count]);
         [self retrieveVendorData:objects];
     } else if (objectLoader.userData == @"referralCommentsLoader") {
+        NSLog(@"loading referral comments data from APi: size of return set is %ld",(long)[objects count]);
         [self retrieveReferralCommentsData:objects];
     }
 }
