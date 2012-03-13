@@ -20,7 +20,6 @@
 		3E94730715008EF900A261DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94730615008EF900A261DD /* main.m */; };
 		3E94730B15008EF900A261DD /* PiggybackAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */; };
 		3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */; };
-		3E94731115008EF900A261DD /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */; };
 		3E94731415008EF900A261DD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* LoginViewController.m */; };
 		3E9795C9150EAFDF00E0E662 /* IndividualListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */; };
 		3EB2D043150580600028E664 /* FBConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EB2D042150580600028E664 /* FBConnect.bundle */; };
@@ -105,7 +104,6 @@
 		3E94730915008EF900A261DD /* PiggybackAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiggybackAppDelegate.h; sourceTree = "<group>"; };
 		3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiggybackAppDelegate.m; sourceTree = "<group>"; };
 		3E94730D15008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		3E94731015008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		3E94731215008EF900A261DD /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		3E94731315008EF900A261DD /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndividualListViewController.h; sourceTree = "<group>"; };
@@ -226,7 +224,6 @@
 				F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */,
 				F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */,
 				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
-				3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */,
 				3EBD2CF0150A0C9800715DD0 /* PiggybackTabBarController.h */,
 				3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */,
 				3E94731215008EF900A261DD /* LoginViewController.h */,
@@ -243,7 +240,6 @@
 				3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */,
 				3E734B701508C24C003FD9CB /* PBUser.h */,
 				3E734B711508C24C003FD9CB /* PBUser.m */,
-				3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */,
 				3EFDB51C1501793200CC57A8 /* Resources */,
 				3E94730115008EF900A261DD /* Supporting Files */,
 			);
@@ -397,7 +393,6 @@
 			files = (
 				3E94730515008EF900A261DD /* InfoPlist.strings in Resources */,
 				3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */,
-				3E94731115008EF900A261DD /* MainStoryboard_iPad.storyboard in Resources */,
 				3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */,
 				3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */,
 				3EB2D043150580600028E664 /* FBConnect.bundle in Resources */,
@@ -456,14 +451,6 @@
 				3E94730D15008EF900A261DD /* en */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		3E94730F15008EF900A261DD /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3E94731015008EF900A261DD /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
