@@ -15,6 +15,7 @@
 #import "PBUser.h"
 #import "PBList.h"
 #import "PBListEntry.h"
+#import "InboxItem.h"
 
 static NSString* fbAppId = @"251920381531962";
 
@@ -30,6 +31,9 @@ static NSString* fbAppId = @"251920381531962";
     
     objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
     
+    // add default date formatter to convert mysql datetime to nsdate
+    [RKObjectMapping addDefaultDateFormatterForString:@"yyyy-MM-dd HH:mm:ss" inTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
+
     // Setup our object mappings
     RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[PBUser class]];
     [userMapping mapAttributes:@"uid", @"fbid", @"email", @"firstName", @"lastName", nil];
@@ -55,6 +59,16 @@ static NSString* fbAppId = @"251920381531962";
     [referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
     [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
     
+    RKObjectMapping* inboxMapping = [RKObjectMapping mappingForClass:[InboxItem class]];
+    [inboxMapping mapAttributes:@"date",@"rid",@"lid",@"firstName",@"lastName",@"comment",nil];
+    [inboxMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
+    [inboxMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
+    [inboxMapping mapKeyPath:@"ListName" toAttribute:@"listName"];
+    [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
+    [inboxMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
+    [inboxMapping mapRelationship:@"otherFriends" withMapping:userMapping];
+    [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
+
     /* Setting up Facebook SDK */
     PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;
     self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController];

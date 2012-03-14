@@ -171,7 +171,7 @@
     cell.detailTextLabel.text = vendorReferralComment.comment;
     cell.detailTextLabel.numberOfLines = 0;
     
-    NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:vendorReferralComment.referredByFBID] stringByAppendingString:@"/picture"];
+    NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referredByFBID stringValue]] stringByAppendingString:@"/picture"];
     UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
     cell.imageView.image = img;
     return cell;
