@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Vendor.h"
 
 @interface PBListEntry : NSObject
 
 @property (nonatomic, strong) NSNumber* lid;
-@property (nonatomic, strong) NSString* vid;
+@property (nonatomic, strong) Vendor* vendor;
 @property (nonatomic, strong) NSDate* date;
 @property (nonatomic, strong) NSString* comment;
 

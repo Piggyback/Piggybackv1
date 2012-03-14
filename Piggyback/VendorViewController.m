@@ -20,6 +20,21 @@
 @synthesize referralCommentsTable = _referralCommentsTable;
 @synthesize scrollView = _scrollView;
 
+- (void)setVendor:(Vendor *)vendor
+{
+    _vendor = vendor;
+    self.title = self.vendor.name;
+    
+    // load image in separate thread -- DUPLICATE CODE
+    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
+    dispatch_async(downloadImageQueue, ^{
+        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.vendorImage setImage:image];
+        });
+    });
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -60,6 +75,21 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
+    [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
+    
+    // load image in separate thread
+    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
+    dispatch_async(downloadImageQueue, ^{
+        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.vendorImage setImage:image];
+        });
+    });
+}
+
 - (void)viewDidUnload
 {
     [self setAddrButton:nil];
@@ -83,29 +113,13 @@
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
     // retrieve data from API and use information for displaying
-    if(objectLoader.userData == @"vendorLoader") {
-        NSLog(@"loading vendor data from APi: size of return set is %ld",(long)[objects count]);
-        [self retrieveVendorData:objects];
-    } else if (objectLoader.userData == @"referralCommentsLoader") {
+//    if(objectLoader.userData == @"vendorLoader") {
+//        NSLog(@"loading vendor data from APi: size of return set is %ld",(long)[objects count]);
+//        [self retrieveVendorData:objects];
+//    } else if (objectLoader.userData == @"referralCommentsLoader") {
         NSLog(@"loading referral comments data from APi: size of return set is %ld",(long)[objects count]);
         [self retrieveReferralCommentsData:objects];
-    }
-}
-
-- (void)retrieveVendorData:(NSArray*)objects
-{
-    self.vendor = [objects objectAtIndex:0];
-    self.title = self.vendor.name;
-    [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
-    [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
-    
-    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
-    dispatch_async(downloadImageQueue, ^{
-        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.vendorImage setImage:image];
-        });
-    });
+//    }
 }
 
 - (void)retrieveReferralCommentsData:(NSArray*)objects

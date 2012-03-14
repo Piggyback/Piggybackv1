@@ -11,7 +11,7 @@
 @implementation PBListEntry
 
 @synthesize lid = _lid;
-@synthesize vid = _vid;
+@synthesize vendor = _vendor;
 @synthesize date = _date;
 @synthesize comment = _comment;
 

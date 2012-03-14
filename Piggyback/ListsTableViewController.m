@@ -186,6 +186,7 @@
     }
     
     // Configure the cell...
+#warning implement better way of checking for empty lists
     if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
         PBList* myList = [self.lists objectAtIndex:indexPath.row];
         cell.textLabel.text = myList.name;
@@ -251,6 +252,7 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 @end

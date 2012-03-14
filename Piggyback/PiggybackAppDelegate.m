@@ -35,19 +35,20 @@ static NSString* fbAppId = @"251920381531962";
     [userMapping mapAttributes:@"uid", @"fbid", @"email", @"firstName", @"lastName", nil];
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
     
+    RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
+    [vendorObjectMapping mapAttributes:@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
+    [vendorObjectMapping mapKeyPath:@"id" toAttribute:@"vid"];
+    [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
+    
     RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
-    [listEntryMapping mapAttributes:@"lid", @"vid", @"date", @"comment", nil];
+    [listEntryMapping mapAttributes:@"lid", @"date", @"comment", nil];
+    [listEntryMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
     
     RKObjectMapping* listMapping = [RKObjectMapping mappingForClass:[PBList class]];
     [listMapping mapAttributes:@"uid", @"lid", @"date", @"name", nil];
     [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
-    
-    RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
-    [vendorObjectMapping mapAttributes:@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
-    [vendorObjectMapping mapKeyPath:@"id" toAttribute:@"vid"];
-    [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
     
     RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
     [referralCommentsMapping mapAttributes:@"firstName",@"lastName",@"comment",nil];

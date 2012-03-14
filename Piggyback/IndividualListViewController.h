@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
 #import "PBList.h"
+#import "LocationController.h"
 
-@interface IndividualListViewController : UIViewController
+@interface IndividualListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) PBList* list;
-@property (weak, nonatomic) IBOutlet UIButton *vendorItemButton;
-
-- (void)fetchVendorData:(id)destinationViewController;
-- (void)fetchReferralCommentsData:(id)destinationViewController;
+@property (weak, nonatomic) IBOutlet UITableView *listEntryTableView;
+@property (nonatomic, strong) NSArray* shownListEntrys;
+@property (nonatomic, strong) LocationController* locationController;
 
 @end
