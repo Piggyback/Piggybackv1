@@ -9,6 +9,7 @@
 #import "ListsTableViewController.h"
 #import "PBList.h"
 #import "PBListEntry.h"
+#import "VendorReferralComment.h"
 #import "IndividualListViewController.h"
 
 @interface ListsTableViewController ()
@@ -81,7 +82,25 @@
             NSLog(@"in pbAPIGetCurrentUserListsAndListEntrys");
             // retrieve listEntrys for each list
             self.lists = objects;
+            
+            // calculate numUniqueReferredBy for each listEntry in separate threads
+//            dispatch_queue_t getNumUniqueReferredByQueue = dispatch_queue_create("getNumUniqueReferredBy", NULL);
+//            dispatch_async(getNumUniqueReferredByQueue, ^{
+//                for (PBList* currentList in self.lists) {
+//                    for (PBListEntry* currentListEntry in currentList.listEntrys) {
+//                        NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
+//                        
+//                        for (VendorReferralComment* currentReferralComment in currentListEntry.referredBy) {
+//                            [uniqueReferrers addObject:currentReferralComment.referrer.uid];
+//                        }
+//                        currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
+//                        NSLog(@"unique referrals: %@", currentListEntry.numUniqueReferredBy);
+//                    }
+//                }
+//            });
+//            dispatch_release(getNumUniqueReferredByQueue);
 
+            
             break;
         }
         default:
@@ -165,6 +184,18 @@
 {
     PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
     if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
+        // get num of unique referrals for specific listEntry
+#warning: need to set each segue?
+        for (PBListEntry* currentListEntry in list.listEntrys) {
+            NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
+                
+            for (VendorReferralComment* currentReferralComment in currentListEntry.referredBy) {
+                [uniqueReferrers addObject:currentReferralComment.referrer.uid];
+            }
+            currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
+            NSLog(@"unique referrals: %@", currentListEntry.numUniqueReferredBy);
+        }
+
         [segue.destinationViewController setList:list];
     }
 }
