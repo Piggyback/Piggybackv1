@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
 #import "InboxItem.h"
+#import "PBListEntry.h"
+#import "Constants.h"
+#import "InboxTableCell.h"
 
 @interface InboxViewController : UITableViewController <RKObjectLoaderDelegate>
 

@@ -11,9 +11,13 @@
 @implementation VendorReferralComment
 
 @synthesize comment = _comment;
-@synthesize firstName = _firstName;
-@synthesize lastName = _lastName;
-@synthesize referredByUID = _referredByUID;
-@synthesize referredByFBID = _referredByFBID;
+@synthesize date = _date;
+@synthesize referrer = _referrer;
+@synthesize lid = _lid;
+
+//@synthesize firstName = _firstName;
+//@synthesize lastName = _lastName;
+//@synthesize referredByUID = _referredByUID;
+//@synthesize referredByFBID = _referredByFBID;
 
 @end

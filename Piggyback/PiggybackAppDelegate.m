@@ -54,9 +54,10 @@ static NSString* fbAppId = @"251920381531962";
     [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
     
     RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
-    [referralCommentsMapping mapAttributes:@"firstName",@"lastName",@"comment",nil];
-    [referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
-    [referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
+    [referralCommentsMapping mapAttributes:@"date",@"comment",@"lid",nil];
+    [referralCommentsMapping mapRelationship:@"referrer" withMapping:userMapping];
+//    [referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
+//    [referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
     [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
     
     RKObjectMapping* inboxMapping = [RKObjectMapping mappingForClass:[InboxItem class]];
@@ -67,6 +68,7 @@ static NSString* fbAppId = @"251920381531962";
     [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
     [inboxMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
     [inboxMapping mapRelationship:@"otherFriends" withMapping:userMapping];
+    [inboxMapping mapRelationship:@"referralComments" withMapping:referralCommentsMapping];
     [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
 
     /* Setting up Facebook SDK */

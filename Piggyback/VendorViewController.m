@@ -52,11 +52,61 @@
 {
     [super viewDidLoad];
     
-    // set delegate and datasource for UITableView (referral comments)
+    // ************ set delegate and datasource for UITableView (referral comments) ************ //
     [self.referralCommentsTable setDelegate:self];
     [self.referralCommentsTable setDataSource:self];
     
-    [self.scrollView setScrollEnabled:YES];    
+    [self.scrollView setScrollEnabled:YES];
+    // ************ display vendor information and image ********* //
+    self.title = self.vendor.name;
+    [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
+    [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
+    
+    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
+    dispatch_async(downloadImageQueue, ^{
+        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.vendorImage setImage:image];
+        });
+    });
+    
+    // ************ display referral comments ********* //
+//    if (objects.count > 0) {
+//        
+//        // get list of unique people who referred vendor to you
+//        NSMutableOrderedSet* uniqueReferredByUIDs = [[NSMutableOrderedSet alloc] init];
+//        for (VendorReferralComment* commentObject in objects) {
+//            if (![uniqueReferredByUIDs containsObject:commentObject.referredByUID]) {
+//                [uniqueReferredByUIDs addObject:commentObject.referredByUID];
+//                [self.referralComments addObject:commentObject];
+//            }
+//        }
+//        
+//        NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
+//        self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
+//        
+//        // refresh data so table is loaded with retrieved data
+//        [self.referralCommentsTable reloadData];
+//        
+//        // set table height so that it fits all rows without scrolling
+//        float totalTableHeight = [self.referralCommentsTable rectForSection:0].size.height;
+//        CGRect tableBounds = [self.referralCommentsTable bounds];
+//        [self.referralCommentsTable setBounds:CGRectMake(tableBounds.origin.x,
+//                                                         tableBounds.origin.y,
+//                                                         tableBounds.size.width,
+//                                                         totalTableHeight+20)];
+//        
+//        // set frame so that the newly sized table is positioned correctly in parent view
+//        CGRect tableFrame = [self.referralCommentsTable frame];
+//        [self.referralCommentsTable setFrame:CGRectMake(tableFrame.origin.x,
+//                                                        tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
+//                                                        tableFrame.size.width,
+//                                                        tableFrame.size.height)];
+//        
+//        // set scrollView
+//        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+280)];
+//        
+//    }
 
 }
 
@@ -80,78 +130,79 @@
 }
 
 // **** PROTOCOL FUNCTIONS FOR RKOBJECTDELEGATE **** //
-- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
-{
+//- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
+//{
     // retrieve data from API and use information for displaying
-    if(objectLoader.userData == @"vendorLoader") {
-        NSLog(@"loading vendor data from APi: size of return set is %ld",(long)[objects count]);
-        [self retrieveVendorData:objects];
-    } else if (objectLoader.userData == @"referralCommentsLoader") {
-        NSLog(@"loading referral comments data from APi: size of return set is %ld",(long)[objects count]);
-        [self retrieveReferralCommentsData:objects];
-    }
-}
+//    if(objectLoader.userData == @"vendorLoader") {
+//        NSLog(@"loading vendor data from APi: size of return set is %ld",(long)[objects count]);
+//        [self retrieveVendorData:objects];
+//    } else if (objectLoader.userData == @"referralCommentsLoader") {
+//    if (objectLoader.userData == @"referralCommentsLoader") {
+//        NSLog(@"loading referral comments data from APi: size of return set is %ld",(long)[objects count]);
+//        [self retrieveReferralCommentsData:objects];
+//    }
+//}
 
-- (void)retrieveVendorData:(NSArray*)objects
-{
-    self.vendor = [objects objectAtIndex:0];
-    self.title = self.vendor.name;
-    [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
-    [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
-    
-    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
-    dispatch_async(downloadImageQueue, ^{
-        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.vendorImage setImage:image];
-        });
-    });
-}
+//- (void)retrieveVendorData:(NSArray*)objects
+//{
+//    self.vendor = [objects objectAtIndex:0];
+//    self.title = self.vendor.name;
+//    [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
+//    [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
+//    
+//    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
+//    dispatch_async(downloadImageQueue, ^{
+//        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.vendorImage setImage:image];
+//        });
+//    });
+//}
 
-- (void)retrieveReferralCommentsData:(NSArray*)objects
-{
-    if (objects.count > 0) {
-        
-        // get list of unique people who referred vendor to you
-        NSMutableOrderedSet* uniqueReferredByUIDs = [[NSMutableOrderedSet alloc] init];
-        for (VendorReferralComment* commentObject in objects) {
-            if (![uniqueReferredByUIDs containsObject:commentObject.referredByUID]) {
-                [uniqueReferredByUIDs addObject:commentObject.referredByUID];
-                [self.referralComments addObject:commentObject];
-            }
-        }
-        
-        NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
-        self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
-        
-        // refresh data so table is loaded with retrieved data
-        [self.referralCommentsTable reloadData];
-        
-        // set table height so that it fits all rows without scrolling
-        float totalTableHeight = [self.referralCommentsTable rectForSection:0].size.height;
-        CGRect tableBounds = [self.referralCommentsTable bounds];
-        [self.referralCommentsTable setBounds:CGRectMake(tableBounds.origin.x,
-                                                         tableBounds.origin.y,
-                                                         tableBounds.size.width,
-                                                         totalTableHeight+20)];
-        
-        // set frame so that the newly sized table is positioned correctly in parent view
-        CGRect tableFrame = [self.referralCommentsTable frame];
-        [self.referralCommentsTable setFrame:CGRectMake(tableFrame.origin.x,
-                                                        tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
-                                                        tableFrame.size.width,
-                                                        tableFrame.size.height)];
-        
-        // set scrollView
-        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+280)];
+//- (void)retrieveReferralCommentsData:(NSArray*)objects
+//{
+//    if (objects.count > 0) {
+//        
+//        // get list of unique people who referred vendor to you
+//        NSMutableOrderedSet* uniqueReferredByUIDs = [[NSMutableOrderedSet alloc] init];
+//        for (VendorReferralComment* commentObject in objects) {
+//            if (![uniqueReferredByUIDs containsObject:commentObject.referredByUID]) {
+//                [uniqueReferredByUIDs addObject:commentObject.referredByUID];
+//                [self.referralComments addObject:commentObject];
+//            }
+//        }
+//        
+//        NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
+//        self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
+//        
+//        // refresh data so table is loaded with retrieved data
+//        [self.referralCommentsTable reloadData];
+//        
+//        // set table height so that it fits all rows without scrolling
+//        float totalTableHeight = [self.referralCommentsTable rectForSection:0].size.height;
+//        CGRect tableBounds = [self.referralCommentsTable bounds];
+//        [self.referralCommentsTable setBounds:CGRectMake(tableBounds.origin.x,
+//                                                         tableBounds.origin.y,
+//                                                         tableBounds.size.width,
+//                                                         totalTableHeight+20)];
+//        
+//        // set frame so that the newly sized table is positioned correctly in parent view
+//        CGRect tableFrame = [self.referralCommentsTable frame];
+//        [self.referralCommentsTable setFrame:CGRectMake(tableFrame.origin.x,
+//                                                        tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
+//                                                        tableFrame.size.width,
+//                                                        tableFrame.size.height)];
+//        
+//        // set scrollView
+//        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+280)];
+//
+//    }
+//}
 
-    }
-}
-
-- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
-{
-    NSLog(@"Encountered an error: %@", error);
-}
+//- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
+//{
+//    NSLog(@"Encountered an error: %@", error);
+//}
 
 // **** PROTOCOL FUNCTIONS FOR UITABLEVIEWDATASOURCE **** // 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
@@ -166,12 +217,12 @@
     VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
     
     // set name, comment, and image
-    cell.textLabel.text = [[vendorReferralComment.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.lastName];
+    cell.textLabel.text = [[vendorReferralComment.referrer.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.referrer.lastName];
     
     cell.detailTextLabel.text = vendorReferralComment.comment;
     cell.detailTextLabel.numberOfLines = 0;
     
-    NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referredByFBID stringValue]] stringByAppendingString:@"/picture"];
+    NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
     UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
     cell.imageView.image = img;
     return cell;

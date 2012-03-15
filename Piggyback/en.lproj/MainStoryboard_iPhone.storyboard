@@ -332,6 +332,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="HE7-Sk-DXP" id="gBt-fg-eH0"/>
+                        <segue destination="Vgy-5n-1Cy" kind="push" identifier="inboxToVendor" id="tD4-zF-Ynx"/>
+                        <segue destination="r5v-ip-udV" kind="push" identifier="inboxToList" id="TaZ-Cv-529"/>
                     </connections>
                 </tableViewController>
             </objects>
@@ -391,4 +393,8 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="TaZ-Cv-529"/>
+        <segue reference="tD4-zF-Ynx"/>
+    </inferredMetricsTieBreakers>
 </document>

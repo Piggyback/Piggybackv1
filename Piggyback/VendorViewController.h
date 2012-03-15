@@ -11,7 +11,7 @@
 #import "Vendor.h"
 #import "VendorReferralComment.h"
 
-@interface VendorViewController : UIViewController <RKObjectLoaderDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) Vendor *vendor;
 @property (weak, nonatomic) IBOutlet UIButton *addrButton;
@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 
-- (void)retrieveVendorData:(NSArray*)objects;
-- (void)retrieveReferralCommentsData:(NSArray*)objects;
+//- (void)retrieveVendorData:(NSArray*)objects;
+//- (void)retrieveReferralCommentsData:(NSArray*)objects;
 
 @end

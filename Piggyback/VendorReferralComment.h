@@ -7,13 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PBUser.h"
 
 @interface VendorReferralComment : NSObject
 
 @property (nonatomic, strong) NSString* comment;
-@property (nonatomic, strong) NSString* firstName;
-@property (nonatomic, strong) NSString* lastName;
-@property (nonatomic, strong) NSNumber* referredByUID;
-@property (nonatomic, strong) NSNumber* referredByFBID;
+@property (nonatomic, strong) PBUser* referrer;
+@property (nonatomic, strong) NSDate* date;
+@property (nonatomic, strong) NSNumber* lid;
+
+//@property (nonatomic, strong) NSString* firstName;
+//@property (nonatomic, strong) NSString* lastName;
+//@property (nonatomic, strong) NSNumber* referredByUID;
+//@property (nonatomic, strong) NSNumber* referredByFBID;
 
 @end

@@ -8,8 +8,6 @@
 
 #import "InboxViewController.h"
 #import "PiggybackAppDelegate.h"
-#import "Constants.h"
-#import "InboxTableCell.h"
 
 @implementation InboxViewController
 
@@ -145,11 +143,6 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     }
     
     // date
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-//    NSDate* date = [dateFormatter dateFromString:inboxItem.date];
-//    NSString* timeElapsed = [self timeElapsed:date];
     NSString* timeElapsed = [self timeElapsed:inboxItem.date];
     cell.detailTextLabel.text = timeElapsed;
     
@@ -222,6 +215,18 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     NSString* elapsedTime = [NSString stringWithFormat:@"%d %@ ago",number,unit];
     return elapsedTime;
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([[segue identifier] isEqualToString:@"inboxToVendor"]) {
+        InboxItem* inboxItem = [self.inboxItems objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        [segue.destinationViewController setVendor:inboxItem.vendor];
+        NSLog(@"vendor is %@",inboxItem.vendor.name);
+    } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
+        
+    }
+}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -265,13 +270,12 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
+    if ([inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
+        [self performSegueWithIdentifier:@"inboxToVendor" sender:self];
+    } else {
+        [self performSegueWithIdentifier:@"inboxToList" sender:self];
+    }
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
@@ -285,13 +289,6 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
         return size.height + 2*FACEBOOKPICMARGIN + 60;
     }
 }
-
-//- (NSArray*)inboxItems {
-//    if (_inboxItems == nil) {
-//        _inboxItems = [[NSArray alloc] init];
-//    }
-//    return _inboxItems;
-//}
 
 - (IBAction)logout:(id)sender 
 {

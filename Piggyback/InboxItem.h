@@ -23,5 +23,6 @@
 @property (nonatomic, strong) Vendor* vendor;
 @property (nonatomic, strong) NSArray* listEntrys;
 @property (nonatomic, strong) NSArray* otherFriends;
+@property (nonatomic, strong) NSArray* referralComments;
 
 @end

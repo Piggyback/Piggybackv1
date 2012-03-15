@@ -22,5 +22,5 @@
 @synthesize vendor = _vendor;
 @synthesize listEntrys = _listEntrys;
 @synthesize otherFriends = _otherFriends;
-
+@synthesize referralComments = _referralComments;
 @end
