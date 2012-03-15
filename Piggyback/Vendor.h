@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CLLocation.h>
 
 @interface Vendor : NSObject
 
@@ -27,5 +28,6 @@
 @property (nonatomic, strong) NSString* website;
 @property (nonatomic, strong) NSString* icon;
 @property (nonatomic, strong) NSNumber* rating;
+@property CLLocationDistance distanceFromCurrentLocationInMiles;
 
 @end

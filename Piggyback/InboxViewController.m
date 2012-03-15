@@ -218,12 +218,29 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    InboxItem* inboxItem = [self.inboxItems objectAtIndex:[self.tableView indexPathForSelectedRow].row];
     if([[segue identifier] isEqualToString:@"inboxToVendor"]) {
-        InboxItem* inboxItem = [self.inboxItems objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        // set vendor for display on vendor detail view
         [segue.destinationViewController setVendor:inboxItem.vendor];
-        NSLog(@"vendor is %@",inboxItem.vendor.name);
-    } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
         
+        // get list of unique people / comments who referred vendor to you and set for next view to display
+        NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
+        NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];
+        for (VendorReferralComment* commentObject in inboxItem.nonUniqueReferralComments) {
+            if (![uniqueReferrerUIDs containsObject:commentObject.referrer.uid]) {
+                [uniqueReferrerUIDs addObject:commentObject.referrer.uid];
+                [uniqueReferralComments addObject:commentObject];
+            }
+        }
+        [(VendorViewController*)segue.destinationViewController setReferralComments:uniqueReferralComments];
+    } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
+        PBList* list = [[PBList alloc] init];
+        list.uid = inboxItem.referredByUID;
+        list.lid = inboxItem.lid;
+        list.date = inboxItem.date; // i put date list was referred, not date list was created
+        list.name = inboxItem.listName;
+        list.listEntrys = inboxItem.listEntrys;
+        // then set segue.destiation list property to list
     }
 }
 

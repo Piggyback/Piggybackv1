@@ -12,6 +12,10 @@
 #import "PBListEntry.h"
 #import "Constants.h"
 #import "InboxTableCell.h"
+#import "VendorReferralComment.h"
+#import "VendorViewController.h"
+#import "PBList.h"
+#import "ListsTableViewController.h"
 
 @interface InboxViewController : UITableViewController <RKObjectLoaderDelegate>
 

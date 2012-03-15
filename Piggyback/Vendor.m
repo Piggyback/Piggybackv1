@@ -27,5 +27,6 @@
 @synthesize website = _website;
 @synthesize icon = _icon;
 @synthesize rating = _rating;
+@synthesize distanceFromCurrentLocationInMiles = _distanceFromCurrentLocationInMiles;
 
 @end

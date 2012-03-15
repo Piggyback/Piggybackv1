@@ -54,21 +54,22 @@ static NSString* fbAppId = @"251920381531962";
     [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
     
     RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
-    [referralCommentsMapping mapAttributes:@"date",@"comment",@"lid",nil];
+    [referralCommentsMapping mapAttributes:@"date",@"comment",@"referralLid",nil];
+//    [referralCommentsMapping mapKeyPath:@"lid" toAttribute:@"referralLid"];
     [referralCommentsMapping mapRelationship:@"referrer" withMapping:userMapping];
 //    [referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
 //    [referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
     [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
     
     RKObjectMapping* inboxMapping = [RKObjectMapping mappingForClass:[InboxItem class]];
-    [inboxMapping mapAttributes:@"date",@"rid",@"lid",@"firstName",@"lastName",@"comment",nil];
-    [inboxMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
-    [inboxMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
-    [inboxMapping mapKeyPath:@"ListName" toAttribute:@"listName"];
+    [inboxMapping mapAttributes:@"date",@"rid",@"lid",@"firstName",@"lastName",@"comment",@"referredByUID", @"referredByFBID", @"listName",nil];
+//    [inboxMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
+//    [inboxMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
+//    [inboxMapping mapKeyPath:@"ListName" toAttribute:@"listName"];
     [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
     [inboxMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
     [inboxMapping mapRelationship:@"otherFriends" withMapping:userMapping];
-    [inboxMapping mapRelationship:@"referralComments" withMapping:referralCommentsMapping];
+    [inboxMapping mapRelationship:@"nonUniqueReferralComments" withMapping:referralCommentsMapping];
     [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
 
     /* Setting up Facebook SDK */

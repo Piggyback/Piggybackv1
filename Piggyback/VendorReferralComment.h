@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSString* comment;
 @property (nonatomic, strong) PBUser* referrer;
 @property (nonatomic, strong) NSDate* date;
-@property (nonatomic, strong) NSNumber* lid;
+@property (nonatomic, strong) NSNumber* referralLid;
 
 //@property (nonatomic, strong) NSString* firstName;
 //@property (nonatomic, strong) NSString* lastName;
