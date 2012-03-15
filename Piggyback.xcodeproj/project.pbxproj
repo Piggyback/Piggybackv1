@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */; };
+		3E45731415102FDC0070745D /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E45731315102FDC0070745D /* LocationController.m */; };
+		3E457316151033620070745D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E457315151033620070745D /* CoreLocation.framework */; };
 		3E734B721508C24C003FD9CB /* PBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B711508C24C003FD9CB /* PBUser.m */; };
 		3E734B751508F4AA003FD9CB /* ListsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B741508F4AA003FD9CB /* ListsTableViewController.m */; };
 		3E734B781508F983003FD9CB /* PBList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B771508F983003FD9CB /* PBList.m */; };
@@ -202,6 +204,7 @@
 			children = (
 				F956DE521511E58D00187A27 /* CoreLocation.framework */,
 				F9B9B62B150193B60002BCDE /* libxml2.dylib */,
+				3E457315151033620070745D /* CoreLocation.framework */,
 				F9B9B629150193AC0002BCDE /* QuartzCore.framework */,
 				F9B9B627150193A30002BCDE /* SystemConfiguration.framework */,
 				F9B9B6251501939A0002BCDE /* Security.framework */,
@@ -244,6 +247,8 @@
 		3E94730115008EF900A261DD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3E45731215102FDC0070745D /* LocationController.h */,
+				3E45731315102FDC0070745D /* LocationController.m */,
 				F936AB83150A5AC60019F191 /* Constants.h */,
 				F936AB84150A5AC60019F191 /* Constants.m */,
 				3E94730215008EF900A261DD /* Piggyback-Info.plist */,
@@ -252,6 +257,33 @@
 				3E94730815008EF900A261DD /* Piggyback-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3E9795D6150ECB7C00E0E662 /* PB API Classes */ = {
+			isa = PBXGroup;
+			children = (
+				3E734B761508F983003FD9CB /* PBList.h */,
+				3E734B771508F983003FD9CB /* PBList.m */,
+				3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */,
+				3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */,
+				3E734B701508C24C003FD9CB /* PBUser.h */,
+				3E734B711508C24C003FD9CB /* PBUser.m */,
+				F9D0BDB91508B76000D963B7 /* Vendor.h */,
+				F9D0BDBA1508B76000D963B7 /* Vendor.m */,
+				F936AB7D1508F12F0019F191 /* VendorReferralComment.h */,
+				F936AB7E1508F12F0019F191 /* VendorReferralComment.m */,
+			);
+			name = "PB API Classes";
+			sourceTree = "<group>";
+		};
+		3EE3F3CC1512128F00E45D63 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */,
+				F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */,
+			);
+			name = Views;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		3EFDB51C1501793200CC57A8 /* Resources */ = {

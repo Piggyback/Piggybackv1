@@ -11,6 +11,7 @@
 
 @interface VendorReferralComment : NSObject
 
+@property (nonatomic, strong) PBUser* referrer;
 @property (nonatomic, strong) NSString* comment;
 @property (nonatomic, strong) PBUser* referrer;
 @property (nonatomic, strong) NSDate* date;

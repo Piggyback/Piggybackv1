@@ -10,9 +10,9 @@
 
 @implementation Vendor
 
+@synthesize vid = _vid;
 @synthesize name = _name;
 @synthesize reference = _reference;
-@synthesize vid = _vid;
 @synthesize lat = _lat;
 @synthesize lng = _lng;
 @synthesize phone = _phone;

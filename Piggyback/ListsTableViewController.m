@@ -9,6 +9,7 @@
 #import "ListsTableViewController.h"
 #import "PBList.h"
 #import "PBListEntry.h"
+#import "VendorReferralComment.h"
 #import "IndividualListViewController.h"
 
 @interface ListsTableViewController ()
@@ -37,31 +38,14 @@
     }
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma - Private Helper Methods
+#pragma mark - Private Helper Methods
 
 - (void)getCurrentUserLists:(NSString *)uid {
     // Load the user object via RestKit	
-    self.currentPbAPICall = pbAPIGetCurrentUserListsAndListEntrys;
+    self.currentPbAPICall = pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals;
     
     RKObjectManager* objectManager = [RKObjectManager sharedManager];
-    NSString* resourcePath = [@"/listapi/lists/id/" stringByAppendingString:uid];
+    NSString* resourcePath = [@"/listapi/listsAndEntrysAndIncomingReferrals/id/" stringByAppendingString:uid];
     [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
         // returns user as a naked array in JSON, so we instruct the loader
         // to user the appropriate object mapping
@@ -76,12 +60,12 @@
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
     switch (self.currentPbAPICall) {
-        case pbAPIGetCurrentUserListsAndListEntrys:
+        case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
             NSLog(@"in pbAPIGetCurrentUserListsAndListEntrys");
             // retrieve listEntrys for each list
             self.lists = objects;
-
+            
             break;
         }
         default:
@@ -91,9 +75,9 @@
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     switch (self.currentPbAPICall) {
-        case pbAPIGetCurrentUserListsAndListEntrys:
+        case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
-            NSLog(@"in pbAPIGetCurrentUserListsAndListEntrys error handler");
+            NSLog(@"in pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals error handler");
             // handle case where user has no lists
             NSArray *userHasNoLists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
             self.lists = userHasNoLists;
@@ -111,7 +95,111 @@
     }
 }
 
+#pragma mark - Table view data source
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.lists count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"listTableViewCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    // Configure the cell...
+#warning implement better way of checking for empty lists
+    if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
+        PBList* myList = [self.lists objectAtIndex:indexPath.row];
+        cell.textLabel.text = myList.name;
+        cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" items"];
+        
+        NSLog(@"cellForRowAtIndexPath list name: %@", myList.name);
+    } else {
+        // user has no lists
+        NSString* userHasNoLists = [self.lists objectAtIndex:indexPath.row];
+        cell.textLabel.text = userHasNoLists;
+    }
+    
+    return cell;
+}
+
+/*
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
+
+/*
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }   
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }   
+ }
+ */
+
+/*
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
+
+/*
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     */
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+
 #pragma mark - View lifecycle
+
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
+}
 
 - (void)viewDidLoad
 {
@@ -165,92 +253,20 @@
 {
     PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
     if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
+        // get num of unique referrals for specific listEntry
+#warning: need to set each segue?
+        for (PBListEntry* currentListEntry in list.listEntrys) {
+            NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
+                
+            for (VendorReferralComment* currentReferralComment in currentListEntry.referredBy) {
+                [uniqueReferrers addObject:currentReferralComment.referrer.uid];
+            }
+            currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
+            NSLog(@"unique referrals: %@", currentListEntry.numUniqueReferredBy);
+        }
+
         [segue.destinationViewController setList:list];
     }
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.lists count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"listTableViewCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    // Configure the cell...
-    if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
-        PBList* myList = [self.lists objectAtIndex:indexPath.row];
-        cell.textLabel.text = myList.name;
-        cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" items"];
-    
-        NSLog(@"cellForRowAtIndexPath list name: %@", myList.name);
-    } else {
-        // user has no lists
-        NSString* userHasNoLists = [self.lists objectAtIndex:indexPath.row];
-        cell.textLabel.text = userHasNoLists;
-    }
-    
-    return cell;
-}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
 }
 
 @end

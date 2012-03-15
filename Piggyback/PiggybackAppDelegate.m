@@ -39,8 +39,19 @@ static NSString* fbAppId = @"251920381531962";
     [userMapping mapAttributes:@"uid", @"fbid", @"email", @"firstName", @"lastName", nil];
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
     
+    RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
+    [vendorObjectMapping mapAttributes:@"vid", @"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
+    [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
+    
+    RKObjectMapping* vendorReferralCommentMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
+    [vendorReferralCommentMapping mapAttributes:@"comment", @"date", @"referralLid", nil];
+    [vendorReferralCommentMapping mapRelationship:@"referrer" withMapping:userMapping];
+    [objectManager.mappingProvider setMapping:vendorReferralCommentMapping forKeyPath:@"vendorReferralComment"];
+    
     RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
-    [listEntryMapping mapAttributes:@"lid", @"vid", @"date", @"comment", nil];
+    [listEntryMapping mapAttributes:@"date", @"comment", nil];
+    [listEntryMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
+    [listEntryMapping mapRelationship:@"referredBy" withMapping:vendorReferralCommentMapping];
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
     
     RKObjectMapping* listMapping = [RKObjectMapping mappingForClass:[PBList class]];
