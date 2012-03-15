@@ -13,7 +13,12 @@
 
 @property (nonatomic, strong) PBUser* referrer;
 @property (nonatomic, strong) NSString* comment;
-@property (nonatomic, strong) NSNumber* referralLid;
 @property (nonatomic, strong) NSDate* date;
+@property (nonatomic, strong) NSNumber* referralLid;
+
+//@property (nonatomic, strong) NSString* firstName;
+//@property (nonatomic, strong) NSString* lastName;
+//@property (nonatomic, strong) NSNumber* referredByUID;
+//@property (nonatomic, strong) NSNumber* referredByFBID;
 
 @end

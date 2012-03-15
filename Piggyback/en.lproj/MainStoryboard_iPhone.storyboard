@@ -312,9 +312,68 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="t8t-hD-vKt" kind="relationship" relationship="rootViewController" id="Iid-fP-0su"/>
+                    </connections>
                 </navigationController>
             </objects>
             <point key="canvasLocation" x="1847" y="-941"/>
+        </scene>
+        <scene sceneID="MVZ-Pw-crz">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Rm-QB-QKx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="t8t-hD-vKt" customClass="InboxViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="HE7-Sk-DXP">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="inboxTableCell" textLabel="zlI-ud-Zae" detailTextLabel="0Vi-u7-ls5" style="IBUITableViewCellStyleSubtitle" id="GZw-vp-ggd" customClass="InboxTableCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zlI-ud-Zae">
+                                            <rect key="frame" x="10" y="2" width="38" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Vi-u7-ls5">
+                                            <rect key="frame" x="10" y="24" width="47" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="t8t-hD-vKt" id="HVm-qb-NUv"/>
+                            <outlet property="delegate" destination="t8t-hD-vKt" id="toI-cC-FR8"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Inbox" id="z7b-uk-7iP">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="0qM-q9-zcn">
+                            <connections>
+                                <action selector="logout:" destination="t8t-hD-vKt" id="bTH-3I-PCT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="HE7-Sk-DXP" id="gBt-fg-eH0"/>
+                        <segue destination="Vgy-5n-1Cy" kind="push" identifier="inboxToVendor" id="nrv-nn-45K"/>
+                        <segue destination="or2-4f-6uS" kind="push" identifier="inboxToList" id="pdA-ib-Qlw"/>
+                    </connections>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="2284" y="-939"/>
         </scene>
     </scenes>
     <resources>
@@ -322,6 +381,16 @@
         <image name="piggyback_login.png" width="354" height="190"/>
     </resources>
     <classes>
+        <class className="InboxTableCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxTableCell.h"/>
+        </class>
+        <class className="InboxViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="logout:"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
         <class className="IndividualListViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/IndividualListViewController.h"/>
             <relationships>
@@ -362,4 +431,8 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="nrv-nn-45K"/>
+        <segue reference="pdA-ib-Qlw"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -12,7 +12,12 @@
 
 @synthesize referrer = _referrer;
 @synthesize comment = _comment;
-@synthesize referralLid = _referralLid;
 @synthesize date = _date;
+@synthesize referralLid = _referralLid;
+
+//@synthesize firstName = _firstName;
+//@synthesize lastName = _lastName;
+//@synthesize referredByUID = _referredByUID;
+//@synthesize referredByFBID = _referredByFBID;
 
 @end
