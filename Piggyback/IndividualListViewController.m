@@ -213,7 +213,7 @@ const double metersToMilesMultiplier = 0.000621371192;
     }
     
     // Configure the cell...
-#warning: take care of empty list case -- new viewController in storyboard for empty cases and push programmatically?
+#warning: take care of empty list case -- new viewController in storyboard for empty cases and push programmatically? DECIDED TO CREATE VIEWCONTROLLER ON STORYBOARD
     cell.textLabel.text = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name];
     if ([[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue] == 1) {
         cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friend", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
