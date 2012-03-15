@@ -43,7 +43,6 @@
 		F9B9B641150197F00002BCDE /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B638150197420002BCDE /* libRestKit.a */; };
 		F9D0BDBB1508B76000D963B7 /* Vendor.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBA1508B76000D963B7 /* Vendor.m */; };
 		F9D0BDBE1508BC9000D963B7 /* VendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */; };
-		F9D0BDC11508BDED00D963B7 /* PreVendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDC01508BDED00D963B7 /* PreVendorViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,10 +127,10 @@
 		3EFDB52C15017C6500CC57A8 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		3EFDB52D15017C6500CC57A8 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		3EFDB52E15017C6500CC57A8 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
-		F936AB7D1508F12F0019F191 /* VendorReferralComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorReferralComment.h; sourceTree = "<group>"; };
-		F936AB7E1508F12F0019F191 /* VendorReferralComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorReferralComment.m; sourceTree = "<group>"; };
-		F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferralCommentTableCell.h; sourceTree = "<group>"; };
-		F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferralCommentTableCell.m; sourceTree = "<group>"; };
+		F936AB7D1508F12F0019F191 /* VendorReferralComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VendorReferralComment.h; path = Piggyback/VendorReferralComment.h; sourceTree = "<group>"; };
+		F936AB7E1508F12F0019F191 /* VendorReferralComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VendorReferralComment.m; path = Piggyback/VendorReferralComment.m; sourceTree = "<group>"; };
+		F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferralCommentTableCell.h; path = Piggyback/ReferralCommentTableCell.h; sourceTree = "<group>"; };
+		F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferralCommentTableCell.m; path = Piggyback/ReferralCommentTableCell.m; sourceTree = "<group>"; };
 		F936AB83150A5AC60019F191 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		F936AB84150A5AC60019F191 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		F956DE521511E58D00187A27 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -139,8 +138,8 @@
 		F985B430150F5097002791B2 /* InboxItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxItem.m; path = Piggyback/InboxItem.m; sourceTree = "<group>"; };
 		F985B435150FE9CF002791B2 /* InboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxViewController.h; sourceTree = "<group>"; };
 		F985B436150FE9D0002791B2 /* InboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxViewController.m; sourceTree = "<group>"; };
-		F985B438151010F2002791B2 /* InboxTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxTableCell.h; sourceTree = "<group>"; };
-		F985B439151010F2002791B2 /* InboxTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxTableCell.m; sourceTree = "<group>"; };
+		F985B438151010F2002791B2 /* InboxTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxTableCell.h; path = Piggyback/InboxTableCell.h; sourceTree = "<group>"; };
+		F985B439151010F2002791B2 /* InboxTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxTableCell.m; path = Piggyback/InboxTableCell.m; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F9B9B621150193880002BCDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F9B9B623150193920002BCDE /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -153,8 +152,6 @@
 		F9D0BDBA1508B76000D963B7 /* Vendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Vendor.m; path = Piggyback/Vendor.m; sourceTree = "<group>"; };
 		F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorViewController.h; sourceTree = "<group>"; };
 		F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorViewController.m; sourceTree = "<group>"; };
-		F9D0BDBF1508BDED00D963B7 /* PreVendorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreVendorViewController.h; sourceTree = "<group>"; };
-		F9D0BDC01508BDED00D963B7 /* PreVendorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreVendorViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,29 +218,22 @@
 		3E94730015008EF900A261DD /* Piggyback */ = {
 			isa = PBXGroup;
 			children = (
-				F985B438151010F2002791B2 /* InboxTableCell.h */,
-				F985B439151010F2002791B2 /* InboxTableCell.m */,
-				F985B435150FE9CF002791B2 /* InboxViewController.h */,
-				F985B436150FE9D0002791B2 /* InboxViewController.m */,
-				F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */,
-				F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */,
+				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
 				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
 				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
-				F936AB7D1508F12F0019F191 /* VendorReferralComment.h */,
-				F936AB7E1508F12F0019F191 /* VendorReferralComment.m */,
-				F9D0BDBF1508BDED00D963B7 /* PreVendorViewController.h */,
-				F9D0BDC01508BDED00D963B7 /* PreVendorViewController.m */,
-				F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */,
-				F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */,
-				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
 				3EBD2CF0150A0C9800715DD0 /* PiggybackTabBarController.h */,
 				3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */,
 				3E94731215008EF900A261DD /* LoginViewController.h */,
 				3E94731315008EF900A261DD /* LoginViewController.m */,
+				F985B435150FE9CF002791B2 /* InboxViewController.h */,
+				F985B436150FE9D0002791B2 /* InboxViewController.m */,
 				3E734B731508F4AA003FD9CB /* ListsTableViewController.h */,
 				3E734B741508F4AA003FD9CB /* ListsTableViewController.m */,
 				3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */,
 				3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */,
+				F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */,
+				F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */,
+				F929ACBC15121296008B7463 /* Views */,
 				F929ACBB1512112D008B7463 /* PB API Classes */,
 				3EFDB51C1501793200CC57A8 /* Resources */,
 				3E94730115008EF900A261DD /* Supporting Files */,
@@ -299,18 +289,32 @@
 		F929ACBB1512112D008B7463 /* PB API Classes */ = {
 			isa = PBXGroup;
 			children = (
-				F985B42F150F5097002791B2 /* InboxItem.h */,
-				F985B430150F5097002791B2 /* InboxItem.m */,
-				F9D0BDB91508B76000D963B7 /* Vendor.h */,
-				F9D0BDBA1508B76000D963B7 /* Vendor.m */,
 				3E734B761508F983003FD9CB /* PBList.h */,
 				3E734B771508F983003FD9CB /* PBList.m */,
 				3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */,
 				3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */,
 				3E734B701508C24C003FD9CB /* PBUser.h */,
 				3E734B711508C24C003FD9CB /* PBUser.m */,
+				F9D0BDB91508B76000D963B7 /* Vendor.h */,
+				F9D0BDBA1508B76000D963B7 /* Vendor.m */,
+				F936AB7D1508F12F0019F191 /* VendorReferralComment.h */,
+				F936AB7E1508F12F0019F191 /* VendorReferralComment.m */,
+				F985B42F150F5097002791B2 /* InboxItem.h */,
+				F985B430150F5097002791B2 /* InboxItem.m */,
 			);
 			name = "PB API Classes";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		F929ACBC15121296008B7463 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F985B438151010F2002791B2 /* InboxTableCell.h */,
+				F985B439151010F2002791B2 /* InboxTableCell.m */,
+				F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */,
+				F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */,
+			);
+			name = Views;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -435,7 +439,6 @@
 				3E94731415008EF900A261DD /* LoginViewController.m in Sources */,
 				F9D0BDBB1508B76000D963B7 /* Vendor.m in Sources */,
 				F9D0BDBE1508BC9000D963B7 /* VendorViewController.m in Sources */,
-				F9D0BDC11508BDED00D963B7 /* PreVendorViewController.m in Sources */,
 				F936AB7F1508F12F0019F191 /* VendorReferralComment.m in Sources */,
 				F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */,
 				F936AB85150A5AC70019F191 /* Constants.m in Sources */,
