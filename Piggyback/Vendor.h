@@ -11,9 +11,9 @@
 
 @interface Vendor : NSObject
 
+@property (nonatomic, strong) NSString* vid;
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString* reference;
-@property (nonatomic, strong) NSString* vid;
 @property (nonatomic, strong) NSNumber* lat;
 @property (nonatomic, strong) NSNumber* lng;
 @property (nonatomic, strong) NSString* phone;

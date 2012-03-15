@@ -18,4 +18,5 @@
 @property (nonatomic, strong) NSArray* shownListEntrys;
 @property (nonatomic, strong) LocationController* locationController;
 
+- (IBAction)filterSegmentedControlChanged:(id)sender;
 @end

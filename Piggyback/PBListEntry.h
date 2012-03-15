@@ -11,9 +11,10 @@
 
 @interface PBListEntry : NSObject
 
-@property (nonatomic, strong) NSNumber* lid;
 @property (nonatomic, strong) Vendor* vendor;
 @property (nonatomic, strong) NSDate* date;
 @property (nonatomic, strong) NSString* comment;
+@property (nonatomic, strong) NSArray* referredBy;  // array of VendorReferralComment objects
+@property (nonatomic, strong) NSNumber* numUniqueReferredBy;
 
 @end

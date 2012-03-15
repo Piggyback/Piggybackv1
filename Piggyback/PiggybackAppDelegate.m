@@ -15,6 +15,7 @@
 #import "PBUser.h"
 #import "PBList.h"
 #import "PBListEntry.h"
+#import "VendorReferralComment.h"
 
 static NSString* fbAppId = @"251920381531962";
 
@@ -36,25 +37,24 @@ static NSString* fbAppId = @"251920381531962";
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
     
     RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
-    [vendorObjectMapping mapAttributes:@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
-    [vendorObjectMapping mapKeyPath:@"id" toAttribute:@"vid"];
+    [vendorObjectMapping mapAttributes:@"vid", @"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
     [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
     
+    RKObjectMapping* vendorReferralCommentMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
+    [vendorReferralCommentMapping mapAttributes:@"comment", @"date", @"referralLid", nil];
+    [vendorReferralCommentMapping mapRelationship:@"referrer" withMapping:userMapping];
+    [objectManager.mappingProvider setMapping:vendorReferralCommentMapping forKeyPath:@"vendorReferralComment"];
+    
     RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
-    [listEntryMapping mapAttributes:@"lid", @"date", @"comment", nil];
+    [listEntryMapping mapAttributes:@"date", @"comment", nil];
     [listEntryMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
+    [listEntryMapping mapRelationship:@"referredBy" withMapping:vendorReferralCommentMapping];
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
     
     RKObjectMapping* listMapping = [RKObjectMapping mappingForClass:[PBList class]];
     [listMapping mapAttributes:@"uid", @"lid", @"date", @"name", nil];
     [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
-    
-    RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
-    [referralCommentsMapping mapAttributes:@"firstName",@"lastName",@"comment",nil];
-    [referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
-    [referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
-    [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
     
     /* Setting up Facebook SDK */
     PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;

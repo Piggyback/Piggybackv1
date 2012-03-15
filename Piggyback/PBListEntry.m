@@ -10,9 +10,18 @@
 
 @implementation PBListEntry
 
-@synthesize lid = _lid;
 @synthesize vendor = _vendor;
 @synthesize date = _date;
 @synthesize comment = _comment;
+@synthesize referredBy = _referredBy;
+@synthesize numUniqueReferredBy = _numUniqueReferredBy;
+
+- (NSArray *)referredBy {
+    if (!_referredBy) {
+        _referredBy = [[NSArray alloc] init];
+    }
+    
+    return _referredBy;
+}
 
 @end

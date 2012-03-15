@@ -10,7 +10,7 @@
 #import <RestKit/RestKit.h>
 
 typedef enum pbApiCall {
-    pbAPIGetCurrentUserListsAndListEntrys,
+    pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals,
 } pbApiCall;
 
 

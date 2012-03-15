@@ -124,42 +124,42 @@
 
 - (void)retrieveReferralCommentsData:(NSArray*)objects
 {
-    if (objects.count > 0) {
-        
-        // get list of unique people who referred vendor to you
-        NSMutableOrderedSet* uniqueReferredByUIDs = [[NSMutableOrderedSet alloc] init];
-        for (VendorReferralComment* commentObject in objects) {
-            if (![uniqueReferredByUIDs containsObject:commentObject.referredByUID]) {
-                [uniqueReferredByUIDs addObject:commentObject.referredByUID];
-                [self.referralComments addObject:commentObject];
-            }
-        }
-        
-        NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
-        self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
-        
-        // refresh data so table is loaded with retrieved data
-        [self.referralCommentsTable reloadData];
-        
-        // set table height so that it fits all rows without scrolling
-        float totalTableHeight = [self.referralCommentsTable rectForSection:0].size.height;
-        CGRect tableBounds = [self.referralCommentsTable bounds];
-        [self.referralCommentsTable setBounds:CGRectMake(tableBounds.origin.x,
-                                                         tableBounds.origin.y,
-                                                         tableBounds.size.width,
-                                                         totalTableHeight+20)];
-        
-        // set frame so that the newly sized table is positioned correctly in parent view
-        CGRect tableFrame = [self.referralCommentsTable frame];
-        [self.referralCommentsTable setFrame:CGRectMake(tableFrame.origin.x,
-                                                        tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
-                                                        tableFrame.size.width,
-                                                        tableFrame.size.height)];
-        
-        // set scrollView
-        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+280)];
-
-    }
+//    if (objects.count > 0) {
+//        
+//        // get list of unique people who referred vendor to you
+//        NSMutableOrderedSet* uniqueReferredByUIDs = [[NSMutableOrderedSet alloc] init];
+//        for (VendorReferralComment* commentObject in objects) {
+//            if (![uniqueReferredByUIDs containsObject:commentObject.referredByUID]) {
+//                [uniqueReferredByUIDs addObject:commentObject.referredByUID];
+//                [self.referralComments addObject:commentObject];
+//            }
+//        }
+//        
+//        NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
+//        self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
+//        
+//        // refresh data so table is loaded with retrieved data
+//        [self.referralCommentsTable reloadData];
+//        
+//        // set table height so that it fits all rows without scrolling
+//        float totalTableHeight = [self.referralCommentsTable rectForSection:0].size.height;
+//        CGRect tableBounds = [self.referralCommentsTable bounds];
+//        [self.referralCommentsTable setBounds:CGRectMake(tableBounds.origin.x,
+//                                                         tableBounds.origin.y,
+//                                                         tableBounds.size.width,
+//                                                         totalTableHeight+20)];
+//        
+//        // set frame so that the newly sized table is positioned correctly in parent view
+//        CGRect tableFrame = [self.referralCommentsTable frame];
+//        [self.referralCommentsTable setFrame:CGRectMake(tableFrame.origin.x,
+//                                                        tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
+//                                                        tableFrame.size.width,
+//                                                        tableFrame.size.height)];
+//        
+//        // set scrollView
+//        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+280)];
+//
+//    }
 }
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
@@ -177,17 +177,17 @@
 {
     // get cell for displaying current comment
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"referralCommentCell"];
-    VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
-    
-    // set name, comment, and image
-    cell.textLabel.text = [[vendorReferralComment.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.lastName];
-    
-    cell.detailTextLabel.text = vendorReferralComment.comment;
-    cell.detailTextLabel.numberOfLines = 0;
-    
-    NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:vendorReferralComment.referredByFBID] stringByAppendingString:@"/picture"];
-    UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
-    cell.imageView.image = img;
+//    VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
+//    
+//    // set name, comment, and image
+//    cell.textLabel.text = [[vendorReferralComment.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.lastName];
+//    
+//    cell.detailTextLabel.text = vendorReferralComment.comment;
+//    cell.detailTextLabel.numberOfLines = 0;
+//    
+//    NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:vendorReferralComment.referredByFBID] stringByAppendingString:@"/picture"];
+//    UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
+//    cell.imageView.image = img;
     return cell;
 }
 

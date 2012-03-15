@@ -58,10 +58,10 @@
 
 - (void)getCurrentUserLists:(NSString *)uid {
     // Load the user object via RestKit	
-    self.currentPbAPICall = pbAPIGetCurrentUserListsAndListEntrys;
+    self.currentPbAPICall = pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals;
     
     RKObjectManager* objectManager = [RKObjectManager sharedManager];
-    NSString* resourcePath = [@"/listapi/lists/id/" stringByAppendingString:uid];
+    NSString* resourcePath = [@"/listapi/listsAndEntrysAndIncomingReferrals/id/" stringByAppendingString:uid];
     [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
         // returns user as a naked array in JSON, so we instruct the loader
         // to user the appropriate object mapping
@@ -76,7 +76,7 @@
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
     switch (self.currentPbAPICall) {
-        case pbAPIGetCurrentUserListsAndListEntrys:
+        case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
             NSLog(@"in pbAPIGetCurrentUserListsAndListEntrys");
             // retrieve listEntrys for each list
@@ -91,9 +91,9 @@
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     switch (self.currentPbAPICall) {
-        case pbAPIGetCurrentUserListsAndListEntrys:
+        case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
-            NSLog(@"in pbAPIGetCurrentUserListsAndListEntrys error handler");
+            NSLog(@"in pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals error handler");
             // handle case where user has no lists
             NSArray *userHasNoLists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
             self.lists = userHasNoLists;

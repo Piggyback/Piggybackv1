@@ -93,6 +93,17 @@
                                     <outlet property="delegate" destination="or2-4f-6uS" id="aC7-k3-nc4"/>
                                 </connections>
                             </tableView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="D26-D9-vJj">
+                                <rect key="frame" x="20" y="10" width="280" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Most Popular"/>
+                                    <segment title="Nearby"/>
+                                </segments>
+                                <connections>
+                                    <action selector="filterSegmentedControlChanged:" destination="or2-4f-6uS" eventType="valueChanged" id="uGm-yb-H9k"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
