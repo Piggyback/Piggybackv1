@@ -13,7 +13,6 @@
 @synthesize referrer = _referrer;
 @synthesize comment = _comment;
 @synthesize date = _date;
-@synthesize referrer = _referrer;
 @synthesize referralLid = _referralLid;
 
 //@synthesize firstName = _firstName;

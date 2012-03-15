@@ -40,18 +40,18 @@ static NSString* fbAppId = @"251920381531962";
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
     
     RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
-    [vendorObjectMapping mapAttributes:@"vid", @"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
+    [vendorObjectMapping mapAttributes:@"vid",@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
     [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
     
-    RKObjectMapping* vendorReferralCommentMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
-    [vendorReferralCommentMapping mapAttributes:@"comment", @"date", @"referralLid", nil];
-    [vendorReferralCommentMapping mapRelationship:@"referrer" withMapping:userMapping];
-    [objectManager.mappingProvider setMapping:vendorReferralCommentMapping forKeyPath:@"vendorReferralComment"];
+    RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
+    [referralCommentsMapping mapAttributes:@"date",@"comment",@"referralLid",nil];
+    [referralCommentsMapping mapRelationship:@"referrer" withMapping:userMapping];
+    [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
     
     RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
     [listEntryMapping mapAttributes:@"date", @"comment", nil];
     [listEntryMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
-    [listEntryMapping mapRelationship:@"referredBy" withMapping:vendorReferralCommentMapping];
+    [listEntryMapping mapRelationship:@"referredBy" withMapping:referralCommentsMapping];
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
     
     RKObjectMapping* listMapping = [RKObjectMapping mappingForClass:[PBList class]];
@@ -59,24 +59,8 @@ static NSString* fbAppId = @"251920381531962";
     [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
     
-    RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
-    [vendorObjectMapping mapAttributes:@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
-    [vendorObjectMapping mapKeyPath:@"id" toAttribute:@"vid"];
-    [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
-    
-    RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
-    [referralCommentsMapping mapAttributes:@"date",@"comment",@"referralLid",nil];
-//    [referralCommentsMapping mapKeyPath:@"lid" toAttribute:@"referralLid"];
-    [referralCommentsMapping mapRelationship:@"referrer" withMapping:userMapping];
-//    [referralCommentsMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
-//    [referralCommentsMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
-    [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
-    
     RKObjectMapping* inboxMapping = [RKObjectMapping mappingForClass:[InboxItem class]];
     [inboxMapping mapAttributes:@"date",@"rid",@"lid",@"firstName",@"lastName",@"comment",@"referredByUID", @"referredByFBID", @"listName",nil];
-//    [inboxMapping mapKeyPath:@"uid1" toAttribute:@"referredByUID"];
-//    [inboxMapping mapKeyPath:@"fbid" toAttribute:@"referredByFBID"];
-//    [inboxMapping mapKeyPath:@"ListName" toAttribute:@"listName"];
     [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
     [inboxMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
     [inboxMapping mapRelationship:@"otherFriends" withMapping:userMapping];

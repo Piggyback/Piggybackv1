@@ -20,21 +20,6 @@
 @synthesize referralCommentsTable = _referralCommentsTable;
 @synthesize scrollView = _scrollView;
 
-- (void)setVendor:(Vendor *)vendor
-{
-    _vendor = vendor;
-    self.title = self.vendor.name;
-    
-    // load image in separate thread -- DUPLICATE CODE
-    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
-    dispatch_async(downloadImageQueue, ^{
-        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.vendorImage setImage:image];
-        });
-    });
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
