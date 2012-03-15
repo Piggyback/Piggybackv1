@@ -108,7 +108,7 @@
                                     <segment title="Nearby"/>
                                 </segments>
                                 <connections>
-                                    <action selector="filterSegmentedControlChanged:" destination="or2-4f-6uS" eventType="valueChanged" id="uGm-yb-H9k"/>
+                                    <action selector="segmentedControlChanged" destination="or2-4f-6uS" eventType="valueChanged" id="aUJ-re-fbz"/>
                                 </connections>
                             </segmentedControl>
                         </subviews>
@@ -117,6 +117,7 @@
                     <navigationItem key="navigationItem" id="n8l-0c-QnT"/>
                     <connections>
                         <outlet property="listEntryTableView" destination="jSJ-zc-dU5" id="GZN-QC-smw"/>
+                        <outlet property="segmentedControl" destination="D26-D9-vJj" id="7wj-Np-SL9"/>
                     </connections>
                 </viewController>
             </objects>

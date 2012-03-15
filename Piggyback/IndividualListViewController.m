@@ -25,6 +25,7 @@ const double metersToMilesMultiplier = 0.000621371192;
 @synthesize listEntryTableView = _listEntryTableView;
 @synthesize shownListEntrys = _shownListEntrys;
 @synthesize locationController = _locationController;
+@synthesize segmentedControl = _segmentedControl;
 
 - (PBList*)list 
 {
@@ -148,7 +149,22 @@ const double metersToMilesMultiplier = 0.000621371192;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self sortListEntrysByMostRecommendations];
+    
+    switch (self.segmentedControl.selectedSegmentIndex) {
+        case 0:
+            // most popular
+            NSLog(@"IndividualListViewController will appear with 'most popular' selected");            
+            [self sortListEntrysByMostRecommendations];
+            break;
+        case 1:
+            // nearby
+            NSLog(@"IndividualListViewController will appear with 'nearby' selected");
+            [self sortListEntrysByDistance];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (void)viewDidUnload
@@ -156,6 +172,7 @@ const double metersToMilesMultiplier = 0.000621371192;
     self.list = nil;
     [self setListEntryTableView:nil];
     self.shownListEntrys = nil;
+    [self setSegmentedControl:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -263,6 +280,21 @@ const double metersToMilesMultiplier = 0.000621371192;
 }
 
 
-- (IBAction)filterSegmentedControlChanged:(id)sender {
+- (IBAction)segmentedControlChanged {
+    switch (self.segmentedControl.selectedSegmentIndex) {
+        case 0:
+            // most popular
+            NSLog(@"segmentedControlChanged to 'most popular'");            
+            [self sortListEntrysByMostRecommendations];
+            break;
+        case 1:
+            // nearby
+            NSLog(@"segmentedControlChanged to 'nearby'");
+            [self sortListEntrysByDistance];
+            break;
+            
+        default:
+            break;
+    }
 }
 @end
