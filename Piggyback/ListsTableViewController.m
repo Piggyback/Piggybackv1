@@ -23,6 +23,8 @@
 @synthesize lists = _lists;
 @synthesize currentPbAPICall = _currentPbAPICall;
 
+#pragma mark - Getters and Setters
+
 - (NSArray *)lists {
     if (!_lists) {
         _lists = [[NSArray alloc] init];
@@ -46,14 +48,7 @@
     
     RKObjectManager* objectManager = [RKObjectManager sharedManager];
     NSString* resourcePath = [@"/listapi/listsAndEntrysAndIncomingReferrals/id/" stringByAppendingString:uid];
-    [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
-        // returns user as a naked array in JSON, so we instruct the loader
-        // to user the appropriate object mapping
-        if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
-            loader.objectMapping = [objectManager.mappingProvider mappingForKeyPath:@"list"];
-        }
-        NSLog(@"in getCurrentUserLists: block");
-    }];
+    [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"list"] delegate:self];
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
@@ -178,6 +173,14 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    if ([[[self.lists objectAtIndex:indexPath.row] listEntrys] count] == 0) {
+        // show empty view controller
+        NSLog(@"list is empty!@!@!");
+    } else {
+        // show individualListViewController
+        [self performSegueWithIdentifier:@"goToListEntryFromLists" sender:[tableView cellForRowAtIndexPath:indexPath]];
+        NSLog(@"performing goToListEntryFromLists segue");
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
@@ -262,7 +265,6 @@
                 [uniqueReferrers addObject:currentReferralComment.referrer.uid];
             }
             currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
-            NSLog(@"unique referrals: %@", currentListEntry.numUniqueReferredBy);
         }
 
         [segue.destinationViewController setList:list];

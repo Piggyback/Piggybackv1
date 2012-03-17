@@ -11,7 +11,7 @@
 
 @implementation PiggybackTabBarController
 
-#pragma - Private Helper Methods
+#pragma mark - Private Helper Methods
 
 - (void)showLoggedOut {
     // release all pre-existing view controllers

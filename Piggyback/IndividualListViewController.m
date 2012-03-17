@@ -13,12 +13,6 @@
 
 const double metersToMilesMultiplier = 0.000621371192;
 
-@interface IndividualListViewController()
-
-- (void)fetchReferralCommentsData:(id)destinationViewController;
-
-@end
-
 @implementation IndividualListViewController
 
 @synthesize list = _list;
@@ -26,6 +20,8 @@ const double metersToMilesMultiplier = 0.000621371192;
 @synthesize shownListEntrys = _shownListEntrys;
 @synthesize locationController = _locationController;
 @synthesize segmentedControl = _segmentedControl;
+
+#pragma mark - Getters and Setters
 
 - (PBList*)list 
 {
@@ -57,12 +53,7 @@ const double metersToMilesMultiplier = 0.000621371192;
     [self.listEntryTableView reloadData];
 }
 
-- (void)awakeFromNib
-{
-    self.locationController = [[LocationController alloc] init];
-}
-
-#pragma - Private Helper Methods
+#pragma mark - Private Helper Methods
 
 - (void)sortListEntrysByMostRecommendations
 {
@@ -114,86 +105,20 @@ const double metersToMilesMultiplier = 0.000621371192;
     dispatch_release(getCurrentLocationQueue);
 }
 
-// **** Kim Hsiao: HELPER FUNCTIONS TO FETCH DATA DURING SEGUE **** //
-
-- (void)fetchReferralCommentsData:(id)destinationViewController
+- (void)calculateDistanceOnViewWillAppear
 {
-    NSString* uid = @"2";
-    NSString* vid = @"20e88edee4c1c8bb4c59e58015b66146e21ff45b";
-    RKObjectManager* objManager = [RKObjectManager sharedManager];
-    NSString* referralCommentsPath = [[[@"vendorapi/referredby/uid/" stringByAppendingString:uid] stringByAppendingString: @"/vid/"] stringByAppendingString:vid];
-    RKObjectLoader* referralCommentsLoader = [objManager loadObjectsAtResourcePath:referralCommentsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"referral-comment"] delegate:destinationViewController];
-    referralCommentsLoader.userData = @"referralCommentsLoader";
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        self.locationController = [[LocationController alloc] init];
-    }
-    return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - View lifecycle
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    switch (self.segmentedControl.selectedSegmentIndex) {
-        case 0:
-            // most popular
-            NSLog(@"IndividualListViewController will appear with 'most popular' selected");            
-            [self sortListEntrysByMostRecommendations];
-            break;
-        case 1:
-            // nearby
-            NSLog(@"IndividualListViewController will appear with 'nearby' selected");
-            [self sortListEntrysByDistance];
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)viewDidUnload
-{
-    self.list = nil;
-    [self setListEntryTableView:nil];
-    self.shownListEntrys = nil;
-    [self setSegmentedControl:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-// functions from kim
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"goToVendorFromListEntry"]) {
-        // fetch API data for referral comments
-        [self fetchReferralCommentsData:segue.destinationViewController];
-        
-        // set VendorViewController's vendor to selected vendor
-        [(VendorViewController*)segue.destinationViewController setVendor:[[self.list.listEntrys objectAtIndex:[self.listEntryTableView indexPathForCell:sender].row] vendor]];
-    }
+    dispatch_queue_t getCurrentLocationViewWillAppearQueue = dispatch_queue_create("getCurrentLocationViewWillAppear", NULL);
+    dispatch_async(getCurrentLocationViewWillAppearQueue, ^{
+        CLLocation* currentLocation = [self.locationController getCurrentLocationAndStopLocationManager];
+        NSLog(@"current location on view will appear for 'most popular' tab ONLY: %@", currentLocation);
+        for (PBListEntry* currentListEntry in self.list.listEntrys) {
+            currentListEntry.vendor.distanceFromCurrentLocationInMiles = [[[CLLocation alloc] initWithLatitude:(CLLocationDegrees)[currentListEntry.vendor.lat doubleValue] longitude:(CLLocationDegrees)[currentListEntry.vendor.lng doubleValue]] distanceFromLocation:currentLocation] * metersToMilesMultiplier;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.listEntryTableView reloadData];
+        });
+    });
+    dispatch_release(getCurrentLocationViewWillAppearQueue);
 }
 
 #pragma mark - Table view data source
@@ -215,11 +140,27 @@ const double metersToMilesMultiplier = 0.000621371192;
     // Configure the cell...
 #warning: take care of empty list case -- new viewController in storyboard for empty cases and push programmatically? DECIDED TO CREATE VIEWCONTROLLER ON STORYBOARD
     cell.textLabel.text = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name];
-    if ([[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue] == 1) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friend", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
-    } else {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friends", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
-    }
+        if ([[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles] < 0) {
+            if ([[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue] == 1) {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friend", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
+            } else {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friends", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
+            }
+        } else {
+            if ([[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue] == 1) {
+                if ([[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles] < 0.1) {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friend and distance: %.2f mi", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy], [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
+                } else {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friend and distance: %.1f mi", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy], [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
+                }
+            } else {
+                if ([[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles] < 0.1) {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friends and distance: %.2f mi", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy], [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
+                } else {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friends and distance: %.1f mi", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy], [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
+                }
+            }
+        }
     NSLog(@"cellForRowAtIndexPath listEntry name: %@", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name]);
     NSLog(@"listEntry distance: %f", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]);
 
@@ -279,6 +220,97 @@ const double metersToMilesMultiplier = 0.000621371192;
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+#pragma mark - View lifecycle
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)awakeFromNib
+{
+    self.locationController = [[LocationController alloc] init];
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+        self.locationController = [[LocationController alloc] init];
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    switch (self.segmentedControl.selectedSegmentIndex) {
+        case 0:
+            // most popular
+            NSLog(@"IndividualListViewController will appear with 'most popular' selected");            
+            [self sortListEntrysByMostRecommendations];
+            [self calculateDistanceOnViewWillAppear];
+            break;
+        case 1:
+            // nearby
+            NSLog(@"IndividualListViewController will appear with 'nearby' selected");
+            [self sortListEntrysByDistance];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)viewDidUnload
+{
+    self.list = nil;
+    [self setListEntryTableView:nil];
+    self.shownListEntrys = nil;
+    [self setSegmentedControl:nil];
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"goToVendorFromListEntry"]) {
+        // set VendorViewController's vendor to selected vendor
+        [(VendorViewController*)segue.destinationViewController setVendor:[[self.shownListEntrys objectAtIndex:[self.listEntryTableView indexPathForCell:sender].row] vendor]];
+        
+        NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
+        NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];
+        for (VendorReferralComment* commentObject in [[self.shownListEntrys objectAtIndex:[self.listEntryTableView indexPathForCell:sender].row] referredBy]) {
+            if (![uniqueReferrerUIDs containsObject:commentObject.referrer.uid]) {
+                [uniqueReferrerUIDs addObject:commentObject.referrer.uid];
+                [uniqueReferralComments addObject:commentObject];
+            }
+        }
+        
+        // set VendorViewController's referralComments to selected uniqueReferralComments
+        [(VendorViewController*)segue.destinationViewController setReferralComments:uniqueReferralComments];
+    }
+}
+
+#pragma mark - IBAction definitions
 
 - (IBAction)segmentedControlChanged {
     switch (self.segmentedControl.selectedSegmentIndex) {

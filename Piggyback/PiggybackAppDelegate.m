@@ -15,6 +15,7 @@
 #import "PBUser.h"
 #import "PBList.h"
 #import "PBListEntry.h"
+#import "InboxItem.h"
 
 static NSString* fbAppId = @"251920381531962";
 
