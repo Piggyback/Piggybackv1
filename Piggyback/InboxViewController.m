@@ -129,8 +129,7 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     NSString* additionalInfo;    
     if([inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
         cell.textLabel.text = inboxItem.vendor.name;
-        additionalInfo = @"distance goes here";
-    } else {
+    } else {    
         cell.textLabel.text = inboxItem.listName;
         
         // get number of items in list
@@ -146,8 +145,10 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     NSString* timeElapsed = [self timeElapsed:inboxItem.date];
     cell.detailTextLabel.text = timeElapsed;
     
-    // distance (vendor) or number of items (list)
-    cell.detailTextLabel.text = [[cell.detailTextLabel.text stringByAppendingString:@"\n"] stringByAppendingString:additionalInfo];
+    // add number of items (for lists)
+    if(![inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
+        cell.detailTextLabel.text = [[cell.detailTextLabel.text stringByAppendingString:@"\n"] stringByAppendingString:additionalInfo];
+    }
     
     // number of other friends this was referred to
     NSString* numFriendsLabel = @"Recommended to you and %d friend";
@@ -206,6 +207,8 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     else if ([elapsedTimeUnits second] > 0) {
         number = [elapsedTimeUnits second];
         unit = [NSString stringWithFormat:@"second"];
+    } else if ([elapsedTimeUnits second] <= 0) {
+        number = 0;
     }
     // check if unit number is greater then append s at the end
     if (number > 1) {
@@ -213,6 +216,11 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     }
     
     NSString* elapsedTime = [NSString stringWithFormat:@"%d %@ ago",number,unit];
+    
+    if (number == 0) {
+            elapsedTime = @"Just now";
+    }
+    
     return elapsedTime;
 }
 
@@ -239,8 +247,20 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
         list.lid = inboxItem.lid;
         list.date = inboxItem.date; // i put date list was referred, not date list was created
         list.name = inboxItem.listName;
+        
+        // get number of people who referred each vendor in list
+        for (PBListEntry* currentListEntry in inboxItem.listEntrys) {
+            NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
+            
+            for (VendorReferralComment* currentReferralComment in currentListEntry.referredBy) {
+                [uniqueReferrers addObject:currentReferralComment.referrer.uid];
+            }
+
+            currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
+        }
+        
         list.listEntrys = inboxItem.listEntrys;
-        // then set segue.destiation list property to list
+        [(IndividualListViewController*)segue.destinationViewController setList:list];
     }
 }
 

@@ -15,7 +15,9 @@
 #import "VendorReferralComment.h"
 #import "VendorViewController.h"
 #import "PBList.h"
-#import "ListsTableViewController.h"
+#import "IndividualListViewController.h"
+#import "PBListEntry.h"
+#import "PBUser.h"
 
 @interface InboxViewController : UITableViewController <RKObjectLoaderDelegate>
 

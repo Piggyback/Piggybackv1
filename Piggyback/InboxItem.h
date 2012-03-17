@@ -14,10 +14,14 @@
 @property (nonatomic, strong) NSDate* date;
 @property (nonatomic, strong) NSNumber* rid;
 @property (nonatomic, strong) NSNumber* lid;
+
+// should be User referrer - and include email
 @property (nonatomic, strong) NSNumber* referredByUID;
 @property (nonatomic, strong) NSNumber* referredByFBID;
 @property (nonatomic, strong) NSString* firstName;
 @property (nonatomic, strong) NSString* lastName;
+
+// referral comment including ^ and 
 @property (nonatomic, strong) NSString* comment;
 @property (nonatomic, strong) NSString* listName;
 @property (nonatomic, strong) Vendor* vendor;
