@@ -115,6 +115,11 @@
     self.title = self.vendor.name;
     [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
     [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
     dispatch_async(downloadImageQueue, ^{
@@ -124,51 +129,15 @@
         });
     });
     
-//    // ************ display referral comments ********* //
-//    if ([self.referralComments count] > 0) {
-//        
-//        NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
-//        self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
-//                
-//        // set table height so that it fits all rows without scrolling
-//        CGFloat totalTableHeight = [self.referralCommentsTable rectForSection:0].size.height;
-//        NSLog(@"height of table in view did load is %f",totalTableHeight);
-//        
-//        CGRect tableBounds = [self.referralCommentsTable bounds];
-//        NSLog(@"height of bounds before they are set is %f",tableBounds.size.height);
-//        [self.referralCommentsTable setBounds:CGRectMake(tableBounds.origin.x,
-//                                                         tableBounds.origin.y,
-//                                                         tableBounds.size.width,
-//                                                         totalTableHeight+20)];
-//        
-//        CGRect tableBounds2 = [self.referralCommentsTable bounds];
-//        NSLog(@"height of bounds after they are set is %f",tableBounds2.size.height);
-//        
-//        // set frame so that the newly sized table is positioned correctly in parent view
-//        CGRect tableFrame = [self.referralCommentsTable frame];
-//        [self.referralCommentsTable setFrame:CGRectMake(tableFrame.origin.x,
-//                                                        tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
-//                                                        tableFrame.size.width,
-//                                                        tableFrame.size.height)];
-//        
-//        // refresh data so table is loaded with retrieved data
-//        [self.referralCommentsTable reloadData];
-//
-//        // set scrollView
-//        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+280)];
-//        
-//    }
-
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
     // ************ display referral comments ********* //
     if ([self.referralComments count] > 0) {
         
         NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
-        self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
+        if (self.referralComments.count == 1) {
+            self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friend:"];
+        } else {
+            self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
+        }
         
         // set table height so that it fits all rows without scrolling
         CGFloat totalTableHeight = [self.referralCommentsTable rectForSection:0].size.height;

@@ -250,6 +250,7 @@ const double metersToMilesMultiplier = 0.000621371192;
         NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
         NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];
         for (VendorReferralComment* commentObject in [[self.shownListEntrys objectAtIndex:[self.listEntryTableView indexPathForCell:sender].row] referredBy]) {
+            NSLog(@"*********** comment object is: %@",[commentObject comment]);
             if (![uniqueReferrerUIDs containsObject:commentObject.referrer.uid]) {
                 [uniqueReferrerUIDs addObject:commentObject.referrer.uid];
                 [uniqueReferralComments addObject:commentObject];
