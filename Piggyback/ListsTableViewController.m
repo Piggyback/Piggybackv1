@@ -106,8 +106,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    // Configure the cell...
-#warning implement better way of checking for empty lists?? currently PB API returns 404 error if user has no lists (because ID does not exist in UserLists table). no 'empty' viewController is added to storyboard because it is the root viewController for the navigationController
+    // check if PB API returned any user lists -- if not, display 'empty lists' message. otherwise, display lists
     if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
         PBList* myList = [self.lists objectAtIndex:indexPath.row];
         cell.textLabel.text = myList.name;
@@ -127,56 +126,10 @@
     return cell;
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
     if ([[[self.lists objectAtIndex:indexPath.row] listEntrys] count] == 0) {
         // show empty list view controller
         [self performSegueWithIdentifier:@"goToEmptyListEntryFromLists" sender:[tableView cellForRowAtIndexPath:indexPath]];
@@ -258,6 +211,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
+    
     if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
         // get num of unique referrals for specific listEntry
         for (PBListEntry* currentListEntry in list.listEntrys) {
