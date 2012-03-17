@@ -29,4 +29,12 @@
 @synthesize rating = _rating;
 @synthesize distanceFromCurrentLocationInMiles = _distanceFromCurrentLocationInMiles;
 
+- (Vendor*) init
+{
+    self = [super init];
+    self.distanceFromCurrentLocationInMiles = -1;
+    
+    return self;
+}
+
 @end

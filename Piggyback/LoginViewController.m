@@ -20,7 +20,7 @@
 @synthesize currentFbAPICall = _currentFbAPICall;
 @synthesize currentPbAPICall = _currentPbAPICall;
 
-#pragma - Private Helper Methods
+#pragma mark - Private Helper Methods
 
 - (void)storeCurrentUserFbInformation:(id)meGraphApiResult {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -35,14 +35,7 @@
     // Load the user object via RestKit	
     RKObjectManager* objectManager = [RKObjectManager sharedManager];
     NSString* resourcePath = [@"/userapi/user/fbid/" stringByAppendingString:fbid];
-    [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
-        // returns user as a naked array in JSON, so we instruct the loader
-        // to user the appropriate object mapping
-        if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
-            loader.objectMapping = [objectManager.mappingProvider objectMappingForClass:[PBUser class]];
-        }
-        NSLog(@"in getCurrentUserUidFromLogin:");
-    }];
+    [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"user"] delegate:self];
 }
 
 #pragma mark - Public Methods
@@ -108,18 +101,18 @@
 	NSLog(@"Hit error: %@", error);
 }
 
-#pragma - IBAction definitions
-
-- (IBAction)loginWithFacebook:(id)sender {
-    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [[appDelegate facebook] authorize:nil];
-}
-
 #pragma mark - View lifecycle
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - IBAction definitions
+
+- (IBAction)loginWithFacebook:(id)sender {
+    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [[appDelegate facebook] authorize:nil];
 }
 
 @end

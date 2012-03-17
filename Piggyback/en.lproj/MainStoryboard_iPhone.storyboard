@@ -38,9 +38,6 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <connections>
-                                    <segue destination="or2-4f-6uS" kind="push" identifier="goToListEntryFromLists" id="yth-qd-JDN"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -49,9 +46,61 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Lists" id="aGe-WM-3Qy"/>
+                    <connections>
+                        <segue destination="wYT-3x-TDF" kind="push" identifier="goToEmptyListEntryFromLists" id="Imb-6j-HHD"/>
+                        <segue destination="or2-4f-6uS" kind="push" identifier="goToListEntryFromLists" id="nam-yr-qeM"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="2373" y="-272"/>
+        </scene>
+        <scene sceneID="67l-Dd-hdf">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rjx-nU-P7C" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController storyboardIdentifier="emptyIndividualListViewController" id="wYT-3x-TDF" customClass="EmptyIndividualListTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="iaK-RH-QJq">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="emptyListEntryTableViewCell" textLabel="gzk-6C-Fey" detailTextLabel="ksJ-iS-6fV" style="IBUITableViewCellStyleSubtitle" id="viG-yZ-FqI">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Your list is empty!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gzk-6C-Fey">
+                                            <rect key="frame" x="10" y="2" width="157" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Add your favorite places at www.getpiggyback.com and stay tuned for mobile app updates!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ksJ-iS-6fV">
+                                            <rect key="frame" x="10" y="24" width="300" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                </accessibility>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="wYT-3x-TDF" id="duP-LO-KBO"/>
+                            <outlet property="delegate" destination="wYT-3x-TDF" id="uj7-xz-9aS"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="w6o-PK-AwZ"/>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="2792" y="338"/>
         </scene>
         <scene sceneID="1Eo-1b-xNB">
             <objects>
@@ -66,21 +115,21 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listEntryTableViewCell" textLabel="62E-Rv-gQB" detailTextLabel="vRy-PO-vDD" style="IBUITableViewCellStyleSubtitle" id="k8Y-0p-HYK">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listEntryTableViewCell" textLabel="swj-Hy-sNY" detailTextLabel="5RG-jX-t95" style="IBUITableViewCellStyleSubtitle" id="k8Y-0p-HYK">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="62E-Rv-gQB">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="swj-Hy-sNY">
                                                     <rect key="frame" x="10" y="2" width="38" height="22"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vRy-PO-vDD">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5RG-jX-t95">
                                                     <rect key="frame" x="10" y="24" width="47" height="18"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -381,6 +430,9 @@
         <image name="piggyback_login.png" width="354" height="190"/>
     </resources>
     <classes>
+        <class className="EmptyIndividualListTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EmptyIndividualListTableViewController.h"/>
+        </class>
         <class className="InboxTableCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxTableCell.h"/>
         </class>
@@ -432,7 +484,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="nrv-nn-45K"/>
-        <segue reference="pdA-ib-Qlw"/>
+        <segue reference="nam-yr-qeM"/>
+        <segue reference="xbg-e1-zdk"/>
     </inferredMetricsTieBreakers>
 </document>

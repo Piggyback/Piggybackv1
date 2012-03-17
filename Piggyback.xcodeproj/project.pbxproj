@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */; };
 		3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */; };
 		3E734B721508C24C003FD9CB /* PBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B711508C24C003FD9CB /* PBUser.m */; };
 		3E734B751508F4AA003FD9CB /* ListsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B741508F4AA003FD9CB /* ListsTableViewController.m */; };
@@ -85,6 +86,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E193F4A15144E9600D80BB8 /* EmptyIndividualListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyIndividualListTableViewController.h; sourceTree = "<group>"; };
+		3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyIndividualListTableViewController.m; sourceTree = "<group>"; };
 		3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBListEntry.h; path = Piggyback/PBListEntry.h; sourceTree = "<group>"; };
 		3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBListEntry.m; path = Piggyback/PBListEntry.m; sourceTree = "<group>"; };
 		3E734B701508C24C003FD9CB /* PBUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBUser.h; path = Piggyback/PBUser.h; sourceTree = "<group>"; };
@@ -236,6 +239,8 @@
 				3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */,
 				F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */,
 				F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */,
+				3E193F4A15144E9600D80BB8 /* EmptyIndividualListTableViewController.h */,
+				3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */,
 				F929ACBC15121296008B7463 /* Views */,
 				F929ACBB1512112D008B7463 /* PB API Classes */,
 				3EFDB51C1501793200CC57A8 /* Resources */,
@@ -457,6 +462,7 @@
 				F985B437150FE9D0002791B2 /* InboxViewController.m in Sources */,
 				F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */,
 				F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */,
+				3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

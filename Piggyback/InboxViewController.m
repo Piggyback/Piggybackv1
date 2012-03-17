@@ -153,7 +153,8 @@
     // comment
     cell.detailTextLabel.text = [[cell.detailTextLabel.text stringByAppendingString:@"\n"] stringByAppendingString:inboxItem.comment];
     cell.detailTextLabel.numberOfLines = 0;
-    
+ 
+#warning - kim is updating inbox API -- uncomment when finished
     // image
     NSString* fbImage = [[@"http://graph.facebook.com/" stringByAppendingString:[inboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
     cell.imageView.image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImage]]];

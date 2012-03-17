@@ -23,6 +23,8 @@
 @synthesize lists = _lists;
 @synthesize currentPbAPICall = _currentPbAPICall;
 
+#pragma mark - Getters and Setters
+
 - (NSArray *)lists {
     if (!_lists) {
         _lists = [[NSArray alloc] init];
@@ -46,14 +48,7 @@
     
     RKObjectManager* objectManager = [RKObjectManager sharedManager];
     NSString* resourcePath = [@"/listapi/listsAndEntrysAndIncomingReferrals/id/" stringByAppendingString:uid];
-    [objectManager loadObjectsAtResourcePath:resourcePath delegate:self block:^(RKObjectLoader* loader) {
-        // returns user as a naked array in JSON, so we instruct the loader
-        // to user the appropriate object mapping
-        if ([objectManager.acceptMIMEType isEqualToString:RKMIMETypeJSON]) {
-            loader.objectMapping = [objectManager.mappingProvider mappingForKeyPath:@"list"];
-        }
-        NSLog(@"in getCurrentUserLists: block");
-    }];
+    [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"list"] delegate:self];
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
@@ -111,73 +106,37 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    // Configure the cell...
-#warning implement better way of checking for empty lists
+    // check if PB API returned any user lists -- if not, display 'empty lists' message. otherwise, display lists
     if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
         PBList* myList = [self.lists objectAtIndex:indexPath.row];
         cell.textLabel.text = myList.name;
         cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" items"];
+        tableView.userInteractionEnabled = YES;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         NSLog(@"cellForRowAtIndexPath list name: %@", myList.name);
     } else {
         // user has no lists
-        NSString* userHasNoLists = [self.lists objectAtIndex:indexPath.row];
-        cell.textLabel.text = userHasNoLists;
+        cell.textLabel.text = @"You don't have any lists!";
+        cell.detailTextLabel.text = @"Create lists at www.getpiggyback.com and stay tuned for mobile app updates!";
+        tableView.userInteractionEnabled = NO;
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     return cell;
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    if ([[[self.lists objectAtIndex:indexPath.row] listEntrys] count] == 0) {
+        // show empty list view controller
+        [self performSegueWithIdentifier:@"goToEmptyListEntryFromLists" sender:[tableView cellForRowAtIndexPath:indexPath]];
+    } else {
+        // show individualListViewController
+        [self performSegueWithIdentifier:@"goToListEntryFromLists" sender:[tableView cellForRowAtIndexPath:indexPath]];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
@@ -252,9 +211,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
+    
     if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
         // get num of unique referrals for specific listEntry
-#warning: need to set each segue?
         for (PBListEntry* currentListEntry in list.listEntrys) {
             NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
                 
@@ -262,11 +221,12 @@
                 [uniqueReferrers addObject:currentReferralComment.referrer.uid];
             }
             currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
-            NSLog(@"unique referrals: %@", currentListEntry.numUniqueReferredBy);
         }
 
         [segue.destinationViewController setList:list];
     }
+    
+    [segue.destinationViewController setTitle:list.name];
 }
 
 @end
