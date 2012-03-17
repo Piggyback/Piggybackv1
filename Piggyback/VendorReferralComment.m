@@ -14,5 +14,6 @@
 @synthesize comment = _comment;
 @synthesize date = _date;
 @synthesize referralLid = _referralLid;
+@synthesize listEntryComment = _listEntryComment;
 
 @end

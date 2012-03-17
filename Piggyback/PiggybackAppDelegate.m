@@ -44,12 +44,12 @@ static NSString* fbAppId = @"251920381531962";
     [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
     
     RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
-    [referralCommentsMapping mapAttributes:@"date",@"comment",@"referralLid",nil];
+    [referralCommentsMapping mapAttributes:@"date",@"comment",@"referralLid",@"listEntryComment",nil];
     [referralCommentsMapping mapRelationship:@"referrer" withMapping:userMapping];
     [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
     
     RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
-    [listEntryMapping mapAttributes:@"date", @"comment", nil];
+    [listEntryMapping mapAttributes:@"date", @"comment",nil];
     [listEntryMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
     [listEntryMapping mapRelationship:@"referredBy" withMapping:referralCommentsMapping];
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
