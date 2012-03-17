@@ -8,24 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import "Vendor.h"
+#import "PBUser.h"
 
 @interface InboxItem : NSObject
 
 @property (nonatomic, strong) NSDate* date;
 @property (nonatomic, strong) NSNumber* rid;
 @property (nonatomic, strong) NSNumber* lid;
-
-// should be User referrer - and include email
-@property (nonatomic, strong) NSNumber* referredByUID;
-@property (nonatomic, strong) NSNumber* referredByFBID;
-@property (nonatomic, strong) NSString* firstName;
-@property (nonatomic, strong) NSString* lastName;
-
-// referral comment including ^ and 
+@property (nonatomic, strong) PBUser* referrer;
 @property (nonatomic, strong) NSString* comment;
 @property (nonatomic, strong) NSString* listName;
 @property (nonatomic, strong) Vendor* vendor;
-@property (nonatomic, strong) NSArray* listEntrys;
+@property (nonatomic, strong) NSArray* listEntrys; // array of ListEntrys if recommendation is for a list
 @property (nonatomic, strong) NSArray* otherFriends;
 @property (nonatomic, strong) NSArray* nonUniqueReferralComments;
 

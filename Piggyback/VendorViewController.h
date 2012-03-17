@@ -22,6 +22,4 @@
 @property (weak, nonatomic) IBOutlet UITableView *referralCommentsTable;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
-- (void)retrieveReferralCommentsData:(NSArray*)objects;
-
 @end

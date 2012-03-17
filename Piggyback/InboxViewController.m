@@ -9,84 +9,73 @@
 #import "InboxViewController.h"
 #import "PiggybackAppDelegate.h"
 
+@interface InboxViewController()
+
+@property (nonatomic, strong) NSArray* inboxItems;
+
+- (NSString*)timeElapsed:(NSDate*)date;
+
+@end
+
 @implementation InboxViewController
 
 @synthesize inboxItems = _inboxItems;
 @synthesize tableView = _tableView;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+#pragma mark - private helper functions
+// get string for time elapsed e.g., "2 days ago"
+- (NSString*)timeElapsed:(NSDate*)date {
+    NSUInteger desiredComponents = NSYearCalendarUnit | NSMonthCalendarUnit | NSWeekCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit |  NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    NSDateComponents* elapsedTimeUnits = [[NSCalendar currentCalendar] components:desiredComponents fromDate:date toDate:[NSDate date] options:0];
     
-    // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    NSLog(@"inbox viewDidLoad");
-}
-
-- (void)viewDidUnload
-{
-    [self setTableView:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid])
-    {
-        NSLog(@"inbox viewWillAppear -- session is valid");
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        
-        // re-fetch inbox items for users whenever inbox view appears
-        NSString* inboxPath = [@"inboxapi/inbox/uid/" stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
-        RKObjectManager* objManager = [RKObjectManager sharedManager];
-        RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
-        inboxLoader.userData = @"inboxLoader";
-    } else {
-        NSLog(@"inbox viewWillAppear -- session is NOT valid");
+    NSInteger number = 0;
+    NSString* unit;
+    
+    if ([elapsedTimeUnits year] > 0) {
+        number = [elapsedTimeUnits year];
+        unit = [NSString stringWithFormat:@"year"];
     }
+    else if ([elapsedTimeUnits month] > 0) {
+        number = [elapsedTimeUnits month];
+        unit = [NSString stringWithFormat:@"month"];
+    }
+    else if ([elapsedTimeUnits week] > 0) {
+        number = [elapsedTimeUnits week];
+        unit = [NSString stringWithFormat:@"week"];
+    }
+    else if ([elapsedTimeUnits day] > 0) {
+        number = [elapsedTimeUnits day];
+        unit = [NSString stringWithFormat:@"day"];
+    }
+    else if ([elapsedTimeUnits hour] > 0) {
+        number = [elapsedTimeUnits hour];
+        unit = [NSString stringWithFormat:@"hour"];
+    }
+    else if ([elapsedTimeUnits minute] > 0) {
+        number = [elapsedTimeUnits minute];
+        unit = [NSString stringWithFormat:@"minute"];
+    }
+    else if ([elapsedTimeUnits second] > 0) {
+        number = [elapsedTimeUnits second];
+        unit = [NSString stringWithFormat:@"second"];
+    } else if ([elapsedTimeUnits second] <= 0) {
+        number = 0;
+    }
+    // check if unit number is greater then append s at the end
+    if (number > 1) {
+        unit = [NSString stringWithFormat:@"%@s", unit];
+    }
+    
+    NSString* elapsedTime = [NSString stringWithFormat:@"%d %@ ago",number,unit];
+    
+    if (number == 0) {
+        elapsedTime = @"Just now";
+    }
+    
+    return elapsedTime;
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-
+#pragma mark - rest kit protocol methods
 // **** PROTOCOL FUNCTIONS FOR RKOBJECTDELEGATE **** //
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
@@ -102,7 +91,7 @@
     NSLog(@"Encountered an error: %@", error);
 }
 
-
+#pragma mark - table data source protocol methods
 // **** PROTOCOL FUNCTIONS FOR TABLE DATA SOURCE **** //
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -110,7 +99,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
-NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
+    NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     return [self.inboxItems count];
 }
 
@@ -166,62 +155,106 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     cell.detailTextLabel.numberOfLines = 0;
     
     // image
-    NSString* fbImage = [[@"http://graph.facebook.com/" stringByAppendingString:[inboxItem.referredByFBID stringValue]] stringByAppendingString:@"/picture"];
+    NSString* fbImage = [[@"http://graph.facebook.com/" stringByAppendingString:[inboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
     cell.imageView.image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImage]]];
     
     return cell;
 }
 
-// get string for time elapsed e.g., "2 days ago"
-- (NSString*)timeElapsed:(NSDate*)date {
-    NSUInteger desiredComponents = NSYearCalendarUnit | NSMonthCalendarUnit | NSWeekCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit |  NSMinuteCalendarUnit | NSSecondCalendarUnit;
-    NSDateComponents* elapsedTimeUnits = [[NSCalendar currentCalendar] components:desiredComponents fromDate:date toDate:[NSDate date] options:0];
+#pragma mark - Table view delegate protocol methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
+    if ([inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
+        [self performSegueWithIdentifier:@"inboxToVendor" sender:self];
+    } else {
+        [self performSegueWithIdentifier:@"inboxToList" sender:self];
+    }
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
+{
+    InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
+    CGSize size = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
     
-    NSInteger number = 0;
-    NSString* unit;
+    if (size.height + 60 < FACEBOOKPICHEIGHT) {
+        return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
+    } else {
+        return size.height + 2*FACEBOOKPICMARGIN + 60;
+    }
+}
+
+#pragma mark - View lifecycle
+
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
     
-    if ([elapsedTimeUnits year] > 0) {
-        number = [elapsedTimeUnits year];
-        unit = [NSString stringWithFormat:@"year"];
+    // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    NSLog(@"inbox viewDidLoad");
+}
+
+- (void)viewDidUnload
+{
+    [self setTableView:nil];
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid])
+    {
+        NSLog(@"inbox viewWillAppear -- session is valid");
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        // re-fetch inbox items for users whenever inbox view appears
+        NSString* inboxPath = [@"inboxapi/inbox/uid/" stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
+        RKObjectManager* objManager = [RKObjectManager sharedManager];
+        RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
+        inboxLoader.userData = @"inboxLoader";
+    } else {
+        NSLog(@"inbox viewWillAppear -- session is NOT valid");
     }
-    else if ([elapsedTimeUnits month] > 0) {
-        number = [elapsedTimeUnits month];
-        unit = [NSString stringWithFormat:@"month"];
-    }
-    else if ([elapsedTimeUnits week] > 0) {
-        number = [elapsedTimeUnits week];
-        unit = [NSString stringWithFormat:@"week"];
-    }
-    else if ([elapsedTimeUnits day] > 0) {
-        number = [elapsedTimeUnits day];
-        unit = [NSString stringWithFormat:@"day"];
-    }
-    else if ([elapsedTimeUnits hour] > 0) {
-        number = [elapsedTimeUnits hour];
-        unit = [NSString stringWithFormat:@"hour"];
-    }
-    else if ([elapsedTimeUnits minute] > 0) {
-        number = [elapsedTimeUnits minute];
-        unit = [NSString stringWithFormat:@"minute"];
-    }
-    else if ([elapsedTimeUnits second] > 0) {
-        number = [elapsedTimeUnits second];
-        unit = [NSString stringWithFormat:@"second"];
-    } else if ([elapsedTimeUnits second] <= 0) {
-        number = 0;
-    }
-    // check if unit number is greater then append s at the end
-    if (number > 1) {
-        unit = [NSString stringWithFormat:@"%@s", unit];
-    }
-    
-    NSString* elapsedTime = [NSString stringWithFormat:@"%d %@ ago",number,unit];
-    
-    if (number == 0) {
-            elapsedTime = @"Just now";
-    }
-    
-    return elapsedTime;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -243,7 +276,7 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
         [(VendorViewController*)segue.destinationViewController setReferralComments:uniqueReferralComments];
     } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
         PBList* list = [[PBList alloc] init];
-        list.uid = inboxItem.referredByUID;
+        list.uid = inboxItem.referrer.uid;
         list.lid = inboxItem.lid;
         list.date = inboxItem.date; // i put date list was referred, not date list was created
         list.name = inboxItem.listName;
@@ -302,30 +335,6 @@ NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     return YES;
 }
 */
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-    if ([inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
-        [self performSegueWithIdentifier:@"inboxToVendor" sender:self];
-    } else {
-        [self performSegueWithIdentifier:@"inboxToList" sender:self];
-    }
-}
-
-- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
-{
-    InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-    CGSize size = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-    
-    if (size.height + 60 < FACEBOOKPICHEIGHT) {
-        return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
-    } else {
-        return size.height + 2*FACEBOOKPICMARGIN + 60;
-    }
-}
 
 - (IBAction)logout:(id)sender 
 {
