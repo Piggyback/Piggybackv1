@@ -45,7 +45,11 @@
     // set name, comment, and image
     cell.textLabel.text = [[vendorReferralComment.referrer.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.referrer.lastName];
     
-    cell.detailTextLabel.text = vendorReferralComment.comment;
+    if ([vendorReferralComment.referralLid intValue] > 0) {
+        cell.detailTextLabel.text = vendorReferralComment.listEntryComment;
+    } else {
+        cell.detailTextLabel.text = vendorReferralComment.comment;
+    }
     cell.detailTextLabel.numberOfLines = 0;
     
     NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];

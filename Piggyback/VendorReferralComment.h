@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSString* comment;
 @property (nonatomic, strong) NSDate* date;
 @property (nonatomic, strong) NSNumber* referralLid;
+@property (nonatomic, strong) NSString* listEntryComment;
 
 @end
