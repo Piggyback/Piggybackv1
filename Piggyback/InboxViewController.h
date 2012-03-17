@@ -15,14 +15,14 @@
 #import "VendorReferralComment.h"
 #import "VendorViewController.h"
 #import "PBList.h"
-#import "ListsTableViewController.h"
+#import "IndividualListViewController.h"
+#import "PBListEntry.h"
+#import "PBUser.h"
 
 @interface InboxViewController : UITableViewController <RKObjectLoaderDelegate>
 
-@property (nonatomic, strong) NSArray* inboxItems;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)logout:(id)sender;
-- (NSString*)timeElapsed:(NSDate*)date;
 
 @end

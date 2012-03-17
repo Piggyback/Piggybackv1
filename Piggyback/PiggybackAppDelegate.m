@@ -60,7 +60,8 @@ static NSString* fbAppId = @"251920381531962";
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
     
     RKObjectMapping* inboxMapping = [RKObjectMapping mappingForClass:[InboxItem class]];
-    [inboxMapping mapAttributes:@"date",@"rid",@"lid",@"firstName",@"lastName",@"comment",@"referredByUID", @"referredByFBID", @"listName",nil];
+    [inboxMapping mapAttributes:@"date",@"rid",@"lid",@"comment",@"listName",nil];
+    [inboxMapping mapRelationship:@"referrer" withMapping:userMapping];
     [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
     [inboxMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
     [inboxMapping mapRelationship:@"otherFriends" withMapping:userMapping];
