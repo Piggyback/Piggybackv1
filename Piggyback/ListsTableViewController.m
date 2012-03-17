@@ -107,17 +107,21 @@
     }
     
     // Configure the cell...
-#warning implement better way of checking for empty lists
+#warning implement better way of checking for empty lists?? currently PB API returns 404 error if user has no lists (because ID does not exist in UserLists table). no 'empty' viewController is added to storyboard because it is the root viewController for the navigationController
     if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
         PBList* myList = [self.lists objectAtIndex:indexPath.row];
         cell.textLabel.text = myList.name;
         cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" items"];
+        tableView.userInteractionEnabled = YES;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         NSLog(@"cellForRowAtIndexPath list name: %@", myList.name);
     } else {
         // user has no lists
-        NSString* userHasNoLists = [self.lists objectAtIndex:indexPath.row];
-        cell.textLabel.text = userHasNoLists;
+        cell.textLabel.text = @"You don't have any lists!";
+        cell.detailTextLabel.text = @"Create lists at www.getpiggyback.com and stay tuned for mobile app updates!";
+        tableView.userInteractionEnabled = NO;
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     return cell;
@@ -174,12 +178,11 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
     if ([[[self.lists objectAtIndex:indexPath.row] listEntrys] count] == 0) {
-        // show empty view controller
-        NSLog(@"list is empty!@!@!");
+        // show empty list view controller
+        [self performSegueWithIdentifier:@"goToEmptyListEntryFromLists" sender:[tableView cellForRowAtIndexPath:indexPath]];
     } else {
         // show individualListViewController
         [self performSegueWithIdentifier:@"goToListEntryFromLists" sender:[tableView cellForRowAtIndexPath:indexPath]];
-        NSLog(@"performing goToListEntryFromLists segue");
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
@@ -257,7 +260,6 @@
     PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
     if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
         // get num of unique referrals for specific listEntry
-#warning: need to set each segue?
         for (PBListEntry* currentListEntry in list.listEntrys) {
             NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
                 
@@ -269,6 +271,8 @@
 
         [segue.destinationViewController setList:list];
     }
+    
+    [segue.destinationViewController setTitle:list.name];
 }
 
 @end

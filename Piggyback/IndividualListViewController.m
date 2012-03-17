@@ -35,7 +35,6 @@ const double metersToMilesMultiplier = 0.000621371192;
 - (void)setList:(PBList *)list
 {
     _list = list;
-    self.title = list.name;
 }
 
 - (NSArray*)shownListEntrys
