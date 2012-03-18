@@ -112,12 +112,8 @@
     self.title = self.vendor.name;
     [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
     [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
-
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     
+    // display image in a separate thread
     dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
     dispatch_async(downloadImageQueue, ^{
         UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
@@ -125,6 +121,11 @@
             [self.vendorImage setImage:image];
         });
     });
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     // ************ display referral comments ********* //
     if ([self.referralComments count] > 0) {
