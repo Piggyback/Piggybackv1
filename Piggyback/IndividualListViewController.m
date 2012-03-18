@@ -10,6 +10,8 @@
 #import "PBListEntry.h"
 #import "Vendor.h"
 #import "VendorViewController.h"
+#import "VendorReferralComment.h"
+#import "listEntryTableViewCell.h"
 
 const double metersToMilesMultiplier = 0.000621371192;
 
@@ -131,37 +133,46 @@ const double metersToMilesMultiplier = 0.000621371192;
 {
     static NSString *CellIdentifier = @"listEntryTableViewCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ListEntryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[ListEntryTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name];
-        if ([[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles] < 0) {
-            if ([[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue] == 1) {
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friend", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
-            } else {
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friends", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
-            }
-        } else {
-            if ([[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue] == 1) {
-                if ([[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles] < 0.1) {
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friend and distance: %.2f mi", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy], [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
-                } else {
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friend and distance: %.1f mi", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy], [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
-                }
-            } else {
-                if ([[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles] < 0.1) {
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friends and distance: %.2f mi", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy], [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
-                } else {
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"From %@ friends and distance: %.1f mi", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy], [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
-                }
-            }
-        }
+    cell.name.text = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name];
+
+    if ([[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue] == 1) {
+        cell.referredBy.text = [NSString stringWithFormat:@"From %@ friend", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
+    } else {
+        cell.referredBy.text = [NSString stringWithFormat:@"From %@ friends", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
+    }
+
+    CLLocationDistance distance = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles];
+    if (distance < 0.1) {
+        cell.distance.text = [NSString stringWithFormat:@"%.2f mi", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
+    } else if (distance >= 100) {
+        cell.distance.text = [NSString stringWithString:@"100+ mi"];
+    } else {
+        cell.distance.text = [NSString stringWithFormat:@"%.1f mi", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
+    }
+    
+    cell.description.numberOfLines = 0;    
+    cell.description.text = [[self.shownListEntrys objectAtIndex:indexPath.row] comment];
+    CGSize expectedLabelSize = [[[self.shownListEntrys objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:16.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+    CGRect newFrame = cell.description.frame;
+    newFrame.size.height = expectedLabelSize.height;
+    cell.description.frame = newFrame;
+
     NSLog(@"cellForRowAtIndexPath listEntry name: %@", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name]);
     NSLog(@"listEntry distance: %f", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]);
 
     return cell;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    CGSize size = [[[self.shownListEntrys objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:16.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+    
+    return size.height + 60;
 }
 
 #pragma mark - Table view delegate

@@ -8,20 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
-#import "InboxItem.h"
-#import "PBListEntry.h"
-#import "Constants.h"
-#import "InboxTableCell.h"
-#import "VendorReferralComment.h"
-#import "VendorViewController.h"
-#import "PBList.h"
-#import "IndividualListViewController.h"
-#import "PBListEntry.h"
-#import "PBUser.h"
+#warning - move header imports to the .m file if not publicly used
+//#import "InboxItem.h"
+//#import "PBListEntry.h"
+//#import "Constants.h"
+//#import "InboxTableCell.h"
+//#import "VendorReferralComment.h"
+//#import "VendorViewController.h"
+//#import "PBList.h"
+//#import "IndividualListViewController.h"
+//#import "PBListEntry.h"  
 
 @interface InboxViewController : UITableViewController <RKObjectLoaderDelegate>
 
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+#warning - outlet should be weak -- 'view' holds a strong pointer to tableView
+//@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)logout:(id)sender;
 

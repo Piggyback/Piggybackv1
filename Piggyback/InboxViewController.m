@@ -8,11 +8,21 @@
 
 #import "InboxViewController.h"
 #import "PiggybackAppDelegate.h"
+#import "InboxItem.h"
+#import "PBListEntry.h"
+#import "Constants.h"
+#import "InboxTableCell.h"
+#import "VendorReferralComment.h"
+#import "VendorViewController.h"
+#import "PBList.h"
+#import "IndividualListViewController.h"
+#import "PBListEntry.h"  
 
 @interface InboxViewController()
 
 @property (nonatomic, strong) NSArray* inboxItems;
 
+#warning - optional: do not need to declare private methods here -- just a sidenote
 - (NSString*)timeElapsed:(NSDate*)date;
 
 @end
@@ -21,6 +31,18 @@
 
 @synthesize inboxItems = _inboxItems;
 @synthesize tableView = _tableView;
+
+#warning - added lazy instantiation for array properties
+#pragma mark - Getters and Setters
+-(NSArray *)inboxItems
+{
+    if (!_inboxItems) {
+        _inboxItems = [[NSArray alloc] init];
+    }
+    
+    return _inboxItems;
+}
+
 
 #pragma mark - private helper functions
 // get string for time elapsed e.g., "2 days ago"
@@ -116,7 +138,9 @@
     
     // vendor or list name 
     NSString* additionalInfo;    
-    if([inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
+#warning - anal optimization -- using intValue method instead of a new NSNumber object
+//    if([inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
+    if ([inboxItem.lid intValue] == 0) {
         cell.textLabel.text = inboxItem.vendor.name;
     } else {    
         cell.textLabel.text = inboxItem.listName;
@@ -135,7 +159,9 @@
     cell.detailTextLabel.text = timeElapsed;
     
     // add number of items (for lists)
-    if(![inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
+    #warning - anal optimization -- using intValue method instead of a new NSNumber object
+//    if(![inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
+    if ([inboxItem.lid intValue] > 0) {
         cell.detailTextLabel.text = [[cell.detailTextLabel.text stringByAppendingString:@"\n"] stringByAppendingString:additionalInfo];
     }
     
@@ -166,14 +192,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-    if ([inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
-        [self performSegueWithIdentifier:@"inboxToVendor" sender:self];
+    #warning - anal optimization -- using intValue method instead of a new NSNumber object
+//    if ([inboxItem.lid isEqualToNumber:[NSNumber numberWithInt:0]]) {
+    if ([inboxItem.lid intValue] == 0) {
+#warning - Do you want to set the sender to the InboxViewController or the table cell?
+//        [self performSegueWithIdentifier:@"inboxToVendor" sender:self];
+        [self performSegueWithIdentifier:@"inboxToVendor" sender:[tableView cellForRowAtIndexPath:indexPath]];
     } else {
-        [self performSegueWithIdentifier:@"inboxToList" sender:self];
+        #warning - Do you want to set the sender to the InboxViewController or the table cell?
+//        [self performSegueWithIdentifier:@"inboxToList" sender:self];
+        [self performSegueWithIdentifier:@"inboxToList" sender:[tableView cellForRowAtIndexPath:indexPath]];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-     }
+}
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
 {
@@ -223,9 +255,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid])
-    {
-        NSLog(@"inbox viewWillAppear -- session is valid");
+#warning -- do not need to check if session is valid
+//    if([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid])
+//    {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         
         // re-fetch inbox items for users whenever inbox view appears
@@ -233,9 +265,9 @@
         RKObjectManager* objManager = [RKObjectManager sharedManager];
         RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
         inboxLoader.userData = @"inboxLoader";
-    } else {
-        NSLog(@"inbox viewWillAppear -- session is NOT valid");
-    }
+//    } else {
+//        NSLog(@"inbox viewWillAppear -- session is NOT valid");
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -255,12 +287,12 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+#warning - side-note: can also use sender's (the cell that was selected) index path vs. the tableView property
     InboxItem* inboxItem = [self.inboxItems objectAtIndex:[self.tableView indexPathForSelectedRow].row];
     if([[segue identifier] isEqualToString:@"inboxToVendor"]) {
         // set vendor for display on vendor detail view
@@ -299,44 +331,7 @@
     }
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+#pragma mark - IBAction methods
 
 - (IBAction)logout:(id)sender 
 {
