@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */; };
 		3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */; };
+		3E5F5C9E15160DFE006A4315 /* location_icon_44x44.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5F5C9D15160DFE006A4315 /* location_icon_44x44.png */; };
+		3E5F5CA015160FBE006A4315 /* phone_icon_44x44.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5F5C9F15160FBE006A4315 /* phone_icon_44x44.png */; };
 		3E734B721508C24C003FD9CB /* PBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B711508C24C003FD9CB /* PBUser.m */; };
 		3E734B751508F4AA003FD9CB /* ListsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B741508F4AA003FD9CB /* ListsTableViewController.m */; };
 		3E734B781508F983003FD9CB /* PBList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B771508F983003FD9CB /* PBList.m */; };
@@ -91,6 +93,8 @@
 		3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyIndividualListTableViewController.m; sourceTree = "<group>"; };
 		3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBListEntry.h; path = Piggyback/PBListEntry.h; sourceTree = "<group>"; };
 		3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBListEntry.m; path = Piggyback/PBListEntry.m; sourceTree = "<group>"; };
+		3E5F5C9D15160DFE006A4315 /* location_icon_44x44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_icon_44x44.png; sourceTree = "<group>"; };
+		3E5F5C9F15160FBE006A4315 /* phone_icon_44x44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone_icon_44x44.png; sourceTree = "<group>"; };
 		3E734B701508C24C003FD9CB /* PBUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBUser.h; path = Piggyback/PBUser.h; sourceTree = "<group>"; };
 		3E734B711508C24C003FD9CB /* PBUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBUser.m; path = Piggyback/PBUser.m; sourceTree = "<group>"; };
 		3E734B731508F4AA003FD9CB /* ListsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsTableViewController.h; sourceTree = "<group>"; };
@@ -270,6 +274,8 @@
 		3EFDB51C1501793200CC57A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E5F5C9F15160FBE006A4315 /* phone_icon_44x44.png */,
+				3E5F5C9D15160DFE006A4315 /* location_icon_44x44.png */,
 				3E7429361505956A005A272C /* LoginWithFacebookNormal.png */,
 				3EFDB51D1501795800CC57A8 /* piggyback_login.png */,
 			);
@@ -439,6 +445,8 @@
 				3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */,
 				3EB2D043150580600028E664 /* FBConnect.bundle in Resources */,
 				3E7429371505956A005A272C /* LoginWithFacebookNormal.png in Resources */,
+				3E5F5C9E15160DFE006A4315 /* location_icon_44x44.png in Resources */,
+				3E5F5CA015160FBE006A4315 /* phone_icon_44x44.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
