@@ -17,6 +17,7 @@
 #import "PBListEntry.h"
 #import "InboxItem.h"
 
+#warning fb app and URLs in constants.m or different file?
 static NSString* fbAppId = @"251920381531962";
 
 @implementation PiggybackAppDelegate

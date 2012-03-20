@@ -88,7 +88,7 @@
     NSString* elapsedTime = [NSString stringWithFormat:@"%d%@",number,unit];
     
     if (number == 0) {
-        elapsedTime = @"Just now";
+        elapsedTime = @"1sec";
     }
     
     return elapsedTime;
@@ -134,34 +134,27 @@
     InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
     
     // vendor or list name 
-    NSString* numItems;    
     if ([inboxItem.lid intValue] == 0) {
         cell.name.text = inboxItem.vendor.name;
+        cell.numItemsInList.text = @"";
     } else {    
         cell.name.text = inboxItem.listName;
+        cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.listEntrys count]] stringByAppendingString:@")"];
         
-        // get number of items in list
-        NSString* numListItems = @"List with %d item";
-        if ([inboxItem.listEntrys count] > 1) {
-            numListItems = [numListItems stringByAppendingString:@"s"];
-        }
-        
-        numItems = [NSString stringWithFormat:numListItems,[inboxItem.listEntrys count]];
+        // set position of number of items in list
+        CGSize listNameSize = [inboxItem.listName sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        NSLog(@"size needed for vendor name is %f",listNameSize.width);
+        CGRect listNameFrame = cell.name.frame;
+        listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
+        cell.numItemsInList.frame = listNameFrame;
     }
     
     // date
     NSString* timeElapsed = [self timeElapsed:inboxItem.date];
     cell.date.text = timeElapsed;
     
-    // add number of items (for lists)
-    if ([inboxItem.lid intValue] > 0) {
-        cell.numItemsInList.text = numItems;
-    } else {
-        cell.numItemsInList.text = @"";
-    }
-    
     // referred by
-    cell.referredBy.text = [[[@"Recommended by " stringByAppendingString:inboxItem.referrer.firstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrer.lastName];
+    cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrer.firstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrer.lastName];
     
     // number of other friends this was referred to
     NSString* numFriendsLabel = @"To you and %d friend";
