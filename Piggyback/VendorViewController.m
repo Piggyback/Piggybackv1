@@ -101,19 +101,28 @@ typedef enum tableViewSection {
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    // get cell for displaying current comment
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"referralCommentCell"];
-    VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
-    
-    // set name, comment, and image
-    cell.textLabel.text = [[vendorReferralComment.referrer.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.referrer.lastName];
-    
-    if ([vendorReferralComment.referralLid intValue] > 0) {
-        cell.detailTextLabel.text = vendorReferralComment.listEntryComment;
-    } else {
-        cell.detailTextLabel.text = vendorReferralComment.comment;
+    if (section == vendorReferralsSection) {
+        UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        
+        UILabel* referralsSectionHeader = [[UILabel alloc] initWithFrame:CGRectMake(15,10,285,20)];
+
+        referralsSectionHeader.backgroundColor = [UIColor clearColor];
+        referralsSectionHeader.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+        referralsSectionHeader.textColor = [UIColor colorWithRed:.4 green:.4 blue:.4 alpha:1];
+        referralsSectionHeader.adjustsFontSizeToFitWidth = YES;
+        
+        
+        if ([self.referralComments count] == 1)
+            referralsSectionHeader.text = [[NSString alloc] initWithFormat:@"Recommended to you by %i friend:", [self.referralComments count]];
+        else if ([self.referralComments count] > 1)
+            referralsSectionHeader.text = [[NSString alloc] initWithFormat:@"Recommended to you by %i friends:", [self.referralComments count]];
+        else
+            return nil;
+
+        [headerView addSubview:referralsSectionHeader];
+        
+        return headerView;
     }
-    cell.detailTextLabel.numberOfLines = 0;
     
     return nil;
 }
