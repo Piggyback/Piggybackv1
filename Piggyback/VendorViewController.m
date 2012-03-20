@@ -48,7 +48,7 @@ typedef enum tableViewSection {
     self.vendorInfo = [[NSMutableArray alloc] init];
     
     // check if vendor has address and phone number
-    if ([vendor.addr length] == 0)  
+    if (([vendor.addrNum length] == 0) && ([vendor.addrStreet length] == 0) && ([vendor.addrCity length] == 0))  
         self.hasAddress = NO; 
     else {
         self.hasAddress = YES;
