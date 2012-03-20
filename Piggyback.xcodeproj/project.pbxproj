@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */; };
 		3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */; };
+		3E5F5C9E15160DFE006A4315 /* location_icon_44x44.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5F5C9D15160DFE006A4315 /* location_icon_44x44.png */; };
+		3E5F5CA015160FBE006A4315 /* phone_icon_44x44.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5F5C9F15160FBE006A4315 /* phone_icon_44x44.png */; };
 		3E734B721508C24C003FD9CB /* PBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B711508C24C003FD9CB /* PBUser.m */; };
 		3E734B751508F4AA003FD9CB /* ListsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B741508F4AA003FD9CB /* ListsTableViewController.m */; };
 		3E734B781508F983003FD9CB /* PBList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B771508F983003FD9CB /* PBList.m */; };
@@ -23,6 +25,7 @@
 		3E94731415008EF900A261DD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* LoginViewController.m */; };
 		3E9795C9150EAFDF00E0E662 /* IndividualListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */; };
 		3EB2D043150580600028E664 /* FBConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EB2D042150580600028E664 /* FBConnect.bundle */; };
+		3EBA711C1514B7810043A4F9 /* ListEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA711B1514B7810043A4F9 /* ListEntryTableViewCell.m */; };
 		3EBD2CF2150A0C9800715DD0 /* PiggybackTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */; };
 		3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB51D1501795800CC57A8 /* piggyback_login.png */; };
 		3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB52215017C6500CC57A8 /* FBDialog.bundle */; };
@@ -33,7 +36,7 @@
 		F9645D9015121F4D00A6B0F7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F956DE521511E58D00187A27 /* CoreLocation.framework */; };
 		F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9645D9215121FD100A6B0F7 /* LocationController.m */; };
 		F985B431150F5097002791B2 /* InboxItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B430150F5097002791B2 /* InboxItem.m */; };
-		F985B437150FE9D0002791B2 /* InboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B436150FE9D0002791B2 /* InboxViewController.m */; };
+		F985B437150FE9D0002791B2 /* InboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B436150FE9D0002791B2 /* InboxTableViewController.m */; };
 		F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B439151010F2002791B2 /* InboxTableCell.m */; };
 		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
 		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
@@ -90,6 +93,8 @@
 		3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyIndividualListTableViewController.m; sourceTree = "<group>"; };
 		3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBListEntry.h; path = Piggyback/PBListEntry.h; sourceTree = "<group>"; };
 		3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBListEntry.m; path = Piggyback/PBListEntry.m; sourceTree = "<group>"; };
+		3E5F5C9D15160DFE006A4315 /* location_icon_44x44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_icon_44x44.png; sourceTree = "<group>"; };
+		3E5F5C9F15160FBE006A4315 /* phone_icon_44x44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone_icon_44x44.png; sourceTree = "<group>"; };
 		3E734B701508C24C003FD9CB /* PBUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBUser.h; path = Piggyback/PBUser.h; sourceTree = "<group>"; };
 		3E734B711508C24C003FD9CB /* PBUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBUser.m; path = Piggyback/PBUser.m; sourceTree = "<group>"; };
 		3E734B731508F4AA003FD9CB /* ListsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsTableViewController.h; sourceTree = "<group>"; };
@@ -113,6 +118,8 @@
 		3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndividualListViewController.h; sourceTree = "<group>"; };
 		3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndividualListViewController.m; sourceTree = "<group>"; };
 		3EB2D042150580600028E664 /* FBConnect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBConnect.bundle; sourceTree = "<group>"; };
+		3EBA711A1514B7810043A4F9 /* ListEntryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListEntryTableViewCell.h; path = Piggyback/ListEntryTableViewCell.h; sourceTree = "<group>"; };
+		3EBA711B1514B7810043A4F9 /* ListEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListEntryTableViewCell.m; path = Piggyback/ListEntryTableViewCell.m; sourceTree = "<group>"; };
 		3EBD2CF0150A0C9800715DD0 /* PiggybackTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiggybackTabBarController.h; sourceTree = "<group>"; };
 		3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiggybackTabBarController.m; sourceTree = "<group>"; };
 		3EFDB51D1501795800CC57A8 /* piggyback_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piggyback_login.png; sourceTree = "<group>"; };
@@ -142,8 +149,8 @@
 		F9645D9215121FD100A6B0F7 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		F985B42F150F5097002791B2 /* InboxItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxItem.h; path = Piggyback/InboxItem.h; sourceTree = "<group>"; };
 		F985B430150F5097002791B2 /* InboxItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxItem.m; path = Piggyback/InboxItem.m; sourceTree = "<group>"; };
-		F985B435150FE9CF002791B2 /* InboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxViewController.h; sourceTree = "<group>"; };
-		F985B436150FE9D0002791B2 /* InboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxViewController.m; sourceTree = "<group>"; };
+		F985B435150FE9CF002791B2 /* InboxTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxTableViewController.h; sourceTree = "<group>"; };
+		F985B436150FE9D0002791B2 /* InboxTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxTableViewController.m; sourceTree = "<group>"; };
 		F985B438151010F2002791B2 /* InboxTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxTableCell.h; path = Piggyback/InboxTableCell.h; sourceTree = "<group>"; };
 		F985B439151010F2002791B2 /* InboxTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxTableCell.m; path = Piggyback/InboxTableCell.m; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -231,8 +238,8 @@
 				3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */,
 				3E94731215008EF900A261DD /* LoginViewController.h */,
 				3E94731315008EF900A261DD /* LoginViewController.m */,
-				F985B435150FE9CF002791B2 /* InboxViewController.h */,
-				F985B436150FE9D0002791B2 /* InboxViewController.m */,
+				F985B435150FE9CF002791B2 /* InboxTableViewController.h */,
+				F985B436150FE9D0002791B2 /* InboxTableViewController.m */,
 				3E734B731508F4AA003FD9CB /* ListsTableViewController.h */,
 				3E734B741508F4AA003FD9CB /* ListsTableViewController.m */,
 				3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */,
@@ -267,6 +274,8 @@
 		3EFDB51C1501793200CC57A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E5F5C9F15160FBE006A4315 /* phone_icon_44x44.png */,
+				3E5F5C9D15160DFE006A4315 /* location_icon_44x44.png */,
 				3E7429361505956A005A272C /* LoginWithFacebookNormal.png */,
 				3EFDB51D1501795800CC57A8 /* piggyback_login.png */,
 			);
@@ -319,6 +328,8 @@
 		F929ACBC15121296008B7463 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3EBA711A1514B7810043A4F9 /* ListEntryTableViewCell.h */,
+				3EBA711B1514B7810043A4F9 /* ListEntryTableViewCell.m */,
 				F985B438151010F2002791B2 /* InboxTableCell.h */,
 				F985B439151010F2002791B2 /* InboxTableCell.m */,
 				F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */,
@@ -434,6 +445,8 @@
 				3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */,
 				3EB2D043150580600028E664 /* FBConnect.bundle in Resources */,
 				3E7429371505956A005A272C /* LoginWithFacebookNormal.png in Resources */,
+				3E5F5C9E15160DFE006A4315 /* location_icon_44x44.png in Resources */,
+				3E5F5CA015160FBE006A4315 /* phone_icon_44x44.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,10 +472,11 @@
 				3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */,
 				3E9795C9150EAFDF00E0E662 /* IndividualListViewController.m in Sources */,
 				F985B431150F5097002791B2 /* InboxItem.m in Sources */,
-				F985B437150FE9D0002791B2 /* InboxViewController.m in Sources */,
+				F985B437150FE9D0002791B2 /* InboxTableViewController.m in Sources */,
 				F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */,
 				F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */,
 				3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */,
+				3EBA711C1514B7810043A4F9 /* ListEntryTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -119,11 +119,22 @@
         // user has no lists
         cell.textLabel.text = @"You don't have any lists!";
         cell.detailTextLabel.text = @"Create lists at www.getpiggyback.com and stay tuned for mobile app updates!";
+        cell.detailTextLabel.numberOfLines = 2;
         tableView.userInteractionEnabled = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     return cell;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    // height for empty cell
+    if (![[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
+        return 80;
+    } else {
+        return tableView.rowHeight;
+    }
 }
 
 #pragma mark - Table view delegate
