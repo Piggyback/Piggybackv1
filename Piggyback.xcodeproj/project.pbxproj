@@ -38,6 +38,7 @@
 		F985B431150F5097002791B2 /* InboxItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B430150F5097002791B2 /* InboxItem.m */; };
 		F985B437150FE9D0002791B2 /* InboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B436150FE9D0002791B2 /* InboxTableViewController.m */; };
 		F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B439151010F2002791B2 /* InboxTableCell.m */; };
+		F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B74037151934E9005D125B /* VendorInfoTableCell.m */; };
 		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
 		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
 		F9B9B624150193920002BCDE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B623150193920002BCDE /* MobileCoreServices.framework */; };
@@ -153,6 +154,8 @@
 		F985B436150FE9D0002791B2 /* InboxTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxTableViewController.m; sourceTree = "<group>"; };
 		F985B438151010F2002791B2 /* InboxTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxTableCell.h; path = Piggyback/InboxTableCell.h; sourceTree = "<group>"; };
 		F985B439151010F2002791B2 /* InboxTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxTableCell.m; path = Piggyback/InboxTableCell.m; sourceTree = "<group>"; };
+		F9B74036151934E9005D125B /* VendorInfoTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VendorInfoTableCell.h; path = Piggyback/VendorInfoTableCell.h; sourceTree = "<group>"; };
+		F9B74037151934E9005D125B /* VendorInfoTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VendorInfoTableCell.m; path = Piggyback/VendorInfoTableCell.m; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F9B9B621150193880002BCDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F9B9B623150193920002BCDE /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -334,6 +337,8 @@
 				F985B439151010F2002791B2 /* InboxTableCell.m */,
 				F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */,
 				F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */,
+				F9B74036151934E9005D125B /* VendorInfoTableCell.h */,
+				F9B74037151934E9005D125B /* VendorInfoTableCell.m */,
 			);
 			name = Views;
 			path = ..;
@@ -477,6 +482,7 @@
 				F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */,
 				3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */,
 				3EBA711C1514B7810043A4F9 /* ListEntryTableViewCell.m in Sources */,
+				F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
