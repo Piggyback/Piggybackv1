@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1938" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="ObY-HI-M1M">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="ObY-HI-M1M">
     <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="933"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
     </dependencies>
     <scenes>
+        <!--Lists Table View Controller - Lists-->
         <scene sceneID="MAR-2p-pNQ">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BVd-g6-3xv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -56,6 +58,7 @@
             </objects>
             <point key="canvasLocation" x="2284" y="-272"/>
         </scene>
+        <!--Empty Individual List Table View Controller-->
         <scene sceneID="67l-Dd-hdf">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rjx-nU-P7C" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -104,6 +107,7 @@
             </objects>
             <point key="canvasLocation" x="2792" y="338"/>
         </scene>
+        <!--Individual List View Controller-->
         <scene sceneID="1Eo-1b-xNB">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JBy-Sr-45b" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -124,28 +128,28 @@
                                             <rect key="frame" x="10" y="1" width="280" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="name" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" minimumFontSize="11" id="odi-bN-3sp">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="name" lineBreakMode="tailTruncation" minimumFontSize="11" adjustsFontSizeToFit="NO" id="odi-bN-3sp">
                                                     <rect key="frame" x="10" y="5" width="205" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="referredBy" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" minimumFontSize="10" id="QnK-Gd-IjO">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="referredBy" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" id="QnK-Gd-IjO">
                                                     <rect key="frame" x="10" y="25" width="250" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="distance" textAlignment="right" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" minimumFontSize="10" id="qQu-fm-q3q">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="distance" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" id="qQu-fm-q3q">
                                                     <rect key="frame" x="223" y="5" width="65" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="description" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" minimumFontSize="10" id="CK4-MG-fOI">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="description" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" id="CK4-MG-fOI">
                                                     <rect key="frame" x="10" y="47" width="270" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -194,6 +198,7 @@
             </objects>
             <point key="canvasLocation" x="2792" y="-272"/>
         </scene>
+        <!--Vendor View Controller-->
         <scene sceneID="p0e-oM-Pwr">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ay-ca-U9O" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -237,7 +242,7 @@
                                                 <rect key="frame" x="0.0" y="83" width="320" height="36"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                    <rect key="frame" x="10" y="1" width="300" height="35"/>
+                                                    <rect key="frame" x="10" y="0.0" width="300" height="35"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6g4-rc-jEx">
@@ -282,6 +287,7 @@
             </objects>
             <point key="canvasLocation" x="3220" y="-272"/>
         </scene>
+        <!--Login View Controller-->
         <scene sceneID="5">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -317,6 +323,7 @@
             </objects>
             <point key="canvasLocation" x="1276" y="-1212"/>
         </scene>
+        <!--Piggyback Tab Bar Controller-->
         <scene sceneID="UtJ-9n-59s">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qvQ-5g-q91" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -335,6 +342,7 @@
             </objects>
             <point key="canvasLocation" x="1276" y="-588"/>
         </scene>
+        <!--Piggyback Navigation Controller - Lists-->
         <scene sceneID="kv2-1E-tyk">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvx-2y-B3M" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -357,6 +365,7 @@
             </objects>
             <point key="canvasLocation" x="1847" y="-272"/>
         </scene>
+        <!--Piggyback Navigation Controller - Inbox-->
         <scene sceneID="3vz-zP-V4o">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9gV-eP-zjb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -375,6 +384,7 @@
             </objects>
             <point key="canvasLocation" x="1847" y="-941"/>
         </scene>
+        <!--Inbox Table View Controller - Inbox-->
         <scene sceneID="MVZ-Pw-crz">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Rm-QB-QKx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -438,8 +448,65 @@
         <image name="list_tabbar_icon.png" width="30" height="30"/>
         <image name="piggyback_login.png" width="354" height="190"/>
     </resources>
+    <classes>
+        <class className="EmptyIndividualListTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EmptyIndividualListTableViewController.h"/>
+        </class>
+        <class className="InboxTableCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxTableCell.h"/>
+        </class>
+        <class className="InboxTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="logout:"/>
+            </relationships>
+        </class>
+        <class className="IndividualListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/IndividualListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="segmentedControlChanged"/>
+                <relationship kind="outlet" name="listEntryTableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="segmentedControl" candidateClass="UISegmentedControl"/>
+            </relationships>
+        </class>
+        <class className="ListEntryTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListEntryTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="distance" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="referredBy" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ListsTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListsTableViewController.h"/>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="loginWithFacebook:"/>
+            </relationships>
+        </class>
+        <class className="PiggybackNavigationController" superclassName="UINavigationController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PiggybackNavigationController.h"/>
+        </class>
+        <class className="PiggybackTabBarController" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PiggybackTabBarController.h"/>
+        </class>
+        <class className="ReferralCommentTableCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ReferralCommentTableCell.h"/>
+        </class>
+        <class className="VendorViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VendorViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="vendorImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="vendorTableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackOpaque"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>

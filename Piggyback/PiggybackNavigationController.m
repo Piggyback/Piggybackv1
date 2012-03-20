@@ -20,6 +20,7 @@
 - (void) awakeFromNib
 {
     [super awakeFromNib];
+    self.navigationBar.tintColor = [UIColor yellowColor];
     [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"piggyback_titlebar_background"] forBarMetrics:UIBarMetricsDefault];
     [self.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                 [UIColor blackColor], UITextAttributeTextColor,
