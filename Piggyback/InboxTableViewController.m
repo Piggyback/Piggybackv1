@@ -210,9 +210,14 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"piggyback_titlebar"]];
     }
     return self;
+}
+
+- (void)awakeFromNib
+{
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"piggyback_titlebar"]];
 }
 
 - (void)didReceiveMemoryWarning

@@ -37,6 +37,7 @@ const double metersToMilesMultiplier = 0.000621371192;
 - (void)setList:(PBList *)list
 {
     _list = list;
+    self.title = list.name;
 }
 
 - (NSArray*)shownListEntrys
@@ -147,7 +148,11 @@ const double metersToMilesMultiplier = 0.000621371192;
     }
 
     CLLocationDistance distance = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles];
-    if (distance < 0.1) {
+    if (distance < 0) {
+        // don't set text
+        cell.distance.text = @"";
+    }
+    else if (distance < 0.1) {
         cell.distance.text = [NSString stringWithFormat:@"%.2f mi", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
     } else if (distance >= 100) {
         cell.distance.text = [NSString stringWithString:@"100+ mi"];
