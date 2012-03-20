@@ -11,6 +11,7 @@
 
 @interface InboxTableViewController : UITableViewController <RKObjectLoaderDelegate>
 
+
 - (IBAction)logout:(id)sender;
 
 @end

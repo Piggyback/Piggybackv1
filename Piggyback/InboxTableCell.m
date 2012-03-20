@@ -11,6 +11,23 @@
 
 @implementation InboxTableCell
 
+@synthesize name = _name;
+@synthesize date = _date;
+@synthesize referredBy = _referredBy;
+@synthesize referredTo = _referredTo;
+@synthesize numItemsInList = _numItemsInList;
+@synthesize comment = _comment;
+@synthesize image = _image;
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        
+    }
+    return self;
+}
+
 - (void) layoutSubviews
 {   
     [super layoutSubviews];
