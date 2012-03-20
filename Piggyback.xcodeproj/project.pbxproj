@@ -149,7 +149,7 @@
 		F9645D9215121FD100A6B0F7 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		F985B42F150F5097002791B2 /* InboxItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxItem.h; path = Piggyback/InboxItem.h; sourceTree = "<group>"; };
 		F985B430150F5097002791B2 /* InboxItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxItem.m; path = Piggyback/InboxItem.m; sourceTree = "<group>"; };
-		F985B435150FE9CF002791B2 /* InboxTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = InboxTableViewController.h; sourceTree = "<group>"; };
+		F985B435150FE9CF002791B2 /* InboxTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxTableViewController.h; sourceTree = "<group>"; };
 		F985B436150FE9D0002791B2 /* InboxTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxTableViewController.m; sourceTree = "<group>"; };
 		F985B438151010F2002791B2 /* InboxTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxTableCell.h; path = Piggyback/InboxTableCell.h; sourceTree = "<group>"; };
 		F985B439151010F2002791B2 /* InboxTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxTableCell.m; path = Piggyback/InboxTableCell.m; sourceTree = "<group>"; };
