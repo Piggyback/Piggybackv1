@@ -12,6 +12,11 @@
 
 @interface VendorViewController () 
 
+typedef enum tableViewSection {
+    vendorInfoSection,
+    vendorReferralsSection
+} tableViewSection;
+
 @property BOOL hasAddress;
 @property BOOL hasPhone;
 @property (nonatomic, strong) NSMutableArray* vendorInfo;
@@ -19,7 +24,7 @@
 @end
 
 @implementation VendorViewController
-@synthesize vendorInfoTable = _vendorInfoTable;
+@synthesize vendorTableView = _vendorInfoTable;
 
 @synthesize vendor = _vendor;
 //@synthesize addrButton = _addrButton;
@@ -70,101 +75,144 @@
     _vendor = vendor;
 }
 
-- (NSMutableArray*)referralComments 
+- (NSArray*)referralComments 
 {
     if (_referralComments == nil) {
-        _referralComments = [[NSMutableArray alloc] init];
+        _referralComments = [[NSArray alloc] init];
     }
     return _referralComments;
 }
 
-#pragma mark table data source protocol methods
-// **** PROTOCOL FUNCTIONS FOR UITABLEVIEWDATASOURCE **** // 
+#pragma mark - table data source protocol methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{    
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-//    return [self.referralComments count];
-   
-    return [self.vendorInfo count];
+    if (section == vendorInfoSection)
+       return [self.vendorInfo count];
+    else if (section == vendorReferralsSection)
+        return [self.referralComments count];
+    else
+        return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == vendorReferralsSection) {
+        UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        
+        UILabel* referralsSectionHeader = [[UILabel alloc] initWithFrame:CGRectMake(15,10,285,20)];
+
+        referralsSectionHeader.backgroundColor = [UIColor clearColor];
+        referralsSectionHeader.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+        referralsSectionHeader.textColor = [UIColor colorWithRed:.4 green:.4 blue:.4 alpha:1];
+        referralsSectionHeader.adjustsFontSizeToFitWidth = YES;
+        
+        
+        if ([self.referralComments count] == 1)
+            referralsSectionHeader.text = [[NSString alloc] initWithFormat:@"Recommended to you by %i friend:", [self.referralComments count]];
+        else if ([self.referralComments count] > 1)
+            referralsSectionHeader.text = [[NSString alloc] initWithFormat:@"Recommended to you by %i friends:", [self.referralComments count]];
+        else
+            return nil;
+
+        [headerView addSubview:referralsSectionHeader];
+        
+        return headerView;
+    }
+    
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section 
+{
+    if (section == vendorReferralsSection)
+        return 30;
+    else
+        return tableView.sectionHeaderHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
-{
-//    // get cell for displaying current comment
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"referralCommentCell"];
-//    VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
-//    
-//    // set name, comment, and image
-//    cell.textLabel.text = [[vendorReferralComment.referrer.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.referrer.lastName];
-//    
-//    if ([vendorReferralComment.referralLid intValue] > 0) {
-//        cell.detailTextLabel.text = vendorReferralComment.listEntryComment;
-//    } else {
-//        cell.detailTextLabel.text = vendorReferralComment.comment;
-//    }
-//    cell.detailTextLabel.numberOfLines = 0;
-//    
-//    NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
-//    UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
-//    cell.imageView.image = img;
+{    
+    static NSString *VendorInfoCellIdentifier = @"vendorInfoCell";
+    static NSString* ReferralsCellIdentifier = @"vendorReferralsCell";
     
-//    NSLog(@"height in cell for index path is %f",[self.referralCommentsTable rectForSection:0].size.height);
+    UITableViewCell *cell;
     
-    // mike gao
-    static NSString *CellIdentifier = @"vendorInfoCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    if ([self.vendorInfo count] == 1) {
-        if (self.hasAddress) {
-            cell.textLabel.numberOfLines = 0;
-            cell.imageView.image = [UIImage imageNamed:@"location_icon_44x44"];
-        } else {
-            cell.imageView.image = [UIImage imageNamed:@"phone_icon_44x44"];
+    if (indexPath.section == vendorInfoSection) {
+        cell = [tableView dequeueReusableCellWithIdentifier:VendorInfoCellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:VendorInfoCellIdentifier];
         }
-    } else {
-        if (indexPath.row == 0) {
-            // address row
-            cell.textLabel.numberOfLines = 0;
-            cell.imageView.image = [UIImage imageNamed:@"location_icon_44x44"];
+        
+        if ([self.vendorInfo count] == 1) {
+            if (self.hasAddress) {
+                cell.textLabel.numberOfLines = 0;
+                cell.imageView.image = [UIImage imageNamed:@"location_icon_44x44"];
+            } else {
+                cell.imageView.image = [UIImage imageNamed:@"phone_icon_44x44"];
+            }
         } else {
-            // phone number row
-            cell.imageView.image = [UIImage imageNamed:@"phone_icon_44x44"];
+            if (indexPath.row == 0) {
+                // address row
+                cell.textLabel.numberOfLines = 0;
+                cell.imageView.image = [UIImage imageNamed:@"location_icon_44x44"];
+            } else {
+                // phone number row
+                cell.imageView.image = [UIImage imageNamed:@"phone_icon_44x44"];
+            }
         }
+        
+        cell.textLabel.text = [self.vendorInfo objectAtIndex:indexPath.row];
+    } else if (indexPath.section == vendorReferralsSection) {
+        cell = [tableView dequeueReusableCellWithIdentifier:ReferralsCellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ReferralsCellIdentifier];
+        }
+        
+        VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
+        
+        cell.textLabel.text = [[vendorReferralComment.referrer.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.referrer.lastName];
+        
+        if ([vendorReferralComment.referralLid intValue] > 0) {
+           cell.detailTextLabel.text = vendorReferralComment.listEntryComment;
+        } else {
+           cell.detailTextLabel.text = vendorReferralComment.comment;
+        }
+        cell.detailTextLabel.numberOfLines = 0;
+        
+        NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
+        UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
+        cell.imageView.image = img;
     }
-    
-    cell.textLabel.text = [self.vendorInfo objectAtIndex:indexPath.row];
     
     return cell;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
 {
-//    NSLog(@"in the height function");
-//    VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
-//    CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-//    
-//    if (size.height < FACEBOOKPICHEIGHT) {
-//        NSLog(@"height of row is %f",FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN);
-//        return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
-//    } else {
-//        NSLog(@"height of row is %f",size.height + 2*FACEBOOKPICMARGIN);
-//        
-//        return size.height + 2*FACEBOOKPICMARGIN;
-//    }
-    
     // mike gao
-    if ([self.vendorInfo count] == 1) {
-        if (self.hasAddress) {
-            return tableView.rowHeight + 20;
+    if (indexPath.section == vendorInfoSection) {
+        if ([self.vendorInfo count] == 1) {
+            if (self.hasAddress) {
+                return tableView.rowHeight + 20;
+            }
+        } else {
+            if (indexPath.row == 0) {
+                // address row
+                return tableView.rowHeight + 20;
+            }
         }
-    } else {
-        if (indexPath.row == 0) {
-            // address row
-            return tableView.rowHeight + 20;
-        }
+    } else if (indexPath.section == vendorReferralsSection) {
+        CGSize size = [[[self.referralComments objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        
+        if (size.height < FACEBOOKPICHEIGHT)
+            return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
+        else
+            return size.height + 2*FACEBOOKPICMARGIN;
     }
     
     return tableView.rowHeight;
@@ -200,16 +248,9 @@
 {
     [super viewDidLoad];
     
-    // ************ set delegate and datasource for UITableView (referral comments) ************ //
-//    [self.referralCommentsTable setDelegate:self];
-//    [self.referralCommentsTable setDataSource:self];
-    
     [self.scrollView setScrollEnabled:YES];
     
-    // ************ display vendor information and image ********* //
     self.title = self.vendor.name;
-//    [self.addrButton setTitle:self.vendor.vicinity forState:UIControlStateNormal];
-//    [self.phoneButton setTitle:self.vendor.phone forState:UIControlStateNormal];
     
     // display image in a separate thread
     dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
@@ -225,59 +266,38 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // ************ display referral comments ********* //
-//    if ([self.referralComments count] > 0) {
-//        
-//        NSString* numReferrals = [NSString stringWithFormat:@"%d",self.referralComments.count];
-//        if (self.referralComments.count == 1) {
-//            self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friend:"];
-//        } else {
-//            self.referralCommentsLabel.text = [[@"Recommended to you by " stringByAppendingString:numReferrals] stringByAppendingString:@" friends:"];
-//        }
-//        
-//        // set table height so that it fits all rows without scrolling
-//        CGFloat totalTableHeight = [self.referralCommentsTable rectForSection:0].size.height;
-//        NSLog(@"height of table in view did load is %f",totalTableHeight);
-//        
-//        CGRect tableBounds = [self.referralCommentsTable bounds];
-//        NSLog(@"height of bounds before they are set is %f",tableBounds.size.height);
-//        [self.referralCommentsTable setBounds:CGRectMake(tableBounds.origin.x,
-//                                                         tableBounds.origin.y,
-//                                                         tableBounds.size.width,
-//                                                         totalTableHeight+20)];
-//        
-//        CGRect tableBounds2 = [self.referralCommentsTable bounds];
-//        NSLog(@"height of bounds after they are set is %f",tableBounds2.size.height);
-//        
-//        // set frame so that the newly sized table is positioned correctly in parent view
-//        CGRect tableFrame = [self.referralCommentsTable frame];
-//        [self.referralCommentsTable setFrame:CGRectMake(tableFrame.origin.x,
-//                                                        tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
-//                                                        tableFrame.size.width,
-//                                                        tableFrame.size.height)];
-//        
-//        // refresh data so table is loaded with retrieved data
-//        [self.referralCommentsTable reloadData];
-//        
-//        // set scrollView
-//        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+280)];
-//        
-//    }
+    if ([self.referralComments count]) {         
+        // re-set scrollView height
+        CGFloat totalTableHeight = [self.vendorTableView rectForSection:vendorInfoSection].size.height + [self.vendorTableView rectForHeaderInSection:vendorReferralsSection].size.height + [self.vendorTableView rectForSection:vendorReferralsSection].size.height;
+        
+        NSLog(@"header height: %f", [self.vendorTableView rectForHeaderInSection:vendorReferralsSection].size.height);
+        
+        CGRect tableBounds = [self.vendorTableView bounds];
+        [self.vendorTableView setBounds:CGRectMake(tableBounds.origin.x,
+                                                         tableBounds.origin.y,
+                                                         tableBounds.size.width,
+                                                         totalTableHeight)];
+        
+        CGRect tableFrame = [self.vendorTableView frame];
+        [self.vendorTableView setFrame:CGRectMake(tableFrame.origin.x,
+                                                        tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
+                                                        tableFrame.size.width,
+                                                        tableFrame.size.height)];
+
+
+        
+        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+self.vendorImage.image.size.height+100+25)];
+        
+    }
 
 }
 
 - (void)viewDidUnload
 {
-//    [self setAddrButton:nil];
-//    [self setPhoneButton:nil];
     [self setVendorImage:nil];
-//    [self setReferralCommentsLabel:nil];
-//    [self setReferralCommentsTable:nil];
     [self setScrollView:nil];
-    [self setVendorInfoTable:nil];
+    [self setVendorTableView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

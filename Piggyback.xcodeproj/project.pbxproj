@@ -36,7 +36,7 @@
 		F9645D9015121F4D00A6B0F7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F956DE521511E58D00187A27 /* CoreLocation.framework */; };
 		F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9645D9215121FD100A6B0F7 /* LocationController.m */; };
 		F985B431150F5097002791B2 /* InboxItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B430150F5097002791B2 /* InboxItem.m */; };
-		F985B437150FE9D0002791B2 /* InboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B436150FE9D0002791B2 /* InboxViewController.m */; };
+		F985B437150FE9D0002791B2 /* InboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B436150FE9D0002791B2 /* InboxTableViewController.m */; };
 		F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B439151010F2002791B2 /* InboxTableCell.m */; };
 		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
 		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
@@ -149,8 +149,8 @@
 		F9645D9215121FD100A6B0F7 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		F985B42F150F5097002791B2 /* InboxItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxItem.h; path = Piggyback/InboxItem.h; sourceTree = "<group>"; };
 		F985B430150F5097002791B2 /* InboxItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxItem.m; path = Piggyback/InboxItem.m; sourceTree = "<group>"; };
-		F985B435150FE9CF002791B2 /* InboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxViewController.h; sourceTree = "<group>"; };
-		F985B436150FE9D0002791B2 /* InboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxViewController.m; sourceTree = "<group>"; };
+		F985B435150FE9CF002791B2 /* InboxTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = InboxTableViewController.h; sourceTree = "<group>"; };
+		F985B436150FE9D0002791B2 /* InboxTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxTableViewController.m; sourceTree = "<group>"; };
 		F985B438151010F2002791B2 /* InboxTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxTableCell.h; path = Piggyback/InboxTableCell.h; sourceTree = "<group>"; };
 		F985B439151010F2002791B2 /* InboxTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxTableCell.m; path = Piggyback/InboxTableCell.m; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -238,8 +238,8 @@
 				3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */,
 				3E94731215008EF900A261DD /* LoginViewController.h */,
 				3E94731315008EF900A261DD /* LoginViewController.m */,
-				F985B435150FE9CF002791B2 /* InboxViewController.h */,
-				F985B436150FE9D0002791B2 /* InboxViewController.m */,
+				F985B435150FE9CF002791B2 /* InboxTableViewController.h */,
+				F985B436150FE9D0002791B2 /* InboxTableViewController.m */,
 				3E734B731508F4AA003FD9CB /* ListsTableViewController.h */,
 				3E734B741508F4AA003FD9CB /* ListsTableViewController.m */,
 				3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */,
@@ -472,7 +472,7 @@
 				3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */,
 				3E9795C9150EAFDF00E0E662 /* IndividualListViewController.m in Sources */,
 				F985B431150F5097002791B2 /* InboxItem.m in Sources */,
-				F985B437150FE9D0002791B2 /* InboxViewController.m in Sources */,
+				F985B437150FE9D0002791B2 /* InboxTableViewController.m in Sources */,
 				F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */,
 				F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */,
 				3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */,

@@ -269,7 +269,7 @@ const double metersToMilesMultiplier = 0.000621371192;
         }
         
         // set VendorViewController's referralComments to selected uniqueReferralComments
-        [(VendorViewController*)segue.destinationViewController setReferralComments:uniqueReferralComments];
+        [(VendorViewController*)segue.destinationViewController setReferralComments:[NSArray arrayWithArray:uniqueReferralComments]];
     }
 }
 

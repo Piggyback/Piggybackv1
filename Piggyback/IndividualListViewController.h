@@ -19,5 +19,7 @@
 @property (nonatomic, strong) LocationController* locationController;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
+
+
 - (IBAction)segmentedControlChanged;
 @end
