@@ -430,9 +430,10 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="you have to try this place!" lineBreakMode="wordWrap" numberOfLines="0" minimumFontSize="10" id="SBt-iX-Zfs">
+                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="you have to try this place!" lineBreakMode="wordWrap" numberOfLines="0" minimumFontSize="10" id="SBt-iX-Zfs">
                                             <rect key="frame" x="7" y="50" width="268" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
