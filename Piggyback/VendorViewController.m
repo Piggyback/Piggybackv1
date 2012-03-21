@@ -147,18 +147,21 @@ typedef enum tableViewSection {
         if ([self.vendorInfo count] == 1) {
             if (self.hasAddress) {
                 cell.textLabel.numberOfLines = 0;
-                cell.imageView.image = [UIImage imageNamed:@"blue_square"];
+                cell.imageView.image = [UIImage imageNamed:@"geolocation_icon"];
+                
             } else {
-                cell.imageView.image = [UIImage imageNamed:@"blue_square"];
+                cell.imageView.image = [UIImage imageNamed:@"phone_icon"];
+                cell.indentationWidth = 4;
             }
         } else {
             if (indexPath.row == 0) {
                 // address row
                 cell.textLabel.numberOfLines = 0;
-                cell.imageView.image = [UIImage imageNamed:@"blue_square"];
+                cell.imageView.image = [UIImage imageNamed:@"geolocation_icon"];
             } else {
                 // phone number row
-                cell.imageView.image = [UIImage imageNamed:@"blue_square"];
+                cell.imageView.image = [UIImage imageNamed:@"phone_icon"];
+                cell.indentationWidth = 4;
             }
         }
         
@@ -194,12 +197,12 @@ typedef enum tableViewSection {
     if (indexPath.section == vendorInfoSection) {
         if ([self.vendorInfo count] == 1) {
             if (self.hasAddress) {
-                return tableView.rowHeight + 20;
+                return tableView.rowHeight + 10;
             }
         } else {
             if (indexPath.row == 0) {
                 // address row
-                return tableView.rowHeight + 20;
+                return tableView.rowHeight + 10;
             }
         }
     } else if (indexPath.section == vendorReferralsSection) {
