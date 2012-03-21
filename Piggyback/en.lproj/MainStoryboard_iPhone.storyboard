@@ -37,14 +37,13 @@
                     </view>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="281" y="143"/>
+            <point key="canvasLocation" x="421" y="436"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="PiggybackViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PiggybackViewController.h"/>
-        </class>
-    </classes>
+    <resources>
+        <image name="LoginWithFacebookNormal.png" width="159" height="29"/>
+        <image name="piggyback_login.png" width="354" height="190"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
