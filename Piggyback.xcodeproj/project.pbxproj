@@ -520,6 +520,7 @@
 				3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */,
 				3EBA711C1514B7810043A4F9 /* ListEntryTableViewCell.m in Sources */,
 				F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */,
+				3EB2BB991518964F0034820F /* PiggybackNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

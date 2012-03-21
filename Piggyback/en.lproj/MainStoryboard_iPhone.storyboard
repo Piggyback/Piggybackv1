@@ -250,7 +250,7 @@
                                                 <rect key="frame" x="0.0" y="86" width="320" height="39"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                    <rect key="frame" x="10" y="0.0" width="300" height="38"/>
+                                                    <rect key="frame" x="10" y="0.0" width="300" height="35"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6g4-rc-jEx">
@@ -350,7 +350,7 @@
             </objects>
             <point key="canvasLocation" x="1276" y="-588"/>
         </scene>
-        <!--Navigation Controller - Lists-->
+        <!--Piggyback Navigation Controller - Lists-->
         <scene sceneID="kv2-1E-tyk">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvx-2y-B3M" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -373,7 +373,7 @@
             </objects>
             <point key="canvasLocation" x="1847" y="-272"/>
         </scene>
-        <!--Navigation Controller - Inbox-->
+        <!--Piggyback Navigation Controller - Inbox-->
         <scene sceneID="3vz-zP-V4o">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9gV-eP-zjb" userLabel="First Responder" sceneMemberID="firstResponder"/>
