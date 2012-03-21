@@ -26,9 +26,9 @@
                                       self.textLabel.frame.size.height);
     
     self.detailTextLabel.frame = CGRectMake(FACEBOOKPICWIDTH + 2*FACEBOOKPICMARGIN,
-                                      2.8*FACEBOOKPICMARGIN,
-                                      self.detailTextLabel.frame.size.width,
-                                      self.detailTextLabel.frame.size.height);
+                                            2.8*FACEBOOKPICMARGIN,
+                                            self.detailTextLabel.frame.size.width,
+                                            self.detailTextLabel.frame.size.height);
 }
 
 @end

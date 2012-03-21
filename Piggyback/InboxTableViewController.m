@@ -112,10 +112,6 @@
 
 #pragma mark - table data source protocol methods
 // **** PROTOCOL FUNCTIONS FOR TABLE DATA SOURCE **** //
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
     NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
@@ -148,7 +144,6 @@
         listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
         cell.numItemsInList.frame = listNameFrame;
     }
-    
     // date
     NSString* timeElapsed = [self timeElapsed:inboxItem.date];
     cell.date.text = timeElapsed;
@@ -157,15 +152,15 @@
     cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrer.firstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrer.lastName];
     
     // number of other friends this was referred to
-    NSString* numFriendsLabel = @"To you and %d friend";
-    NSInteger numFriends = [inboxItem.otherFriends count];
-    if (numFriends == 0) {
-        numFriendsLabel = @"Just to you!";
-    } else if (numFriends > 1) {
-        numFriendsLabel = [numFriendsLabel stringByAppendingString:@"s"];
-    }
-    NSString* otherFriends = [NSString stringWithFormat:numFriendsLabel,numFriends];
-    cell.referredTo.text = otherFriends;
+//    NSString* numFriendsLabel = @"To you and %d friend";
+//    NSInteger numFriends = [inboxItem.otherFriends count];
+//    if (numFriends == 0) {
+//        numFriendsLabel = @"Just to you!";
+//    } else if (numFriends > 1) {
+//        numFriendsLabel = [numFriendsLabel stringByAppendingString:@"s"];
+//    }
+//    NSString* otherFriends = [NSString stringWithFormat:numFriendsLabel,numFriends];
+//    cell.referredTo.text = otherFriends;
     
     // comment
     cell.comment.numberOfLines = 0;
@@ -205,10 +200,10 @@
     InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
     CGSize size = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
     
-    if (size.height + 55 < FACEBOOKPICHEIGHT) {
+    if (size.height + 35 < FACEBOOKPICHEIGHT) {
         return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
     } else {
-        return size.height + 2*FACEBOOKPICMARGIN + 55;
+        return size.height + 2*FACEBOOKPICMARGIN + 35;
     }
 }
 
@@ -256,6 +251,7 @@
     
     // re-fetch inbox items for users whenever inbox view appears
     NSString* inboxPath = [@"inboxapi/inbox/id/" stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
+    NSLog(@"INBOX PATH: %@", inboxPath);
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
     inboxLoader.userData = @"inboxLoader";
