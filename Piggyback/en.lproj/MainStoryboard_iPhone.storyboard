@@ -417,9 +417,10 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="recommended by.." lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" id="xs1-2e-92M">
+                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="recommended by.." lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" id="xs1-2e-92M">
                                             <rect key="frame" x="53" y="20" width="199" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
