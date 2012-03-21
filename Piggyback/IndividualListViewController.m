@@ -141,7 +141,11 @@ const double metersToMilesMultiplier = 0.000621371192;
     
     cell.name.text = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name];
 
-    if ([[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue] == 1) {
+    NSInteger numReferredBy = [[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue];
+    if (numReferredBy == 0) {
+        cell.referredBy.text = @"";
+    }
+    else if (numReferredBy == 1) {
         cell.referredBy.text = [NSString stringWithFormat:@"From %@ friend", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
     } else {
         cell.referredBy.text = [NSString stringWithFormat:@"From %@ friends", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
@@ -160,12 +164,19 @@ const double metersToMilesMultiplier = 0.000621371192;
         cell.distance.text = [NSString stringWithFormat:@"%.1f mi", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]];
     }
     
+    // determine how tall uilabel must be to fit contents
     cell.description.numberOfLines = 0;    
     cell.description.text = [[self.shownListEntrys objectAtIndex:indexPath.row] comment];
     CGSize expectedLabelSize = [[[self.shownListEntrys objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:16.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
     CGRect newFrame = cell.description.frame;
     newFrame.size.height = expectedLabelSize.height;
     cell.description.frame = newFrame;
+    
+    // do not include 'referred by 0 friends' if no one referred to you
+    if (numReferredBy == 0) {
+        cell.description.frame = CGRectMake(cell.referredBy.frame.origin.x, cell.referredBy.frame.origin.y, cell.description.frame.size.width, cell.description.frame.size.height);
+    }
+    
 
     NSLog(@"cellForRowAtIndexPath listEntry name: %@", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name]);
     NSLog(@"listEntry distance: %f", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]);
@@ -176,6 +187,12 @@ const double metersToMilesMultiplier = 0.000621371192;
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     CGSize size = [[[self.shownListEntrys objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:16.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+    
+    NSInteger numReferredBy = [[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue];
+    NSLog(@"height is %f for %@",size.height,[[self.shownListEntrys objectAtIndex:indexPath.row] vendor].name);
+    if (numReferredBy == 0 && size.height > 15) {
+        size.height = size.height - 20;
+    }
     
     return size.height + 60;
 }

@@ -20,7 +20,6 @@
 @property (nonatomic, strong) NSString* listName;
 @property (nonatomic, strong) Vendor* vendor;
 @property (nonatomic, strong) NSArray* listEntrys; // array of ListEntrys if recommendation is for a list
-@property (nonatomic, strong) NSArray* otherFriends;
 @property (nonatomic, strong) NSArray* nonUniqueReferralComments;
 
 @end

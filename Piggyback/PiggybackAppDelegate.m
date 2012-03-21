@@ -65,7 +65,6 @@ static NSString* fbAppId = @"251920381531962";
     [inboxMapping mapRelationship:@"referrer" withMapping:userMapping];
     [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
     [inboxMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
-    [inboxMapping mapRelationship:@"otherFriends" withMapping:userMapping];
     [inboxMapping mapRelationship:@"nonUniqueReferralComments" withMapping:referralCommentsMapping];
     [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
 

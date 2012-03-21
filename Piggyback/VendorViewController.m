@@ -9,8 +9,7 @@
 #import "VendorViewController.h"
 #import "Constants.h"
 #import "VendorReferralComment.h"
-#import "VendorInfoTableCell.h"
-#import "ReferralCommentTableCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface VendorViewController () 
 
@@ -105,7 +104,7 @@ typedef enum tableViewSection {
         UILabel* referralsSectionHeader = [[UILabel alloc] initWithFrame:CGRectMake(15,10,285,20)];
 
         referralsSectionHeader.backgroundColor = [UIColor clearColor];
-        referralsSectionHeader.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
+        referralsSectionHeader.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
         referralsSectionHeader.textColor = [UIColor colorWithRed:.4 green:.4 blue:.4 alpha:1];
         referralsSectionHeader.adjustsFontSizeToFitWidth = YES;
         
@@ -138,12 +137,12 @@ typedef enum tableViewSection {
     static NSString *VendorInfoCellIdentifier = @"vendorInfoCell";
     static NSString* ReferralsCellIdentifier = @"vendorReferralsCell";
     
+    UITableViewCell *cell;
     
     if (indexPath.section == vendorInfoSection) {
-        VendorInfoTableCell *cell;
         cell = [tableView dequeueReusableCellWithIdentifier:VendorInfoCellIdentifier];
         if (cell == nil) {
-            cell = [[VendorInfoTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:VendorInfoCellIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:VendorInfoCellIdentifier];
         }
         
         if ([self.vendorInfo count] == 1) {
@@ -167,19 +166,11 @@ typedef enum tableViewSection {
             }
         }
         
-        // calculate height of label to fit complete address / phone number
-        cell.info.text = [self.vendorInfo objectAtIndex:indexPath.row];
-        CGSize sizeOfInfo = [cell.info.text sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-        CGRect newFrame = cell.info.frame;
-        newFrame.size.height = sizeOfInfo.height;
-        cell.info.frame = newFrame;
-        
-        return cell;
+        cell.textLabel.text = [self.vendorInfo objectAtIndex:indexPath.row];
     } else if (indexPath.section == vendorReferralsSection) {
-        ReferralCommentTableCell *cell;
         cell = [tableView dequeueReusableCellWithIdentifier:ReferralsCellIdentifier];
         if (cell == nil) {
-            cell = [[ReferralCommentTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ReferralsCellIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ReferralsCellIdentifier];
         }
         
         VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
@@ -195,12 +186,12 @@ typedef enum tableViewSection {
         
         NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
         UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
+        cell.imageView.layer.cornerRadius = 5.0;
+        cell.imageView.layer.masksToBounds = YES;
         cell.imageView.image = img;
-        return cell;
     }
     
-    return nil;
-//    return cell;
+    return cell;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
@@ -218,15 +209,7 @@ typedef enum tableViewSection {
             }
         }
     } else if (indexPath.section == vendorReferralsSection) {
-        NSString* commentToDisplay;
-        VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
-        if ([vendorReferralComment.referralLid intValue] > 0) {
-            commentToDisplay = vendorReferralComment.listEntryComment;
-        } else {
-            commentToDisplay = vendorReferralComment.comment;
-        }
-        
-        CGSize size = [commentToDisplay sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        CGSize size = [[[self.referralComments objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
         
         if (size.height < FACEBOOKPICHEIGHT)
             return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
