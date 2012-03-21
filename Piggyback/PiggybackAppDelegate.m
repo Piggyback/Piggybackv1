@@ -17,6 +17,7 @@
 #import "PBListEntry.h"
 #import "InboxItem.h"
 
+#warning fb app and URLs in constants.m or different file?
 static NSString* fbAppId = @"251920381531962";
 
 @implementation PiggybackAppDelegate
@@ -49,7 +50,7 @@ static NSString* fbAppId = @"251920381531962";
     [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
     
     RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
-    [listEntryMapping mapAttributes:@"date", @"comment", nil];
+    [listEntryMapping mapAttributes:@"date", @"comment",nil];
     [listEntryMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
     [listEntryMapping mapRelationship:@"referredBy" withMapping:referralCommentsMapping];
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];

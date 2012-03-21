@@ -10,4 +10,12 @@
 
 @interface InboxTableCell : UITableViewCell
 
+@property (nonatomic, weak) IBOutlet UILabel* name;
+@property (nonatomic, weak) IBOutlet UILabel* date;
+@property (nonatomic, weak) IBOutlet UILabel* referredBy;
+@property (nonatomic, weak) IBOutlet UILabel* referredTo;
+@property (nonatomic, weak) IBOutlet UILabel* numItemsInList;
+@property (nonatomic, weak) IBOutlet UILabel* comment;
+@property (nonatomic, weak) IBOutlet UIImageView* image;
+
 @end

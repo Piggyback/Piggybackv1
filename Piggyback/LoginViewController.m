@@ -83,6 +83,8 @@
         {
             PBUser *currentUser = (PBUser *)[objects objectAtIndex:0];
             NSLog(@"Loaded user: %@", currentUser.firstName);
+            
+#warning no need to make new var for defaults unless you plan to use it again?            
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:currentUser.uid forKey:@"UID"];
             

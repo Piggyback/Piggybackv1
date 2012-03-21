@@ -111,6 +111,7 @@
         PBList* myList = [self.lists objectAtIndex:indexPath.row];
         cell.textLabel.text = myList.name;
         cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" items"];
+#warning what is this for? is this like when u can click on someones name to lead to their profile
         tableView.userInteractionEnabled = YES;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
