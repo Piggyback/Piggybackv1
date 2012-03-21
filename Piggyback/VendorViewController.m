@@ -27,12 +27,8 @@ typedef enum tableViewSection {
 @synthesize vendorTableView = _vendorInfoTable;
 
 @synthesize vendor = _vendor;
-//@synthesize addrButton = _addrButton;
-//@synthesize phoneButton = _phoneButton;
 @synthesize vendorImage = _vendorImage;
 @synthesize referralComments = _referralComments;
-//@synthesize referralCommentsLabel = _referralCommentsLabel;
-//@synthesize referralCommentsTable = _referralCommentsTable;
 @synthesize scrollView = _scrollView;
 
 @synthesize hasAddress = _hasAddress;
@@ -46,7 +42,7 @@ typedef enum tableViewSection {
     self.vendorInfo = [[NSMutableArray alloc] init];
     
     // check if vendor has address and phone number
-    if ([vendor.addr length] == 0)  
+    if ([vendor.addrNum length] == 0 && [vendor.addrStreet length] == 0 && [vendor.addrCity length] == 0)  
         self.hasAddress = NO; 
     else {
         self.hasAddress = YES;
@@ -151,18 +147,18 @@ typedef enum tableViewSection {
         if ([self.vendorInfo count] == 1) {
             if (self.hasAddress) {
                 cell.textLabel.numberOfLines = 0;
-                cell.imageView.image = [UIImage imageNamed:@"location_icon_44x44"];
+                cell.imageView.image = [UIImage imageNamed:@"blue_square"];
             } else {
-                cell.imageView.image = [UIImage imageNamed:@"phone_icon_44x44"];
+                cell.imageView.image = [UIImage imageNamed:@"blue_square"];
             }
         } else {
             if (indexPath.row == 0) {
                 // address row
                 cell.textLabel.numberOfLines = 0;
-                cell.imageView.image = [UIImage imageNamed:@"location_icon_44x44"];
+                cell.imageView.image = [UIImage imageNamed:@"blue_square"];
             } else {
                 // phone number row
-                cell.imageView.image = [UIImage imageNamed:@"phone_icon_44x44"];
+                cell.imageView.image = [UIImage imageNamed:@"blue_square"];
             }
         }
         
