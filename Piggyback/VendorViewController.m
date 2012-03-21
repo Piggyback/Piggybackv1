@@ -209,7 +209,15 @@ typedef enum tableViewSection {
             }
         }
     } else if (indexPath.section == vendorReferralsSection) {
-        CGSize size = [[[self.referralComments objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
+        NSString* displayedComment;
+        if ([vendorReferralComment.referralLid intValue] > 0) {
+            displayedComment = vendorReferralComment.listEntryComment;
+        } else {
+            displayedComment = vendorReferralComment.comment;
+        }
+        
+        CGSize size = [displayedComment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
         
         if (size.height < FACEBOOKPICHEIGHT)
             return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
