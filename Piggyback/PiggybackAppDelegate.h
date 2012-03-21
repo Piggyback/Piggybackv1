@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FBConnect.h"
+#import <RestKit/RestKit.h>
 
 @interface PiggybackAppDelegate : UIResponder <UIApplicationDelegate>
 

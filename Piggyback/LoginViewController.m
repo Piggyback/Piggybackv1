@@ -8,132 +8,111 @@
 
 #import "LoginViewController.h"
 #import "PiggybackAppDelegate.h"
+#import "PBUser.h"
 
+@interface LoginViewController ()
+@property int currentFbAPICall;
+@property int currentPbAPICall;
+@end
 
 @implementation LoginViewController
+@synthesize delegate = _delegate;
+@synthesize currentFbAPICall = _currentFbAPICall;
+@synthesize currentPbAPICall = _currentPbAPICall;
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
-}
+#pragma mark - Private Helper Methods
 
-#pragma - Private Helper Methods
-
-- (void)showLoggedIn {
-    // segue to inbox view
-}
-
-- (void)showLoggedOut {
-    // show login view
-}
-
-- (void)storeAuthData:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
+- (void)storeCurrentUserFbInformation:(id)meGraphApiResult {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:accessToken forKey:@"FBAccessTokenKey"];
-    [defaults setObject:expiresAt forKey:@"FBExpirationDateKey"];
+    [defaults setObject:[meGraphApiResult objectForKey:@"name"] forKey:@"Name"];
+    [defaults setObject:[meGraphApiResult objectForKey:@"first_name"] forKey:@"FirstName"];
+    [defaults setObject:[meGraphApiResult objectForKey:@"last_name"] forKey:@"LastName"];
+    [defaults setObject:[meGraphApiResult objectForKey:@"id"] forKey:@"FBID"];
     [defaults synchronize];
 }
 
-#pragma - IBAction definitions
+- (void)getCurrentUserUidFromLogin:(NSString *)fbid {
+    // Load the user object via RestKit	
+    RKObjectManager* objectManager = [RKObjectManager sharedManager];
+    NSString* resourcePath = [@"/userapi/user/fbid/" stringByAppendingString:fbid];
+    [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"user"] delegate:self];
+}
 
-- (IBAction)loginWithFacebook:(id)sender {
-    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (![[appDelegate facebook] isSessionValid]) {
-        [[appDelegate facebook] authorize:nil];
-    } else {
-        // do nothing for now
+#pragma mark - Public Methods
+- (void)getAndStoreCurrentUserFbInformationAndUid {
+    Facebook *facebook = [(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook];
+    
+    // Uid is retrieved from request:didLoad: method (FBRequestDelegate method) -- for synchronous purposes
+    self.currentFbAPICall = fbAPIGraphMeFromLogin;
+    self.currentPbAPICall = pbAPICurrentUserUidFromLogin;
+    [facebook requestWithGraphPath:@"me" andDelegate:self];
+}
+
+#pragma mark - FBRequestDelegate Methods
+
+- (void)request:(FBRequest *)request didLoad:(id)result {
+    if ([result isKindOfClass:[NSArray class]]) {
+        result = [result objectAtIndex:0];
+    }    
+    
+    switch (self.currentFbAPICall) {
+        case fbAPIGraphMeFromLogin:
+        {
+            NSLog(@"in request:didLoad: callback function, case fbAPIGraphMeFromLogin");
+            [self storeCurrentUserFbInformation:result];
+            [self getCurrentUserUidFromLogin:[result objectForKey:@"id"]];
+            
+            break;
+        }
+        default: 
+            break;
     }
 }
 
-#pragma mark - FBSessionDelegate Methods
-
-- (void)fbDidLogin {
-    [self showLoggedIn];
-    
-    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [self storeAuthData:[[appDelegate facebook] accessToken] expiresAt:[[appDelegate facebook] expirationDate]];
+- (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
+    NSLog(@"Error message: %@", [[error userInfo] objectForKey:@"error_msg"]);
+    // implement showMessage
+    //    [self showMessage:@"Oops, something went haywire."];
 }
 
--(void)fbDidNotLogin:(BOOL)cancelled {
-    // do nothing for now
+#pragma mark - RKObjectLoaderDelegate methods
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
+    switch (self.currentPbAPICall) {
+        case pbAPICurrentUserUidFromLogin:
+        {
+            PBUser *currentUser = (PBUser *)[objects objectAtIndex:0];
+            NSLog(@"Loaded user: %@", currentUser.firstName);
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:currentUser.uid forKey:@"UID"];
+            
+            [self.delegate showLoggedIn];
+
+            break;
+        }
+        default:
+            break;
+    }
 }
 
--(void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
-    NSLog(@"token extended");
-    [self storeAuthData:accessToken expiresAt:expiresAt];
-}
-
-- (void)fbDidLogout {   
-    // Remove saved authorization information if it exists and it is
-    // ok to clear it (logout, session invalid, app unauthorized)
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"FBAccessTokenKey"];
-    [defaults removeObjectForKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
-    
-    [self showLoggedOut];
-}
-
-/**
- * Called when the session has expired.
- */
-- (void)fbSessionInvalidated {
-    UIAlertView *alertView = [[UIAlertView alloc]
-                              initWithTitle:@"Auth Exception"
-                              message:@"Your session has expired."
-                              delegate:nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil,
-                              nil];
-    [alertView show];
-    [self fbDidLogout];
+- (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alert show];
+	NSLog(@"Hit error: %@", error);
 }
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (![[appDelegate facebook] isSessionValid]) {
-        [self showLoggedOut];
-    } else {
-        [self showLoggedIn];
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return NO;
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - IBAction definitions
+
+- (IBAction)loginWithFacebook:(id)sender {
+    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [[appDelegate facebook] authorize:nil];
 }
 
 @end
