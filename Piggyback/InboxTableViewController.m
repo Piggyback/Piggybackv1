@@ -110,16 +110,11 @@
     if(objectLoader.userData == @"inboxLoader") {
         self.inboxItems = objects;
         
-        // store all user FB pics in private property in a separate thread
+        // store all user FB pics in a NSMutableDictionary
         for (InboxItem* currentInboxItem in self.inboxItems) {
             NSString* fbImageLocation = [[@"http://graph.facebook.com/" stringByAppendingString:[currentInboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
             if (![self.userFbPics objectForKey:currentInboxItem.referrer.fbid]) {
                 [self.userFbPics setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImageLocation]]] forKey:currentInboxItem.referrer.fbid];
-//                UIImageView* userFbPic = [[UIImageView alloc] initWithImage:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImageLocation]]]];
-//                userFbPic.layer.masksToBounds = YES;
-//                userFbPic.layer.cornerRadius = 5.0;
-
-//                [self.userFbPics setObject:userFbPic forKey:currentInboxItem.referrer.fbid];
             }
         }
         
