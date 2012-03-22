@@ -8,27 +8,27 @@
 
 #import "InboxTableViewController.h"
 #import "PiggybackAppDelegate.h"
-#import "InboxItem.h"
-#import "PBListEntry.h"
-#import "Constants.h"
-#import "InboxTableCell.h"
-#import "VendorReferralComment.h"
 #import "VendorViewController.h"
-#import "PBList.h"
 #import "IndividualListViewController.h"
-#import "PBListEntry.h"  
+#import "InboxItem.h"
+#import "PBList.h"
+#import "PBListEntry.h"
+#import "VendorReferralComment.h"
+#import "Constants.h"
 #import "InboxTableCell.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface InboxTableViewController()
 
 @property (nonatomic, strong) NSArray* inboxItems;
+@property (nonatomic, strong) NSMutableDictionary* userFbPics;
 
 @end
 
 @implementation InboxTableViewController
 
 @synthesize inboxItems = _inboxItems;
+@synthesize userFbPics = _userFbPics;
 
 #pragma mark - Getters and Setters
 -(NSArray *)inboxItems
@@ -38,6 +38,15 @@
     }
 
     return _inboxItems;
+}
+
+-(NSMutableDictionary *)userFbPics
+{
+    if (!_userFbPics) {
+        _userFbPics = [[NSMutableDictionary alloc] init];
+    }
+    
+    return _userFbPics;
 }
 
 
@@ -95,12 +104,25 @@
 }
 
 #pragma mark - rest kit protocol methods
-// **** PROTOCOL FUNCTIONS FOR RKOBJECTDELEGATE **** //
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
     // retrieve data from API and use information for displaying
     if(objectLoader.userData == @"inboxLoader") {
         self.inboxItems = objects;
+        
+        // store all user FB pics in private property in a separate thread
+        for (InboxItem* currentInboxItem in self.inboxItems) {
+            NSString* fbImageLocation = [[@"http://graph.facebook.com/" stringByAppendingString:[currentInboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
+            if (![self.userFbPics objectForKey:currentInboxItem.referrer.fbid]) {
+                [self.userFbPics setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImageLocation]]] forKey:currentInboxItem.referrer.fbid];
+//                UIImageView* userFbPic = [[UIImageView alloc] initWithImage:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImageLocation]]]];
+//                userFbPic.layer.masksToBounds = YES;
+//                userFbPic.layer.cornerRadius = 5.0;
+
+//                [self.userFbPics setObject:userFbPic forKey:currentInboxItem.referrer.fbid];
+            }
+        }
+        
         [self.tableView reloadData];
     } 
 }
@@ -173,10 +195,7 @@
     // image
     cell.image.layer.cornerRadius = 5.0;
     cell.image.layer.masksToBounds = YES;
-//    cell.image.layer.borderColor = [UIColor lightGrayColor].CGColor;
-//    cell.image.layer.borderWidth = 1.0;
-    NSString* fbImage = [[@"http://graph.facebook.com/" stringByAppendingString:[inboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
-    cell.image.image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImage]]];
+    cell.image.image = [self.userFbPics objectForKey:inboxItem.referrer.fbid];
     
     return cell;
 }
