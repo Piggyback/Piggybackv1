@@ -79,7 +79,6 @@ double const metersToMilesMultiplier = 0.000621371192;
     dispatch_async(getCurrentLocationQueue, ^{
         CLLocation* currentLocation = [self.locationController getCurrentLocationAndStopLocationManager];
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"GOT THE CURRENT LOCATION: %@", currentLocation);
             // compare distances of listEntrys and store in a temp array
             NSArray* listEntrys = [self.list.listEntrys sortedArrayUsingComparator: ^(PBListEntry* a, PBListEntry* b) {
                 // store distance in current list entry
