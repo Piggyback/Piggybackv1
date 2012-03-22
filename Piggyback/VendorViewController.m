@@ -167,6 +167,8 @@ typedef enum tableViewSection {
         }
         
         cell.textLabel.text = [self.vendorInfo objectAtIndex:indexPath.row];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
     } else if (indexPath.section == vendorReferralsSection) {
         cell = [tableView dequeueReusableCellWithIdentifier:ReferralsCellIdentifier];
         if (cell == nil) {
@@ -188,7 +190,7 @@ typedef enum tableViewSection {
         UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
         cell.imageView.image = img;
     }
-    
+        
     return cell;
 }
 
@@ -218,10 +220,38 @@ typedef enum tableViewSection {
     return tableView.rowHeight;
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"pressed a button here");
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 0) {
+        // address row
+        
+        // ask user if he wants to open native maps app (dialog box)
+        
+        // if yes, then pass information to google maps.
+        
+        NSString *convertedAddressStr = [[self.vendorInfo objectAtIndex:0] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        convertedAddressStr = [convertedAddressStr stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+        
+        NSString *url = [NSString stringWithFormat:@"http://maps.google.com/maps?daddr=%@&saddr=%s", convertedAddressStr, "Current%20Location"];
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+    } else {
+        // phone number row
+        NSString *numberStr = self.vendor.phone.description;
+        
+        NSCharacterSet *illegalCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"1234567890*#"] invertedSet];
+        NSString *convertedStr = [[numberStr componentsSeparatedByCharactersInSet:illegalCharSet] componentsJoinedByString:@""];
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"tel:" stringByAppendingString:convertedStr]]];
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

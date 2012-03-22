@@ -598,11 +598,14 @@
 		3E94731815008EF900A261DD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos5.1]" = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SOURCE_ROOT)/RestKit/Build\"";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/facebook-ios-sdk\"",
@@ -612,6 +615,9 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
+				"PROVISIONING_PROFILE[sdk=iphoneos5.1]" = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -620,11 +626,14 @@
 		3E94731915008EF900A261DD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos5.1]" = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SOURCE_ROOT)/RestKit/Build\"";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/facebook-ios-sdk\"",
@@ -634,6 +643,9 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
+				"PROVISIONING_PROFILE[sdk=iphoneos5.1]" = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
