@@ -42,6 +42,10 @@
 		3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB51D1501795800CC57A8 /* piggyback_login.png */; };
 		3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB52215017C6500CC57A8 /* FBDialog.bundle */; };
 		3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */; };
+		4F4DACB2151AD58200E6E65C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB0151AD58200E6E65C /* Icon.png */; };
+		4F4DACB3151AD58200E6E65C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB1151AD58200E6E65C /* Icon@2x.png */; };
+		4F4DACB5151AD5CE00E6E65C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB4151AD5CE00E6E65C /* Icon.png */; };
+		4F4DACB7151AD5D200E6E65C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB6151AD5D200E6E65C /* Icon@2x.png */; };
 		F936AB7F1508F12F0019F191 /* VendorReferralComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB7E1508F12F0019F191 /* VendorReferralComment.m */; };
 		F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */; };
 		F936AB85150A5AC70019F191 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB84150A5AC60019F191 /* Constants.m */; };
@@ -164,6 +168,10 @@
 		3EFDB52C15017C6500CC57A8 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		3EFDB52D15017C6500CC57A8 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		3EFDB52E15017C6500CC57A8 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		4F4DACB0151AD58200E6E65C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		4F4DACB1151AD58200E6E65C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		4F4DACB4151AD5CE00E6E65C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		4F4DACB6151AD5D200E6E65C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		F936AB7D1508F12F0019F191 /* VendorReferralComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VendorReferralComment.h; path = Piggyback/VendorReferralComment.h; sourceTree = "<group>"; };
 		F936AB7E1508F12F0019F191 /* VendorReferralComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VendorReferralComment.m; path = Piggyback/VendorReferralComment.m; sourceTree = "<group>"; };
 		F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferralCommentTableCell.h; path = Piggyback/ReferralCommentTableCell.h; sourceTree = "<group>"; };
@@ -222,6 +230,8 @@
 		3E9472EB15008EF900A261DD = {
 			isa = PBXGroup;
 			children = (
+				4F4DACB6151AD5D200E6E65C /* Icon@2x.png */,
+				4F4DACB4151AD5CE00E6E65C /* Icon.png */,
 				3EFDB51F15017C6500CC57A8 /* facebook-ios-sdk */,
 				F9B9B62D150197420002BCDE /* RestKit.xcodeproj */,
 				3E94730015008EF900A261DD /* Piggyback */,
@@ -304,6 +314,8 @@
 		3EFDB51C1501793200CC57A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4F4DACB0151AD58200E6E65C /* Icon.png */,
+				4F4DACB1151AD58200E6E65C /* Icon@2x.png */,
 				3E47337C1519A78200083B53 /* blue_square@2x.png */,
 				3E5400E31519677E0078CFC2 /* geolocation_icon.png */,
 				3EB580371519608800EA329C /* geolocation_icon@2x.png */,
@@ -501,6 +513,10 @@
 				3E5400E41519677E0078CFC2 /* geolocation_icon.png in Resources */,
 				3E5400E6151967B80078CFC2 /* phone_icon.png in Resources */,
 				3E47337D1519A78200083B53 /* blue_square@2x.png in Resources */,
+				4F4DACB2151AD58200E6E65C /* Icon.png in Resources */,
+				4F4DACB3151AD58200E6E65C /* Icon@2x.png in Resources */,
+				4F4DACB5151AD5CE00E6E65C /* Icon.png in Resources */,
+				4F4DACB7151AD5D200E6E65C /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,7 +602,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -605,7 +621,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -616,11 +632,14 @@
 		3E94731815008EF900A261DD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos5.1]" = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SOURCE_ROOT)/RestKit/Build\"";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/facebook-ios-sdk\"",
@@ -630,6 +649,9 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
+				"PROVISIONING_PROFILE[sdk=iphoneos5.1]" = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -638,11 +660,14 @@
 		3E94731915008EF900A261DD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos5.1]" = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SOURCE_ROOT)/RestKit/Build\"";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/facebook-ios-sdk\"",
@@ -652,6 +677,9 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
+				"PROVISIONING_PROFILE[sdk=iphoneos5.1]" = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
