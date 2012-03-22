@@ -239,29 +239,26 @@ typedef enum tableViewSection {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        // address row
-        
-        // ask user if he wants to open native maps app (dialog box)
-        
-        // if yes, then pass information to google maps.
-        
-        NSString *convertedAddressStr = [[self.vendorInfo objectAtIndex:0] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-        convertedAddressStr = [convertedAddressStr stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-        
-        NSString *url = [NSString stringWithFormat:@"http://maps.google.com/maps?daddr=%@&saddr=%s", convertedAddressStr, "Current%20Location"];
-        
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-    } else {
-        // phone number row
-        NSString *numberStr = self.vendor.phone.description;
-        
-        NSCharacterSet *illegalCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"1234567890*#"] invertedSet];
-        NSString *convertedStr = [[numberStr componentsSeparatedByCharactersInSet:illegalCharSet] componentsJoinedByString:@""];
-        
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"tel:" stringByAppendingString:convertedStr]]];
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0 && self.hasAddress) {
+            // address row
+            NSString *convertedAddressStr = [[self.vendorInfo objectAtIndex:0] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+            convertedAddressStr = [convertedAddressStr stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+            
+            NSString *url = [NSString stringWithFormat:@"http://maps.google.com/maps?daddr=%@&saddr=%s", convertedAddressStr, "Current%20Location"];
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+        } else if (self.hasPhone) {
+            // phone number row
+            NSString *numberStr = self.vendor.phone.description;
+            
+            NSCharacterSet *illegalCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"1234567890*#"] invertedSet];
+            NSString *convertedStr = [[numberStr componentsSeparatedByCharactersInSet:illegalCharSet] componentsJoinedByString:@""];
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"tel:" stringByAppendingString:convertedStr]]];
+        }
     }
-    
+        
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
