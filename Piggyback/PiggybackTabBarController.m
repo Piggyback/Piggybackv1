@@ -51,6 +51,8 @@
     [self storeAuthData:[facebook accessToken] expiresAt:[facebook expirationDate]];
     
     // get current login instantiation to call getCurrentUserFbInformationAndUid method
+#warning no need to make new pointer?    
+//    [(LoginViewController*)[self presentedViewController] getAndStoreCurrentUserFbInformationAndUid];    
     LoginViewController* existingLoginViewController = (LoginViewController*)[self presentedViewController];
     [existingLoginViewController getAndStoreCurrentUserFbInformationAndUid];
 }

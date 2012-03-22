@@ -17,6 +17,8 @@
 #import "PBList.h"
 #import "IndividualListViewController.h"
 #import "PBListEntry.h"  
+#import "InboxTableCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface InboxTableViewController()
 
@@ -50,43 +52,43 @@
     
     if ([elapsedTimeUnits year] > 0) {
         number = [elapsedTimeUnits year];
-        unit = [NSString stringWithFormat:@"year"];
+        unit = [NSString stringWithFormat:@"yr"];
     }
     else if ([elapsedTimeUnits month] > 0) {
         number = [elapsedTimeUnits month];
-        unit = [NSString stringWithFormat:@"month"];
+        unit = [NSString stringWithFormat:@"mo"];
     }
     else if ([elapsedTimeUnits week] > 0) {
         number = [elapsedTimeUnits week];
-        unit = [NSString stringWithFormat:@"week"];
+        unit = [NSString stringWithFormat:@"wk"];
     }
     else if ([elapsedTimeUnits day] > 0) {
         number = [elapsedTimeUnits day];
-        unit = [NSString stringWithFormat:@"day"];
+        unit = [NSString stringWithFormat:@"d"];
     }
     else if ([elapsedTimeUnits hour] > 0) {
         number = [elapsedTimeUnits hour];
-        unit = [NSString stringWithFormat:@"hour"];
+        unit = [NSString stringWithFormat:@"hr"];
     }
     else if ([elapsedTimeUnits minute] > 0) {
         number = [elapsedTimeUnits minute];
-        unit = [NSString stringWithFormat:@"minute"];
+        unit = [NSString stringWithFormat:@"min"];
     }
     else if ([elapsedTimeUnits second] > 0) {
         number = [elapsedTimeUnits second];
-        unit = [NSString stringWithFormat:@"second"];
+        unit = [NSString stringWithFormat:@"sec"];
     } else if ([elapsedTimeUnits second] <= 0) {
         number = 0;
     }
     // check if unit number is greater then append s at the end
-    if (number > 1) {
-        unit = [NSString stringWithFormat:@"%@s", unit];
-    }
+//    if (number > 1) {
+//        unit = [NSString stringWithFormat:@"%@s", unit];
+//    }
     
-    NSString* elapsedTime = [NSString stringWithFormat:@"%d %@ ago",number,unit];
+    NSString* elapsedTime = [NSString stringWithFormat:@"%d%@",number,unit];
     
     if (number == 0) {
-        elapsedTime = @"Just now";
+        elapsedTime = @"1sec";
     }
     
     return elapsedTime;
@@ -110,10 +112,6 @@
 
 #pragma mark - table data source protocol methods
 // **** PROTOCOL FUNCTIONS FOR TABLE DATA SOURCE **** //
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
     NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
@@ -132,48 +130,53 @@
     InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
     
     // vendor or list name 
-    NSString* additionalInfo;    
     if ([inboxItem.lid intValue] == 0) {
-        cell.textLabel.text = inboxItem.vendor.name;
+        cell.name.text = inboxItem.vendor.name;
+        cell.numItemsInList.text = @"";
     } else {    
-        cell.textLabel.text = inboxItem.listName;
+        cell.name.text = inboxItem.listName;
+        cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.listEntrys count]] stringByAppendingString:@")"];
         
-        // get number of items in list
-        NSString* numListItems = @"List with %d item";
-        if ([inboxItem.listEntrys count] > 1) {
-            numListItems = [numListItems stringByAppendingString:@"s"];
-        }
-        
-        additionalInfo = [NSString stringWithFormat:numListItems,[inboxItem.listEntrys count]];
+        // set position of number of items in list
+        CGSize listNameSize = [inboxItem.listName sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        NSLog(@"size needed for vendor name is %f",listNameSize.width);
+        CGRect listNameFrame = cell.name.frame;
+        listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
+        cell.numItemsInList.frame = listNameFrame;
     }
-    
     // date
     NSString* timeElapsed = [self timeElapsed:inboxItem.date];
-    cell.detailTextLabel.text = timeElapsed;
+    cell.date.text = timeElapsed;
     
-    // add number of items (for lists)
-    if ([inboxItem.lid intValue] > 0) {
-        cell.detailTextLabel.text = [[cell.detailTextLabel.text stringByAppendingString:@"\n"] stringByAppendingString:additionalInfo];
-    }
+    // referred by
+    cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrer.firstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrer.lastName];
     
     // number of other friends this was referred to
-    NSString* numFriendsLabel = @"Recommended to you and %d friend";
-    NSInteger numFriends = [inboxItem.otherFriends count];
-    if (numFriends == 0) {
-        numFriendsLabel = @"Just to you!";
-    } else if (numFriends > 1) {
-        numFriendsLabel = [numFriendsLabel stringByAppendingString:@"s"];
-    }
-    NSString* otherFriends = [NSString stringWithFormat:numFriendsLabel,numFriends];
-    cell.detailTextLabel.text = [[cell.detailTextLabel.text stringByAppendingString:@"\n"] stringByAppendingString:otherFriends];
+//    NSString* numFriendsLabel = @"To you and %d friend";
+//    NSInteger numFriends = [inboxItem.otherFriends count];
+//    if (numFriends == 0) {
+//        numFriendsLabel = @"Just to you!";
+//    } else if (numFriends > 1) {
+//        numFriendsLabel = [numFriendsLabel stringByAppendingString:@"s"];
+//    }
+//    NSString* otherFriends = [NSString stringWithFormat:numFriendsLabel,numFriends];
+//    cell.referredTo.text = otherFriends;
     
     // comment
-    cell.detailTextLabel.text = [[cell.detailTextLabel.text stringByAppendingString:@"\n"] stringByAppendingString:inboxItem.comment];
-    cell.detailTextLabel.numberOfLines = 0;
+    cell.comment.numberOfLines = 0;
+    cell.comment.text = inboxItem.comment;
+    CGSize sizeOfComment = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+    CGRect newFrame = cell.comment.frame;
+    newFrame.size.height = sizeOfComment.height;
+    cell.comment.frame = newFrame;
     
     // image
+    cell.image.layer.cornerRadius = 5.0;
+    cell.image.layer.masksToBounds = YES;
+//    cell.image.layer.borderColor = [UIColor lightGrayColor].CGColor;
+//    cell.image.layer.borderWidth = 1.0;
     NSString* fbImage = [[@"http://graph.facebook.com/" stringByAppendingString:[inboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
-    cell.imageView.image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImage]]];
+    cell.image.image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImage]]];
     
     return cell;
 }
@@ -195,12 +198,12 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
 {
     InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-    CGSize size = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+    CGSize size = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
     
-    if (size.height + 60 < FACEBOOKPICHEIGHT) {
+    if (size.height + 35 < FACEBOOKPICHEIGHT) {
         return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
     } else {
-        return size.height + 2*FACEBOOKPICMARGIN + 60;
+        return size.height + 2*FACEBOOKPICMARGIN + 35;
     }
 }
 
@@ -247,7 +250,8 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     // re-fetch inbox items for users whenever inbox view appears
-    NSString* inboxPath = [@"inboxapi/inbox/uid/" stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
+    NSString* inboxPath = [@"inboxapi/inbox/id/" stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
+    NSLog(@"INBOX PATH: %@", inboxPath);
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
     inboxLoader.userData = @"inboxLoader";

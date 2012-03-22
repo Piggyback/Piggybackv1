@@ -9,6 +9,7 @@
 #import "VendorViewController.h"
 #import "Constants.h"
 #import "VendorReferralComment.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface VendorViewController () 
 
@@ -27,12 +28,8 @@ typedef enum tableViewSection {
 @synthesize vendorTableView = _vendorInfoTable;
 
 @synthesize vendor = _vendor;
-//@synthesize addrButton = _addrButton;
-//@synthesize phoneButton = _phoneButton;
 @synthesize vendorImage = _vendorImage;
 @synthesize referralComments = _referralComments;
-//@synthesize referralCommentsLabel = _referralCommentsLabel;
-//@synthesize referralCommentsTable = _referralCommentsTable;
 @synthesize scrollView = _scrollView;
 
 @synthesize hasAddress = _hasAddress;
@@ -46,7 +43,7 @@ typedef enum tableViewSection {
     self.vendorInfo = [[NSMutableArray alloc] init];
     
     // check if vendor has address and phone number
-    if ([vendor.addr length] == 0)  
+    if ([vendor.addrNum length] == 0 && [vendor.addrStreet length] == 0 && [vendor.addrCity length] == 0)  
         self.hasAddress = NO; 
     else {
         self.hasAddress = YES;
@@ -151,18 +148,21 @@ typedef enum tableViewSection {
         if ([self.vendorInfo count] == 1) {
             if (self.hasAddress) {
                 cell.textLabel.numberOfLines = 0;
-                cell.imageView.image = [UIImage imageNamed:@"location_icon_44x44"];
+                cell.imageView.image = [UIImage imageNamed:@"geolocation_icon"];
+                
             } else {
-                cell.imageView.image = [UIImage imageNamed:@"phone_icon_44x44"];
+                cell.imageView.image = [UIImage imageNamed:@"phone_icon"];
+                cell.indentationWidth = 4;
             }
         } else {
             if (indexPath.row == 0) {
                 // address row
                 cell.textLabel.numberOfLines = 0;
-                cell.imageView.image = [UIImage imageNamed:@"location_icon_44x44"];
+                cell.imageView.image = [UIImage imageNamed:@"geolocation_icon"];
             } else {
                 // phone number row
-                cell.imageView.image = [UIImage imageNamed:@"phone_icon_44x44"];
+                cell.imageView.image = [UIImage imageNamed:@"phone_icon"];
+                cell.indentationWidth = 4;
             }
         }
         
@@ -188,6 +188,8 @@ typedef enum tableViewSection {
         
         NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
         UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
+        cell.imageView.layer.cornerRadius = 5.0;
+        cell.imageView.layer.masksToBounds = YES;
         cell.imageView.image = img;
     }
         
@@ -200,16 +202,24 @@ typedef enum tableViewSection {
     if (indexPath.section == vendorInfoSection) {
         if ([self.vendorInfo count] == 1) {
             if (self.hasAddress) {
-                return tableView.rowHeight + 20;
+                return tableView.rowHeight + 10;
             }
         } else {
             if (indexPath.row == 0) {
                 // address row
-                return tableView.rowHeight + 20;
+                return tableView.rowHeight + 10;
             }
         }
     } else if (indexPath.section == vendorReferralsSection) {
-        CGSize size = [[[self.referralComments objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
+        NSString* displayedComment;
+        if ([vendorReferralComment.referralLid intValue] > 0) {
+            displayedComment = vendorReferralComment.listEntryComment;
+        } else {
+            displayedComment = vendorReferralComment.comment;
+        }
+        
+        CGSize size = [displayedComment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
         
         if (size.height < FACEBOOKPICHEIGHT)
             return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;

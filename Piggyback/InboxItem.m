@@ -18,7 +18,6 @@
 @synthesize listName = _listName;
 @synthesize vendor = _vendor;
 @synthesize listEntrys = _listEntrys;
-@synthesize otherFriends = _otherFriends;
 @synthesize nonUniqueReferralComments = _nonUniqueReferralComments;
 
 @end
