@@ -44,8 +44,6 @@
 		3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */; };
 		4F4DACB2151AD58200E6E65C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB0151AD58200E6E65C /* Icon.png */; };
 		4F4DACB3151AD58200E6E65C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB1151AD58200E6E65C /* Icon@2x.png */; };
-		4F4DACB5151AD5CE00E6E65C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB4151AD5CE00E6E65C /* Icon.png */; };
-		4F4DACB7151AD5D200E6E65C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB6151AD5D200E6E65C /* Icon@2x.png */; };
 		F936AB7F1508F12F0019F191 /* VendorReferralComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB7E1508F12F0019F191 /* VendorReferralComment.m */; };
 		F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */; };
 		F936AB85150A5AC70019F191 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB84150A5AC60019F191 /* Constants.m */; };
@@ -170,8 +168,6 @@
 		3EFDB52E15017C6500CC57A8 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		4F4DACB0151AD58200E6E65C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		4F4DACB1151AD58200E6E65C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		4F4DACB4151AD5CE00E6E65C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		4F4DACB6151AD5D200E6E65C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		F936AB7D1508F12F0019F191 /* VendorReferralComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VendorReferralComment.h; path = Piggyback/VendorReferralComment.h; sourceTree = "<group>"; };
 		F936AB7E1508F12F0019F191 /* VendorReferralComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VendorReferralComment.m; path = Piggyback/VendorReferralComment.m; sourceTree = "<group>"; };
 		F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferralCommentTableCell.h; path = Piggyback/ReferralCommentTableCell.h; sourceTree = "<group>"; };
@@ -230,8 +226,6 @@
 		3E9472EB15008EF900A261DD = {
 			isa = PBXGroup;
 			children = (
-				4F4DACB6151AD5D200E6E65C /* Icon@2x.png */,
-				4F4DACB4151AD5CE00E6E65C /* Icon.png */,
 				3EFDB51F15017C6500CC57A8 /* facebook-ios-sdk */,
 				F9B9B62D150197420002BCDE /* RestKit.xcodeproj */,
 				3E94730015008EF900A261DD /* Piggyback */,
@@ -515,8 +509,6 @@
 				3E47337D1519A78200083B53 /* blue_square@2x.png in Resources */,
 				4F4DACB2151AD58200E6E65C /* Icon.png in Resources */,
 				4F4DACB3151AD58200E6E65C /* Icon@2x.png in Resources */,
-				4F4DACB5151AD5CE00E6E65C /* Icon.png in Resources */,
-				4F4DACB7151AD5D200E6E65C /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

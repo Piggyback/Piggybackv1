@@ -230,11 +230,6 @@ typedef enum tableViewSection {
     return tableView.rowHeight;
 }
 
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"pressed a button here");
-}
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -306,8 +301,6 @@ typedef enum tableViewSection {
     if ([self.referralComments count]) {         
         // re-set scrollView height
         CGFloat totalTableHeight = [self.vendorTableView rectForSection:vendorInfoSection].size.height + [self.vendorTableView rectForHeaderInSection:vendorReferralsSection].size.height + [self.vendorTableView rectForSection:vendorReferralsSection].size.height;
-        
-        NSLog(@"header height: %f", [self.vendorTableView rectForHeaderInSection:vendorReferralsSection].size.height);
         
         CGRect tableBounds = [self.vendorTableView bounds];
         [self.vendorTableView setBounds:CGRectMake(tableBounds.origin.x,

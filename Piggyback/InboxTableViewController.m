@@ -27,6 +27,8 @@
 
 @implementation InboxTableViewController
 
+NSString* const RK_INBOX_ID_RESOURCE_PATH = @"inboxapi/inbox/id/";
+
 @synthesize inboxItems = _inboxItems;
 @synthesize userFbPics = _userFbPics;
 
@@ -124,14 +126,13 @@
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
 {
-    NSLog(@"Encountered an error: %@", error);
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController FBRequestDelegate Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alert show];
 }
 
 #pragma mark - table data source protocol methods
-// **** PROTOCOL FUNCTIONS FOR TABLE DATA SOURCE **** //
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
-    NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     return [self.inboxItems count];
 }
 
@@ -156,7 +157,6 @@
         
         // set position of number of items in list
         CGSize listNameSize = [inboxItem.listName sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-        NSLog(@"size needed for vendor name is %f",listNameSize.width);
         CGRect listNameFrame = cell.name.frame;
         listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
         cell.numItemsInList.frame = listNameFrame;
@@ -248,7 +248,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"inbox viewDidLoad");
 }
 
 - (void)viewDidUnload
@@ -264,8 +263,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     // re-fetch inbox items for users whenever inbox view appears
-    NSString* inboxPath = [@"inboxapi/inbox/id/" stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
-    NSLog(@"INBOX PATH: %@", inboxPath);
+    NSString* inboxPath = [RK_INBOX_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
     inboxLoader.userData = @"inboxLoader";

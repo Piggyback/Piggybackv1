@@ -25,9 +25,7 @@
     UIViewController* inboxNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"inboxNavigationController"];
     UIViewController* listsNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"listsNavigationController"];
     NSArray* newTabViewControllers = [NSArray arrayWithObjects:inboxNavigationController, listsNavigationController, nil];
-    NSLog(@"setting view controllers");
     self.viewControllers = newTabViewControllers;
-    NSLog(@"finished setting view controllers");
     self.selectedIndex = 0;
 }
 
@@ -51,10 +49,7 @@
     [self storeAuthData:[facebook accessToken] expiresAt:[facebook expirationDate]];
     
     // get current login instantiation to call getCurrentUserFbInformationAndUid method
-#warning no need to make new pointer?    
-//    [(LoginViewController*)[self presentedViewController] getAndStoreCurrentUserFbInformationAndUid];    
-    LoginViewController* existingLoginViewController = (LoginViewController*)[self presentedViewController];
-    [existingLoginViewController getAndStoreCurrentUserFbInformationAndUid];
+    [(LoginViewController*)[self presentedViewController] getAndStoreCurrentUserFbInformationAndUid];    
 }
 
 -(void)fbDidNotLogin:(BOOL)cancelled {
@@ -62,7 +57,7 @@
 }
 
 -(void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
-    NSLog(@"token extended");
+    NSLog(@"fb token extended");
     [self storeAuthData:accessToken expiresAt:expiresAt];
 }
 
