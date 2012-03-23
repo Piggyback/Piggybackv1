@@ -11,9 +11,9 @@
 @implementation ListEntryTableViewCell
 
 @synthesize name = _name;
-@synthesize referredBy = _referredBy;
+@synthesize referredByOrDescription = _referredByOrDescription;
 @synthesize distance = _distance;
-@synthesize description = _description;
+@synthesize descriptionOrBlank = _descriptionOrBlank;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

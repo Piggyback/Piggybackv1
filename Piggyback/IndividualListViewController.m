@@ -140,13 +140,10 @@ double const metersToMilesMultiplier = 0.000621371192;
     cell.name.text = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name];
 
     NSInteger numReferredBy = [[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue];
-    if (numReferredBy == 0) {
-        cell.referredBy.text = @"";
-    }
-    else if (numReferredBy == 1) {
-        cell.referredBy.text = [NSString stringWithFormat:@"From %@ friend", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
-    } else {
-        cell.referredBy.text = [NSString stringWithFormat:@"From %@ friends", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
+    if (numReferredBy == 1) {
+        cell.referredByOrDescription.text = [NSString stringWithFormat:@"From %@ friend", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
+    } else if (numReferredBy > 1) {
+        cell.referredByOrDescription.text = [NSString stringWithFormat:@"From %@ friends", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
     }
 
     CLLocationDistance distance = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles];
@@ -163,16 +160,38 @@ double const metersToMilesMultiplier = 0.000621371192;
     }
     
     // determine how tall uilabel must be to fit contents
-    cell.description.numberOfLines = 0;    
-    cell.description.text = [[self.shownListEntrys objectAtIndex:indexPath.row] comment];
-    CGSize expectedLabelSize = [[[self.shownListEntrys objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:16.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-    CGRect newFrame = cell.description.frame;
-    newFrame.size.height = expectedLabelSize.height;
-    cell.description.frame = newFrame;
+    CGSize expectedLabelSize = [[[self.shownListEntrys objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:16.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap]; 
     
     // do not include 'referred by 0 friends' if no one referred to you
     if (numReferredBy == 0) {
-        cell.description.frame = CGRectMake(cell.referredBy.frame.origin.x, cell.referredBy.frame.origin.y, cell.description.frame.size.width, cell.description.frame.size.height);
+        // set referredByOrDescription to description
+        CGRect newFrame = cell.referredByOrDescription.frame;
+        newFrame.size.height = expectedLabelSize.height;
+        
+        cell.referredByOrDescription.lineBreakMode = UILineBreakModeWordWrap;
+        cell.referredByOrDescription.numberOfLines = 0;
+        cell.referredByOrDescription.text = [[self.shownListEntrys objectAtIndex:indexPath.row] comment];
+        cell.referredByOrDescription.frame = newFrame;
+#warning - need to optimize and change font color
+        
+        // set description to blank
+        cell.descriptionOrBlank.text = @"";
+        newFrame = cell .descriptionOrBlank.frame;
+        newFrame.size.height = 0;
+        cell.descriptionOrBlank.frame = newFrame;
+    } else {
+        // set referredByorDescription to description
+        CGRect newFrame = cell.descriptionOrBlank.frame;
+        newFrame.size.height = expectedLabelSize.height;
+        
+        cell.descriptionOrBlank.lineBreakMode = UILineBreakModeWordWrap;
+        cell.descriptionOrBlank.numberOfLines = 0;    
+        cell.descriptionOrBlank.text = [[self.shownListEntrys objectAtIndex:indexPath.row] comment];
+        cell.descriptionOrBlank.frame = newFrame;
+        
+        newFrame = cell.referredByOrDescription.frame;
+        newFrame.size.height = 20;
+        cell.referredByOrDescription.frame = newFrame;
     }
 
     return cell;
