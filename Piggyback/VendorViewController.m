@@ -10,6 +10,7 @@
 #import "Constants.h"
 #import "VendorReferralComment.h"
 #import <QuartzCore/QuartzCore.h>
+#import "VendorPhoto.h"
 
 @interface VendorViewController () 
 
@@ -44,7 +45,7 @@ typedef enum tableViewSection {
     self.vendorInfo = [[NSMutableArray alloc] init];
     
     // check if vendor has address and phone number
-    if ([vendor.addr length] == 0 && [vendor.addrCity length] == 0)  
+    if ([vendor.addr length] == 0 && [vendor.addrCity length] == 0 && [vendor.addrState length])  
         self.hasAddress = NO; 
     else {
         self.hasAddress = YES;
@@ -91,13 +92,16 @@ typedef enum tableViewSection {
         if ([self.photos count] > 0) {
             dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
             dispatch_async(downloadImageQueue, ^{
-                UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[self.photos objectAtIndex:0]]];
+                VendorPhoto* photo = [self.photos objectAtIndex:0];
+//                NSString* squarePhotoString = [[photo.photoURL stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
+                UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photo.photoURL]]];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.vendorImage setImage:image];
                 });
             });
         } else {
             // display icon for no picture
+            [self.vendorImage setImage:[UIImage imageNamed:@"no_photo.png"]];
         }
 //        [self.tableView reloadData];
     } 
@@ -313,10 +317,10 @@ typedef enum tableViewSection {
     self.title = self.vendor.name;
     
     NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vid];
+    NSLog(@"path to get vendor photos is %@",vendorPhotoPath);
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* vendorPhotoLoader = [objManager loadObjectsAtResourcePath:vendorPhotoPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor-photo"] delegate:self];
     vendorPhotoLoader.userData = @"vendorPhotoLoader";
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {

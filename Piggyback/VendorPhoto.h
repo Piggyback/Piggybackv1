@@ -12,6 +12,6 @@
 
 @property (nonatomic, strong) NSString* vid;
 @property (nonatomic, strong) NSString* pid;
-@property (nonatomic, strong) NSURL* photoURL;
+@property (nonatomic, strong) NSString* photoURL;
 
 @end
