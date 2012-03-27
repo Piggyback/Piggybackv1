@@ -12,12 +12,10 @@
 
 @synthesize date = _date;
 @synthesize rid = _rid;
-@synthesize lid = _lid;
 @synthesize referrer = _referrer;
 @synthesize comment = _comment;
-@synthesize listName = _listName;
 @synthesize vendor = _vendor;
-@synthesize listEntrys = _listEntrys;
+@synthesize list = _list;
 @synthesize nonUniqueReferralComments = _nonUniqueReferralComments;
 
 @end

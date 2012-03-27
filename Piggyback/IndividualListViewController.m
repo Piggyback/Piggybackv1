@@ -13,9 +13,9 @@
 #import "VendorReferralComment.h"
 #import "listEntryTableViewCell.h"
 
-const double metersToMilesMultiplier = 0.000621371192;
-
 @implementation IndividualListViewController
+
+double const metersToMilesMultiplier = 0.000621371192;
 
 @synthesize list = _list;
 @synthesize listEntryTableView = _listEntryTableView;
@@ -79,7 +79,6 @@ const double metersToMilesMultiplier = 0.000621371192;
     dispatch_async(getCurrentLocationQueue, ^{
         CLLocation* currentLocation = [self.locationController getCurrentLocationAndStopLocationManager];
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"GOT THE CURRENT LOCATION: %@", currentLocation);
             // compare distances of listEntrys and store in a temp array
             NSArray* listEntrys = [self.list.listEntrys sortedArrayUsingComparator: ^(PBListEntry* a, PBListEntry* b) {
                 // store distance in current list entry
@@ -112,7 +111,6 @@ const double metersToMilesMultiplier = 0.000621371192;
     dispatch_queue_t getCurrentLocationViewWillAppearQueue = dispatch_queue_create("getCurrentLocationViewWillAppear", NULL);
     dispatch_async(getCurrentLocationViewWillAppearQueue, ^{
         CLLocation* currentLocation = [self.locationController getCurrentLocationAndStopLocationManager];
-        NSLog(@"current location on view will appear for 'most popular' tab ONLY: %@", currentLocation);
         for (PBListEntry* currentListEntry in self.list.listEntrys) {
             currentListEntry.vendor.distanceFromCurrentLocationInMiles = [[[CLLocation alloc] initWithLatitude:(CLLocationDegrees)[currentListEntry.vendor.lat doubleValue] longitude:(CLLocationDegrees)[currentListEntry.vendor.lng doubleValue]] distanceFromLocation:currentLocation] * metersToMilesMultiplier;
         }
@@ -142,13 +140,10 @@ const double metersToMilesMultiplier = 0.000621371192;
     cell.name.text = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name];
 
     NSInteger numReferredBy = [[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue];
-    if (numReferredBy == 0) {
-        cell.referredBy.text = @"";
-    }
-    else if (numReferredBy == 1) {
-        cell.referredBy.text = [NSString stringWithFormat:@"From %@ friend", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
-    } else {
-        cell.referredBy.text = [NSString stringWithFormat:@"From %@ friends", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
+    if (numReferredBy == 1) {
+        cell.referredByOrDescription.text = [NSString stringWithFormat:@"From %@ friend", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
+    } else if (numReferredBy > 1) {
+        cell.referredByOrDescription.text = [NSString stringWithFormat:@"From %@ friends", [[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy]];
     }
 
     CLLocationDistance distance = [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles];
@@ -165,21 +160,39 @@ const double metersToMilesMultiplier = 0.000621371192;
     }
     
     // determine how tall uilabel must be to fit contents
-    cell.description.numberOfLines = 0;    
-    cell.description.text = [[self.shownListEntrys objectAtIndex:indexPath.row] comment];
-    CGSize expectedLabelSize = [[[self.shownListEntrys objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:16.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-    CGRect newFrame = cell.description.frame;
-    newFrame.size.height = expectedLabelSize.height;
-    cell.description.frame = newFrame;
+    CGSize expectedLabelSize = [[[self.shownListEntrys objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:16.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap]; 
     
     // do not include 'referred by 0 friends' if no one referred to you
     if (numReferredBy == 0) {
-        cell.description.frame = CGRectMake(cell.referredBy.frame.origin.x, cell.referredBy.frame.origin.y, cell.description.frame.size.width, cell.description.frame.size.height);
+        // set referredByOrDescription to description
+        CGRect newFrame = cell.referredByOrDescription.frame;
+        newFrame.size.height = expectedLabelSize.height;
+        
+        cell.referredByOrDescription.lineBreakMode = UILineBreakModeWordWrap;
+        cell.referredByOrDescription.numberOfLines = 0;
+        cell.referredByOrDescription.text = [[self.shownListEntrys objectAtIndex:indexPath.row] comment];
+        cell.referredByOrDescription.frame = newFrame;
+#warning - need to optimize and change font color
+        
+        // set description to blank
+        cell.descriptionOrBlank.text = @"";
+        newFrame = cell .descriptionOrBlank.frame;
+        newFrame.size.height = 0;
+        cell.descriptionOrBlank.frame = newFrame;
+    } else {
+        // set referredByorDescription to description
+        CGRect newFrame = cell.descriptionOrBlank.frame;
+        newFrame.size.height = expectedLabelSize.height;
+        
+        cell.descriptionOrBlank.lineBreakMode = UILineBreakModeWordWrap;
+        cell.descriptionOrBlank.numberOfLines = 0;    
+        cell.descriptionOrBlank.text = [[self.shownListEntrys objectAtIndex:indexPath.row] comment];
+        cell.descriptionOrBlank.frame = newFrame;
+        
+        newFrame = cell.referredByOrDescription.frame;
+        newFrame.size.height = 20;
+        cell.referredByOrDescription.frame = newFrame;
     }
-    
-
-    NSLog(@"cellForRowAtIndexPath listEntry name: %@", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] name]);
-    NSLog(@"listEntry distance: %f", [[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] distanceFromCurrentLocationInMiles]);
 
     return cell;
 }
@@ -189,7 +202,6 @@ const double metersToMilesMultiplier = 0.000621371192;
     CGSize size = [[[self.shownListEntrys objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:16.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
     
     NSInteger numReferredBy = [[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue];
-    NSLog(@"height is %f for %@",size.height,[[self.shownListEntrys objectAtIndex:indexPath.row] vendor].name);
     if (numReferredBy == 0 && size.height > 15) {
         size.height = size.height - 20;
     }
@@ -208,7 +220,6 @@ const double metersToMilesMultiplier = 0.000621371192;
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
@@ -241,14 +252,12 @@ const double metersToMilesMultiplier = 0.000621371192;
     
     switch (self.segmentedControl.selectedSegmentIndex) {
         case 0:
-            // most popular
-            NSLog(@"IndividualListViewController will appear with 'most popular' selected");            
+            // most popular          
             [self sortListEntrysByMostRecommendations];
             [self calculateDistanceOnViewWillAppear];
             break;
         case 1:
             // nearby
-            NSLog(@"IndividualListViewController will appear with 'nearby' selected");
             [self sortListEntrysByDistance];
             break;
             
@@ -283,7 +292,6 @@ const double metersToMilesMultiplier = 0.000621371192;
         NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
         NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];
         for (VendorReferralComment* commentObject in [[self.shownListEntrys objectAtIndex:[self.listEntryTableView indexPathForCell:sender].row] referredBy]) {
-            NSLog(@"*********** comment object is: %@",[commentObject comment]);
             if (![uniqueReferrerUIDs containsObject:commentObject.referrer.uid]) {
                 [uniqueReferrerUIDs addObject:commentObject.referrer.uid];
                 [uniqueReferralComments addObject:commentObject];
@@ -300,13 +308,11 @@ const double metersToMilesMultiplier = 0.000621371192;
 - (IBAction)segmentedControlChanged {
     switch (self.segmentedControl.selectedSegmentIndex) {
         case 0:
-            // most popular
-            NSLog(@"segmentedControlChanged to 'most popular'");            
+            // most popular          
             [self sortListEntrysByMostRecommendations];
             break;
         case 1:
             // nearby
-            NSLog(@"segmentedControlChanged to 'nearby'");
             [self sortListEntrysByDistance];
             break;
             

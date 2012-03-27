@@ -11,8 +11,8 @@
 @interface ListEntryTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UILabel* name;
-@property (nonatomic, weak) IBOutlet UILabel* referredBy;
+@property (nonatomic, weak) IBOutlet UILabel* referredByOrDescription;
 @property (nonatomic, weak) IBOutlet UILabel* distance;
-@property (nonatomic, weak) IBOutlet UILabel* description;
+@property (nonatomic, weak) IBOutlet UILabel* descriptionOrBlank;
 
 @end

@@ -13,8 +13,6 @@
 
 @property (nonatomic, strong) CLLocation* currentLocation;
 
-//+ (LocationController*) sharedInstance;
-
 -(void) start;
 -(void) stop;
 -(BOOL) locationKnown;

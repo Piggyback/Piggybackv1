@@ -27,6 +27,10 @@
 
 @implementation InboxTableViewController
 
+NSString* const RK_INBOX_ID_RESOURCE_PATH = @"inboxapi/inbox/id/";
+NSString* const NO_INBOX_TEXT = @"Your inbox is empty!";
+NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you places they think you will like at www.getpiggyback.com and stay tuned for mobile app updates!";
+
 @synthesize inboxItems = _inboxItems;
 @synthesize userFbPics = _userFbPics;
 
@@ -38,6 +42,12 @@
     }
 
     return _inboxItems;
+}
+
+-(void)setInboxItems:(NSArray *)inboxItems
+{
+    _inboxItems = inboxItems;
+    [self.tableView reloadData];
 }
 
 -(NSMutableDictionary *)userFbPics
@@ -123,76 +133,94 @@
 }
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
-{
-    NSLog(@"Encountered an error: %@", error);
+{    
+    if (objectLoader.userData == @"inboxLoader") {
+        // handle case where user has no inbox items
+        self.inboxItems = [NSArray arrayWithObject:[NSString stringWithString:@"Your inbox is empty!"]];      
+    } else {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        NSLog(@"InboxTableViewController RK error: %@", error);
+    }
+
 }
 
 #pragma mark - table data source protocol methods
-// **** PROTOCOL FUNCTIONS FOR TABLE DATA SOURCE **** //
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
-    NSLog(@"num of inbox items is %ld",(long)[self.inboxItems count]);
     return [self.inboxItems count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"inboxTableCell";
-    
-    InboxTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[InboxTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-    
-    // vendor or list name 
-    if ([inboxItem.lid intValue] == 0) {
-        cell.name.text = inboxItem.vendor.name;
-        cell.numItemsInList.text = @"";
-    } else {    
-        cell.name.text = inboxItem.listName;
-        cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.listEntrys count]] stringByAppendingString:@")"];
+{    
+    // check if user has inbox items
+    if ([[self.inboxItems objectAtIndex:indexPath.row] isKindOfClass:[InboxItem class]]) {
+        static NSString *CellIdentifier = @"inboxTableCell";
         
-        // set position of number of items in list
-        CGSize listNameSize = [inboxItem.listName sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-        NSLog(@"size needed for vendor name is %f",listNameSize.width);
-        CGRect listNameFrame = cell.name.frame;
-        listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
-        cell.numItemsInList.frame = listNameFrame;
+        InboxTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[InboxTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        
+        InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
+        
+        // vendor or list name 
+        if ([inboxItem.list.lid intValue] == 0) {
+            cell.name.text = inboxItem.vendor.name;
+            cell.numItemsInList.text = @"";
+        } else {    
+            cell.name.text = inboxItem.list.name;
+            cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.list.listEntrys count]] stringByAppendingString:@")"];
+            
+            // set position of number of items in list
+            CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+            CGRect listNameFrame = cell.name.frame;
+            listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
+            listNameFrame.size.width = listNameSize.width;
+            cell.numItemsInList.frame = listNameFrame;
+        }
+        // date
+        cell.date.text = [self timeElapsed:inboxItem.date];
+        
+        // referred by
+        cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrer.firstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrer.lastName];
+        
+        // number of other friends this was referred to
+    //    NSString* numFriendsLabel = @"To you and %d friend";
+    //    NSInteger numFriends = [inboxItem.otherFriends count];
+    //    if (numFriends == 0) {
+    //        numFriendsLabel = @"Just to you!";
+    //    } else if (numFriends > 1) {
+    //        numFriendsLabel = [numFriendsLabel stringByAppendingString:@"s"];
+    //    }
+    //    NSString* otherFriends = [NSString stringWithFormat:numFriendsLabel,numFriends];
+    //    cell.referredTo.text = otherFriends;
+        
+        // comment
+        cell.comment.numberOfLines = 0;
+        cell.comment.text = inboxItem.comment;
+        CGSize sizeOfComment = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        CGRect newFrame = cell.comment.frame;
+        newFrame.size.height = sizeOfComment.height;
+        cell.comment.frame = newFrame;
+        
+        // image
+        cell.image.layer.cornerRadius = 5.0;
+        cell.image.layer.masksToBounds = YES;
+        cell.image.image = [self.userFbPics objectForKey:inboxItem.referrer.fbid];
+        
+        return cell;
+    } else {
+        // inbox is empty
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"emptyInboxCell"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"emptyInboxCell"];
+        }
+        
+        return cell;
     }
-    // date
-    NSString* timeElapsed = [self timeElapsed:inboxItem.date];
-    cell.date.text = timeElapsed;
     
-    // referred by
-    cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrer.firstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrer.lastName];
-    
-    // number of other friends this was referred to
-//    NSString* numFriendsLabel = @"To you and %d friend";
-//    NSInteger numFriends = [inboxItem.otherFriends count];
-//    if (numFriends == 0) {
-//        numFriendsLabel = @"Just to you!";
-//    } else if (numFriends > 1) {
-//        numFriendsLabel = [numFriendsLabel stringByAppendingString:@"s"];
-//    }
-//    NSString* otherFriends = [NSString stringWithFormat:numFriendsLabel,numFriends];
-//    cell.referredTo.text = otherFriends;
-    
-    // comment
-    cell.comment.numberOfLines = 0;
-    cell.comment.text = inboxItem.comment;
-    CGSize sizeOfComment = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-    CGRect newFrame = cell.comment.frame;
-    newFrame.size.height = sizeOfComment.height;
-    cell.comment.frame = newFrame;
-    
-    // image
-    cell.image.layer.cornerRadius = 5.0;
-    cell.image.layer.masksToBounds = YES;
-    cell.image.image = [self.userFbPics objectForKey:inboxItem.referrer.fbid];
-    
-    return cell;
+    return nil;
 }
 
 #pragma mark - Table view delegate protocol methods
@@ -200,7 +228,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-    if ([inboxItem.lid intValue] == 0) {
+    if ([inboxItem.list.lid intValue] == 0) {
         [self performSegueWithIdentifier:@"inboxToVendor" sender:[tableView cellForRowAtIndexPath:indexPath]];
     } else {
         [self performSegueWithIdentifier:@"inboxToList" sender:[tableView cellForRowAtIndexPath:indexPath]];
@@ -211,13 +239,18 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
 {
-    InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-    CGSize size = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-    
-    if (size.height + 35 < FACEBOOKPICHEIGHT) {
-        return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
+    // height for empty cell
+    if (![[self.inboxItems objectAtIndex:indexPath.row] isKindOfClass:[InboxItem class]]) {
+        return tableView.rowHeight;
     } else {
-        return size.height + 2*FACEBOOKPICMARGIN + 35;
+        InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
+        CGSize size = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        
+        if (size.height + 35 < FACEBOOKPICHEIGHT) {
+            return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
+        } else {
+            return size.height + 2*FACEBOOKPICMARGIN + 35;
+        }
     }
 }
 
@@ -248,7 +281,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"inbox viewDidLoad");
 }
 
 - (void)viewDidUnload
@@ -264,8 +296,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     // re-fetch inbox items for users whenever inbox view appears
-    NSString* inboxPath = [@"inboxapi/inbox/id/" stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
-    NSLog(@"INBOX PATH: %@", inboxPath);
+    NSString* inboxPath = [RK_INBOX_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
     inboxLoader.userData = @"inboxLoader";
@@ -309,25 +340,7 @@
         }
         [(VendorViewController*)segue.destinationViewController setReferralComments:[NSArray arrayWithArray:uniqueReferralComments]];
     } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
-        PBList* list = [[PBList alloc] init];
-        list.uid = inboxItem.referrer.uid;
-        list.lid = inboxItem.lid;
-        list.date = inboxItem.date; // i put date list was referred, not date list was created
-        list.name = inboxItem.listName;
-        
-        // get number of people who referred each vendor in list
-        for (PBListEntry* currentListEntry in inboxItem.listEntrys) {
-            NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
-            
-            for (VendorReferralComment* currentReferralComment in currentListEntry.referredBy) {
-                [uniqueReferrers addObject:currentReferralComment.referrer.uid];
-            }
-
-            currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
-        }
-        
-        list.listEntrys = inboxItem.listEntrys;
-        [(IndividualListViewController*)segue.destinationViewController setList:list];
+        [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];
     }
 }
 

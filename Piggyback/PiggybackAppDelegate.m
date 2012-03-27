@@ -18,10 +18,11 @@
 #import "InboxItem.h"
 #import "VendorPhoto.h"
 
-#warning fb app and URLs in constants.m or different file?
-static NSString* fbAppId = @"251920381531962";
-
 @implementation PiggybackAppDelegate
+
+NSString* const FB_APP_ID = @"251920381531962";
+NSString* const RK_BASE_URL = @"http://192.168.11.28/api";
+NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 @synthesize window = _window;
 @synthesize facebook = _facebook;
@@ -29,12 +30,12 @@ static NSString* fbAppId = @"251920381531962";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     /* Setting up RestKit SDK */
-    RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:@"http://192.168.11.28/api"];
+    RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:RK_BASE_URL];
     
     objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
     
     // add default date formatter to convert mysql datetime to nsdate
-    [RKObjectMapping addDefaultDateFormatterForString:@"yyyy-MM-dd HH:mm:ss" inTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
+    [RKObjectMapping addDefaultDateFormatterForString:RK_DATE_FORMAT inTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
 
     // Setup our object mappings
     RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[PBUser class]];
@@ -48,7 +49,7 @@ static NSString* fbAppId = @"251920381531962";
     RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
     [referralCommentsMapping mapAttributes:@"date",@"comment",@"referralLid",@"listEntryComment",nil];
     [referralCommentsMapping mapRelationship:@"referrer" withMapping:userMapping];
-    [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referral-comment"];
+    [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referralComment"];
     
     RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
     [listEntryMapping mapAttributes:@"date", @"comment",nil];
@@ -62,10 +63,10 @@ static NSString* fbAppId = @"251920381531962";
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
     
     RKObjectMapping* inboxMapping = [RKObjectMapping mappingForClass:[InboxItem class]];
-    [inboxMapping mapAttributes:@"date",@"rid",@"lid",@"comment",@"listName",nil];
+    [inboxMapping mapAttributes:@"date",@"rid",@"comment",nil];
     [inboxMapping mapRelationship:@"referrer" withMapping:userMapping];
     [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
-    [inboxMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
+    [inboxMapping mapRelationship:@"list" withMapping:listMapping];
     [inboxMapping mapRelationship:@"nonUniqueReferralComments" withMapping:referralCommentsMapping];
     [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
 
@@ -75,7 +76,7 @@ static NSString* fbAppId = @"251920381531962";
     
     /* Setting up Facebook SDK */
     PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;
-    self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController];
+    self.facebook = [[Facebook alloc] initWithAppId:FB_APP_ID andDelegate:rootViewController];
     
     // Check and retrieve authorization information
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

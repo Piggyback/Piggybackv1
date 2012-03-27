@@ -20,6 +20,10 @@
 
 @implementation ListsTableViewController
 
+NSString* const RK_LIST_ENTRYS_INCOMING_REFERRALS_ID_RESOURCE_PATH = @"/listapi/listsAndEntrysAndIncomingReferrals/id/";
+NSString* const NO_LISTS_TEXT = @"You don't have any lists!";
+NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com and stay tuned for mobile app updates!";
+
 @synthesize lists = _lists;
 @synthesize currentPbAPICall = _currentPbAPICall;
 
@@ -47,7 +51,7 @@
     self.currentPbAPICall = pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals;
     
     RKObjectManager* objectManager = [RKObjectManager sharedManager];
-    NSString* resourcePath = [@"/listapi/listsAndEntrysAndIncomingReferrals/id/" stringByAppendingString:uid];
+    NSString* resourcePath = [RK_LIST_ENTRYS_INCOMING_REFERRALS_ID_RESOURCE_PATH stringByAppendingString:uid];
     [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"list"] delegate:self];
 }
 
@@ -57,8 +61,6 @@
     switch (self.currentPbAPICall) {
         case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
-            NSLog(@"in pbAPIGetCurrentUserListsAndListEntrys");
-            // retrieve listEntrys for each list
             self.lists = objects;
             
             break;
@@ -72,10 +74,8 @@
     switch (self.currentPbAPICall) {
         case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
-            NSLog(@"in pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals error handler");
             // handle case where user has no lists
-            NSArray *userHasNoLists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
-            self.lists = userHasNoLists;
+            self.lists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
             
             break;
         }
@@ -83,7 +83,7 @@
         {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
-            NSLog(@"Hit error: %@", error);
+            NSLog(@"ListsTableViewController RK error: %@", error);
             
             break;
         }
@@ -98,34 +98,43 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"listTableViewCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
+{    
     // check if PB API returned any user lists -- if not, display 'empty lists' message. otherwise, display lists
     if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
+        static NSString *CellIdentifier = @"listTableViewCell";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        
         PBList* myList = [self.lists objectAtIndex:indexPath.row];
         cell.textLabel.text = myList.name;
-        cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" items"];
-#warning what is this for? is this like when u can click on someones name to lead to their profile
-        tableView.userInteractionEnabled = YES;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if ([myList.listEntrys count] == 1)
+            cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" item"];
+        else
+            cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" items"];
+//        tableView.userInteractionEnabled = YES;
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
-        NSLog(@"cellForRowAtIndexPath list name: %@", myList.name);
+        return cell;
     } else {
+        static NSString *CellIdentifier = @"noListsCell";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
         // user has no lists
-        cell.textLabel.text = @"You don't have any lists!";
-        cell.detailTextLabel.text = @"Create lists at www.getpiggyback.com and stay tuned for mobile app updates!";
-        cell.detailTextLabel.numberOfLines = 2;
-        tableView.userInteractionEnabled = NO;
-        cell.accessoryType = UITableViewCellAccessoryNone;
+//        cell.textLabel.text = NO_LISTS_TEXT;
+//        cell.detailTextLabel.text = NO_LISTS_DETAILED_TEXT;
+//        cell.detailTextLabel.numberOfLines = 2;
+//        tableView.userInteractionEnabled = NO;
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+        return cell;
     }
     
-    return cell;
+    return nil;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -179,26 +188,16 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"lists viewDidLoad");
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"lists viewWillAppear");
     [super viewWillAppear:animated];
 #warning: need to optimize so that lists do not get retrieved each time the view appears
     [self getCurrentUserLists:[[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"] stringValue]];

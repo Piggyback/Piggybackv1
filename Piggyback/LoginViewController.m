@@ -16,6 +16,9 @@
 @end
 
 @implementation LoginViewController
+
+NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
+
 @synthesize delegate = _delegate;
 @synthesize currentFbAPICall = _currentFbAPICall;
 @synthesize currentPbAPICall = _currentPbAPICall;
@@ -34,7 +37,7 @@
 - (void)getCurrentUserUidFromLogin:(NSString *)fbid {
     // Load the user object via RestKit	
     RKObjectManager* objectManager = [RKObjectManager sharedManager];
-    NSString* resourcePath = [@"/userapi/user/fbid/" stringByAppendingString:fbid];
+    NSString* resourcePath = [RK_USER_FBID_RESOURCE_PATH stringByAppendingString:fbid];
     [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"user"] delegate:self];
 }
 
@@ -58,7 +61,6 @@
     switch (self.currentFbAPICall) {
         case fbAPIGraphMeFromLogin:
         {
-            NSLog(@"in request:didLoad: callback function, case fbAPIGraphMeFromLogin");
             [self storeCurrentUserFbInformation:result];
             [self getCurrentUserUidFromLogin:[result objectForKey:@"id"]];
             
@@ -71,8 +73,8 @@
 
 - (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Error message: %@", [[error userInfo] objectForKey:@"error_msg"]);
-    // implement showMessage
-    //    [self showMessage:@"Oops, something went haywire."];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"FBRequestDelegate Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alert show];
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
@@ -82,11 +84,8 @@
         case pbAPICurrentUserUidFromLogin:
         {
             PBUser *currentUser = (PBUser *)[objects objectAtIndex:0];
-            NSLog(@"Loaded user: %@", currentUser.firstName);
-            
-#warning no need to make new var for defaults unless you plan to use it again?            
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:currentUser.uid forKey:@"UID"];
+
+            [[NSUserDefaults standardUserDefaults] setObject:currentUser.uid forKey:@"UID"];
             
             [self.delegate showLoggedIn];
 
@@ -100,7 +99,7 @@
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
 	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alert show];
-	NSLog(@"Hit error: %@", error);
+	NSLog(@"RKObjectLoaderDelegate error: %@", error);
 }
 
 #pragma mark - View lifecycle
