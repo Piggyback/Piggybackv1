@@ -12,22 +12,16 @@
 
 @synthesize vid = _vid;
 @synthesize name = _name;
-//@synthesize reference = _reference;
 @synthesize lat = _lat;
 @synthesize lng = _lng;
 @synthesize phone = _phone;
 @synthesize addr = _addr;
 @synthesize addrCrossStreet = _addrCrossStreet;
-//@synthesize addrNum = _addrNum;
-//@synthesize addrStreet = _addrStreet;
 @synthesize addrCity = _addrCity;
 @synthesize addrState = _addrState;
 @synthesize addrCountry = _addrCounty;
 @synthesize addrZip = _addrZip;
-//@synthesize vicinity = _vicinity;
 @synthesize website = _website;
-//@synthesize icon = _icon;
-//@synthesize rating = _rating;
 @synthesize distanceFromCurrentLocationInMiles = _distanceFromCurrentLocationInMiles;
 
 - (Vendor*) init

@@ -27,6 +27,8 @@
 		3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */; };
 		3E94731415008EF900A261DD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* LoginViewController.m */; };
 		3E9795C9150EAFDF00E0E662 /* IndividualListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */; };
+		3EAC2AF5152157FF00B69392 /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EAC2AF3152157FF00B69392 /* login_bg@2x.png */; };
+		3EAC2AF6152157FF00B69392 /* login_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EAC2AF4152157FF00B69392 /* login_bg.png */; };
 		3EB2BB8C15183BDD0034820F /* list_tabbar_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB2BB8B15183BDC0034820F /* list_tabbar_icon@2x.png */; };
 		3EB2BB9015183C5B0034820F /* list_tabbar_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB2BB8E15183C5B0034820F /* list_tabbar_icon.png */; };
 		3EB2BB991518964F0034820F /* PiggybackNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB2BB981518964F0034820F /* PiggybackNavigationController.m */; };
@@ -37,9 +39,9 @@
 		3EB5B3C8151953E10009980F /* piggyback_titlebar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB5B3C6151953E10009980F /* piggyback_titlebar@2x.png */; };
 		3EB5B3CB1519541F0009980F /* piggyback_titlebar_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB5B3C91519541F0009980F /* piggyback_titlebar_background.png */; };
 		3EB5B3CC1519541F0009980F /* piggyback_titlebar_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB5B3CA1519541F0009980F /* piggyback_titlebar_background@2x.png */; };
+		3EB62AEE152159E90071B0C4 /* LoginWithFacebookNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB62AED152159E90071B0C4 /* LoginWithFacebookNormal@2x.png */; };
 		3EBA711C1514B7810043A4F9 /* ListEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA711B1514B7810043A4F9 /* ListEntryTableViewCell.m */; };
 		3EBD2CF2150A0C9800715DD0 /* PiggybackTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */; };
-		3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB51D1501795800CC57A8 /* piggyback_login.png */; };
 		3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB52215017C6500CC57A8 /* FBDialog.bundle */; };
 		3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */; };
 		4F4DACB2151AD58200E6E65C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB0151AD58200E6E65C /* Icon.png */; };
@@ -135,6 +137,8 @@
 		3E94731315008EF900A261DD /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndividualListViewController.h; sourceTree = "<group>"; };
 		3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndividualListViewController.m; sourceTree = "<group>"; };
+		3EAC2AF3152157FF00B69392 /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_bg@2x.png"; sourceTree = "<group>"; };
+		3EAC2AF4152157FF00B69392 /* login_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_bg.png; sourceTree = "<group>"; };
 		3EB2BB8B15183BDC0034820F /* list_tabbar_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list_tabbar_icon@2x.png"; sourceTree = "<group>"; };
 		3EB2BB8E15183C5B0034820F /* list_tabbar_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list_tabbar_icon.png; sourceTree = "<group>"; };
 		3EB2BB971518964F0034820F /* PiggybackNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiggybackNavigationController.h; sourceTree = "<group>"; };
@@ -146,11 +150,11 @@
 		3EB5B3C6151953E10009980F /* piggyback_titlebar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piggyback_titlebar@2x.png"; sourceTree = "<group>"; };
 		3EB5B3C91519541F0009980F /* piggyback_titlebar_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piggyback_titlebar_background.png; sourceTree = "<group>"; };
 		3EB5B3CA1519541F0009980F /* piggyback_titlebar_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piggyback_titlebar_background@2x.png"; sourceTree = "<group>"; };
+		3EB62AED152159E90071B0C4 /* LoginWithFacebookNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LoginWithFacebookNormal@2x.png"; path = "../facebook-ios-sdk/FBConnect.bundle/images/LoginWithFacebookNormal@2x.png"; sourceTree = "<group>"; };
 		3EBA711A1514B7810043A4F9 /* ListEntryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListEntryTableViewCell.h; path = Piggyback/ListEntryTableViewCell.h; sourceTree = "<group>"; };
 		3EBA711B1514B7810043A4F9 /* ListEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListEntryTableViewCell.m; path = Piggyback/ListEntryTableViewCell.m; sourceTree = "<group>"; };
 		3EBD2CF0150A0C9800715DD0 /* PiggybackTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiggybackTabBarController.h; sourceTree = "<group>"; };
 		3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiggybackTabBarController.m; sourceTree = "<group>"; };
-		3EFDB51D1501795800CC57A8 /* piggyback_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piggyback_login.png; sourceTree = "<group>"; };
 		3EFDB52015017C6500CC57A8 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		3EFDB52115017C6500CC57A8 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
 		3EFDB52215017C6500CC57A8 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
@@ -308,6 +312,8 @@
 		3EFDB51C1501793200CC57A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3EAC2AF4152157FF00B69392 /* login_bg.png */,
+				3EAC2AF3152157FF00B69392 /* login_bg@2x.png */,
 				4F4DACB0151AD58200E6E65C /* Icon.png */,
 				4F4DACB1151AD58200E6E65C /* Icon@2x.png */,
 				3E47337C1519A78200083B53 /* blue_square@2x.png */,
@@ -324,7 +330,7 @@
 				3EB2BB8E15183C5B0034820F /* list_tabbar_icon.png */,
 				3EB2BB8B15183BDC0034820F /* list_tabbar_icon@2x.png */,
 				3E7429361505956A005A272C /* LoginWithFacebookNormal.png */,
-				3EFDB51D1501795800CC57A8 /* piggyback_login.png */,
+				3EB62AED152159E90071B0C4 /* LoginWithFacebookNormal@2x.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -490,7 +496,6 @@
 			files = (
 				3E94730515008EF900A261DD /* InfoPlist.strings in Resources */,
 				3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */,
-				3EFDB51E1501795800CC57A8 /* piggyback_login.png in Resources */,
 				3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */,
 				3EB2D043150580600028E664 /* FBConnect.bundle in Resources */,
 				3E7429371505956A005A272C /* LoginWithFacebookNormal.png in Resources */,
@@ -509,6 +514,9 @@
 				3E47337D1519A78200083B53 /* blue_square@2x.png in Resources */,
 				4F4DACB2151AD58200E6E65C /* Icon.png in Resources */,
 				4F4DACB3151AD58200E6E65C /* Icon@2x.png in Resources */,
+				3EAC2AF5152157FF00B69392 /* login_bg@2x.png in Resources */,
+				3EAC2AF6152157FF00B69392 /* login_bg.png in Resources */,
+				3EB62AEE152159E90071B0C4 /* LoginWithFacebookNormal@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
