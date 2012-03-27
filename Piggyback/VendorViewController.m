@@ -43,7 +43,7 @@ typedef enum tableViewSection {
     self.vendorInfo = [[NSMutableArray alloc] init];
     
     // check if vendor has address and phone number
-    if ([vendor.addrNum length] == 0 && [vendor.addrStreet length] == 0 && [vendor.addrCity length] == 0)  
+    if ([vendor.addr length] == 0 && [vendor.addrCity length] == 0 && [vendor.addrState length])  
         self.hasAddress = NO; 
     else {
         self.hasAddress = YES;
@@ -51,8 +51,8 @@ typedef enum tableViewSection {
         // build self.formattedAddress
         NSMutableString* formattedAddress = [[NSMutableString alloc] init];
         formattedAddress = [[NSMutableString alloc] init];
-        if ([vendor.addrNum length] && [vendor.addrStreet length])
-            [formattedAddress appendFormat:@"%@ %@\n", vendor.addrNum, vendor.addrStreet];
+        if ([vendor.addr length])
+            [formattedAddress appendFormat:@"%@\n", vendor.addr];
         if ([vendor.addrCity length] && [vendor.addrState length])
             [formattedAddress appendFormat:@"%@, %@ ", vendor.addrCity, vendor.addrState];
         if ([vendor.addrZip length])
@@ -285,13 +285,13 @@ typedef enum tableViewSection {
     self.title = self.vendor.name;
     
     // display image in a separate thread
-    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
-    dispatch_async(downloadImageQueue, ^{
-        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.vendorImage setImage:image];
-        });
-    });
+//    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
+//    dispatch_async(downloadImageQueue, ^{
+//        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.vendorImage setImage:image];
+//        });
+//    });
 
 }
 

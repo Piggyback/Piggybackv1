@@ -165,15 +165,15 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
         
         // vendor or list name 
-        if ([inboxItem.lid intValue] == 0) {
+        if ([inboxItem.list.lid intValue] == 0) {
             cell.name.text = inboxItem.vendor.name;
             cell.numItemsInList.text = @"";
         } else {    
-            cell.name.text = inboxItem.listName;
-            cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.listEntrys count]] stringByAppendingString:@")"];
+            cell.name.text = inboxItem.list.name;
+            cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.list.listEntrys count]] stringByAppendingString:@")"];
             
             // set position of number of items in list
-            CGSize listNameSize = [inboxItem.listName sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+            CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
             CGRect listNameFrame = cell.name.frame;
             listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
             listNameFrame.size.width = listNameSize.width;
@@ -209,9 +209,6 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         cell.image.layer.masksToBounds = YES;
         cell.image.image = [self.userFbPics objectForKey:inboxItem.referrer.fbid];
         
-//        tableView.userInteractionEnabled = YES;
-//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
         return cell;
     } else {
         // inbox is empty
@@ -219,12 +216,6 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"emptyInboxCell"];
         }
-        
-//        cell.textLabel.text = NO_INBOX_TEXT;
-//        cell.detailTextLabel.text = NO_INBOX_DETAILED_TEXT;
-//        cell.detailTextLabel.numberOfLines = 2;
-//        tableView.userInteractionEnabled = NO;
-//        cell.accessoryType = UITableViewCellAccessoryNone;
         
         return cell;
     }
@@ -237,7 +228,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-    if ([inboxItem.lid intValue] == 0) {
+    if ([inboxItem.list.lid intValue] == 0) {
         [self performSegueWithIdentifier:@"inboxToVendor" sender:[tableView cellForRowAtIndexPath:indexPath]];
     } else {
         [self performSegueWithIdentifier:@"inboxToList" sender:[tableView cellForRowAtIndexPath:indexPath]];
@@ -349,25 +340,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         }
         [(VendorViewController*)segue.destinationViewController setReferralComments:[NSArray arrayWithArray:uniqueReferralComments]];
     } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
-        PBList* list = [[PBList alloc] init];
-        list.uid = inboxItem.referrer.uid;
-        list.lid = inboxItem.lid;
-        list.date = inboxItem.date; // i put date list was referred, not date list was created
-        list.name = inboxItem.listName;
-        
-        // get number of people who referred each vendor in list
-        for (PBListEntry* currentListEntry in inboxItem.listEntrys) {
-            NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
-            
-            for (VendorReferralComment* currentReferralComment in currentListEntry.referredBy) {
-                [uniqueReferrers addObject:currentReferralComment.referrer.uid];
-            }
-
-            currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
-        }
-        
-        list.listEntrys = inboxItem.listEntrys;
-        [(IndividualListViewController*)segue.destinationViewController setList:list];
+        [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];
     }
 }
 
