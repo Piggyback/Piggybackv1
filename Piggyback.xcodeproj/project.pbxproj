@@ -65,6 +65,7 @@
 		F9B9B641150197F00002BCDE /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B638150197420002BCDE /* libRestKit.a */; };
 		F9D0BDBB1508B76000D963B7 /* Vendor.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBA1508B76000D963B7 /* Vendor.m */; };
 		F9D0BDBE1508BC9000D963B7 /* VendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */; };
+		F9D17638151D302B00892AC9 /* VendorPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D17637151D302B00892AC9 /* VendorPhoto.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -201,6 +202,8 @@
 		F9D0BDBA1508B76000D963B7 /* Vendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Vendor.m; path = Piggyback/Vendor.m; sourceTree = "<group>"; };
 		F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorViewController.h; sourceTree = "<group>"; };
 		F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorViewController.m; sourceTree = "<group>"; };
+		F9D17636151D302B00892AC9 /* VendorPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VendorPhoto.h; path = Piggyback/VendorPhoto.h; sourceTree = "<group>"; };
+		F9D17637151D302B00892AC9 /* VendorPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VendorPhoto.m; path = Piggyback/VendorPhoto.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -373,6 +376,8 @@
 				F936AB7E1508F12F0019F191 /* VendorReferralComment.m */,
 				F985B42F150F5097002791B2 /* InboxItem.h */,
 				F985B430150F5097002791B2 /* InboxItem.m */,
+				F9D17636151D302B00892AC9 /* VendorPhoto.h */,
+				F9D17637151D302B00892AC9 /* VendorPhoto.m */,
 			);
 			name = "PB API Classes";
 			path = ..;
@@ -549,6 +554,7 @@
 				3EBA711C1514B7810043A4F9 /* ListEntryTableViewCell.m in Sources */,
 				F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */,
 				3EB2BB991518964F0034820F /* PiggybackNavigationController.m in Sources */,
+				F9D17638151D302B00892AC9 /* VendorPhoto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

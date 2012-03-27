@@ -16,6 +16,7 @@
 #import "PBList.h"
 #import "PBListEntry.h"
 #import "InboxItem.h"
+#import "VendorPhoto.h"
 
 #warning fb app and URLs in constants.m or different file?
 static NSString* fbAppId = @"251920381531962";
@@ -41,7 +42,7 @@ static NSString* fbAppId = @"251920381531962";
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
     
     RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
-    [vendorObjectMapping mapAttributes:@"vid",@"name",@"reference",@"lat",@"lng",@"phone",@"addr",@"addrNum",@"addrStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"vicinity",@"website",@"icon",@"rating",nil];
+    [vendorObjectMapping mapAttributes:@"vid",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",nil];
     [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
     
     RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
@@ -68,6 +69,10 @@ static NSString* fbAppId = @"251920381531962";
     [inboxMapping mapRelationship:@"nonUniqueReferralComments" withMapping:referralCommentsMapping];
     [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
 
+    RKObjectMapping* vendorPhotoMapping = [RKObjectMapping mappingForClass:[VendorPhoto class]];
+    [vendorPhotoMapping mapAttributes:@"vid",@"pid",@"photoURL",nil];
+    [objectManager.mappingProvider setMapping:vendorPhotoMapping forKeyPath:@"vendor-photo"];
+    
     /* Setting up Facebook SDK */
     PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;
     self.facebook = [[Facebook alloc] initWithAppId:fbAppId andDelegate:rootViewController];

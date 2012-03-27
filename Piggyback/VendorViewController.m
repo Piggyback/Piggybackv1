@@ -31,6 +31,7 @@ typedef enum tableViewSection {
 @synthesize vendorImage = _vendorImage;
 @synthesize referralComments = _referralComments;
 @synthesize scrollView = _scrollView;
+@synthesize photos = _photos;
 
 @synthesize hasAddress = _hasAddress;
 @synthesize hasPhone = _hasPhone;
@@ -43,7 +44,7 @@ typedef enum tableViewSection {
     self.vendorInfo = [[NSMutableArray alloc] init];
     
     // check if vendor has address and phone number
-    if ([vendor.addrNum length] == 0 && [vendor.addrStreet length] == 0 && [vendor.addrCity length] == 0)  
+    if ([vendor.addr length] == 0 && [vendor.addrCity length] == 0)  
         self.hasAddress = NO; 
     else {
         self.hasAddress = YES;
@@ -51,8 +52,8 @@ typedef enum tableViewSection {
         // build self.formattedAddress
         NSMutableString* formattedAddress = [[NSMutableString alloc] init];
         formattedAddress = [[NSMutableString alloc] init];
-        if ([vendor.addrNum length] && [vendor.addrStreet length])
-            [formattedAddress appendFormat:@"%@ %@\n", vendor.addrNum, vendor.addrStreet];
+        if ([vendor.addr length])
+            [formattedAddress appendFormat:@"%@\n", vendor.addr];
         if ([vendor.addrCity length] && [vendor.addrState length])
             [formattedAddress appendFormat:@"%@, %@ ", vendor.addrCity, vendor.addrState];
         if ([vendor.addrZip length])
@@ -78,6 +79,33 @@ typedef enum tableViewSection {
         _referralComments = [[NSArray alloc] init];
     }
     return _referralComments;
+}
+
+#pragma mark - restkit api delegate methods
+- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
+{
+    // retrieve data from API and use information for displaying
+    if(objectLoader.userData == @"vendorPhotoLoader") {
+        self.photos = objects;
+        // display image in a separate thread
+        if ([self.photos count] > 0) {
+            dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
+            dispatch_async(downloadImageQueue, ^{
+                UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[self.photos objectAtIndex:0]]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.vendorImage setImage:image];
+                });
+            });
+        } else {
+            // display icon for no picture
+        }
+//        [self.tableView reloadData];
+    } 
+}
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
+{
+    NSLog(@"Encountered an error: %@", error);
 }
 
 #pragma mark - table data source protocol methods
@@ -289,14 +317,10 @@ typedef enum tableViewSection {
     
     self.title = self.vendor.name;
     
-    // display image in a separate thread
-    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
-    dispatch_async(downloadImageQueue, ^{
-        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.vendorImage setImage:image];
-        });
-    });
+    NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vid];
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
+    RKObjectLoader* vendorPhotoLoader = [objManager loadObjectsAtResourcePath:vendorPhotoPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor-photo"] delegate:self];
+    vendorPhotoLoader.userData = @"vendorPhotoLoader";
 
 }
 
