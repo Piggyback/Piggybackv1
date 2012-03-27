@@ -27,7 +27,7 @@
 
 @implementation InboxTableViewController
 
-NSString* const RK_INBOX_ID_RESOURCE_PATH = @"inboxapi/inbox/id/";
+NSString* const RK_INBOX_ID_RESOURCE_PATH = @"inboxapi/minimumInbox/id/";
 NSString* const NO_INBOX_TEXT = @"Your inbox is empty!";
 NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you places they think you will like at www.getpiggyback.com and stay tuned for mobile app updates!";
 
@@ -165,22 +165,22 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
         
         // vendor or list name 
-        if ([inboxItem.list.lid intValue] == 0) {
+        if ([inboxItem.lid intValue] == 0) {
             cell.name.text = inboxItem.vendor.name;
             cell.numItemsInList.text = @"";
         } else {    
-            cell.name.text = inboxItem.list.name;
-            cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.list.listEntrys count]] stringByAppendingString:@")"];
+            cell.name.text = inboxItem.listName;
+            cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.listCount intValue]] stringByAppendingString:@")"];
             
             // set position of number of items in list
-            CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+            CGSize listNameSize = [inboxItem.listName sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
             CGRect listNameFrame = cell.name.frame;
             listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
             listNameFrame.size.width = listNameSize.width;
             cell.numItemsInList.frame = listNameFrame;
         }
         // date
-        cell.date.text = [self timeElapsed:inboxItem.date];
+        cell.date.text = [self timeElapsed:inboxItem.referralDate];
         
         // referred by
         cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrer.firstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrer.lastName];
@@ -198,8 +198,8 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         
         // comment
         cell.comment.numberOfLines = 0;
-        cell.comment.text = inboxItem.comment;
-        CGSize sizeOfComment = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        cell.comment.text = inboxItem.referralComment;
+        CGSize sizeOfComment = [inboxItem.referralComment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
         CGRect newFrame = cell.comment.frame;
         newFrame.size.height = sizeOfComment.height;
         cell.comment.frame = newFrame;
@@ -228,7 +228,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-    if ([inboxItem.list.lid intValue] == 0) {
+    if ([inboxItem.lid intValue] == 0) {
         [self performSegueWithIdentifier:@"inboxToVendor" sender:[tableView cellForRowAtIndexPath:indexPath]];
     } else {
         [self performSegueWithIdentifier:@"inboxToList" sender:[tableView cellForRowAtIndexPath:indexPath]];
@@ -244,7 +244,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         return tableView.rowHeight;
     } else {
         InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-        CGSize size = [inboxItem.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        CGSize size = [inboxItem.referralComment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
         
         if (size.height + 35 < FACEBOOKPICHEIGHT) {
             return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
@@ -330,17 +330,17 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         [segue.destinationViewController setVendor:inboxItem.vendor];
         
         // get list of unique people / comments who referred vendor to you and set for next view to display
-        NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
-        NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];
-        for (VendorReferralComment* commentObject in inboxItem.nonUniqueReferralComments) {
-            if (![uniqueReferrerUIDs containsObject:commentObject.referrer.uid]) {
-                [uniqueReferrerUIDs addObject:commentObject.referrer.uid];
-                [uniqueReferralComments addObject:commentObject];
-            }
-        }
-        [(VendorViewController*)segue.destinationViewController setReferralComments:[NSArray arrayWithArray:uniqueReferralComments]];
-    } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
-        [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];
+//        NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
+//        NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];
+//        for (VendorReferralComment* commentObject in inboxItem.nonUniqueReferralComments) {
+//            if (![uniqueReferrerUIDs containsObject:commentObject.referrer.uid]) {
+//                [uniqueReferrerUIDs addObject:commentObject.referrer.uid];
+//                [uniqueReferralComments addObject:commentObject];
+//            }
+//        }
+//        [(VendorViewController*)segue.destinationViewController setReferralComments:[NSArray arrayWithArray:uniqueReferralComments]];
+//    } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
+//        [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];
     }
 }
 

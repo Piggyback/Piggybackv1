@@ -62,11 +62,9 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
     
     RKObjectMapping* inboxMapping = [RKObjectMapping mappingForClass:[InboxItem class]];
-    [inboxMapping mapAttributes:@"date",@"rid",@"comment",nil];
+    [inboxMapping mapAttributes:@"rid",@"referralComment",@"referralDate",@"lid",@"listName",@"listCount",nil];
     [inboxMapping mapRelationship:@"referrer" withMapping:userMapping];
     [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
-    [inboxMapping mapRelationship:@"list" withMapping:listMapping];
-    [inboxMapping mapRelationship:@"nonUniqueReferralComments" withMapping:referralCommentsMapping];
     [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
 
     /* Setting up Facebook SDK */

@@ -113,6 +113,7 @@ double const metersToMilesMultiplier = 0.000621371192;
         CLLocation* currentLocation = [self.locationController getCurrentLocationAndStopLocationManager];
         for (PBListEntry* currentListEntry in self.list.listEntrys) {
             currentListEntry.vendor.distanceFromCurrentLocationInMiles = [[[CLLocation alloc] initWithLatitude:(CLLocationDegrees)[currentListEntry.vendor.lat doubleValue] longitude:(CLLocationDegrees)[currentListEntry.vendor.lng doubleValue]] distanceFromLocation:currentLocation] * metersToMilesMultiplier;
+            NSLog(@"vendor lat: %f, vendor long: %f, currentDistance: %f", [currentListEntry.vendor.lat doubleValue], [currentListEntry.vendor.lng doubleValue], currentListEntry.vendor.distanceFromCurrentLocationInMiles);
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.listEntryTableView reloadData];
