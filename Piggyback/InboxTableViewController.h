@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
+#import "EGORefreshTableHeaderView.h"
 
-@interface InboxTableViewController : UITableViewController <RKObjectLoaderDelegate>
-
+@interface InboxTableViewController : UITableViewController <RKObjectLoaderDelegate, EGORefreshTableHeaderDelegate>
 
 - (IBAction)logout:(id)sender;
 

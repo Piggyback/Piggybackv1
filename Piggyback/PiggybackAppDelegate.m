@@ -10,6 +10,7 @@
 #import "PiggybackTabBarController.h"
 #import "LoginViewController.h"
 #import <RestKit/RestKit.h>
+#import <RestKit/CoreData.h>
 #import "Vendor.h"
 #import "VendorReferralComment.h"
 #import "PBUser.h"
@@ -35,11 +36,38 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     
     // add default date formatter to convert mysql datetime to nsdate
     [RKObjectMapping addDefaultDateFormatterForString:RK_DATE_FORMAT inTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
-
+    
+    // Initialize object store
+//    NSString* seedDatabaseName = RKDefaultSeedDatabaseFileName;
+    NSString* seedDatabaseName = nil;
+    NSString* databaseName = @"Piggyback.sqlite";
+    
+    objectManager.objectStore = [RKManagedObjectStore objectStoreWithStoreFilename:databaseName usingSeedDatabaseName:seedDatabaseName managedObjectModel:nil delegate:self];
+    
     // Setup our object mappings
-    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[PBUser class]];
+//    RKManagedObjectMapping* userMapping = [RKManagedObjectMapping mappingForClass:[PBUser class]];
+    RKManagedObjectMapping* userMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBUser"];
+    userMapping.primaryKeyAttribute = @"uid";
     [userMapping mapAttributes:@"uid", @"fbid", @"email", @"firstName", @"lastName", nil];
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
+    
+//    RKManagedObjectMapping* vendorMapping = [RKManagedObjectMapping mappingForClass:[Vendor class]];
+    RKManagedObjectMapping* vendorMapping = [RKManagedObjectMapping mappingForEntityWithName:@"Vendor"];
+    vendorMapping.primaryKeyAttribute = @"vid";
+    [vendorMapping mapAttributes:@"vid",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",nil];
+    [objectManager.mappingProvider setMapping:vendorMapping forKeyPath:@"vendor"];
+    
+//    RKManagedObjectMapping* inboxMapping = [RKManagedObjectMapping mappingForClass:[InboxItem class]];
+    RKManagedObjectMapping* inboxMapping = [RKManagedObjectMapping mappingForEntityWithName:@"InboxItem"];
+    inboxMapping.primaryKeyAttribute = @"rid";
+    [inboxMapping mapAttributes:@"rid",@"referralComment",@"referralDate",@"lid",@"listName",@"listCount",nil];
+    [inboxMapping mapRelationship:@"referrer" withMapping:userMapping];
+    [inboxMapping mapRelationship:@"vendor" withMapping:vendorMapping];
+    [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
+    
+//    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[PBUser class]];
+//    [userMapping mapAttributes:@"uid", @"fbid", @"email", @"firstName", @"lastName", nil];
+//    [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
     
     RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
     [vendorObjectMapping mapAttributes:@"vid",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",nil];
@@ -61,11 +89,11 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
     
-    RKObjectMapping* inboxMapping = [RKObjectMapping mappingForClass:[InboxItem class]];
-    [inboxMapping mapAttributes:@"rid",@"referralComment",@"referralDate",@"lid",@"listName",@"listCount",nil];
-    [inboxMapping mapRelationship:@"referrer" withMapping:userMapping];
-    [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
-    [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
+//    RKObjectMapping* inboxMapping = [RKObjectMapping mappingForClass:[InboxItem class]];
+//    [inboxMapping mapAttributes:@"rid",@"referralComment",@"referralDate",@"lid",@"listName",@"listCount",nil];
+//    [inboxMapping mapRelationship:@"referrer" withMapping:userMapping];
+//    [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
+//    [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
 
     /* Setting up Facebook SDK */
     PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;

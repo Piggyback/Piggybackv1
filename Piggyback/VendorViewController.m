@@ -47,7 +47,6 @@ typedef enum tableViewSection {
         self.hasAddress = NO; 
     else {
         self.hasAddress = YES;
-        
         // build self.formattedAddress
         NSMutableString* formattedAddress = [[NSMutableString alloc] init];
         formattedAddress = [[NSMutableString alloc] init];

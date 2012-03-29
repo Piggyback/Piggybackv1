@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */; };
+		3E36D560152331F0001C9070 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */; };
 		3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */; };
 		3E47337D1519A78200083B53 /* blue_square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E47337C1519A78200083B53 /* blue_square@2x.png */; };
 		3E5400E41519677E0078CFC2 /* geolocation_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5400E31519677E0078CFC2 /* geolocation_icon.png */; };
@@ -42,6 +43,15 @@
 		3EB62AEE152159E90071B0C4 /* LoginWithFacebookNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EB62AED152159E90071B0C4 /* LoginWithFacebookNormal@2x.png */; };
 		3EBA711C1514B7810043A4F9 /* ListEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA711B1514B7810043A4F9 /* ListEntryTableViewCell.m */; };
 		3EBD2CF2150A0C9800715DD0 /* PiggybackTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */; };
+		3ED78A1C1522E92E00FE5C69 /* Piggyback.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3ED78A1A1522E92E00FE5C69 /* Piggyback.xcdatamodeld */; };
+		3ED78A381523277700FE5C69 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED78A301523277600FE5C69 /* blackArrow.png */; };
+		3ED78A391523277700FE5C69 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED78A311523277600FE5C69 /* blackArrow@2x.png */; };
+		3ED78A3A1523277700FE5C69 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED78A321523277700FE5C69 /* blueArrow.png */; };
+		3ED78A3B1523277700FE5C69 /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED78A331523277700FE5C69 /* blueArrow@2x.png */; };
+		3ED78A3C1523277700FE5C69 /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED78A341523277700FE5C69 /* grayArrow.png */; };
+		3ED78A3D1523277700FE5C69 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED78A351523277700FE5C69 /* grayArrow@2x.png */; };
+		3ED78A3E1523277700FE5C69 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED78A361523277700FE5C69 /* whiteArrow.png */; };
+		3ED78A3F1523277700FE5C69 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED78A371523277700FE5C69 /* whiteArrow@2x.png */; };
 		3EFDB52F15017C6500CC57A8 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EFDB52215017C6500CC57A8 /* FBDialog.bundle */; };
 		3EFDB53015017C6500CC57A8 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFDB52815017C6500CC57A8 /* libfacebook_ios_sdk.a */; };
 		4F4DACB2151AD58200E6E65C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB0151AD58200E6E65C /* Icon.png */; };
@@ -108,6 +118,8 @@
 /* Begin PBXFileReference section */
 		3E193F4A15144E9600D80BB8 /* EmptyIndividualListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyIndividualListTableViewController.h; sourceTree = "<group>"; };
 		3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyIndividualListTableViewController.m; sourceTree = "<group>"; };
+		3E36D55E152331F0001C9070 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBListEntry.h; path = Piggyback/PBListEntry.h; sourceTree = "<group>"; };
 		3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBListEntry.m; path = Piggyback/PBListEntry.m; sourceTree = "<group>"; };
 		3E47337C1519A78200083B53 /* blue_square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue_square@2x.png"; sourceTree = "<group>"; };
@@ -155,6 +167,17 @@
 		3EBA711B1514B7810043A4F9 /* ListEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListEntryTableViewCell.m; path = Piggyback/ListEntryTableViewCell.m; sourceTree = "<group>"; };
 		3EBD2CF0150A0C9800715DD0 /* PiggybackTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiggybackTabBarController.h; sourceTree = "<group>"; };
 		3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiggybackTabBarController.m; sourceTree = "<group>"; };
+		3ED78A171522DF6500FE5C69 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
+		3ED78A181522DF6500FE5C69 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		3ED78A1B1522E92E00FE5C69 /* Piggyback.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Piggyback.xcdatamodel; sourceTree = "<group>"; };
+		3ED78A301523277600FE5C69 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
+		3ED78A311523277600FE5C69 /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
+		3ED78A321523277700FE5C69 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
+		3ED78A331523277700FE5C69 /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
+		3ED78A341523277700FE5C69 /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
+		3ED78A351523277700FE5C69 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
+		3ED78A361523277700FE5C69 /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
+		3ED78A371523277700FE5C69 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
 		3EFDB52015017C6500CC57A8 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		3EFDB52115017C6500CC57A8 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
 		3EFDB52215017C6500CC57A8 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
@@ -230,8 +253,6 @@
 		3E9472EB15008EF900A261DD = {
 			isa = PBXGroup;
 			children = (
-				3EFDB51F15017C6500CC57A8 /* facebook-ios-sdk */,
-				F9B9B62D150197420002BCDE /* RestKit.xcodeproj */,
 				3E94730015008EF900A261DD /* Piggyback */,
 				3E9472F915008EF900A261DD /* Frameworks */,
 				3E9472F715008EF900A261DD /* Products */,
@@ -268,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
+				3ED78A1A1522E92E00FE5C69 /* Piggyback.xcdatamodeld */,
 				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
 				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
 				3EBD2CF0150A0C9800715DD0 /* PiggybackTabBarController.h */,
@@ -286,10 +308,15 @@
 				F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */,
 				3E193F4A15144E9600D80BB8 /* EmptyIndividualListTableViewController.h */,
 				3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */,
+				3ED78A171522DF6500FE5C69 /* CoreDataTableViewController.h */,
+				3ED78A181522DF6500FE5C69 /* CoreDataTableViewController.m */,
+				3E36D55E152331F0001C9070 /* EGORefreshTableHeaderView.h */,
+				3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */,
 				F929ACBC15121296008B7463 /* Views */,
 				F929ACBB1512112D008B7463 /* PB API Classes */,
 				3EFDB51C1501793200CC57A8 /* Resources */,
 				3E94730115008EF900A261DD /* Supporting Files */,
+				3ED78A191522E84600FE5C69 /* Libraries */,
 			);
 			path = Piggyback;
 			sourceTree = "<group>";
@@ -307,6 +334,16 @@
 				3E94730815008EF900A261DD /* Piggyback-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3ED78A191522E84600FE5C69 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				3EFDB51F15017C6500CC57A8 /* facebook-ios-sdk */,
+				F9B9B62D150197420002BCDE /* RestKit.xcodeproj */,
+			);
+			name = Libraries;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		3EFDB51C1501793200CC57A8 /* Resources */ = {
@@ -331,6 +368,14 @@
 				3EB2BB8B15183BDC0034820F /* list_tabbar_icon@2x.png */,
 				3E7429361505956A005A272C /* LoginWithFacebookNormal.png */,
 				3EB62AED152159E90071B0C4 /* LoginWithFacebookNormal@2x.png */,
+				3ED78A301523277600FE5C69 /* blackArrow.png */,
+				3ED78A311523277600FE5C69 /* blackArrow@2x.png */,
+				3ED78A321523277700FE5C69 /* blueArrow.png */,
+				3ED78A331523277700FE5C69 /* blueArrow@2x.png */,
+				3ED78A341523277700FE5C69 /* grayArrow.png */,
+				3ED78A351523277700FE5C69 /* grayArrow@2x.png */,
+				3ED78A361523277700FE5C69 /* whiteArrow.png */,
+				3ED78A371523277700FE5C69 /* whiteArrow@2x.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -517,6 +562,14 @@
 				3EAC2AF5152157FF00B69392 /* login_bg@2x.png in Resources */,
 				3EAC2AF6152157FF00B69392 /* login_bg.png in Resources */,
 				3EB62AEE152159E90071B0C4 /* LoginWithFacebookNormal@2x.png in Resources */,
+				3ED78A381523277700FE5C69 /* blackArrow.png in Resources */,
+				3ED78A391523277700FE5C69 /* blackArrow@2x.png in Resources */,
+				3ED78A3A1523277700FE5C69 /* blueArrow.png in Resources */,
+				3ED78A3B1523277700FE5C69 /* blueArrow@2x.png in Resources */,
+				3ED78A3C1523277700FE5C69 /* grayArrow.png in Resources */,
+				3ED78A3D1523277700FE5C69 /* grayArrow@2x.png in Resources */,
+				3ED78A3E1523277700FE5C69 /* whiteArrow.png in Resources */,
+				3ED78A3F1523277700FE5C69 /* whiteArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +602,8 @@
 				3EBA711C1514B7810043A4F9 /* ListEntryTableViewCell.m in Sources */,
 				F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */,
 				3EB2BB991518964F0034820F /* PiggybackNavigationController.m in Sources */,
+				3ED78A1C1522E92E00FE5C69 /* Piggyback.xcdatamodeld in Sources */,
+				3E36D560152331F0001C9070 /* EGORefreshTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -707,6 +762,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3ED78A1A1522E92E00FE5C69 /* Piggyback.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3ED78A1B1522E92E00FE5C69 /* Piggyback.xcdatamodel */,
+			);
+			currentVersion = 3ED78A1B1522E92E00FE5C69 /* Piggyback.xcdatamodel */;
+			path = Piggyback.xcdatamodeld;
+			sourceTree = SOURCE_ROOT;
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 3E9472ED15008EF900A261DD /* Project object */;
 }

@@ -22,6 +22,8 @@
 
 @property (nonatomic, strong) NSArray* inboxItems;
 @property (nonatomic, strong) NSMutableDictionary* userFbPics;
+@property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView;
+@property BOOL reloading;
 
 @end
 
@@ -33,34 +35,26 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 
 @synthesize inboxItems = _inboxItems;
 @synthesize userFbPics = _userFbPics;
+@synthesize refreshHeaderView = _refreshHeaderView;
+@synthesize reloading = _reloading;
 
-#pragma mark - Getters and Setters
--(NSArray *)inboxItems
-{
-    if (!_inboxItems) {
-        _inboxItems = [[NSArray alloc] init];
-    }
-
-    return _inboxItems;
+#pragma mark - Private Helper Methods
+- (void)loadObjectsFromDataStore {
+    NSFetchRequest* request = [InboxItem fetchRequest];
+    NSSortDescriptor* descriptor = [NSSortDescriptor sortDescriptorWithKey:@"referralDate" ascending:NO];
+    [request setSortDescriptors:[NSArray arrayWithObject:descriptor]];
+    self.inboxItems = [InboxItem objectsWithFetchRequest:request];
 }
 
--(void)setInboxItems:(NSArray *)inboxItems
-{
-    _inboxItems = inboxItems;
-    [self.tableView reloadData];
+- (void)loadData {
+    // Load the object model via RestKit
+    self.reloading = YES;
+    NSString* inboxPath = [RK_INBOX_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
+    RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
+    inboxLoader.userData = @"inboxLoader";
 }
 
--(NSMutableDictionary *)userFbPics
-{
-    if (!_userFbPics) {
-        _userFbPics = [[NSMutableDictionary alloc] init];
-    }
-    
-    return _userFbPics;
-}
-
-
-#pragma mark - private helper functions
 // get string for time elapsed e.g., "2 days ago"
 - (NSString*)timeElapsed:(NSDate*)date {
     NSUInteger desiredComponents = NSYearCalendarUnit | NSMonthCalendarUnit | NSWeekCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit |  NSMinuteCalendarUnit | NSSecondCalendarUnit;
@@ -100,9 +94,9 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         number = 0;
     }
     // check if unit number is greater then append s at the end
-//    if (number > 1) {
-//        unit = [NSString stringWithFormat:@"%@s", unit];
-//    }
+    //    if (number > 1) {
+    //        unit = [NSString stringWithFormat:@"%@s", unit];
+    //    }
     
     NSString* elapsedTime = [NSString stringWithFormat:@"%d%@",number,unit];
     
@@ -113,22 +107,55 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     return elapsedTime;
 }
 
-#pragma mark - rest kit protocol methods
+
+#pragma mark - Getters and Setters
+-(NSArray *)inboxItems
+{
+    if (!_inboxItems) {
+        _inboxItems = [[NSArray alloc] init];
+    }
+
+    return _inboxItems;
+}
+
+-(void)setInboxItems:(NSArray *)inboxItems
+{
+    _inboxItems = inboxItems;
+    [self.tableView reloadData];
+}
+
+-(NSMutableDictionary *)userFbPics
+{
+    if (!_userFbPics) {
+        _userFbPics = [[NSMutableDictionary alloc] init];
+    }
+    
+    return _userFbPics;
+}
+
+#pragma mark - RKObjectLoaderDelegate methods
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
     // retrieve data from API and use information for displaying
     if(objectLoader.userData == @"inboxLoader") {
-        self.inboxItems = objects;
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"LastUpdatedAt"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self loadObjectsFromDataStore];
+        self.reloading = NO;
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+//        [self.tableView reloadData];
         
-        // store all user FB pics in a NSMutableDictionary
-        for (InboxItem* currentInboxItem in self.inboxItems) {
-            NSString* fbImageLocation = [[@"http://graph.facebook.com/" stringByAppendingString:[currentInboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
-            if (![self.userFbPics objectForKey:currentInboxItem.referrer.fbid]) {
-                [self.userFbPics setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImageLocation]]] forKey:currentInboxItem.referrer.fbid];
-            }
-        }
-        
-        [self.tableView reloadData];
+//        self.inboxItems = objects;
+//        
+//        // store all user FB pics in a NSMutableDictionary
+//        for (InboxItem* currentInboxItem in self.inboxItems) {
+//            NSString* fbImageLocation = [[@"http://graph.facebook.com/" stringByAppendingString:[currentInboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
+//            if (![self.userFbPics objectForKey:currentInboxItem.referrer.fbid]) {
+//                [self.userFbPics setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImageLocation]]] forKey:currentInboxItem.referrer.fbid];
+//            }
+//        }
+//        
+//        [self.tableView reloadData];
     } 
 }
 
@@ -145,16 +172,28 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 
 }
 
-#pragma mark - table data source protocol methods
+#pragma mark - UITableViewDataSource methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
-    return [self.inboxItems count];
+    if ([self.inboxItems count] == 0) {
+        // display empty inbox message
+        return 1;
+    } else {
+        return [self.inboxItems count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     // check if user has inbox items
-    if ([[self.inboxItems objectAtIndex:indexPath.row] isKindOfClass:[InboxItem class]]) {
+    if ([self.inboxItems count] == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"emptyInboxCell"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"emptyInboxCell"];
+        }
+        
+        return cell;
+    } else {
         static NSString *CellIdentifier = @"inboxTableCell";
         
         InboxTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -207,15 +246,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         // image
         cell.image.layer.cornerRadius = 5.0;
         cell.image.layer.masksToBounds = YES;
-        cell.image.image = [self.userFbPics objectForKey:inboxItem.referrer.fbid];
-        
-        return cell;
-    } else {
-        // inbox is empty
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"emptyInboxCell"];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"emptyInboxCell"];
-        }
+//        cell.image.image = [self.userFbPics objectForKey:inboxItem.referrer.fbid];
         
         return cell;
     }
@@ -223,8 +254,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     return nil;
 }
 
-#pragma mark - Table view delegate protocol methods
-
+#pragma mark - UITableViewDelegate methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
@@ -240,7 +270,8 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
 {
     // height for empty cell
-    if (![[self.inboxItems objectAtIndex:indexPath.row] isKindOfClass:[InboxItem class]]) {
+//    if (![[self.inboxItems objectAtIndex:indexPath.row] isKindOfClass:[InboxItem class]]) {
+    if ([self.inboxItems count] == 0) {
         return tableView.rowHeight;
     } else {
         InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
@@ -252,6 +283,32 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
             return size.height + 2*FACEBOOKPICMARGIN + 35;
         }
     }
+}
+
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {	
+    
+	[self.refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    
+	[self.refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+    
+}
+
+#pragma mark - EGORefreshTableHeaderDelegate Methods
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
+    [self loadData];
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
+	return self.reloading; // should return if data source model is reloading
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"LastUpdatedAt"];
 }
 
 #pragma mark - View lifecycle
@@ -281,6 +338,16 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self loadObjectsFromDataStore];
+    if (self.refreshHeaderView == nil) {
+        EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
+        view.delegate = self;
+        [self.tableView addSubview:view];
+        self.refreshHeaderView = view;
+    }
+    
+    // update the last update date
+    [self.refreshHeaderView refreshLastUpdatedDate];
 }
 
 - (void)viewDidUnload
@@ -293,13 +360,14 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    // re-fetch inbox items for users whenever inbox view appears
-    NSString* inboxPath = [RK_INBOX_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
-    RKObjectManager* objManager = [RKObjectManager sharedManager];
-    RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
-    inboxLoader.userData = @"inboxLoader";
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    
+//    // re-fetch inbox items for users whenever inbox view appears
+//    NSString* inboxPath = [RK_INBOX_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
+//    RKObjectManager* objManager = [RKObjectManager sharedManager];
+//    RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
+//    inboxLoader.userData = @"inboxLoader";
 }
 
 - (void)viewDidAppear:(BOOL)animated

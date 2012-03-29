@@ -10,18 +10,31 @@
 
 @implementation Vendor
 
-@synthesize vid = _vid;
-@synthesize name = _name;
-@synthesize lat = _lat;
-@synthesize lng = _lng;
-@synthesize phone = _phone;
-@synthesize addr = _addr;
-@synthesize addrCrossStreet = _addrCrossStreet;
-@synthesize addrCity = _addrCity;
-@synthesize addrState = _addrState;
-@synthesize addrCountry = _addrCounty;
-@synthesize addrZip = _addrZip;
-@synthesize website = _website;
+//@synthesize vid = _vid;
+//@synthesize name = _name;
+//@synthesize lat = _lat;
+//@synthesize lng = _lng;
+//@synthesize phone = _phone;
+//@synthesize addr = _addr;
+//@synthesize addrCrossStreet = _addrCrossStreet;
+//@synthesize addrCity = _addrCity;
+//@synthesize addrState = _addrState;
+//@synthesize addrCountry = _addrCounty;
+//@synthesize addrZip = _addrZip;
+//@synthesize website = _website;
+
+@dynamic vid;
+@dynamic name;
+@dynamic lat;
+@dynamic lng;
+@dynamic phone;
+@dynamic addr;
+@dynamic addrCrossStreet;
+@dynamic addrCity;
+@dynamic addrState;
+@dynamic addrCountry;
+@dynamic addrZip;
+@dynamic website;
 @synthesize distanceFromCurrentLocationInMiles = _distanceFromCurrentLocationInMiles;
 
 - (Vendor*) init

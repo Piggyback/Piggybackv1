@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CLLocation.h>
+#import <RestKit/CoreData.h>
 
-@interface Vendor : NSObject
+@interface Vendor : NSManagedObject
 
 @property (nonatomic, strong) NSString* vid;
 @property (nonatomic, strong) NSString* name;

@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "Vendor.h"
 #import "PBUser.h"
-#import "PBList.h"
+#import <RestKit/CoreData.h>
 
-@interface InboxItem : NSObject
+@interface InboxItem : NSManagedObject
 
 //@property (nonatomic, strong) NSDate* date;
 //@property (nonatomic, strong) NSNumber* rid;

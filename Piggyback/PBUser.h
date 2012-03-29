@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/CoreData.h>
 
-@interface PBUser : NSObject
+@interface PBUser : NSManagedObject
 
 @property (nonatomic, strong) NSNumber* uid;
 @property (nonatomic, strong) NSNumber* fbid;
