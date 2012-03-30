@@ -10,13 +10,15 @@
 #import <RestKit/RestKit.h>
 #import "Vendor.h"
 
-@interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, RKObjectLoaderDelegate>
+@interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, RKObjectLoaderDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) Vendor *vendor;
-@property (weak, nonatomic) IBOutlet UIImageView *vendorImage;
+//@property (weak, nonatomic) IBOutlet UIImageView *vendorImage;
 @property (nonatomic, strong) NSArray *referralComments;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITableView *vendorTableView;
 @property (nonatomic, strong) NSArray *photos;
+@property (weak, nonatomic) IBOutlet UIScrollView *photoScrollView;
+@property (weak, nonatomic) IBOutlet UIPageControl *photoPageControl;
 
 @end

@@ -29,14 +29,19 @@ typedef enum tableViewSection {
 @synthesize vendorTableView = _vendorInfoTable;
 
 @synthesize vendor = _vendor;
-@synthesize vendorImage = _vendorImage;
+//@synthesize vendorImage = _vendorImage;
 @synthesize referralComments = _referralComments;
 @synthesize scrollView = _scrollView;
 @synthesize photos = _photos;
+@synthesize photoScrollView = _photoScrollView;
+@synthesize photoPageControl = _photoPageControl;
 
 @synthesize hasAddress = _hasAddress;
 @synthesize hasPhone = _hasPhone;
 @synthesize vendorInfo = _vendorInfo;
+
+const CGFloat photoHeight = 153;
+const CGFloat photoWidth = 320;
 
 #pragma mark getter / setter methods
 
@@ -82,28 +87,82 @@ typedef enum tableViewSection {
     return _referralComments;
 }
 
+#pragma mark - private helper methods
+
+- (void)layoutPhotoScrollImages {
+    UIImageView *photo = nil;
+    NSArray *subviews = [self.photoScrollView subviews];
+    
+    // reposition all image subviews in a horizontal serial fashion
+    CGFloat curXLoc = photoWidth;
+    for (photo in subviews) {
+        if ([photo isKindOfClass:[UIImageView class]] && photo.tag > 0) {
+            CGRect frame = photo.frame;
+            frame.origin = CGPointMake(curXLoc,0);
+            photo.frame = frame;
+            
+            curXLoc += (photoWidth);
+            NSLog(@"first photo hsould appear already!");
+        }
+    }
+    
+    // set width of photo scroll view to fit all images
+    [self.photoScrollView setContentSize:CGSizeMake([self.photos count] * photoWidth,self.photoScrollView.bounds.size.height)];
+}
+
 #pragma mark - restkit api delegate methods
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
     // retrieve data from API and use information for displaying
     if(objectLoader.userData == @"vendorPhotoLoader") {
         self.photos = objects;
-        // display image in a separate thread
+        [self.photoPageControl setNumberOfPages:[self.photos count]];
+        [self.photoPageControl setCurrentPage:0];
+
         if ([self.photos count] > 0) {
+            // create new thread
             dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
+            dispatch_queue_t downloadOtherImagesQueue = dispatch_queue_create("downloadOtherImages",NULL);
+
+            // show first photo immediately
             dispatch_async(downloadImageQueue, ^{
-                VendorPhoto* photo = [self.photos objectAtIndex:0];
-//                NSString* squarePhotoString = [[photo.photoURL stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
-                UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photo.photoURL]]];
+
+                VendorPhoto* firstPhoto = [self.photos objectAtIndex:0];
+                NSString* squareFirstPhotoString = [[firstPhoto.photoURL stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
+                UIImage *firstImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:squareFirstPhotoString]]];
+                UIImageView *firstImageView = [[UIImageView alloc] initWithImage:firstImage];
+                firstImageView.contentMode = UIViewContentModeScaleAspectFill;
+                firstImageView.tag = 0;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.vendorImage setImage:image];
+                    firstImageView.frame = CGRectMake(0,0,photoWidth,photoHeight);
+                    [self.photoScrollView addSubview:firstImageView];
                 });
             });
+
+            // download the rest of the photos
+            for (int i = 1; i < [self.photos count]; i++) {
+
+                    NSString* squarePhotoString = [[[[self.photos objectAtIndex:i] photoURL] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
+                    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:squarePhotoString]]];
+                    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                    imageView.contentMode = UIViewContentModeScaleAspectFill;
+                        CGRect rect = imageView.frame;
+                        rect.size.height = photoHeight;
+                        rect.size.width = photoWidth;
+                        imageView.frame = rect;
+                        imageView.tag = i;
+                        [self.photoScrollView addSubview:imageView];
+
+            }
+                
+                [self layoutPhotoScrollImages];
+
         } else {
             // display icon for no picture
-            [self.vendorImage setImage:[UIImage imageNamed:@"no_photo.png"]];
+            UIImage *image = [UIImage imageNamed:@"no_photo.png"];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+            [self.photoScrollView addSubview:imageView];
         }
-//        [self.tableView reloadData];
     } 
 }
 
@@ -289,6 +348,13 @@ typedef enum tableViewSection {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+#pragma mark - scrollview page control delegate methods
+- (IBAction)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    int newOffset = scrollView.contentOffset.x;
+    int newPage = (int)(newOffset/(scrollView.frame.size.width));
+    [self.photoPageControl setCurrentPage:newPage];
+}
+
 #pragma mark - View lifecycle
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -312,9 +378,14 @@ typedef enum tableViewSection {
 {
     [super viewDidLoad];
     
+    self.title = self.vendor.name;
     [self.scrollView setScrollEnabled:YES];
     
-    self.title = self.vendor.name;
+    // set up page control
+    self.photoScrollView.delegate = self;
+    CGRect frame = self.photoPageControl.frame;
+    frame.size.height = frame.size.height/2;
+    self.photoPageControl.frame = frame;
     
     NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vid];
     NSLog(@"path to get vendor photos is %@",vendorPhotoPath);
@@ -344,17 +415,17 @@ typedef enum tableViewSection {
 
 
         
-        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+self.vendorImage.image.size.height+100+25)];
-        
+        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+self.photoScrollView.bounds.size.height+100+25)];
     }
 
 }
 
 - (void)viewDidUnload
 {
-    [self setVendorImage:nil];
+//    [self setVendorImage:nil];
     [self setScrollView:nil];
     [self setVendorTableView:nil];
+    [self setPhotoScrollView:nil];
     [super viewDidUnload];
 }
 
