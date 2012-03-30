@@ -140,8 +140,8 @@ const CGFloat photoWidth = 320;
             });
 
             // download the rest of the photos
-            for (int i = 1; i < [self.photos count]; i++) {
-
+            dispatch_async(downloadOtherImagesQueue, ^{
+                for (int i = 1; i < [self.photos count]; i++) {
                     NSString* squarePhotoString = [[[[self.photos objectAtIndex:i] photoURL] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
                     UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:squarePhotoString]]];
                     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
@@ -152,10 +152,11 @@ const CGFloat photoWidth = 320;
                         imageView.frame = rect;
                         imageView.tag = i;
                         [self.photoScrollView addSubview:imageView];
-
-            }
-                
-                [self layoutPhotoScrollImages];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self layoutPhotoScrollImages];
+                });
+            });
 
         } else {
             // display icon for no picture
