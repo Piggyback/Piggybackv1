@@ -7,14 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Vendor.h"
+#import <RestKit/CoreData.h>
+#import "PBVendor.h"
+#import "PBList.h"
 
-@interface PBListEntry : NSObject
+@interface PBListEntry : NSManagedObject
 
-@property (nonatomic, strong) Vendor* vendor;
-@property (nonatomic, strong) NSDate* date;
+@property (nonatomic, strong) NSNumber* listEntryID;
+@property (nonatomic, strong) NSNumber* assignedListID;
+@property (nonatomic, strong) PBList* assignedList;
 @property (nonatomic, strong) NSString* comment;
-@property (nonatomic, strong) NSArray* referredBy;  // array of VendorReferralComment objects
-@property (nonatomic, strong) NSNumber* numUniqueReferredBy;
+@property (nonatomic, strong) NSDate* addedDate;
+@property (nonatomic, strong) PBVendor* vendor;
+@property (nonatomic, strong) NSString* vendorID;   // vendor and vendorReferralComments foreign key
 
 @end

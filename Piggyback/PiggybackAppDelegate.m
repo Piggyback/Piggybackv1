@@ -11,17 +11,17 @@
 #import "LoginViewController.h"
 #import <RestKit/RestKit.h>
 #import <RestKit/CoreData.h>
-#import "Vendor.h"
-#import "VendorReferralComment.h"
+#import "PBVendor.h"
+#import "PBVendorReferralComment.h"
 #import "PBUser.h"
 #import "PBList.h"
 #import "PBListEntry.h"
-#import "InboxItem.h"
+#import "PBInboxItem.h"
 
 @implementation PiggybackAppDelegate
 
 NSString* const FB_APP_ID = @"251920381531962";
-NSString* const RK_BASE_URL = @"http://192.168.11.28/api";
+NSString* RK_BASE_URL = @"http://192.168.11.28/api";
 NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 @synthesize window = _window;
@@ -45,22 +45,46 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     objectManager.objectStore = [RKManagedObjectStore objectStoreWithStoreFilename:databaseName usingSeedDatabaseName:seedDatabaseName managedObjectModel:nil delegate:self];
     
     // Setup our object mappings
-//    RKManagedObjectMapping* userMapping = [RKManagedObjectMapping mappingForClass:[PBUser class]];
     RKManagedObjectMapping* userMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBUser"];
-    userMapping.primaryKeyAttribute = @"uid";
-    [userMapping mapAttributes:@"uid", @"fbid", @"email", @"firstName", @"lastName", nil];
+    userMapping.primaryKeyAttribute = @"userID";
+    [userMapping mapAttributes:@"userID", @"fbid", @"email", @"firstName", @"lastName", nil];
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
     
-//    RKManagedObjectMapping* vendorMapping = [RKManagedObjectMapping mappingForClass:[Vendor class]];
-    RKManagedObjectMapping* vendorMapping = [RKManagedObjectMapping mappingForEntityWithName:@"Vendor"];
-    vendorMapping.primaryKeyAttribute = @"vid";
-    [vendorMapping mapAttributes:@"vid",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",nil];
+    RKManagedObjectMapping* vendorMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBVendor"];
+    vendorMapping.primaryKeyAttribute = @"vendorID";
+    [vendorMapping mapAttributes:@"vendorID",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",nil];
     [objectManager.mappingProvider setMapping:vendorMapping forKeyPath:@"vendor"];
     
-//    RKManagedObjectMapping* inboxMapping = [RKManagedObjectMapping mappingForClass:[InboxItem class]];
-    RKManagedObjectMapping* inboxMapping = [RKManagedObjectMapping mappingForEntityWithName:@"InboxItem"];
-    inboxMapping.primaryKeyAttribute = @"rid";
-    [inboxMapping mapAttributes:@"rid",@"referralComment",@"referralDate",@"lid",@"listName",@"listCount",nil];
+    RKManagedObjectMapping* vendorReferralCommentsMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBVendorReferralComment"];
+    vendorReferralCommentsMapping.primaryKeyAttribute = @"referralID";
+    [vendorReferralCommentsMapping mapAttributes:@"referralID", @"vendorID",@"comment",@"referralDate",@"referrerID",nil];
+    [vendorReferralCommentsMapping connectRelationship:@"referrer" withObjectForPrimaryKeyAttribute:@"referrerID"];
+    [objectManager.mappingProvider setMapping:vendorReferralCommentsMapping forKeyPath:@"referralComment"];
+
+    RKManagedObjectMapping* listEntryMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBListEntry"];
+    listEntryMapping.primaryKeyAttribute = @"listEntryID";
+    
+    RKManagedObjectMapping* listMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBList"];
+    listMapping.primaryKeyAttribute = @"listID";
+    [listMapping mapAttributes:@"listID", @"createdDate", @"name", @"listOwnerID", nil];
+    [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
+//    [listMapping connectRelationship:@"listEntrys" withObjectForPrimaryKeyAttribute:@"listEntryID"];
+//    [listMapping connectRelationship:@"listOwner" withObjectForPrimaryKeyAttribute:@"listOwnerID"];
+    [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"]; 
+    
+//    RKManagedObjectMapping* listEntryMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBListEntry"];
+    //    listEntryMapping.primaryKeyAttribute = @"listEntryID";
+    [listEntryMapping mapAttributes:@"listEntryID", @"assignedListID", @"comment", @"addedDate", @"vendorID", nil];
+    [listEntryMapping mapRelationship:@"vendor" withMapping:vendorMapping];
+    [listEntryMapping mapRelationship:@"assignedList" withMapping:listMapping];
+    [listEntryMapping connectRelationship:@"vendor" withObjectForPrimaryKeyAttribute:@"vendorID"];
+    [listEntryMapping connectRelationship:@"assignedList" withObjectForPrimaryKeyAttribute:@"assignedListID"];
+    [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
+    
+    RKManagedObjectMapping* inboxMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBInboxItem"];
+    inboxMapping.primaryKeyAttribute = @"referralID";
+    [inboxMapping mapAttributes:@"referralID",@"referralComment",@"referralDate",@"listCount",nil];
+    [inboxMapping mapRelationship:@"list" withMapping:listMapping];
     [inboxMapping mapRelationship:@"referrer" withMapping:userMapping];
     [inboxMapping mapRelationship:@"vendor" withMapping:vendorMapping];
     [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
@@ -69,25 +93,25 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 //    [userMapping mapAttributes:@"uid", @"fbid", @"email", @"firstName", @"lastName", nil];
 //    [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
     
-    RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
-    [vendorObjectMapping mapAttributes:@"vid",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",nil];
-    [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
-    
-    RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
-    [referralCommentsMapping mapAttributes:@"date",@"comment",@"referralLid",@"listEntryComment",nil];
-    [referralCommentsMapping mapRelationship:@"referrer" withMapping:userMapping];
-    [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referralComment"];
-    
-    RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
-    [listEntryMapping mapAttributes:@"date", @"comment",nil];
-    [listEntryMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
-    [listEntryMapping mapRelationship:@"referredBy" withMapping:referralCommentsMapping];
-    [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
-    
-    RKObjectMapping* listMapping = [RKObjectMapping mappingForClass:[PBList class]];
-    [listMapping mapAttributes:@"uid", @"lid", @"date", @"name", nil];
-    [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
-    [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
+//    RKObjectMapping* vendorObjectMapping = [RKObjectMapping mappingForClass:[Vendor class]];
+//    [vendorObjectMapping mapAttributes:@"vid",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",nil];
+//    [objectManager.mappingProvider setMapping:vendorObjectMapping forKeyPath:@"vendor"];
+//    
+//    RKObjectMapping* referralCommentsMapping = [RKObjectMapping mappingForClass:[VendorReferralComment class]];
+//    [referralCommentsMapping mapAttributes:@"date",@"comment",@"referralLid",@"listEntryComment",nil];
+//    [referralCommentsMapping mapRelationship:@"referrer" withMapping:userMapping];
+//    [objectManager.mappingProvider setMapping:referralCommentsMapping forKeyPath:@"referralComment"];
+//    
+//    RKObjectMapping* listEntryMapping = [RKObjectMapping mappingForClass:[PBListEntry class]];
+//    [listEntryMapping mapAttributes:@"date", @"comment",nil];
+//    [listEntryMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
+//    [listEntryMapping mapRelationship:@"referredBy" withMapping:referralCommentsMapping];
+//    [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
+//    
+//    RKObjectMapping* listMapping = [RKObjectMapping mappingForClass:[PBList class]];
+//    [listMapping mapAttributes:@"uid", @"lid", @"date", @"name", nil];
+//    [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
+//    [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"];    
     
 //    RKObjectMapping* inboxMapping = [RKObjectMapping mappingForClass:[InboxItem class]];
 //    [inboxMapping mapAttributes:@"rid",@"referralComment",@"referralDate",@"lid",@"listName",@"listCount",nil];

@@ -8,7 +8,7 @@
 
 #import "VendorViewController.h"
 #import "Constants.h"
-#import "VendorReferralComment.h"
+#import "PBVendorReferralComment.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface VendorViewController () 
@@ -38,7 +38,7 @@ typedef enum tableViewSection {
 
 #pragma mark getter / setter methods
 
-- (void)setVendor:(Vendor *)vendor
+- (void)setVendor:(PBVendor *)vendor
 {    
     self.vendorInfo = [[NSMutableArray alloc] init];
     
@@ -174,15 +174,15 @@ typedef enum tableViewSection {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ReferralsCellIdentifier];
         }
         
-        VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
+        PBVendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
         
         cell.textLabel.text = [[vendorReferralComment.referrer.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.referrer.lastName];
-        
-        if ([vendorReferralComment.referralLid intValue] > 0) {
-           cell.detailTextLabel.text = vendorReferralComment.listEntryComment;
-        } else {
-           cell.detailTextLabel.text = vendorReferralComment.comment;
-        }
+//        
+//        if ([vendorReferralComment.referralLid intValue] > 0) {
+//           cell.detailTextLabel.text = vendorReferralComment.listEntryComment;
+//        } else {
+//           cell.detailTextLabel.text = vendorReferralComment.comment;
+//        }
         cell.detailTextLabel.numberOfLines = 0;
         
         NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
@@ -210,13 +210,13 @@ typedef enum tableViewSection {
             }
         }
     } else if (indexPath.section == vendorReferralsSection) {
-        VendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
+        PBVendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
         NSString* displayedComment;
-        if ([vendorReferralComment.referralLid intValue] > 0) {
-            displayedComment = vendorReferralComment.listEntryComment;
-        } else {
-            displayedComment = vendorReferralComment.comment;
-        }
+//        if ([vendorReferralComment.referralLid intValue] > 0) {
+//            displayedComment = vendorReferralComment.listEntryComment;
+//        } else {
+//            displayedComment = vendorReferralComment.comment;
+//        }
         
         CGSize size = [displayedComment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
         

@@ -10,18 +10,25 @@
 
 @implementation PBList
 
-@synthesize uid = _uid;
-@synthesize lid = _lid;
-@synthesize date = _date;
-@synthesize name = _name;
-@synthesize listEntrys = _listEntrys;
+@dynamic listID;
+@dynamic createdDate;
+@dynamic name;
+@dynamic listEntrys;
+@dynamic listOwner;
+@dynamic listOwnerID;
 
-- (NSArray *)listEntrys {
-    if (!_listEntrys) {
-        _listEntrys = [[NSArray alloc] init];
-    }
-    
-    return _listEntrys;
-}
+//@synthesize uid = _uid;
+//@synthesize lid = _lid;
+//@synthesize date = _date;
+//@synthesize name = _name;
+//@synthesize listEntrys = _listEntrys;
+
+//- (NSArray *)listEntrys {
+//    if (!_listEntrys) {
+//        _listEntrys = [[NSArray alloc] init];
+//    }
+//    
+//    return _listEntrys;
+//}
 
 @end

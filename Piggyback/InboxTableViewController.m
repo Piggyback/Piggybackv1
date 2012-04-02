@@ -10,10 +10,10 @@
 #import "PiggybackAppDelegate.h"
 #import "VendorViewController.h"
 #import "IndividualListViewController.h"
-#import "InboxItem.h"
+#import "PBInboxItem.h"
 #import "PBList.h"
 #import "PBListEntry.h"
-#import "VendorReferralComment.h"
+#import "PBVendorReferralComment.h"
 #import "Constants.h"
 #import "InboxTableCell.h"
 #import <QuartzCore/QuartzCore.h>
@@ -29,7 +29,7 @@
 
 @implementation InboxTableViewController
 
-NSString* const RK_INBOX_ID_RESOURCE_PATH = @"inboxapi/minimumInbox/id/";
+NSString* const RK_INBOX_ID_RESOURCE_PATH = @"inboxapi/coreDataInbox/id/";
 NSString* const NO_INBOX_TEXT = @"Your inbox is empty!";
 NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you places they think you will like at www.getpiggyback.com and stay tuned for mobile app updates!";
 
@@ -38,12 +38,37 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 @synthesize refreshHeaderView = _refreshHeaderView;
 @synthesize reloading = _reloading;
 
+#pragma mark - Getters and Setters
+-(NSArray *)inboxItems
+{
+    if (!_inboxItems) {
+        _inboxItems = [[NSArray alloc] init];
+    }
+
+    return _inboxItems;
+}
+
+-(void)setInboxItems:(NSArray *)inboxItems
+{
+    _inboxItems = inboxItems;
+    [self.tableView reloadData];
+}
+
+-(NSMutableDictionary *)userFbPics
+{
+    if (!_userFbPics) {
+        _userFbPics = [[NSMutableDictionary alloc] init];
+    }
+    
+    return _userFbPics;
+}
+
 #pragma mark - Private Helper Methods
 - (void)loadObjectsFromDataStore {
-    NSFetchRequest* request = [InboxItem fetchRequest];
+    NSFetchRequest* request = [PBInboxItem fetchRequest];
     NSSortDescriptor* descriptor = [NSSortDescriptor sortDescriptorWithKey:@"referralDate" ascending:NO];
     [request setSortDescriptors:[NSArray arrayWithObject:descriptor]];
-    self.inboxItems = [InboxItem objectsWithFetchRequest:request];
+    self.inboxItems = [PBInboxItem objectsWithFetchRequest:request];
 }
 
 - (void)loadData {
@@ -107,38 +132,12 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     return elapsedTime;
 }
 
-
-#pragma mark - Getters and Setters
--(NSArray *)inboxItems
-{
-    if (!_inboxItems) {
-        _inboxItems = [[NSArray alloc] init];
-    }
-
-    return _inboxItems;
-}
-
--(void)setInboxItems:(NSArray *)inboxItems
-{
-    _inboxItems = inboxItems;
-    [self.tableView reloadData];
-}
-
--(NSMutableDictionary *)userFbPics
-{
-    if (!_userFbPics) {
-        _userFbPics = [[NSMutableDictionary alloc] init];
-    }
-    
-    return _userFbPics;
-}
-
 #pragma mark - RKObjectLoaderDelegate methods
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
     // retrieve data from API and use information for displaying
     if(objectLoader.userData == @"inboxLoader") {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"LastUpdatedAt"];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"InboxLastUpdatedAt"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
         self.reloading = NO;
@@ -201,18 +200,18 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
             cell = [[InboxTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
         
-        InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
+        PBInboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
         
         // vendor or list name 
-        if ([inboxItem.lid intValue] == 0) {
+        if ([inboxItem.list.listID intValue] == 0) {
             cell.name.text = inboxItem.vendor.name;
             cell.numItemsInList.text = @"";
         } else {    
-            cell.name.text = inboxItem.listName;
+            cell.name.text = inboxItem.list.name;
             cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.listCount intValue]] stringByAppendingString:@")"];
             
             // set position of number of items in list
-            CGSize listNameSize = [inboxItem.listName sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+            CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
             CGRect listNameFrame = cell.name.frame;
             listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
             listNameFrame.size.width = listNameSize.width;
@@ -222,7 +221,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         cell.date.text = [self timeElapsed:inboxItem.referralDate];
         
         // referred by
-        cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrer.firstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrer.lastName];
+        cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrerFirstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrerLastName];
         
         // number of other friends this was referred to
     //    NSString* numFriendsLabel = @"To you and %d friend";
@@ -257,12 +256,13 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 #pragma mark - UITableViewDelegate methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
-    if ([inboxItem.lid intValue] == 0) {
+    PBInboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
+    if ([inboxItem.list.listID intValue] == 0) {
         [self performSegueWithIdentifier:@"inboxToVendor" sender:[tableView cellForRowAtIndexPath:indexPath]];
     } else {
         [self performSegueWithIdentifier:@"inboxToList" sender:[tableView cellForRowAtIndexPath:indexPath]];
     }
+    
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
@@ -274,7 +274,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     if ([self.inboxItems count] == 0) {
         return tableView.rowHeight;
     } else {
-        InboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
+        PBInboxItem* inboxItem = [self.inboxItems objectAtIndex:indexPath.row];
         CGSize size = [inboxItem.referralComment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
         
         if (size.height + 35 < FACEBOOKPICHEIGHT) {
@@ -308,7 +308,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 }
 
 - (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:@"LastUpdatedAt"];
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"];
 }
 
 #pragma mark - View lifecycle
@@ -340,7 +340,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     [super viewDidLoad];
     [self loadObjectsFromDataStore];
     if (self.refreshHeaderView == nil) {
-        EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
+        EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, -180.0f, self.view.frame.size.width, 180.0f) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
         view.delegate = self;
         [self.tableView addSubview:view];
         self.refreshHeaderView = view;
@@ -392,7 +392,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    InboxItem* inboxItem = [self.inboxItems objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+    PBInboxItem* inboxItem = [self.inboxItems objectAtIndex:[self.tableView indexPathForSelectedRow].row];
     if([[segue identifier] isEqualToString:@"inboxToVendor"]) {
         // set vendor for display on vendor detail view
         [segue.destinationViewController setVendor:inboxItem.vendor];
@@ -407,8 +407,9 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 //            }
 //        }
 //        [(VendorViewController*)segue.destinationViewController setReferralComments:[NSArray arrayWithArray:uniqueReferralComments]];
-//    } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
-//        [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];
+        
+    } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
+        [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];
     }
 }
 

@@ -7,15 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/CoreData.h>
+#import <RestKit/RestKit.h>
+#import "PBuser.h"
 
-@interface PBList : NSObject
+@interface PBList : NSManagedObject
 
-@property (nonatomic, strong) NSNumber* uid;
-@property (nonatomic, strong) NSNumber* lid;
-@property (nonatomic, strong) NSDate* date;
+@property (nonatomic, strong) NSNumber* listID;
+@property (nonatomic, strong) NSDate* createdDate;
 @property (nonatomic, strong) NSString* name;
-@property (nonatomic, strong) NSArray* listEntrys;  // array of PBListEntry objects
-
-
+@property (nonatomic, strong) NSMutableSet* listEntrys;  // array of PBListEntry
+@property (nonatomic, strong) PBUser* listOwner;
+@property (nonatomic, strong) NSNumber* listOwnerID;    // listOwner foreign key
 
 @end

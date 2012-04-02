@@ -9,7 +9,7 @@
 #import "ListsTableViewController.h"
 #import "PBList.h"
 #import "PBListEntry.h"
-#import "VendorReferralComment.h"
+#import "PBVendorReferralComment.h"
 #import "IndividualListViewController.h"
 
 @interface ListsTableViewController ()
@@ -233,10 +233,10 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
         for (PBListEntry* currentListEntry in list.listEntrys) {
             NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
                 
-            for (VendorReferralComment* currentReferralComment in currentListEntry.referredBy) {
-                [uniqueReferrers addObject:currentReferralComment.referrer.uid];
-            }
-            currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
+//            for (PBVendorReferralComment* currentReferralComment in currentListEntry.referredBy) {
+//                [uniqueReferrers addObject:currentReferralComment.referrer.uid];
+//            }
+//            currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
         }
 
         [segue.destinationViewController setList:list];

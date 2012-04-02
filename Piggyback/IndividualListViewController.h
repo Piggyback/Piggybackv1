@@ -10,14 +10,16 @@
 #import <RestKit/RestKit.h>
 #import "PBList.h"
 #import "LocationController.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface IndividualListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface IndividualListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, EGORefreshTableHeaderDelegate, UIScrollViewDelegate, RKObjectLoaderDelegate>
 
 @property (nonatomic, strong) PBList* list;
 @property (weak, nonatomic) IBOutlet UITableView *listEntryTableView;
 @property (nonatomic, strong) NSArray* shownListEntrys;
 @property (nonatomic, strong) LocationController* locationController;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 - (IBAction)segmentedControlChanged;
 @end

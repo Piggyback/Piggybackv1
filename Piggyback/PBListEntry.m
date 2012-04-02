@@ -10,18 +10,20 @@
 
 @implementation PBListEntry
 
-@synthesize vendor = _vendor;
-@synthesize date = _date;
-@synthesize comment = _comment;
-@synthesize referredBy = _referredBy;
-@synthesize numUniqueReferredBy = _numUniqueReferredBy;
+@dynamic listEntryID;
+@dynamic assignedListID;
+@dynamic assignedList;
+@dynamic comment;
+@dynamic addedDate;
+@dynamic vendor;
+@dynamic vendorID;
 
-- (NSArray *)referredBy {
-    if (!_referredBy) {
-        _referredBy = [[NSArray alloc] init];
-    }
-    
-    return _referredBy;
-}
+//- (NSArray *)referredBy {
+//    if (!_referredBy) {
+//        _referredBy = [[NSArray alloc] init];
+//    }
+//    
+//    return _referredBy;
+//}
 
 @end

@@ -85,7 +85,7 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
         {
             PBUser *currentUser = (PBUser *)[objects objectAtIndex:0];
 
-            [[NSUserDefaults standardUserDefaults] setObject:currentUser.uid forKey:@"UID"];
+            [[NSUserDefaults standardUserDefaults] setObject:currentUser.userID forKey:@"UID"];
             
             [self.delegate showLoggedIn];
 

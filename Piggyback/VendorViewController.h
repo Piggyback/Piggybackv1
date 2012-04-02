@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
-#import "Vendor.h"
+#import "PBVendor.h"
 
 @interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) Vendor *vendor;
+@property (nonatomic, strong) PBVendor *vendor;
 @property (weak, nonatomic) IBOutlet UIImageView *vendorImage;
 @property (nonatomic, strong) NSArray *referralComments;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;

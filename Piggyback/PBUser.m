@@ -10,13 +10,7 @@
 
 @implementation PBUser
 
-//@synthesize uid = _uid;
-//@synthesize fbid = _fbid;
-//@synthesize email = _email;
-//@synthesize firstName = _firstName;
-//@synthesize lastName = _lastName;
-
-@dynamic uid;
+@dynamic userID;
 @dynamic fbid;
 @dynamic email;
 @dynamic firstName;

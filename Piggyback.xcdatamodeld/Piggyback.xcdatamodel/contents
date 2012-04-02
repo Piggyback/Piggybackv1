@@ -1,24 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50b" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="InboxItem" syncable="YES">
-        <attribute name="lid" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    <entity name="PBInboxItem" representedClassName="PBInboxItem" syncable="YES">
         <attribute name="listCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="listName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="referralComment" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="referralDate" attributeType="Date" syncable="YES"/>
-        <attribute name="rid" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="referrer" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBUser" inverseName="referral" inverseEntity="PBUser" syncable="YES"/>
-        <relationship name="vendor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Vendor" inverseName="referral" inverseEntity="Vendor" syncable="YES"/>
+        <attribute name="referralDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="referralID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="referrerFirstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="referrerID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="referrerLastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vendorID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vendorName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="list" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBList" inverseName="assignedInboxItems" inverseEntity="PBList" syncable="YES"/>
+        <relationship name="referrer" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBUser" inverseName="referredInboxItems" inverseEntity="PBUser" syncable="YES"/>
+        <relationship name="vendor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBVendor" inverseName="assignedInboxItems" inverseEntity="PBVendor" syncable="YES"/>
     </entity>
-    <entity name="PBUser" syncable="YES">
+    <entity name="PBList" representedClassName="PBList" syncable="YES">
+        <attribute name="createdDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="listID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="listOwnerID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="assignedInboxItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBInboxItem" inverseName="list" inverseEntity="PBInboxItem" syncable="YES"/>
+        <relationship name="listEntrys" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBListEntry" inverseName="assignedList" inverseEntity="PBListEntry" syncable="YES"/>
+        <relationship name="listOwner" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBUser" inverseName="lists" inverseEntity="PBUser" syncable="YES"/>
+    </entity>
+    <entity name="PBListEntry" representedClassName="PBListEntry" syncable="YES">
+        <attribute name="addedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="assignedListID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="listEntryID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="vendorID" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="assignedList" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBList" inverseName="listEntrys" inverseEntity="PBList" syncable="YES"/>
+        <relationship name="vendor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBVendor" inverseName="assignedListEntrys" inverseEntity="PBVendor" syncable="YES"/>
+    </entity>
+    <entity name="PBUser" representedClassName="PBUser" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="fbid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="fbid" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="uid" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="referral" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="InboxItem" inverseName="referrer" inverseEntity="InboxItem" syncable="YES"/>
+        <attribute name="userID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="lists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBList" inverseName="listOwner" inverseEntity="PBList" syncable="YES"/>
+        <relationship name="referredInboxItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBInboxItem" inverseName="referrer" inverseEntity="PBInboxItem" syncable="YES"/>
+        <relationship name="vendorReferralComments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBVendorReferralComment" inverseName="referrer" inverseEntity="PBVendorReferralComment" syncable="YES"/>
     </entity>
-    <entity name="Vendor" syncable="YES">
+    <entity name="PBVendor" representedClassName="PBVendor" syncable="YES">
         <attribute name="addr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="addrCity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="addrCountry" optional="YES" attributeType="String" syncable="YES"/>
@@ -29,13 +53,26 @@
         <attribute name="lng" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="vid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vendorID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="website" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="referral" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="InboxItem" inverseName="vendor" inverseEntity="InboxItem" syncable="YES"/>
+        <relationship name="assignedInboxItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBInboxItem" inverseName="vendor" inverseEntity="PBInboxItem" syncable="YES"/>
+        <relationship name="assignedListEntrys" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBListEntry" inverseName="vendor" inverseEntity="PBListEntry" syncable="YES"/>
+        <relationship name="vendorReferralComments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBVendorReferralComment" inverseName="assignedVendor" inverseEntity="PBVendorReferralComment" syncable="YES"/>
+    </entity>
+    <entity name="PBVendorReferralComment" representedClassName="PBVendorReferralComment" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="referralDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="referrerID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="vendorID" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="assignedVendor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBVendor" inverseName="vendorReferralComments" inverseEntity="PBVendor" syncable="YES"/>
+        <relationship name="referrer" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBUser" inverseName="vendorReferralComments" inverseEntity="PBUser" syncable="YES"/>
     </entity>
     <elements>
-        <element name="InboxItem" positionX="-657" positionY="225" width="128" height="165"/>
-        <element name="PBUser" positionX="-351" positionY="180" width="128" height="120"/>
-        <element name="Vendor" positionX="-344" positionY="354" width="128" height="240"/>
+        <element name="PBInboxItem" positionX="-234" positionY="-36" width="128" height="225"/>
+        <element name="PBList" positionX="-236" positionY="285" width="128" height="150"/>
+        <element name="PBListEntry" positionX="45" positionY="432" width="128" height="150"/>
+        <element name="PBUser" positionX="-0" positionY="585" width="128" height="165"/>
+        <element name="PBVendor" positionX="97" positionY="135" width="128" height="270"/>
+        <element name="PBVendorReferralComment" positionX="151" positionY="-27" width="128" height="135"/>
     </elements>
 </model>

@@ -11,7 +11,7 @@
 
 @interface PBUser : NSManagedObject
 
-@property (nonatomic, strong) NSNumber* uid;
+@property (nonatomic, strong) NSNumber* userID;
 @property (nonatomic, strong) NSNumber* fbid;
 @property (nonatomic, strong) NSString* email;
 @property (nonatomic, strong) NSString* firstName;
