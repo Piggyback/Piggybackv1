@@ -153,7 +153,7 @@ const CGFloat photoWidth = 320;
             photo.frame = frame;
             
             curXLoc += (photoWidth);
-            NSLog(@"first photo hsould appear already!");
+            NSLog(@"first photo should appear already!");
         }
     }
     

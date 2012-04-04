@@ -23,6 +23,7 @@
 
 NSString* const FB_APP_ID = @"251920381531962";
 NSString* RK_BASE_URL = @"http://beta.getpiggyback.com/api";
+//NSString* RK_BASE_URL = @"http://192.168.11.28/api";
 NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 @synthesize window = _window;
@@ -61,8 +62,8 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [objectManager.mappingProvider setMapping:vendorMapping forKeyPath:@"vendor"];
     
     RKManagedObjectMapping* vendorReferralCommentsMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBVendorReferralComment"];
-    vendorReferralCommentsMapping.primaryKeyAttribute = @"referralID";
-    [vendorReferralCommentsMapping mapAttributes:@"referralID", @"assignedVendorID",@"comment",@"referralDate",nil];
+    vendorReferralCommentsMapping.primaryKeyAttribute = @"referralAndVendorID";
+    [vendorReferralCommentsMapping mapAttributes:@"referralAndVendorID", @"referralID", @"assignedVendorID",@"comment",@"referralDate",nil];
     [vendorReferralCommentsMapping mapRelationship:@"referrer" withMapping:userMapping];
     [vendorReferralCommentsMapping mapRelationship:@"assignedVendor" withMapping:vendorMapping];
     [vendorReferralCommentsMapping connectRelationship:@"assignedVendor" withObjectForPrimaryKeyAttribute:@"assignedVendorID"];
