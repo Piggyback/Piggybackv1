@@ -15,17 +15,22 @@
 @interface ListsTableViewController ()
 
 @property int currentPbAPICall;
+@property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView;
+@property BOOL reloading;
 
 @end
 
 @implementation ListsTableViewController
 
-NSString* const RK_LIST_ENTRYS_INCOMING_REFERRALS_ID_RESOURCE_PATH = @"/listapi/listsAndEntrysAndIncomingReferrals/id/";
+//NSString* const RK_LIST_ENTRYS_INCOMING_REFERRALS_ID_RESOURCE_PATH = @"/listapi/listsAndEntrysAndIncomingReferrals/id/";
+NSString* const RK_LISTS_ID_RESOURCE_PATH = @"/listapi/coreDataLists/id/";
 NSString* const NO_LISTS_TEXT = @"You don't have any lists!";
 NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com and stay tuned for mobile app updates!";
 
 @synthesize lists = _lists;
 @synthesize currentPbAPICall = _currentPbAPICall;
+@synthesize refreshHeaderView = _refreshHeaderView;
+@synthesize reloading = _reloading;
 
 #pragma mark - Getters and Setters
 
@@ -46,14 +51,32 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
 
 #pragma mark - Private Helper Methods
 
-- (void)getCurrentUserLists:(NSString *)uid {
-    // Load the user object via RestKit	
-    self.currentPbAPICall = pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals;
-    
-    RKObjectManager* objectManager = [RKObjectManager sharedManager];
-    NSString* resourcePath = [RK_LIST_ENTRYS_INCOMING_REFERRALS_ID_RESOURCE_PATH stringByAppendingString:uid];
-    [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"list"] delegate:self];
+- (void)loadObjectsFromDataStore {
+    // fetch current user & set self.lists to currentUser.lists   
+#warning - lists are not sorted by date
+    PBUser* currentUser = [PBUser findFirstByAttribute:@"userID" withValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
+    self.lists = [currentUser.lists allObjects];
 }
+
+- (void)loadData {
+    // Load the object model via RestKit
+    self.reloading = YES;
+    self.currentPbAPICall = pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals;
+    NSString* listsPath = [RK_LISTS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
+    RKObjectLoader* listsLoader = [objManager loadObjectsAtResourcePath:listsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"list"] delegate:self];
+    listsLoader.userData = @"listsLoader";
+}
+
+
+//- (void)getCurrentUserLists:(NSString *)uid {
+//    // Load the user object via RestKit	
+//    self.currentPbAPICall = pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals;
+//    
+//    RKObjectManager* objectManager = [RKObjectManager sharedManager];
+//    NSString* resourcePath = [RK_LISTS_ID_RESOURCE_PATH stringByAppendingString:uid];
+//    [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"list"] delegate:self];
+//}
 
 #pragma mark - RKObjectLoaderDelegate methods
 
@@ -61,7 +84,12 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
     switch (self.currentPbAPICall) {
         case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
-            self.lists = objects;
+            NSLog(@"num of lists returned: %i", [objects count]);
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"ListsLastUpdatedAt"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [self loadObjectsFromDataStore];
+            self.reloading = NO;
+            [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
             
             break;
         }
@@ -75,7 +103,7 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
         case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
             // handle case where user has no lists
-            self.lists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
+//            self.lists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
             
             break;
         }
@@ -94,13 +122,19 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.lists count];
+    if ([self.lists count] == 0) {
+        // display empty lists message
+        return 1;
+    } else {
+        return [self.lists count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     // check if PB API returned any user lists -- if not, display 'empty lists' message. otherwise, display lists
-    if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
+//    if ([[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
+    if ([self.lists count] > 0) {
         static NSString *CellIdentifier = @"listTableViewCell";
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -110,10 +144,10 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
         
         PBList* myList = [self.lists objectAtIndex:indexPath.row];
         cell.textLabel.text = myList.name;
-        if ([myList.listEntrys count] == 1)
-            cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" item"];
+        if ([myList.listCount intValue] == 1)
+            cell.detailTextLabel.text = [[NSString stringWithFormat:@"%@", myList.listCount] stringByAppendingString:@" item"];
         else
-            cell.detailTextLabel.text = [[NSString stringWithFormat:@"%d", [myList.listEntrys count]] stringByAppendingString:@" items"];
+            cell.detailTextLabel.text = [[NSString stringWithFormat:@"%@", myList.listCount] stringByAppendingString:@" items"];
 //        tableView.userInteractionEnabled = YES;
 //        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
@@ -140,7 +174,8 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     // height for empty cell
-    if (![[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
+//    if (![[self.lists objectAtIndex:indexPath.row] isKindOfClass:[PBList class]]) {
+    if ([self.lists count] == 0) {
         return 80;
     } else {
         return tableView.rowHeight;
@@ -151,14 +186,40 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[[self.lists objectAtIndex:indexPath.row] listEntrys] count] == 0) {
-        // show empty list view controller
-        [self performSegueWithIdentifier:@"goToEmptyListEntryFromLists" sender:[tableView cellForRowAtIndexPath:indexPath]];
-    } else {
-        // show individualListViewController
-        [self performSegueWithIdentifier:@"goToListEntryFromLists" sender:[tableView cellForRowAtIndexPath:indexPath]];
-    }
+//    if ([[[self.lists objectAtIndex:indexPath.row] listEntrys] count] == 0) {
+//        // show empty list view controller
+//        [self performSegueWithIdentifier:@"goToEmptyListEntryFromLists" sender:[tableView cellForRowAtIndexPath:indexPath]];
+//    } else {
+//        // show individualListViewController
+//        [self performSegueWithIdentifier:@"goToListEntryFromLists" sender:[tableView cellForRowAtIndexPath:indexPath]];
+//    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {	
+    
+	[self.refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    
+	[self.refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+    
+}
+
+#pragma mark - EGORefreshTableHeaderDelegate Methods
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
+    [self loadData];
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
+	return self.reloading; // should return if data source model is reloading
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"];
 }
 
 
@@ -189,6 +250,22 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    if (self.refreshHeaderView == nil) {
+        EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, -180.0f, self.view.frame.size.width, 180.0f) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
+        view.delegate = self;
+        [self.tableView addSubview:view];
+        self.refreshHeaderView = view;
+    }
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
+        [self loadData];
+    } else {
+        [self loadObjectsFromDataStore];
+    }
+    
+    // update the last update date
+    [self.refreshHeaderView refreshLastUpdatedDate];
 }
 
 - (void)viewDidUnload
@@ -200,7 +277,7 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
 {
     [super viewWillAppear:animated];
 #warning: need to optimize so that lists do not get retrieved each time the view appears
-    [self getCurrentUserLists:[[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"] stringValue]];
+//    [self getCurrentUserLists:[[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"] stringValue]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -230,14 +307,14 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
     
     if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
         // get num of unique referrals for specific listEntry
-        for (PBListEntry* currentListEntry in list.listEntrys) {
-            NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
+//        for (PBListEntry* currentListEntry in list.listEntrys) {
+//            NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
                 
 //            for (PBVendorReferralComment* currentReferralComment in currentListEntry.referredBy) {
 //                [uniqueReferrers addObject:currentReferralComment.referrer.uid];
 //            }
 //            currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
-        }
+//        }
 
         [segue.destinationViewController setList:list];
     }

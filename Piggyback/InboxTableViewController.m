@@ -133,28 +133,46 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
+- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
+    NSMutableDictionary *userFbPics = [[NSMutableDictionary alloc] init];
+    NSMutableArray *reformattedData = [NSMutableArray arrayWithCapacity:[*mappableData count]];
+    for(id dict in [NSArray arrayWithArray:(NSArray*)*mappableData]) {
+        NSMutableDictionary* newInboxDict = [dict mutableCopy];
+        NSMutableDictionary* newUserDict = [[newInboxDict objectForKey:@"referrer"] mutableCopy];
+        NSNumber* userID = [newUserDict valueForKey:@"userID"];
+        if (![userFbPics objectForKey:userID]) {
+            NSLog(@"new user");
+            UIImage* thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[newUserDict valueForKey:@"thumbnail"]]]];
+            [userFbPics setObject:thumbnail forKey:userID];
+        }
+        UIImage* thumbnail = [userFbPics objectForKey:userID];
+        [newUserDict setValue:thumbnail forKey:@"thumbnail"];
+        [newInboxDict setValue:newUserDict forKey:@"referrer"];
+        [reformattedData addObject:newInboxDict];
+    }
+    
+    *mappableData = reformattedData;
+}
+
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
     // retrieve data from API and use information for displaying
     if(objectLoader.userData == @"inboxLoader") {
+        // store all user FB pics in a NSMutableDictionary
+//        if ([objects count] > 0) {
+//            for (PBInboxItem* currentInboxItem in objects) {
+//                NSString* fbImageLocation = [[@"http://graph.facebook.com/" stringByAppendingString:[currentInboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
+//                if (![self.userFbPics objectForKey:currentInboxItem.referrer.fbid]) {
+//                    [self.userFbPics setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImageLocation]]] forKey:currentInboxItem.referrer.fbid];
+//                }
+//            }
+//        }
+        
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"InboxLastUpdatedAt"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
         self.reloading = NO;
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-//        [self.tableView reloadData];
-        
-//        self.inboxItems = objects;
-//        
-//        // store all user FB pics in a NSMutableDictionary
-//        for (InboxItem* currentInboxItem in self.inboxItems) {
-//            NSString* fbImageLocation = [[@"http://graph.facebook.com/" stringByAppendingString:[currentInboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
-//            if (![self.userFbPics objectForKey:currentInboxItem.referrer.fbid]) {
-//                [self.userFbPics setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImageLocation]]] forKey:currentInboxItem.referrer.fbid];
-//            }
-//        }
-//        
-//        [self.tableView reloadData];
     } 
 }
 
@@ -162,7 +180,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 {    
     if (objectLoader.userData == @"inboxLoader") {
         // handle case where user has no inbox items
-        self.inboxItems = [NSArray arrayWithObject:[NSString stringWithString:@"Your inbox is empty!"]];      
+//        self.inboxItems = [NSArray arrayWithObject:[NSString stringWithString:@"Your inbox is empty!"]];      
     } else {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
@@ -208,7 +226,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
             cell.numItemsInList.text = @"";
         } else {    
             cell.name.text = inboxItem.list.name;
-            cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.listCount intValue]] stringByAppendingString:@")"];
+            cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.list.listCount intValue]] stringByAppendingString:@")"];
             
             // set position of number of items in list
             CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
@@ -221,7 +239,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         cell.date.text = [self timeElapsed:inboxItem.referralDate];
         
         // referred by
-        cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrerFirstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrerLastName];
+        cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrer.firstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrer.lastName];
         
         // number of other friends this was referred to
     //    NSString* numFriendsLabel = @"To you and %d friend";
@@ -246,6 +264,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         cell.image.layer.cornerRadius = 5.0;
         cell.image.layer.masksToBounds = YES;
 //        cell.image.image = [self.userFbPics objectForKey:inboxItem.referrer.fbid];
+        cell.image.image = inboxItem.referrer.thumbnail;
         
         return cell;
     }
@@ -270,7 +289,6 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath 
 {
     // height for empty cell
-//    if (![[self.inboxItems objectAtIndex:indexPath.row] isKindOfClass:[InboxItem class]]) {
     if ([self.inboxItems count] == 0) {
         return tableView.rowHeight;
     } else {
@@ -338,7 +356,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self loadObjectsFromDataStore];
+
     if (self.refreshHeaderView == nil) {
         EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, -180.0f, self.view.frame.size.width, 180.0f) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
         view.delegate = self;
@@ -348,6 +366,15 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     
     // update the last update date
     [self.refreshHeaderView refreshLastUpdatedDate];
+    
+    // Check size of core data
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0];
+//    NSString *persistentStorePath = [documentsDirectory stringByAppendingPathComponent:@"Piggyback.sqlite"];
+//    
+//    NSError *error = nil;
+//    NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:persistentStorePath error:&error];
+//    NSLog(@"Persistent store size: %@ bytes", [fileAttributes objectForKey:NSFileSize]);
 }
 
 - (void)viewDidUnload
@@ -360,6 +387,13 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+#warning - eventually move to viewDidLoad. put it here for now because viewLoads before user logs in (modal view)
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
+        [self loadData];
+    } else {
+        [self loadObjectsFromDataStore];
+    }
     
 //    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 //    

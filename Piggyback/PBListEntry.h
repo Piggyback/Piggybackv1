@@ -19,6 +19,6 @@
 @property (nonatomic, strong) NSString* comment;
 @property (nonatomic, strong) NSDate* addedDate;
 @property (nonatomic, strong) PBVendor* vendor;
-@property (nonatomic, strong) NSString* vendorID;   // vendor and vendorReferralComments foreign key
+//@property (nonatomic, strong) NSString* vendorID;   // vendor and vendorReferralComments foreign key
 
 @end

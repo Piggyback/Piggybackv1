@@ -10,11 +10,11 @@
 
 @implementation PBVendorReferralComment
 
-@dynamic vendorID;
+@dynamic referralID;
+@dynamic assignedVendorID;
+@dynamic assignedVendor;
 @dynamic comment;
 @dynamic referralDate;
-
 @dynamic referrer;
-@dynamic referrerID;
 
 @end

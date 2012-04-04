@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
 #import "PBVendor.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, EGORefreshTableHeaderDelegate, UIScrollViewDelegate, RKObjectLoaderDelegate>
 
 @property (nonatomic, strong) PBVendor *vendor;
 @property (weak, nonatomic) IBOutlet UIImageView *vendorImage;

@@ -16,6 +16,5 @@
 @dynamic referrer;
 @dynamic vendor;
 @dynamic list;
-@dynamic listCount;
 
 @end

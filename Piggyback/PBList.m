@@ -16,6 +16,7 @@
 @dynamic listEntrys;
 @dynamic listOwner;
 @dynamic listOwnerID;
+@dynamic listCount;
 
 //@synthesize uid = _uid;
 //@synthesize lid = _lid;

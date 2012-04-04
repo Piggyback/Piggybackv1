@@ -24,7 +24,8 @@
 @property (nonatomic, strong) NSString* addrCountry;
 @property (nonatomic, strong) NSString* addrZip;
 @property (nonatomic, strong) NSString* website;
-@property (nonatomic, strong) NSArray* vendorReferralComments;  // array of PBVendorReferralComment for vendor
-//@property CLLocationDistance distanceFromCurrentLocationInMiles;
+@property (nonatomic, strong) NSMutableSet* vendorReferralComments;  // array of PBVendorReferralComment for vendor
+@property (nonatomic, strong) NSNumber* vendorReferralCommentsCount;
+@property CLLocationDistance distanceFromCurrentLocationInMiles;
 
 @end

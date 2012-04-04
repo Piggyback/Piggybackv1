@@ -19,5 +19,6 @@
 @property (nonatomic, strong) NSMutableSet* listEntrys;  // array of PBListEntry
 @property (nonatomic, strong) PBUser* listOwner;
 @property (nonatomic, strong) NSNumber* listOwnerID;    // listOwner foreign key
+@property (nonatomic, strong) NSNumber* listCount;
 
 @end

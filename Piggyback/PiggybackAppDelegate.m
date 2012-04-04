@@ -45,39 +45,42 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     objectManager.objectStore = [RKManagedObjectStore objectStoreWithStoreFilename:databaseName usingSeedDatabaseName:seedDatabaseName managedObjectModel:nil delegate:self];
     
     // Setup our object mappings
+    RKManagedObjectMapping* listMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBList"];
+    listMapping.primaryKeyAttribute = @"listID";
+    
     RKManagedObjectMapping* userMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBUser"];
     userMapping.primaryKeyAttribute = @"userID";
-    [userMapping mapAttributes:@"userID", @"fbid", @"email", @"firstName", @"lastName", nil];
+    [userMapping mapAttributes:@"userID", @"fbid", @"email", @"firstName", @"lastName", @"thumbnail", nil];
+    [userMapping mapRelationship:@"lists" withMapping:listMapping];
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
     
     RKManagedObjectMapping* vendorMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBVendor"];
     vendorMapping.primaryKeyAttribute = @"vendorID";
-    [vendorMapping mapAttributes:@"vendorID",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",nil];
+    [vendorMapping mapAttributes:@"vendorID",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",@"vendorReferralCommentsCount",nil];
     [objectManager.mappingProvider setMapping:vendorMapping forKeyPath:@"vendor"];
     
     RKManagedObjectMapping* vendorReferralCommentsMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBVendorReferralComment"];
     vendorReferralCommentsMapping.primaryKeyAttribute = @"referralID";
-    [vendorReferralCommentsMapping mapAttributes:@"referralID", @"vendorID",@"comment",@"referralDate",@"referrerID",nil];
-    [vendorReferralCommentsMapping connectRelationship:@"referrer" withObjectForPrimaryKeyAttribute:@"referrerID"];
+    [vendorReferralCommentsMapping mapAttributes:@"referralID", @"assignedVendorID",@"comment",@"referralDate",nil];
+    [vendorReferralCommentsMapping mapRelationship:@"referrer" withMapping:userMapping];
+    [vendorReferralCommentsMapping mapRelationship:@"assignedVendor" withMapping:vendorMapping];
+    [vendorReferralCommentsMapping connectRelationship:@"assignedVendor" withObjectForPrimaryKeyAttribute:@"assignedVendorID"];
     [objectManager.mappingProvider setMapping:vendorReferralCommentsMapping forKeyPath:@"referralComment"];
 
     RKManagedObjectMapping* listEntryMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBListEntry"];
     listEntryMapping.primaryKeyAttribute = @"listEntryID";
     
-    RKManagedObjectMapping* listMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBList"];
-    listMapping.primaryKeyAttribute = @"listID";
-    [listMapping mapAttributes:@"listID", @"createdDate", @"name", @"listOwnerID", nil];
+    [listMapping mapAttributes:@"listID", @"createdDate", @"name", @"listOwnerID", @"listCount", nil];
     [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
+    [listMapping mapRelationship:@"listOwner" withMapping:userMapping];
 //    [listMapping connectRelationship:@"listEntrys" withObjectForPrimaryKeyAttribute:@"listEntryID"];
-//    [listMapping connectRelationship:@"listOwner" withObjectForPrimaryKeyAttribute:@"listOwnerID"];
+    [listMapping connectRelationship:@"listOwner" withObjectForPrimaryKeyAttribute:@"listOwnerID"];
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"]; 
     
-//    RKManagedObjectMapping* listEntryMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBListEntry"];
-    //    listEntryMapping.primaryKeyAttribute = @"listEntryID";
-    [listEntryMapping mapAttributes:@"listEntryID", @"assignedListID", @"comment", @"addedDate", @"vendorID", nil];
+    [listEntryMapping mapAttributes:@"listEntryID", @"assignedListID", @"comment", @"addedDate", nil];
     [listEntryMapping mapRelationship:@"vendor" withMapping:vendorMapping];
+//    [listEntryMapping connectRelationship:@"vendor" withObjectForPrimaryKeyAttribute:@"vendorID"];
     [listEntryMapping mapRelationship:@"assignedList" withMapping:listMapping];
-    [listEntryMapping connectRelationship:@"vendor" withObjectForPrimaryKeyAttribute:@"vendorID"];
     [listEntryMapping connectRelationship:@"assignedList" withObjectForPrimaryKeyAttribute:@"assignedListID"];
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
     

@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
+#import "EGORefreshTableHeaderView.h"
 
 typedef enum pbApiCall {
     pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals,
 } pbApiCall;
 
 
-@interface ListsTableViewController : UITableViewController <RKObjectLoaderDelegate>
+@interface ListsTableViewController : UITableViewController <RKObjectLoaderDelegate, EGORefreshTableHeaderDelegate>
 
 @property (nonatomic, strong) NSArray* lists;
 

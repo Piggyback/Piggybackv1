@@ -23,12 +23,13 @@
 @dynamic addrZip;
 @dynamic website;
 @dynamic vendorReferralComments;
-//@synthesize distanceFromCurrentLocationInMiles = _distanceFromCurrentLocationInMiles;
+@dynamic vendorReferralCommentsCount;
+@synthesize distanceFromCurrentLocationInMiles = _distanceFromCurrentLocationInMiles;
 
 - (PBVendor*) init
 {
     self = [super init];
-//    self.distanceFromCurrentLocationInMiles = -1;
+    self.distanceFromCurrentLocationInMiles = -1;
     
     return self;
 }

@@ -21,10 +21,15 @@ typedef enum tableViewSection {
 @property BOOL hasAddress;
 @property BOOL hasPhone;
 @property (nonatomic, strong) NSMutableArray* vendorInfo;
+@property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView;
+@property BOOL reloading;
 
 @end
 
 @implementation VendorViewController
+
+NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreDataVendorReferralComments/user/"; // ?/vendor/?";
+
 @synthesize vendorTableView = _vendorInfoTable;
 
 @synthesize vendor = _vendor;
@@ -35,6 +40,9 @@ typedef enum tableViewSection {
 @synthesize hasAddress = _hasAddress;
 @synthesize hasPhone = _hasPhone;
 @synthesize vendorInfo = _vendorInfo;
+
+@synthesize refreshHeaderView = _refreshHeaderView;
+@synthesize reloading = _reloading;
 
 #pragma mark getter / setter methods
 
@@ -77,6 +85,104 @@ typedef enum tableViewSection {
         _referralComments = [[NSArray alloc] init];
     }
     return _referralComments;
+}
+
+- (void)setReferralComments:(NSArray *)referralComments
+{
+    _referralComments = referralComments;
+    [self.vendorTableView reloadData];
+}
+
+#pragma mark - Private Helper Methods
+
+- (void)loadObjectsFromDataStore {
+    self.vendor = [PBVendor findFirstByAttribute:@"vendorID" withValue:self.vendor.vendorID];
+    self.referralComments = [self.vendor.vendorReferralComments allObjects];
+    [self resizeReferralCommentsTable];
+}
+
+- (void)loadData {
+    // Load the object model via RestKit
+    self.reloading = YES;
+    NSString* vendorReferralCommentsPath = [RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@/vendor/%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"], self.vendor.vendorID];
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
+    RKObjectLoader* vendorReferralCommentsLoader = [objManager loadObjectsAtResourcePath:vendorReferralCommentsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"referralComment"] delegate:self];
+    vendorReferralCommentsLoader.userData = @"vendorReferralCommentsLoader";
+}
+
+- (void)resizeReferralCommentsTable
+{
+    if ([self.referralComments count]) {         
+        // re-set scrollView height
+        CGFloat totalTableHeight = [self.vendorTableView rectForSection:vendorInfoSection].size.height + [self.vendorTableView rectForHeaderInSection:vendorReferralsSection].size.height + [self.vendorTableView rectForSection:vendorReferralsSection].size.height;
+        
+        CGRect tableBounds = [self.vendorTableView bounds];
+        [self.vendorTableView setBounds:CGRectMake(tableBounds.origin.x,
+                                                   tableBounds.origin.y,
+                                                   tableBounds.size.width,
+                                                   totalTableHeight)];
+        
+        CGRect tableFrame = [self.vendorTableView frame];
+        [self.vendorTableView setFrame:CGRectMake(tableFrame.origin.x,
+                                                  tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
+                                                  tableFrame.size.width,
+                                                  tableFrame.size.height)];
+        
+        
+        
+        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+self.vendorImage.image.size.height+100+25)];
+        
+    }
+}
+
+#pragma mark - RKObjectLoaderDelegate methods
+- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
+    NSMutableDictionary *userFbPics = [[NSMutableDictionary alloc] init];
+    NSMutableArray *reformattedData = [NSMutableArray arrayWithCapacity:[*mappableData count]];
+    for(id dict in [NSArray arrayWithArray:(NSArray*)*mappableData]) {
+        NSMutableDictionary* newVendorReferralCommentsDict = [dict mutableCopy];
+        NSMutableDictionary* newUserDict = [[newVendorReferralCommentsDict objectForKey:@"referrer"] mutableCopy];
+        NSNumber* userID = [newUserDict valueForKey:@"userID"];
+        if (![userFbPics objectForKey:userID]) {
+            NSLog(@"new user");
+            UIImage* thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[newUserDict valueForKey:@"thumbnail"]]]];
+            [userFbPics setObject:thumbnail forKey:userID];
+        }
+        UIImage* thumbnail = [userFbPics objectForKey:userID];
+        [newUserDict setValue:thumbnail forKey:@"thumbnail"];
+        [newVendorReferralCommentsDict setValue:newUserDict forKey:@"referrer"];
+        [reformattedData addObject:newVendorReferralCommentsDict];
+    }
+
+    *mappableData = reformattedData;
+}
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
+{
+    // retrieve data from API and use information for displaying
+    if(objectLoader.userData == @"vendorReferralCommentsLoader") {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self loadObjectsFromDataStore];
+        self.reloading = NO;
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+    } 
+}
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
+{    
+    if (objectLoader.userData == @"vendorReferralCommentsLoader") {
+        NSLog(@"no vendor referral comments");   
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.reloading = NO;
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+    } else {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        NSLog(@"InboxTableViewController RK error: %@", error);
+    }
+    
 }
 
 #pragma mark - table data source protocol methods
@@ -177,12 +283,7 @@ typedef enum tableViewSection {
         PBVendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
         
         cell.textLabel.text = [[vendorReferralComment.referrer.firstName stringByAppendingString:@" "] stringByAppendingString:vendorReferralComment.referrer.lastName];
-//        
-//        if ([vendorReferralComment.referralLid intValue] > 0) {
-//           cell.detailTextLabel.text = vendorReferralComment.listEntryComment;
-//        } else {
-//           cell.detailTextLabel.text = vendorReferralComment.comment;
-//        }
+        cell.detailTextLabel.text = vendorReferralComment.comment;
         cell.detailTextLabel.numberOfLines = 0;
         
         NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
@@ -211,12 +312,7 @@ typedef enum tableViewSection {
         }
     } else if (indexPath.section == vendorReferralsSection) {
         PBVendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
-        NSString* displayedComment;
-//        if ([vendorReferralComment.referralLid intValue] > 0) {
-//            displayedComment = vendorReferralComment.listEntryComment;
-//        } else {
-//            displayedComment = vendorReferralComment.comment;
-//        }
+        NSString* displayedComment = vendorReferralComment.comment;
         
         CGSize size = [displayedComment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
         
@@ -256,6 +352,33 @@ typedef enum tableViewSection {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {	
+    
+	[self.refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    
+	[self.refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+    
+}
+
+#pragma mark - EGORefreshTableHeaderDelegate Methods
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
+    [self loadData];
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
+	return self.reloading; // should return if data source model is reloading
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
+}
+
+
 #pragma mark - View lifecycle
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -283,6 +406,23 @@ typedef enum tableViewSection {
     
     self.title = self.vendor.name;
     
+    if (self.refreshHeaderView == nil) {
+        EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, -180.0f, self.view.frame.size.width, 180.0f) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
+        view.delegate = self;
+        [self.scrollView addSubview:view];
+        self.refreshHeaderView = view;
+        self.scrollView.alwaysBounceVertical = YES;
+    }
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
+        [self loadData];
+    } else {
+        [self loadObjectsFromDataStore];
+    }
+    
+    // update the last update date
+    [self.refreshHeaderView refreshLastUpdatedDate];
+    
     // display image in a separate thread
 //    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
 //    dispatch_async(downloadImageQueue, ^{
@@ -297,28 +437,7 @@ typedef enum tableViewSection {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if ([self.referralComments count]) {         
-        // re-set scrollView height
-        CGFloat totalTableHeight = [self.vendorTableView rectForSection:vendorInfoSection].size.height + [self.vendorTableView rectForHeaderInSection:vendorReferralsSection].size.height + [self.vendorTableView rectForSection:vendorReferralsSection].size.height;
-        
-        CGRect tableBounds = [self.vendorTableView bounds];
-        [self.vendorTableView setBounds:CGRectMake(tableBounds.origin.x,
-                                                         tableBounds.origin.y,
-                                                         tableBounds.size.width,
-                                                         totalTableHeight)];
-        
-        CGRect tableFrame = [self.vendorTableView frame];
-        [self.vendorTableView setFrame:CGRectMake(tableFrame.origin.x,
-                                                        tableFrame.origin.y+(totalTableHeight-tableBounds.size.height)/2,
-                                                        tableFrame.size.width,
-                                                        tableFrame.size.height)];
-
-
-        
-        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+self.vendorImage.image.size.height+100+25)];
-        
-    }
-
+    [self resizeReferralCommentsTable];
 }
 
 - (void)viewDidUnload

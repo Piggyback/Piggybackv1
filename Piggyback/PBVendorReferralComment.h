@@ -9,14 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <RestKit/CoreData.h>
 #import "PBUser.h"
+#import "PBVendor.h"
 
 @interface PBVendorReferralComment : NSManagedObject
 
-@property (nonatomic, strong) NSString* vendorID;
+@property (nonatomic, strong) NSNumber* referralID;
+@property (nonatomic, strong) NSString* assignedVendorID;
+@property (nonatomic, strong) PBVendor* assignedVendor;
 @property (nonatomic, strong) NSString* comment;
 @property (nonatomic, strong) NSDate* referralDate;
-
 @property (nonatomic, strong) PBUser* referrer;
-@property (nonatomic, strong) NSString* referrerID;
 
 @end

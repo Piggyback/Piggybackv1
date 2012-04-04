@@ -20,6 +20,5 @@
 @property (nonatomic, strong) PBUser* referrer;
 @property (nonatomic, strong) PBVendor* vendor;
 @property (nonatomic, strong) PBList* list;
-@property (nonatomic, strong) NSNumber* listCount;
 
 @end
