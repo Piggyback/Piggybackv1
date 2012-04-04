@@ -103,6 +103,7 @@ const CGFloat photoWidth = 320;
 - (void)loadObjectsFromDataStore {
     self.vendor = [PBVendor findFirstByAttribute:@"vendorID" withValue:self.vendor.vendorID];
     self.referralComments = [self.vendor.vendorReferralComments allObjects];
+    NSLog(@"referral comments size: %i for vendorID: %@", [self.referralComments count], self.vendor.vendorID);
     [self resizeReferralCommentsTable];
 }
 
@@ -391,14 +392,13 @@ const CGFloat photoWidth = 320;
         }
     } else if (indexPath.section == vendorReferralsSection) {
         PBVendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
-        NSString* displayedComment = vendorReferralComment.comment;
         
-        CGSize size = [displayedComment sizeWithFont:[UIFont systemFontOfSize:18.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
         
         if (size.height < FACEBOOKPICHEIGHT)
             return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
         else
-            return size.height + 2*FACEBOOKPICMARGIN;
+            return size.height + 2*FACEBOOKPICMARGIN + 35;
     }
     
     return tableView.rowHeight;
