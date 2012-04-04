@@ -122,6 +122,10 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 //    [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
 //    [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
 
+    RKObjectMapping* vendorPhotoMapping = [RKObjectMapping mappingForClass:[VendorPhoto class]];
+    [vendorPhotoMapping mapAttributes:@"vid",@"pid",@"photoURL",nil];
+    [objectManager.mappingProvider setMapping:vendorPhotoMapping forKeyPath:@"vendor-photo"];
+    
     /* Setting up Facebook SDK */
     PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;
     self.facebook = [[Facebook alloc] initWithAppId:FB_APP_ID andDelegate:rootViewController];

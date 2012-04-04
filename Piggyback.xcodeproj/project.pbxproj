@@ -75,6 +75,8 @@
 		F9B9B62C150193B60002BCDE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B62B150193B60002BCDE /* libxml2.dylib */; };
 		F9D0BDBB1508B76000D963B7 /* PBVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBA1508B76000D963B7 /* PBVendor.m */; };
 		F9D0BDBE1508BC9000D963B7 /* VendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */; };
+		F9D17638151D302B00892AC9 /* VendorPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D17637151D302B00892AC9 /* VendorPhoto.m */; };
+		F9F919B4152167C200825801 /* no_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = F9F919B3152167C200825801 /* no_photo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -224,6 +226,9 @@
 		F9D0BDBA1508B76000D963B7 /* PBVendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendor.m; path = Piggyback/PBVendor.m; sourceTree = "<group>"; };
 		F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorViewController.h; sourceTree = "<group>"; };
 		F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VendorViewController.m; sourceTree = "<group>"; };
+		F9D17636151D302B00892AC9 /* VendorPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VendorPhoto.h; path = Piggyback/VendorPhoto.h; sourceTree = "<group>"; };
+		F9D17637151D302B00892AC9 /* VendorPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VendorPhoto.m; path = Piggyback/VendorPhoto.m; sourceTree = "<group>"; };
+		F9F919B3152167C200825801 /* no_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_photo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,6 +372,7 @@
 				3E47337C1519A78200083B53 /* blue_square@2x.png */,
 				3E5400E31519677E0078CFC2 /* geolocation_icon.png */,
 				3EB580371519608800EA329C /* geolocation_icon@2x.png */,
+				F9F919B3152167C200825801 /* no_photo.png */,
 				3E5400E5151967B80078CFC2 /* phone_icon.png */,
 				3EB580391519609200EA329C /* phone_icon@2x.png */,
 				3EB5B3C91519541F0009980F /* piggyback_titlebar_background.png */,

@@ -18,6 +18,8 @@
 @property (nonatomic, strong) NSArray *referralComments;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITableView *vendorTableView;
-
+@property (nonatomic, strong) NSArray *photos;
+@property (weak, nonatomic) IBOutlet UIScrollView *photoScrollView;
+@property (weak, nonatomic) IBOutlet UIPageControl *photoPageControl;
 
 @end

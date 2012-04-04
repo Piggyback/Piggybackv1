@@ -10,6 +10,7 @@
 #import "Constants.h"
 #import "PBVendorReferralComment.h"
 #import <QuartzCore/QuartzCore.h>
+#import "VendorPhoto.h"
 
 @interface VendorViewController () 
 
@@ -33,9 +34,11 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
 @synthesize vendorTableView = _vendorInfoTable;
 
 @synthesize vendor = _vendor;
-@synthesize vendorImage = _vendorImage;
 @synthesize referralComments = _referralComments;
 @synthesize scrollView = _scrollView;
+@synthesize photos = _photos;
+@synthesize photoScrollView = _photoScrollView;
+@synthesize photoPageControl = _photoPageControl;
 
 @synthesize hasAddress = _hasAddress;
 @synthesize hasPhone = _hasPhone;
@@ -402,9 +405,14 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
 {
     [super viewDidLoad];
     
+    self.title = self.vendor.name;
     [self.scrollView setScrollEnabled:YES];
     
-    self.title = self.vendor.name;
+    // set up page control
+    self.photoScrollView.delegate = self;
+    CGRect frame = self.photoPageControl.frame;
+    frame.size.height = frame.size.height/2;
+    self.photoPageControl.frame = frame;
     
     if (self.refreshHeaderView == nil) {
         EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, -180.0f, self.view.frame.size.width, 180.0f) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
@@ -442,9 +450,10 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
 
 - (void)viewDidUnload
 {
-    [self setVendorImage:nil];
+//    [self setVendorImage:nil];
     [self setScrollView:nil];
     [self setVendorTableView:nil];
+    [self setPhotoScrollView:nil];
     [super viewDidUnload];
 }
 
