@@ -13,6 +13,7 @@
 
 @interface PBVendorReferralComment : NSManagedObject
 
+@property (nonatomic, strong) NSString* referralAndVendorID;
 @property (nonatomic, strong) NSNumber* referralID;
 @property (nonatomic, strong) NSString* assignedVendorID;
 @property (nonatomic, strong) PBVendor* assignedVendor;
