@@ -17,6 +17,7 @@
 #import "PBList.h"
 #import "PBListEntry.h"
 #import "PBInboxItem.h"
+#import "PBVendorPhoto.h"
 
 @implementation PiggybackAppDelegate
 
@@ -122,7 +123,7 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 //    [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
 //    [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
 
-    RKObjectMapping* vendorPhotoMapping = [RKObjectMapping mappingForClass:[VendorPhoto class]];
+    RKObjectMapping* vendorPhotoMapping = [RKObjectMapping mappingForClass:[PBVendorPhoto class]];
     [vendorPhotoMapping mapAttributes:@"vid",@"pid",@"photoURL",nil];
     [objectManager.mappingProvider setMapping:vendorPhotoMapping forKeyPath:@"vendor-photo"];
     

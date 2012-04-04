@@ -10,7 +10,7 @@
 #import "Constants.h"
 #import "PBVendorReferralComment.h"
 #import <QuartzCore/QuartzCore.h>
-#import "VendorPhoto.h"
+#import "PBVendorPhoto.h"
 
 @interface VendorViewController () 
 
@@ -46,6 +46,8 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
 
 @synthesize refreshHeaderView = _refreshHeaderView;
 @synthesize reloading = _reloading;
+const CGFloat photoHeight = 153;
+const CGFloat photoWidth = 320;
 
 #pragma mark getter / setter methods
 
@@ -133,31 +135,52 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
         
         
         
-        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+self.vendorImage.image.size.height+100+25)];
-        
+        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+self.photoScrollView.bounds.size.height-10)];
     }
+}
+
+- (void)layoutPhotoScrollImages {
+    UIImageView *photo = nil;
+    NSArray *subviews = [self.photoScrollView subviews];
+    
+    // reposition all image subviews in a horizontal serial fashion
+    CGFloat curXLoc = photoWidth;
+    for (photo in subviews) {
+        if ([photo isKindOfClass:[UIImageView class]] && photo.tag > 0) {
+            CGRect frame = photo.frame;
+            frame.origin = CGPointMake(curXLoc,0);
+            photo.frame = frame;
+            
+            curXLoc += (photoWidth);
+            NSLog(@"first photo hsould appear already!");
+        }
+    }
+    
+    // set width of photo scroll view to fit all images
+    [self.photoScrollView setContentSize:CGSizeMake([self.photos count] * photoWidth,self.photoScrollView.bounds.size.height)];
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
 - (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
-    NSMutableDictionary *userFbPics = [[NSMutableDictionary alloc] init];
-    NSMutableArray *reformattedData = [NSMutableArray arrayWithCapacity:[*mappableData count]];
-    for(id dict in [NSArray arrayWithArray:(NSArray*)*mappableData]) {
-        NSMutableDictionary* newVendorReferralCommentsDict = [dict mutableCopy];
-        NSMutableDictionary* newUserDict = [[newVendorReferralCommentsDict objectForKey:@"referrer"] mutableCopy];
-        NSNumber* userID = [newUserDict valueForKey:@"userID"];
-        if (![userFbPics objectForKey:userID]) {
-            NSLog(@"new user");
-            UIImage* thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[newUserDict valueForKey:@"thumbnail"]]]];
-            [userFbPics setObject:thumbnail forKey:userID];
+    if (loader.userData == @"vendorReferralCommentsLoader") {
+        NSMutableDictionary *userFbPics = [[NSMutableDictionary alloc] init];
+        NSMutableArray *reformattedData = [NSMutableArray arrayWithCapacity:[*mappableData count]];
+        for(id dict in [NSArray arrayWithArray:(NSArray*)*mappableData]) {
+            NSMutableDictionary* newVendorReferralCommentsDict = [dict mutableCopy];
+            NSMutableDictionary* newUserDict = [[newVendorReferralCommentsDict objectForKey:@"referrer"] mutableCopy];
+            NSNumber* userID = [newUserDict valueForKey:@"userID"];
+            if (![userFbPics objectForKey:userID]) {
+                UIImage* thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[newUserDict valueForKey:@"thumbnail"]]]];
+                [userFbPics setObject:thumbnail forKey:userID];
+            }
+            UIImage* thumbnail = [userFbPics objectForKey:userID];
+            [newUserDict setValue:thumbnail forKey:@"thumbnail"];
+            [newVendorReferralCommentsDict setValue:newUserDict forKey:@"referrer"];
+            [reformattedData addObject:newVendorReferralCommentsDict];
         }
-        UIImage* thumbnail = [userFbPics objectForKey:userID];
-        [newUserDict setValue:thumbnail forKey:@"thumbnail"];
-        [newVendorReferralCommentsDict setValue:newUserDict forKey:@"referrer"];
-        [reformattedData addObject:newVendorReferralCommentsDict];
-    }
 
-    *mappableData = reformattedData;
+        *mappableData = reformattedData;
+    }
 }
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
@@ -169,6 +192,59 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
         [self loadObjectsFromDataStore];
         self.reloading = NO;
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+    }
+    
+    if(objectLoader.userData == @"vendorPhotoLoader") {
+        self.photos = objects;
+        [self.photoPageControl setNumberOfPages:[self.photos count]];
+        [self.photoPageControl setCurrentPage:0];
+
+        if ([self.photos count] > 0) {
+            // create new thread
+            dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
+            dispatch_queue_t downloadOtherImagesQueue = dispatch_queue_create("downloadOtherImages",NULL);
+
+            // show first photo immediately
+            dispatch_async(downloadImageQueue, ^{
+
+                PBVendorPhoto* firstPhoto = [self.photos objectAtIndex:0];
+                NSString* squareFirstPhotoString = [[firstPhoto.photoURL stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
+                UIImage *firstImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:squareFirstPhotoString]]];
+                UIImageView *firstImageView = [[UIImageView alloc] initWithImage:firstImage];
+                firstImageView.contentMode = UIViewContentModeScaleAspectFill;
+                firstImageView.tag = 0;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    firstImageView.frame = CGRectMake(0,0,photoWidth,photoHeight);
+                    [self.photoScrollView addSubview:firstImageView];
+                });
+            });
+
+            // download the rest of the photos
+            dispatch_async(downloadOtherImagesQueue, ^{
+                for (int i = 1; i < [self.photos count]; i++) {
+                    NSString* squarePhotoString = [[[[self.photos objectAtIndex:i] photoURL] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
+                    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:squarePhotoString]]];
+                    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                    imageView.contentMode = UIViewContentModeScaleAspectFill;
+                        CGRect rect = imageView.frame;
+                        rect.size.height = photoHeight;
+                        rect.size.width = photoWidth;
+                        imageView.frame = rect;
+                        imageView.tag = i;
+                        [self.photoScrollView addSubview:imageView];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self layoutPhotoScrollImages];
+                });
+            });
+
+        } else {
+            // display icon for no picture
+            NSLog(@"no photo");
+            UIImage *image = [UIImage imageNamed:@"no_photo.png"];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+            [self.photoScrollView addSubview:imageView];
+        }
     } 
 }
 
@@ -357,9 +433,15 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
 
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {	
-    
+
 	[self.refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+}
     
+#pragma mark - scrollview page control delegate methods
+- (IBAction)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    int newOffset = scrollView.contentOffset.x;
+    int newPage = (int)(newOffset/(scrollView.frame.size.width));
+    [self.photoPageControl setCurrentPage:newPage];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
@@ -414,6 +496,11 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
     frame.size.height = frame.size.height/2;
     self.photoPageControl.frame = frame;
     
+    NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vendorID];
+    NSLog(@"path to get vendor photos is %@",vendorPhotoPath);
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
+    RKObjectLoader* vendorPhotoLoader = [objManager loadObjectsAtResourcePath:vendorPhotoPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor-photo"] delegate:self];
+    vendorPhotoLoader.userData = @"vendorPhotoLoader";
     if (self.refreshHeaderView == nil) {
         EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, -180.0f, self.view.frame.size.width, 180.0f) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
         view.delegate = self;
@@ -446,6 +533,7 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
     [super viewWillAppear:animated];
     
     [self resizeReferralCommentsTable];
+
 }
 
 - (void)viewDidUnload

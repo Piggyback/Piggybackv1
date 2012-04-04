@@ -1,5 +1,5 @@
 //
-//  VendorPhoto.h
+//  PBVendorPhoto.h
 //  Piggyback
 //
 //  Created by Kimberly Hsiao on 3/23/12.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface VendorPhoto : NSObject
+@interface PBVendorPhoto : NSObject
 
 @property (nonatomic, strong) NSString* vid;
 @property (nonatomic, strong) NSString* pid;

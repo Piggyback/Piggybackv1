@@ -1,14 +1,14 @@
 //
-//  VendorPhoto.m
+//  PBVendorPhoto.m
 //  Piggyback
 //
 //  Created by Kimberly Hsiao on 3/23/12.
 //  Copyright (c) 2012 Calimucho. All rights reserved.
 //
 
-#import "VendorPhoto.h"
+#import "PBVendorPhoto.h"
 
-@implementation VendorPhoto
+@implementation PBVendorPhoto
 
 @synthesize vid = _vid;
 @synthesize pid = _pid;

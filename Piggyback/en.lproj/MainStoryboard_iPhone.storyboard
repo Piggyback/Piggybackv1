@@ -315,10 +315,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="apH-Ek-egQ"/>
                     <connections>
-                        <outlet property="photoPageControl" destination="6Ya-NZ-CQK" id="shd-qT-GYq"/>
-                        <outlet property="photoScrollView" destination="XZw-Rp-b5O" id="bxW-by-SG0"/>
-                        <outlet property="scrollView" destination="wBh-C2-cW3" id="Ep6-Ro-4Bg"/>
-                        <outlet property="vendorTableView" destination="Dnq-FA-iQ6" id="THZ-sE-FcP"/>
+                        <outlet property="photoPageControl" destination="6Ya-NZ-CQK" id="0iT-kJ-vXH"/>
+                        <outlet property="photoScrollView" destination="XZw-Rp-b5O" id="fyr-3h-lpT"/>
+                        <outlet property="scrollView" destination="wBh-C2-cW3" id="P0r-xx-ejn"/>
+                        <outlet property="vendorTableView" destination="Dnq-FA-iQ6" id="uBC-iS-9A3"/>
                     </connections>
                 </viewController>
             </objects>
