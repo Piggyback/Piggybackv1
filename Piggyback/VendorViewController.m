@@ -29,7 +29,6 @@ typedef enum tableViewSection {
 @synthesize vendorTableView = _vendorInfoTable;
 
 @synthesize vendor = _vendor;
-//@synthesize vendorImage = _vendorImage;
 @synthesize referralComments = _referralComments;
 @synthesize scrollView = _scrollView;
 @synthesize photos = _photos;

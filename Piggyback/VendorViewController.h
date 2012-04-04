@@ -13,7 +13,6 @@
 @interface VendorViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, RKObjectLoaderDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) Vendor *vendor;
-//@property (weak, nonatomic) IBOutlet UIImageView *vendorImage;
 @property (nonatomic, strong) NSArray *referralComments;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITableView *vendorTableView;
