@@ -374,6 +374,7 @@
                     <connections>
                         <segue destination="Etd-Aa-pk6" kind="relationship" relationship="viewControllers" id="Gw6-52-1it"/>
                         <segue destination="t45-ky-a7w" kind="relationship" relationship="viewControllers" id="4We-as-ZUO"/>
+                        <segue destination="hsd-4q-cya" kind="relationship" relationship="viewControllers" id="835-NA-gNl"/>
                     </connections>
                 </tabBarController>
             </objects>
@@ -548,12 +549,69 @@
             </objects>
             <point key="canvasLocation" x="2284" y="-939"/>
         </scene>
+        <!--Navigation Controller - Search-->
+        <scene sceneID="KxQ-JU-q0G">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vni-9n-E3B" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController id="hsd-4q-cya" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Search" id="fS6-78-Vea"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3HQ-t5-KhM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="EFR-Hf-Bbv" kind="relationship" relationship="rootViewController" id="u10-SO-zQK"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="1847" y="349"/>
+        </scene>
+        <!--Search View Controller - Search-->
+        <scene sceneID="Bqd-ER-FUK">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5vU-5l-XtC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="EFR-Hf-Bbv" customClass="SearchViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="f9P-AO-faw">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for..." minimumFontSize="17" id="0ox-Uv-TdD">
+                                <rect key="frame" x="24" y="2" width="164" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Near..." minimumFontSize="17" id="gZL-WI-vYs">
+                                <rect key="frame" x="191" y="2" width="126" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="search magnifying glass 22x31.png" id="zMC-22-v1Y">
+                                <rect key="frame" x="2" y="2" width="20" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Search" id="baM-BZ-ABA"/>
+                    <connections>
+                        <outlet property="location" destination="gZL-WI-vYs" id="plN-e3-KOy"/>
+                        <outlet property="query" destination="0ox-Uv-TdD" id="ZfI-0V-Bnh"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2287" y="343"/>
+        </scene>
     </scenes>
     <resources>
         <image name="LoginWithFacebookNormal.png" width="159" height="29"/>
         <image name="inbox_tabbar_icon.png" width="30" height="30"/>
         <image name="list_tabbar_icon.png" width="30" height="30"/>
         <image name="login_bg.png" width="320" height="480"/>
+        <image name="search magnifying glass 22x31.png" width="22" height="31"/>
     </resources>
     <classes>
         <class className="InboxTableCell" superclassName="UITableViewCell">
@@ -609,6 +667,13 @@
         </class>
         <class className="ReferralCommentTableCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ReferralCommentTableCell.h"/>
+        </class>
+        <class className="SearchViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="location" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="query" candidateClass="UITextField"/>
+            </relationships>
         </class>
         <class className="VendorViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/VendorViewController.h"/>

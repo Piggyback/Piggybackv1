@@ -75,6 +75,8 @@
 		F9B9B628150193A30002BCDE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B627150193A30002BCDE /* SystemConfiguration.framework */; };
 		F9B9B62A150193AC0002BCDE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B629150193AC0002BCDE /* QuartzCore.framework */; };
 		F9B9B62C150193B60002BCDE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B62B150193B60002BCDE /* libxml2.dylib */; };
+		F9BDEEAC153F5DD50030363B /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9BDEEAB153F5DD50030363B /* SearchViewController.m */; };
+		F9BDEEAE153F87B80030363B /* search magnifying glass 22x31.png in Resources */ = {isa = PBXBuildFile; fileRef = F9BDEEAD153F87B80030363B /* search magnifying glass 22x31.png */; };
 		F9D0BDBB1508B76000D963B7 /* PBVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBA1508B76000D963B7 /* PBVendor.m */; };
 		F9D0BDBE1508BC9000D963B7 /* VendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */; };
 /* End PBXBuildFile section */
@@ -225,6 +227,9 @@
 		F9B9B627150193A30002BCDE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F9B9B629150193AC0002BCDE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F9B9B62B150193B60002BCDE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		F9BDEEAA153F5DD50030363B /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		F9BDEEAB153F5DD50030363B /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		F9BDEEAD153F87B80030363B /* search magnifying glass 22x31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search magnifying glass 22x31.png"; sourceTree = "<group>"; };
 		F9D0BDB91508B76000D963B7 /* PBVendor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBVendor.h; path = Piggyback/PBVendor.h; sourceTree = "<group>"; };
 		F9D0BDBA1508B76000D963B7 /* PBVendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendor.m; path = Piggyback/PBVendor.m; sourceTree = "<group>"; };
 		F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VendorViewController.h; sourceTree = "<group>"; };
@@ -322,6 +327,8 @@
 				3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */,
 				F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */,
 				F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */,
+				F9BDEEAA153F5DD50030363B /* SearchViewController.h */,
+				F9BDEEAB153F5DD50030363B /* SearchViewController.m */,
 				3E193F4A15144E9600D80BB8 /* EmptyIndividualListTableViewController.h */,
 				3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */,
 				3ED78A171522DF6500FE5C69 /* CoreDataTableViewController.h */,
@@ -365,6 +372,7 @@
 		3EFDB51C1501793200CC57A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F9BDEEAD153F87B80030363B /* search magnifying glass 22x31.png */,
 				3E47FED5152C16BD00421FFE /* no_photo.png */,
 				3EAC2AF4152157FF00B69392 /* login_bg.png */,
 				3EAC2AF3152157FF00B69392 /* login_bg@2x.png */,
@@ -579,6 +587,7 @@
 				3ED78A3E1523277700FE5C69 /* whiteArrow.png in Resources */,
 				3ED78A3F1523277700FE5C69 /* whiteArrow@2x.png in Resources */,
 				3E47FED6152C16BD00421FFE /* no_photo.png in Resources */,
+				F9BDEEAE153F87B80030363B /* search magnifying glass 22x31.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +623,7 @@
 				3ED78A1C1522E92E00FE5C69 /* Piggyback.xcdatamodeld in Sources */,
 				3E36D560152331F0001C9070 /* EGORefreshTableHeaderView.m in Sources */,
 				3E47FED4152C113A00421FFE /* PBVendorPhoto.m in Sources */,
+				F9BDEEAC153F5DD50030363B /* SearchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
