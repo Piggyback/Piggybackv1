@@ -102,8 +102,8 @@ const CGFloat photoWidth = 320;
 
 - (void)loadObjectsFromDataStore {
     self.vendor = [PBVendor findFirstByAttribute:@"vendorID" withValue:self.vendor.vendorID];
-    self.referralComments = [self.vendor.vendorReferralComments allObjects];
-    NSLog(@"referral comments size: %i for vendorID: %@", [self.referralComments count], self.vendor.vendorID);
+    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"referralDate" ascending:YES]];
+    self.referralComments = [self.vendor.vendorReferralComments sortedArrayUsingDescriptors:sortDescriptors];
     [self resizeReferralCommentsTable];
 }
 

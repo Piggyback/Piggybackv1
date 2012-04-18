@@ -53,9 +53,9 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
 
 - (void)loadObjectsFromDataStore {
     // fetch current user & set self.lists to currentUser.lists   
-#warning - lists are not sorted by date
     PBUser* currentUser = [PBUser findFirstByAttribute:@"userID" withValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
-    self.lists = [currentUser.lists allObjects];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"createdDate" ascending:YES]];
+    self.lists = [currentUser.lists sortedArrayUsingDescriptors:sortDescriptors];
 }
 
 - (void)loadData {
@@ -315,6 +315,7 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
 //        }
 
         [segue.destinationViewController setList:list];
+        [segue.destinationViewController setFromReferral:NO];
     }
 }
 

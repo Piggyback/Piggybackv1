@@ -28,6 +28,7 @@
 @end
 
 @implementation InboxTableViewController
+@synthesize spinner = _spinner;
 
 NSString* const RK_INBOX_ID_RESOURCE_PATH = @"inboxapi/coreDataInbox/id/";
 NSString* const NO_INBOX_TEXT = @"Your inbox is empty!";
@@ -172,6 +173,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
         self.reloading = NO;
+        [self.spinner stopAnimating];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
     } 
 }
@@ -379,6 +381,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 
 - (void)viewDidUnload
 {
+    [self setSpinner:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -391,19 +394,12 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 #warning - eventually move to viewDidLoad. put it here for now because viewLoads before user logs in (modal view)
     if ([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid]) {
         if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
+            [self.spinner startAnimating];
             [self loadData];
         } else {
             [self loadObjectsFromDataStore];
         }
     }
-    
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    
-//    // re-fetch inbox items for users whenever inbox view appears
-//    NSString* inboxPath = [RK_INBOX_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
-//    RKObjectManager* objManager = [RKObjectManager sharedManager];
-//    RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
-//    inboxLoader.userData = @"inboxLoader";
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -433,19 +429,9 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         // set vendor for display on vendor detail view
         [segue.destinationViewController setVendor:inboxItem.vendor];
         
-        // get list of unique people / comments who referred vendor to you and set for next view to display
-//        NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
-//        NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];
-//        for (VendorReferralComment* commentObject in inboxItem.nonUniqueReferralComments) {
-//            if (![uniqueReferrerUIDs containsObject:commentObject.referrer.uid]) {
-//                [uniqueReferrerUIDs addObject:commentObject.referrer.uid];
-//                [uniqueReferralComments addObject:commentObject];
-//            }
-//        }
-//        [(VendorViewController*)segue.destinationViewController setReferralComments:[NSArray arrayWithArray:uniqueReferralComments]];
-        
     } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
         [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];
+        [segue.destinationViewController setFromReferral:YES];
     }
 }
 

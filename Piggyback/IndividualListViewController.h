@@ -20,6 +20,7 @@
 @property (nonatomic, strong) LocationController* locationController;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property BOOL fromReferral;
 
 - (IBAction)segmentedControlChanged;
 @end

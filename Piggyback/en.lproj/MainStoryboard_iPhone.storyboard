@@ -431,6 +431,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" red="0.6588235294" green="0.6588235294" blue="0.6588235294" alpha="1" colorSpace="calibratedRGB"/>
+                        <activityIndicatorView key="tableFooterView" opaque="NO" contentMode="scaleToFill" style="gray" id="Paf-qO-asd">
+                            <rect key="frame" x="0.0" y="238" width="320" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </activityIndicatorView>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="inboxTableCell" id="GZw-vp-ggd" customClass="InboxTableCell">
                                 <rect key="frame" x="0.0" y="46" width="320" height="91"/>
@@ -541,6 +545,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="spinner" destination="Paf-qO-asd" id="ltK-oO-ANZ"/>
                         <segue destination="Vgy-5n-1Cy" kind="push" identifier="inboxToVendor" id="nrv-nn-45K"/>
                         <segue destination="or2-4f-6uS" kind="push" identifier="inboxToList" id="pdA-ib-Qlw"/>
                     </connections>
@@ -572,6 +577,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxTableViewController.h"/>
             <relationships>
                 <relationship kind="action" name="logout:"/>
+                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
             </relationships>
         </class>
         <class className="IndividualListViewController" superclassName="UIViewController">
@@ -626,7 +632,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="pOV-NT-cee"/>
-        <segue reference="xbg-e1-zdk"/>
+        <segue reference="pdA-ib-Qlw"/>
+        <segue reference="nrv-nn-45K"/>
     </inferredMetricsTieBreakers>
 </document>
