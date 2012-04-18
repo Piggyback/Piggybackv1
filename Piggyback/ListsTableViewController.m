@@ -276,8 +276,6 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-#warning: need to optimize so that lists do not get retrieved each time the view appears
-//    [self getCurrentUserLists:[[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"] stringValue]];
 }
 
 - (void)viewDidAppear:(BOOL)animated

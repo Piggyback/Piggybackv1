@@ -389,10 +389,12 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     [super viewWillAppear:animated];
     
 #warning - eventually move to viewDidLoad. put it here for now because viewLoads before user logs in (modal view)
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
-        [self loadData];
-    } else {
-        [self loadObjectsFromDataStore];
+    if ([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid]) {
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
+            [self loadData];
+        } else {
+            [self loadObjectsFromDataStore];
+        }
     }
     
 //    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
