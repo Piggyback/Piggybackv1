@@ -9,6 +9,7 @@
 #import "SearchViewController.h"
 #import "JSONKit.h"
 #import "SearchTableViewCell.h"
+#import "LocationController.h"
 
 @interface SearchViewController ()
 
@@ -60,16 +61,16 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
     return _searchConnection;
 }
 
-#pragma mark - keyboard delegate functions
+#pragma mark - priviate helper functions
 
-// hide keyboard when touch outside of textfield
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//    if ([self.query isFirstResponder]) {
-//        [self.query resignFirstResponder];   
-//    } else if ([self.location isFirstResponder]) {
-//        [self.location resignFirstResponder];
-//    }
-//}
+- (void)callGeocodeAPI:(NSString*)location {
+    // get lat and lng of specified location
+    NSURLRequest *geocodeRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",@"https://maps.googleapis.com/maps/api/geocode/json?address=",location,@"&sensor=false"]]];
+    NSURLConnection *geocodeConnection = [[NSURLConnection alloc] initWithRequest:geocodeRequest delegate:self];
+    self.geocodeConnection = geocodeConnection;
+}
+
+#pragma mark - keyboard delegate functions
 
 - (void)hideKeyboard {
     [self.query resignFirstResponder];
@@ -81,11 +82,26 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
     [textField resignFirstResponder];
 
     NSString *location = [self.location.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if ([location length] == 0) {
+        LocationController* locationController = [[LocationController alloc] init];
+        dispatch_queue_t getCurrentLocationQueue = dispatch_queue_create("getCurrentLocation", NULL);
+        dispatch_async(getCurrentLocationQueue, ^{
+            CLLocation* currentLocation = [locationController getCurrentLocationAndStopLocationManager];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSString* currentLatLng = [NSString stringWithFormat:@"%f%@%f",currentLocation.coordinate.latitude,@",",currentLocation.coordinate.longitude];
+                NSLog(@"location is %@",currentLatLng);
+                [self callGeocodeAPI:currentLatLng];
+            });
+        });
+    } else {
+        // get lat and lng of specified text-location
+        [self callGeocodeAPI:location];
+    }
     
-    // get lat and lng of specified location
-    NSURLRequest *geocodeRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",@"https://maps.googleapis.com/maps/api/geocode/json?address=",location,@"&sensor=false"]]];
-    NSURLConnection *geocodeConnection = [[NSURLConnection alloc] initWithRequest:geocodeRequest delegate:self];
-    self.geocodeConnection = geocodeConnection;
+
+//    NSURLRequest *geocodeRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",@"https://maps.googleapis.com/maps/api/geocode/json?address=",location,@"&sensor=false"]]];
+//    NSURLConnection *geocodeConnection = [[NSURLConnection alloc] initWithRequest:geocodeRequest delegate:self];
+//    self.geocodeConnection = geocodeConnection;
     
     return YES;
 }
@@ -132,7 +148,6 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
         NSString *date = [dateFormat stringFromDate:now];
         
         NSURLRequest *searchRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@",@"https://api.foursquare.com/v2/venues/search?query=",query,@"&ll=",latlng,@"&radius=",radius,@"&intent=",intent,@"&limit=",limit,@"&client_id=",clientID,@"&client_secret=",clientSecret,@"&v=",date]]];
-        NSLog(@"%@",[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@",@"https://api.foursquare.com/v2/venues/search?query=",query,@"&ll=",latlng,@"&radius=",radius,@"&intent=",intent,@"&limit=",limit,@"&client_id=",clientID,@"&client_secret=",clientSecret,@"&v=",date]);
         NSURLConnection *searchConnection = [[NSURLConnection alloc] initWithRequest:searchRequest delegate:self];
         self.searchConnection = searchConnection;
     }
@@ -230,6 +245,11 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
     self.query.returnKeyType = UIReturnKeySearch;
     self.location.returnKeyType = UIReturnKeySearch;
     
+    // change height of text fields
+    self.query.frame = CGRectMake(self.query.frame.origin.x,self.query.frame.origin.y,self.query.frame.size.width,25);
+    self.location.frame = CGRectMake(self.location.frame.origin.x,self.location.frame.origin.y,self.location.frame.size.width,25);
+    
+    // tap outside of textfield hides keyboard
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.searchResultsTable addGestureRecognizer:gestureRecognizer];
 }
