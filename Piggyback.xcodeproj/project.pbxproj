@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3E0EABA61528891F008CB78C /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E0EAB9C15288860008CB78C /* libRestKit.a */; };
-		3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */; };
+		3E1E88D9153F8DA50048219C /* PBVendorPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1E88D8153F8DA50048219C /* PBVendorPhoto.m */; };
+		3E1E88DC153F8DC70048219C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1E88DB153F8DC70048219C /* MBProgressHUD.m */; };
 		3E36D560152331F0001C9070 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */; };
 		3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */; };
 		3E47337D1519A78200083B53 /* blue_square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E47337C1519A78200083B53 /* blue_square@2x.png */; };
-		3E47FED4152C113A00421FFE /* PBVendorPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E47FED3152C113A00421FFE /* PBVendorPhoto.m */; };
 		3E47FED6152C16BD00421FFE /* no_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E47FED5152C16BD00421FFE /* no_photo.png */; };
 		3E5400E41519677E0078CFC2 /* geolocation_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5400E31519677E0078CFC2 /* geolocation_icon.png */; };
 		3E5400E6151967B80078CFC2 /* phone_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E5400E5151967B80078CFC2 /* phone_icon.png */; };
@@ -119,15 +119,15 @@
 
 /* Begin PBXFileReference section */
 		3E0EAB9115288860008CB78C /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
-		3E193F4A15144E9600D80BB8 /* EmptyIndividualListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyIndividualListTableViewController.h; sourceTree = "<group>"; };
-		3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyIndividualListTableViewController.m; sourceTree = "<group>"; };
+		3E1E88D7153F8DA50048219C /* PBVendorPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBVendorPhoto.h; path = Piggyback/PBVendorPhoto.h; sourceTree = "<group>"; };
+		3E1E88D8153F8DA50048219C /* PBVendorPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendorPhoto.m; path = Piggyback/PBVendorPhoto.m; sourceTree = "<group>"; };
+		3E1E88DA153F8DC70048219C /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		3E1E88DB153F8DC70048219C /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3E36D55E152331F0001C9070 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBListEntry.h; path = Piggyback/PBListEntry.h; sourceTree = "<group>"; };
 		3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBListEntry.m; path = Piggyback/PBListEntry.m; sourceTree = "<group>"; };
 		3E47337C1519A78200083B53 /* blue_square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue_square@2x.png"; sourceTree = "<group>"; };
-		3E47FED2152C113A00421FFE /* PBVendorPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBVendorPhoto.h; sourceTree = "<group>"; };
-		3E47FED3152C113A00421FFE /* PBVendorPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBVendorPhoto.m; sourceTree = "<group>"; };
 		3E47FED5152C16BD00421FFE /* no_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_photo.png; sourceTree = "<group>"; };
 		3E5400E31519677E0078CFC2 /* geolocation_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geolocation_icon.png; sourceTree = "<group>"; };
 		3E5400E5151967B80078CFC2 /* phone_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone_icon.png; sourceTree = "<group>"; };
@@ -173,8 +173,6 @@
 		3EBA711B1514B7810043A4F9 /* ListEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListEntryTableViewCell.m; path = Piggyback/ListEntryTableViewCell.m; sourceTree = "<group>"; };
 		3EBD2CF0150A0C9800715DD0 /* PiggybackTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiggybackTabBarController.h; sourceTree = "<group>"; };
 		3EBD2CF1150A0C9800715DD0 /* PiggybackTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiggybackTabBarController.m; sourceTree = "<group>"; };
-		3ED78A171522DF6500FE5C69 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
-		3ED78A181522DF6500FE5C69 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
 		3ED78A1B1522E92E00FE5C69 /* Piggyback.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Piggyback.xcdatamodel; sourceTree = "<group>"; };
 		3ED78A301523277600FE5C69 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
 		3ED78A311523277600FE5C69 /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
@@ -322,12 +320,6 @@
 				3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */,
 				F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */,
 				F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */,
-				3E193F4A15144E9600D80BB8 /* EmptyIndividualListTableViewController.h */,
-				3E193F4B15144E9600D80BB8 /* EmptyIndividualListTableViewController.m */,
-				3ED78A171522DF6500FE5C69 /* CoreDataTableViewController.h */,
-				3ED78A181522DF6500FE5C69 /* CoreDataTableViewController.m */,
-				3E36D55E152331F0001C9070 /* EGORefreshTableHeaderView.h */,
-				3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */,
 				F929ACBC15121296008B7463 /* Views */,
 				F929ACBB1512112D008B7463 /* PB API Classes */,
 				3EFDB51C1501793200CC57A8 /* Resources */,
@@ -344,6 +336,10 @@
 				F936AB84150A5AC60019F191 /* Constants.m */,
 				F9645D9115121FD100A6B0F7 /* LocationController.h */,
 				F9645D9215121FD100A6B0F7 /* LocationController.m */,
+				3E36D55E152331F0001C9070 /* EGORefreshTableHeaderView.h */,
+				3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */,
+				3E1E88DA153F8DC70048219C /* MBProgressHUD.h */,
+				3E1E88DB153F8DC70048219C /* MBProgressHUD.m */,
 				3E94730215008EF900A261DD /* Piggyback-Info.plist */,
 				3E94730315008EF900A261DD /* InfoPlist.strings */,
 				3E94730615008EF900A261DD /* main.m */,
@@ -431,8 +427,8 @@
 				3E734B711508C24C003FD9CB /* PBUser.m */,
 				F9D0BDB91508B76000D963B7 /* PBVendor.h */,
 				F9D0BDBA1508B76000D963B7 /* PBVendor.m */,
-				3E47FED2152C113A00421FFE /* PBVendorPhoto.h */,
-				3E47FED3152C113A00421FFE /* PBVendorPhoto.m */,
+				3E1E88D7153F8DA50048219C /* PBVendorPhoto.h */,
+				3E1E88D8153F8DA50048219C /* PBVendorPhoto.m */,
 				F936AB7D1508F12F0019F191 /* PBVendorReferralComment.h */,
 				F936AB7E1508F12F0019F191 /* PBVendorReferralComment.m */,
 				F985B42F150F5097002791B2 /* PBInboxItem.h */,
@@ -607,13 +603,13 @@
 				F985B437150FE9D0002791B2 /* InboxTableViewController.m in Sources */,
 				F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */,
 				F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */,
-				3E193F4C15144E9600D80BB8 /* EmptyIndividualListTableViewController.m in Sources */,
 				3EBA711C1514B7810043A4F9 /* ListEntryTableViewCell.m in Sources */,
 				F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */,
 				3EB2BB991518964F0034820F /* PiggybackNavigationController.m in Sources */,
 				3ED78A1C1522E92E00FE5C69 /* Piggyback.xcdatamodeld in Sources */,
 				3E36D560152331F0001C9070 /* EGORefreshTableHeaderView.m in Sources */,
-				3E47FED4152C113A00421FFE /* PBVendorPhoto.m in Sources */,
+				3E1E88D9153F8DA50048219C /* PBVendorPhoto.m in Sources */,
+				3E1E88DC153F8DC70048219C /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

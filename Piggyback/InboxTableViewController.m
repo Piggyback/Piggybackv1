@@ -17,6 +17,7 @@
 #import "Constants.h"
 #import "InboxTableCell.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MBProgressHUD.h"
 
 @interface InboxTableViewController()
 
@@ -28,7 +29,6 @@
 @end
 
 @implementation InboxTableViewController
-@synthesize spinner = _spinner;
 
 NSString* const RK_INBOX_ID_RESOURCE_PATH = @"inboxapi/coreDataInbox/id/";
 NSString* const NO_INBOX_TEXT = @"Your inbox is empty!";
@@ -173,7 +173,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
         self.reloading = NO;
-        [self.spinner stopAnimating];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
     } 
 }
@@ -182,7 +182,12 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 {    
     if (objectLoader.userData == @"inboxLoader") {
         // handle case where user has no inbox items
-//        self.inboxItems = [NSArray arrayWithObject:[NSString stringWithString:@"Your inbox is empty!"]];      
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"InboxLastUpdatedAt"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.inboxItems = [[NSArray alloc] init];
+        self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
     } else {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
@@ -194,7 +199,9 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 #pragma mark - UITableViewDataSource methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
-    if ([self.inboxItems count] == 0) {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
+        return 0;
+    } else if ([self.inboxItems count] == 0) {
         // display empty inbox message
         return 1;
     } else {
@@ -381,7 +388,6 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 
 - (void)viewDidUnload
 {
-    [self setSpinner:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -391,12 +397,15 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 {
     [super viewWillAppear:animated];
     
-#warning - eventually move to viewDidLoad. put it here for now because viewLoads before user logs in (modal view)
-    if ([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid]) {
+#warning - eventually move to viewDidLoad. put it here for now because viewLoads before user logs in (modal view). still seems to be a bug extending facebook access_token
+//    if ([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid]) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
         if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
-            [self.spinner startAnimating];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [self loadData];
         } else {
+            NSLog(@"loading inbox from core data");
             [self loadObjectsFromDataStore];
         }
     }

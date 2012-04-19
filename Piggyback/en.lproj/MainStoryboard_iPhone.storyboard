@@ -24,26 +24,26 @@
                                     <rect key="frame" x="10" y="1" width="280" height="49"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WTf-4d-rh1">
+                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WTf-4d-rh1">
                                             <rect key="frame" x="10" y="5" width="48" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
                                         </label>
-                                        <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="# items" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PIk-x3-LHm">
+                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" text="# items" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PIk-x3-LHm">
                                             <rect key="frame" x="10" y="27" width="46" height="18"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <connections>
                                     <segue destination="or2-4f-6uS" kind="push" identifier="goToListEntryFromLists" id="pOV-NT-cee"/>
                                 </connections>
@@ -55,26 +55,26 @@
                                     <rect key="frame" x="10" y="0.0" width="300" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="You don't have any lists!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z7x-rT-YLn">
+                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" text="You don't have any lists!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z7x-rT-YLn">
                                             <rect key="frame" x="10" y="11" width="212" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
                                         </label>
-                                        <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Create lists at www.getpiggyback.com and stay tuned for mobile app updates!" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gdx-BP-6BU">
+                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" text="Create lists at www.getpiggyback.com and stay tuned for mobile app updates!" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gdx-BP-6BU">
                                             <rect key="frame" x="10" y="33" width="268" height="36"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
                                 </accessibility>
@@ -162,7 +162,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                                 <connections>
                                                     <outlet property="descriptionOrBlank" destination="CK4-MG-fOI" id="BJt-OW-Muz"/>
                                                     <outlet property="distance" destination="qQu-fm-q3q" id="8rI-zJ-ALM"/>
@@ -178,14 +178,14 @@
                                                     <rect key="frame" x="10" y="0.0" width="300" height="89"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Your list is empty!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gsg-Ld-cMb">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Your list is empty!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gsg-Ld-cMb">
                                                             <rect key="frame" x="10" y="7" width="157" height="22"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Add your favorite places at www.getpiggyback.com and stay tuned for mobile app updates!" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S3i-mY-NPP">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Add your favorite places at www.getpiggyback.com and stay tuned for mobile app updates!" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S3i-mY-NPP">
                                                             <rect key="frame" x="10" y="29" width="267" height="54"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -195,7 +195,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             </tableViewCell>
                                         </prototypes>
                                         <connections>
@@ -252,7 +252,7 @@
                                                     <rect key="frame" x="10" y="1" width="300" height="35"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="vendor info" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="RsM-8B-bCC">
+                                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="vendor info" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="RsM-8B-bCC">
                                                             <rect key="frame" x="10" y="0.0" width="280" height="35"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
@@ -263,6 +263,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
+                                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             </tableViewCell>
                                             <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="vendorReferralsCell" textLabel="6g4-rc-jEx" detailTextLabel="8ha-H4-aKT" style="IBUITableViewCellStyleSubtitle" id="R8G-gG-ZbP" customClass="ReferralCommentTableCell">
                                                 <rect key="frame" x="0.0" y="109" width="320" height="36"/>
@@ -271,7 +272,7 @@
                                                     <rect key="frame" x="10" y="0.0" width="300" height="35"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="referrer name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6g4-rc-jEx">
+                                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" text="referrer name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6g4-rc-jEx">
                                                             <rect key="frame" x="10" y="-2" width="117" height="22"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
@@ -279,7 +280,7 @@
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </label>
-                                                        <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="comment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8ha-H4-aKT">
+                                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" text="comment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8ha-H4-aKT">
                                                             <rect key="frame" x="10" y="20" width="58" height="18"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
@@ -290,6 +291,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
+                                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
                                                 </accessibility>
@@ -431,10 +433,6 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" red="0.6588235294" green="0.6588235294" blue="0.6588235294" alpha="1" colorSpace="calibratedRGB"/>
-                        <activityIndicatorView key="tableFooterView" opaque="NO" contentMode="scaleToFill" style="gray" id="Paf-qO-asd">
-                            <rect key="frame" x="0.0" y="238" width="320" height="20"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </activityIndicatorView>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="inboxTableCell" id="GZw-vp-ggd" customClass="InboxTableCell">
                                 <rect key="frame" x="0.0" y="46" width="320" height="91"/>
@@ -470,7 +468,7 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="SAL-nm-qKY">
                                             <rect key="frame" x="7" y="6" width="38" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                         </imageView>
                                         <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="you have to try this place!" lineBreakMode="wordWrap" numberOfLines="0" minimumFontSize="10" id="SBt-iX-Zfs">
                                             <rect key="frame" x="7" y="50" width="268" height="19"/>
@@ -545,7 +543,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="spinner" destination="Paf-qO-asd" id="ltK-oO-ANZ"/>
                         <segue destination="Vgy-5n-1Cy" kind="push" identifier="inboxToVendor" id="nrv-nn-45K"/>
                         <segue destination="or2-4f-6uS" kind="push" identifier="inboxToList" id="pdA-ib-Qlw"/>
                     </connections>
@@ -577,7 +574,6 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxTableViewController.h"/>
             <relationships>
                 <relationship kind="action" name="logout:"/>
-                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
             </relationships>
         </class>
         <class className="IndividualListViewController" superclassName="UIViewController">
@@ -632,7 +628,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="pdA-ib-Qlw"/>
-        <segue reference="nrv-nn-45K"/>
+        <segue reference="pOV-NT-cee"/>
+        <segue reference="xbg-e1-zdk"/>
     </inferredMetricsTieBreakers>
 </document>

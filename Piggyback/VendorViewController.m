@@ -11,6 +11,7 @@
 #import "PBVendorReferralComment.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PBVendorPhoto.h"
+#import "MBProgressHUD.h"
 
 @interface VendorViewController () 
 
@@ -192,6 +193,7 @@ const CGFloat photoWidth = 320;
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
         self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
     }
     
@@ -252,11 +254,12 @@ const CGFloat photoWidth = 320;
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
 {    
     if (objectLoader.userData == @"vendorReferralCommentsLoader") {
-        NSLog(@"no vendor referral comments");   
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
         [[NSUserDefaults standardUserDefaults] synchronize];
         self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+
     } else {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
@@ -510,6 +513,7 @@ const CGFloat photoWidth = 320;
     }
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self loadData];
     } else {
         [self loadObjectsFromDataStore];

@@ -11,6 +11,7 @@
 #import "PBListEntry.h"
 #import "PBVendorReferralComment.h"
 #import "IndividualListViewController.h"
+#import "MBProgressHUD.h"
 
 @interface ListsTableViewController ()
 
@@ -89,6 +90,7 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
             [[NSUserDefaults standardUserDefaults] synchronize];
             [self loadObjectsFromDataStore];
             self.reloading = NO;
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
             
             break;
@@ -103,7 +105,12 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
         case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
             // handle case where user has no lists
-//            self.lists = [NSArray arrayWithObject:[NSString stringWithString:@"You have no lists!"]];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"ListsLastUpdatedAt"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            self.lists = [[NSArray alloc] init];
+            self.reloading = NO;
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
             
             break;
         }
@@ -122,7 +129,10 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.lists count] == 0) {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
+        return 0;
+    }
+    else if ([self.lists count] == 0) {
         // display empty lists message
         return 1;
     } else {
@@ -259,6 +269,7 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
     }
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self loadData];
     } else {
         [self loadObjectsFromDataStore];

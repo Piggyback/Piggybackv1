@@ -12,7 +12,6 @@
 
 @interface InboxTableViewController : UITableViewController <RKObjectLoaderDelegate, EGORefreshTableHeaderDelegate>
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 - (IBAction)logout:(id)sender;
 
 @end

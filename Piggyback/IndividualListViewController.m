@@ -12,6 +12,7 @@
 #import "VendorViewController.h"
 #import "PBVendorReferralComment.h"
 #import "listEntryTableViewCell.h"
+#import "MBProgressHUD.h"
 
 @interface IndividualListViewController()
 
@@ -186,6 +187,7 @@ double const metersToMilesMultiplier = 0.000621371192;
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
         self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
     } 
 }
@@ -194,7 +196,12 @@ double const metersToMilesMultiplier = 0.000621371192;
 {    
     if (objectLoader.userData == @"listEntrysLoader") {
         // handle case where user has no inbox items
-        NSLog(@"list is empty");     
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.shownListEntrys = [[NSArray alloc] init];
+        self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
     } else {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
@@ -207,7 +214,9 @@ double const metersToMilesMultiplier = 0.000621371192;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.shownListEntrys count] == 0) {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]]) {
+        return 0;
+    } else if ([self.shownListEntrys count] == 0) {
         return 1;
     } else {
         return [self.shownListEntrys count];
@@ -385,6 +394,7 @@ double const metersToMilesMultiplier = 0.000621371192;
     }
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self loadData];
     } else {
         [self loadObjectsFromDataStore];
