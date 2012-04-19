@@ -8,6 +8,7 @@
 
 #import "SearchViewController.h"
 #import "JSONKit.h"
+#import "SearchTableViewCell.h"
 
 @interface SearchViewController ()
 
@@ -18,8 +19,10 @@
 @synthesize responseData = _responseData;
 @synthesize geocodeConnection = _geocodeConnection;
 @synthesize searchConnection = _searchConnection;
+@synthesize searchResponse = _searchResponse;
 @synthesize query = _query;
 @synthesize location = _location;
+@synthesize searchResultsTable = _searchResultsTable;
 
 const NSString* radius = @"10000000";
 const NSString* intent = @"checkin";
@@ -34,6 +37,13 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
         _responseData = [[NSMutableData alloc] init];
     }
     return _responseData;
+}
+
+- (NSDictionary*)searchResponse {
+    if (_searchResponse == nil) {
+        _searchResponse = [[NSDictionary alloc] init];
+    }
+    return _searchResponse;
 }
 
 - (NSURLConnection*)geocodeConnection {
@@ -53,9 +63,17 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
 #pragma mark - keyboard delegate functions
 
 // hide keyboard when touch outside of textfield
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//    if ([self.query isFirstResponder]) {
+//        [self.query resignFirstResponder];   
+//    } else if ([self.location isFirstResponder]) {
+//        [self.location resignFirstResponder];
+//    }
+//}
+
+- (void)hideKeyboard {
     [self.query resignFirstResponder];
-    [self.location resignFirstResponder];
+    [self.location resignFirstResponder]; 
 }
 
 // perform search when search button is hit on keyboard
@@ -120,9 +138,77 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
     }
     
     if (connection == self.searchConnection) {
-        NSDictionary *searchResponse = [[[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding] objectFromJSONString];
-        NSLog(@"search response! %@",searchResponse);
+        self.searchResponse = [[[[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding] objectFromJSONString] objectForKey:@"response"];
+        
+        [self.searchResultsTable reloadData];
+        NSLog(@"search response! %@",self.searchResponse);
+        NSLog(@"size of search response is %u",[self.searchResponse count]);
     }
+}
+
+#pragma mark - table delegate methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if ([[self.searchResponse objectForKey:@"venues"] count] == 0) {
+        return 1;
+    } else {
+        return [[self.searchResponse objectForKey:@"venues"] count];
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"in tableview, size is %u",[self.searchResponse count]);
+    if ([self.searchResponse count] == 0) {
+        static NSString *CellIdentifier = @"defaultSearchCell";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        
+        return cell;
+    } else if ([[self.searchResponse objectForKey:@"venues"] count] == 0) {
+        static NSString *CellIdentifier = @"noSearchResultsCell";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        
+        return cell;
+    } else {
+        static NSString *CellIdentifier = @"searchCell";
+        
+        SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        
+        cell.name.text = [[[self.searchResponse objectForKey:@"venues"] objectAtIndex:indexPath.row] objectForKey:@"name"];
+        cell.address.text = [[[[self.searchResponse objectForKey:@"venues"] objectAtIndex:indexPath.row] objectForKey:@"location"] objectForKey:@"address"];
+        
+        return cell;   
+    }
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    if ([self.searchResponse count] == 0) {
+        return 33;
+    } else if ([[self.searchResponse objectForKey:@"venues"] count] == 0) {
+        return 60;
+    } else {
+        return 46;
+    }
+}
+
+#pragma mark - table view delegate 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
 }
 
 #pragma mark - view lifecycle
@@ -143,10 +229,14 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
     // change keyboard buttons
     self.query.returnKeyType = UIReturnKeySearch;
     self.location.returnKeyType = UIReturnKeySearch;
+    
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    [self.searchResultsTable addGestureRecognizer:gestureRecognizer];
 }
 
 - (void)viewDidUnload
 {
+    [self setSearchResultsTable:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
