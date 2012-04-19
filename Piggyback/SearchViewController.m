@@ -50,6 +50,28 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
     return _searchConnection;
 }
 
+#pragma mark - keyboard delegate functions
+
+// hide keyboard when touch outside of textfield
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.query resignFirstResponder];
+    [self.location resignFirstResponder];
+}
+
+// perform search when search button is hit on keyboard
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+
+    NSString *location = [self.location.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    // get lat and lng of specified location
+    NSURLRequest *geocodeRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",@"https://maps.googleapis.com/maps/api/geocode/json?address=",location,@"&sensor=false"]]];
+    NSURLConnection *geocodeConnection = [[NSURLConnection alloc] initWithRequest:geocodeRequest delegate:self];
+    self.geocodeConnection = geocodeConnection;
+    
+    return YES;
+}
+
 #pragma mark - nsurlconnection delegate methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -83,14 +105,16 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
         NSString* latlng = [NSString stringWithFormat:@"%@%@%@",lat,@",",lng];
         NSLog(@"%@",latlng);
         
-        // call foursquare search API with retrieved lat lng        
+        // call foursquare search API with retrieved lat lng     
+        NSString *query = [self.query.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"yyyyMMdd"];
         NSDate* now = [NSDate date];
         NSString *date = [dateFormat stringFromDate:now];
         
-        NSURLRequest *searchRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@",@"https://api.foursquare.com/v2/venues/search?query=",self.query.text,@"&ll=",latlng,@"&radius=",radius,@"&intent=",intent,@"&limit=",limit,@"&client_id=",clientID,@"&client_secret=",clientSecret,@"&v=",date]]];
-        NSLog(@"%@",[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@",@"https://api.foursquare.com/v2/venues/search?query=",self.query.text,@"&ll=",latlng,@"&radius=",radius,@"&intent=",intent,@"&limit=",limit,@"&client_id=",clientID,@"&client_secret=",clientSecret,@"&v=",date]);
+        NSURLRequest *searchRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@",@"https://api.foursquare.com/v2/venues/search?query=",query,@"&ll=",latlng,@"&radius=",radius,@"&intent=",intent,@"&limit=",limit,@"&client_id=",clientID,@"&client_secret=",clientSecret,@"&v=",date]]];
+        NSLog(@"%@",[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@",@"https://api.foursquare.com/v2/venues/search?query=",query,@"&ll=",latlng,@"&radius=",radius,@"&intent=",intent,@"&limit=",limit,@"&client_id=",clientID,@"&client_secret=",clientSecret,@"&v=",date]);
         NSURLConnection *searchConnection = [[NSURLConnection alloc] initWithRequest:searchRequest delegate:self];
         self.searchConnection = searchConnection;
     }
@@ -116,10 +140,9 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
 {
     [super viewDidLoad];
         
-    // get lat and lng of specified location
-    NSURLRequest *geocodeRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",@"https://maps.googleapis.com/maps/api/geocode/json?address=",self.location.text,@"&sensor=false"]]];
-    NSURLConnection *geocodeConnection = [[NSURLConnection alloc] initWithRequest:geocodeRequest delegate:self];
-    self.geocodeConnection = geocodeConnection;
+    // change keyboard buttons
+    self.query.returnKeyType = UIReturnKeySearch;
+    self.location.returnKeyType = UIReturnKeySearch;
 }
 
 - (void)viewDidUnload

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchViewController : UIViewController <NSURLConnectionDelegate>
+@interface SearchViewController : UIViewController <NSURLConnectionDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, strong) NSURLConnection* geocodeConnection;

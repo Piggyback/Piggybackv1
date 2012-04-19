@@ -582,12 +582,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="backgroundTouched:" destination="EFR-Hf-Bbv" eventType="editingDidEndOnExit" id="uY9-cP-bUM"/>
+                                    <outlet property="delegate" destination="EFR-Hf-Bbv" id="wEH-0X-14p"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Near..." minimumFontSize="17" id="gZL-WI-vYs">
                                 <rect key="frame" x="191" y="2" width="126" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="backgroundTouched:" destination="EFR-Hf-Bbv" eventType="editingDidEndOnExit" id="hdZ-6b-NN6"/>
+                                    <outlet property="delegate" destination="EFR-Hf-Bbv" id="hGe-YA-WNl"/>
+                                </connections>
                             </textField>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="search magnifying glass 22x31.png" id="zMC-22-v1Y">
                                 <rect key="frame" x="2" y="2" width="20" height="29"/>
@@ -671,6 +679,7 @@
         <class className="SearchViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backgroundTouched:"/>
                 <relationship kind="outlet" name="location" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="query" candidateClass="UITextField"/>
             </relationships>
