@@ -450,7 +450,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="name" lineBreakMode="tailTruncation" minimumFontSize="11" adjustsFontSizeToFit="NO" id="pPt-To-nVN">
-                                            <rect key="frame" x="53" y="4" width="199" height="18"/>
+                                            <rect key="frame" x="53" y="4" width="185" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -628,7 +628,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="pOV-NT-cee"/>
-        <segue reference="xbg-e1-zdk"/>
+        <segue reference="pdA-ib-Qlw"/>
+        <segue reference="nrv-nn-45K"/>
     </inferredMetricsTieBreakers>
 </document>

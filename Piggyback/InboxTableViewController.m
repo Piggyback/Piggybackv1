@@ -238,11 +238,17 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
             cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.list.listCount intValue]] stringByAppendingString:@")"];
             
             // set position of number of items in list
-            CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+            CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(500.0f,9999.0f) lineBreakMode:UILineBreakModeTailTruncation];
+#warning - hacky solution because sizeWithFont cuts off the last word regardless of the lineBreakMode set (returns width less than 185 when expected is 185)
+            if (listNameSize.width > 185.0f) {
+                listNameSize.width = 185.0f;
+            }
             CGRect listNameFrame = cell.name.frame;
             listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
             listNameFrame.size.width = listNameSize.width;
             cell.numItemsInList.frame = listNameFrame;
+            NSLog(@"listName width: %f", listNameFrame.size.width);
+//            NSLog(@"listNameFrame origin: %f", listNameFrame.origin.x);
         }
         // date
         cell.date.text = [self timeElapsed:inboxItem.referralDate];
