@@ -175,6 +175,7 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    NSLog(@"attempting to extend access token");
     [self.facebook extendAccessTokenIfNeeded];
 }
 

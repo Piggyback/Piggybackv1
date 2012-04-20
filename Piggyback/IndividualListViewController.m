@@ -317,8 +317,11 @@ double const metersToMilesMultiplier = 0.000621371192;
     //    if (numReferredBy == 0 && size.height > 15) {
     //        size.height = size.height - 20;
     //    }
-        
-        return size.height + 60;
+        if ([[[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] vendorReferralCommentsCount] intValue] > 0) {
+            return size.height + 55;
+        } else {
+            return size.height + 33;
+        }
     }
 }
 

@@ -396,12 +396,12 @@ const CGFloat photoWidth = 320;
     } else if (indexPath.section == vendorReferralsSection) {
         PBVendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
         
-        CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-        
-        if (size.height < FACEBOOKPICHEIGHT)
+        CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(220.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        NSLog(@"size height: %f", size.height);
+        if ((size.height + 12) < FACEBOOKPICHEIGHT)
             return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
         else
-            return size.height + 2*FACEBOOKPICMARGIN + 35;
+            return size.height + 2*FACEBOOKPICMARGIN + 20;
     }
     
     return tableView.rowHeight;
