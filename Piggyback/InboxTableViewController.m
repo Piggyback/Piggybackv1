@@ -17,6 +17,7 @@
 #import "Constants.h"
 #import "InboxTableCell.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MBProgressHUD.h"
 
 @interface InboxTableViewController()
 
@@ -172,6 +173,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
         self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
     } 
 }
@@ -180,7 +182,12 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 {    
     if (objectLoader.userData == @"inboxLoader") {
         // handle case where user has no inbox items
-//        self.inboxItems = [NSArray arrayWithObject:[NSString stringWithString:@"Your inbox is empty!"]];      
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"InboxLastUpdatedAt"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.inboxItems = [[NSArray alloc] init];
+        self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
     } else {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
@@ -192,7 +199,9 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 #pragma mark - UITableViewDataSource methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
-    if ([self.inboxItems count] == 0) {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
+        return 0;
+    } else if ([self.inboxItems count] == 0) {
         // display empty inbox message
         return 1;
     } else {
@@ -229,11 +238,17 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
             cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.list.listCount intValue]] stringByAppendingString:@")"];
             
             // set position of number of items in list
-            CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(195.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+            CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(500.0f,9999.0f) lineBreakMode:UILineBreakModeTailTruncation];
+#warning - hacky solution because sizeWithFont cuts off the last word regardless of the lineBreakMode set (returns width less than 185 when expected is 185)
+            if (listNameSize.width > 185.0f) {
+                listNameSize.width = 185.0f;
+            }
             CGRect listNameFrame = cell.name.frame;
             listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
             listNameFrame.size.width = listNameSize.width;
             cell.numItemsInList.frame = listNameFrame;
+            NSLog(@"listName width: %f", listNameFrame.size.width);
+//            NSLog(@"listNameFrame origin: %f", listNameFrame.origin.x);
         }
         // date
         cell.date.text = [self timeElapsed:inboxItem.referralDate];
@@ -388,20 +403,18 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 {
     [super viewWillAppear:animated];
     
-#warning - eventually move to viewDidLoad. put it here for now because viewLoads before user logs in (modal view)
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
-        [self loadData];
-    } else {
-        [self loadObjectsFromDataStore];
+#warning - eventually move to viewDidLoad. put it here for now because viewLoads before user logs in (modal view). still seems to be a bug extending facebook access_token
+//    if ([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid]) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [self loadData];
+        } else {
+            NSLog(@"loading inbox from core data");
+            [self loadObjectsFromDataStore];
+        }
     }
-    
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    
-//    // re-fetch inbox items for users whenever inbox view appears
-//    NSString* inboxPath = [RK_INBOX_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[defaults objectForKey:@"UID"]];
-//    RKObjectManager* objManager = [RKObjectManager sharedManager];
-//    RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
-//    inboxLoader.userData = @"inboxLoader";
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -431,19 +444,9 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         // set vendor for display on vendor detail view
         [segue.destinationViewController setVendor:inboxItem.vendor];
         
-        // get list of unique people / comments who referred vendor to you and set for next view to display
-//        NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
-//        NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];
-//        for (VendorReferralComment* commentObject in inboxItem.nonUniqueReferralComments) {
-//            if (![uniqueReferrerUIDs containsObject:commentObject.referrer.uid]) {
-//                [uniqueReferrerUIDs addObject:commentObject.referrer.uid];
-//                [uniqueReferralComments addObject:commentObject];
-//            }
-//        }
-//        [(VendorViewController*)segue.destinationViewController setReferralComments:[NSArray arrayWithArray:uniqueReferralComments]];
-        
     } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
         [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];
+        [segue.destinationViewController setFromReferral:YES];
     }
 }
 

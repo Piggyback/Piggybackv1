@@ -137,9 +137,8 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
         self.facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
         self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
-    }
-    
-    if (![self.facebook isSessionValid]) {
+        NSLog(@"fb token expiration date: %@", self.facebook.expirationDate);
+    } else {
         UIStoryboard *iphoneStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
         LoginViewController *loginViewController = [iphoneStoryboard instantiateViewControllerWithIdentifier:@"loginViewController"];
         loginViewController.delegate = rootViewController;
@@ -176,6 +175,7 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    NSLog(@"attempting to extend access token");
     [self.facebook extendAccessTokenIfNeeded];
 }
 

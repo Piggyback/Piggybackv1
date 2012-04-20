@@ -11,6 +11,7 @@
 #import "PBVendorReferralComment.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PBVendorPhoto.h"
+#import "MBProgressHUD.h"
 
 @interface VendorViewController () 
 
@@ -102,8 +103,8 @@ const CGFloat photoWidth = 320;
 
 - (void)loadObjectsFromDataStore {
     self.vendor = [PBVendor findFirstByAttribute:@"vendorID" withValue:self.vendor.vendorID];
-    self.referralComments = [self.vendor.vendorReferralComments allObjects];
-    NSLog(@"referral comments size: %i for vendorID: %@", [self.referralComments count], self.vendor.vendorID);
+    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"referralDate" ascending:YES]];
+    self.referralComments = [self.vendor.vendorReferralComments sortedArrayUsingDescriptors:sortDescriptors];
     [self resizeReferralCommentsTable];
 }
 
@@ -192,6 +193,7 @@ const CGFloat photoWidth = 320;
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
         self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
     }
     
@@ -252,11 +254,12 @@ const CGFloat photoWidth = 320;
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
 {    
     if (objectLoader.userData == @"vendorReferralCommentsLoader") {
-        NSLog(@"no vendor referral comments");   
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
         [[NSUserDefaults standardUserDefaults] synchronize];
         self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+
     } else {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
@@ -393,12 +396,12 @@ const CGFloat photoWidth = 320;
     } else if (indexPath.section == vendorReferralsSection) {
         PBVendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
         
-        CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-        
-        if (size.height < FACEBOOKPICHEIGHT)
+        CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(220.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+        NSLog(@"size height: %f", size.height);
+        if ((size.height + 12) < FACEBOOKPICHEIGHT)
             return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
         else
-            return size.height + 2*FACEBOOKPICMARGIN + 35;
+            return size.height + 2*FACEBOOKPICMARGIN + 20;
     }
     
     return tableView.rowHeight;
@@ -510,6 +513,7 @@ const CGFloat photoWidth = 320;
     }
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self loadData];
     } else {
         [self loadObjectsFromDataStore];

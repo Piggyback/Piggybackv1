@@ -12,9 +12,11 @@
 #import "VendorViewController.h"
 #import "PBVendorReferralComment.h"
 #import "listEntryTableViewCell.h"
+#import "MBProgressHUD.h"
 
 @interface IndividualListViewController()
 
+@property (nonatomic, strong) NSArray* sortedDateListEntrys;
 @property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView;
 @property BOOL reloading;
 
@@ -22,7 +24,8 @@
 
 @implementation IndividualListViewController
 
-NSString* const RK_LIST_ENTRYS_ID_RESOURCE_PATH = @"listapi/coreDataListEntrys/user/"; // ?/list/?";
+NSString* const RK_LIST_ENTRYS_ID_RESOURCE_PATH = @"listapi/coreDataListEntrys/user/"; // ?/list/?
+NSString* const RK_MY_LIST_ENTRYS_ID_RESOURCE_PATH = @"listapi/coreDataMyListEntrys/user/"; // ?/list/?
 double const metersToMilesMultiplier = 0.000621371192;
 
 @synthesize list = _list;
@@ -31,8 +34,10 @@ double const metersToMilesMultiplier = 0.000621371192;
 @synthesize locationController = _locationController;
 @synthesize segmentedControl = _segmentedControl;
 @synthesize scrollView = _scrollView;
+@synthesize sortedDateListEntrys = _sortedDateListEntrys;
 @synthesize refreshHeaderView = _refreshHeaderView;
 @synthesize reloading = _reloading;
+@synthesize fromReferral = _fromReferral;
 
 #pragma mark - Getters and Setters
 
@@ -70,19 +75,22 @@ double const metersToMilesMultiplier = 0.000621371192;
 
 - (void)loadObjectsFromDataStore {
     self.list = [PBList findFirstByAttribute:@"listID" withValue:self.list.listID];
-    for (PBListEntry* currentEntry in [self.list.listEntrys allObjects]) {
+    NSArray* sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"addedDate" ascending:YES]];
+    self.sortedDateListEntrys = [self.list.listEntrys sortedArrayUsingDescriptors:sortDescriptors];
+    
+    for (PBListEntry* currentEntry in self.sortedDateListEntrys) {
         currentEntry.vendor.distanceFromCurrentLocationInMiles = -1;
     }
     
     switch (self.segmentedControl.selectedSegmentIndex) {
         case 0:
             // most popular          
-            [self sortListEntrysByMostRecommendations];
+            [self sortListEntrysByMostRecommendations:self.sortedDateListEntrys];
             [self calculateDistanceOnViewWillAppear];
             break;
         case 1:
             // nearby
-            [self sortListEntrysByDistance];
+            [self sortListEntrysByDistance:self.sortedDateListEntrys];
             break;
             
         default:
@@ -93,15 +101,20 @@ double const metersToMilesMultiplier = 0.000621371192;
 - (void)loadData {
     // Load the object model via RestKit
     self.reloading = YES;
-    NSString* listEntrysPath = [RK_LIST_ENTRYS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@/list/%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"], self.list.listID];
+    NSString* listEntrysPath;
+    if (!self.fromReferral) {
+        listEntrysPath = [RK_MY_LIST_ENTRYS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@/list/%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"], self.list.listID];
+    } else {
+        listEntrysPath = [RK_LIST_ENTRYS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@/list/%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"], self.list.listID];
+    }
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* listEntrysLoader = [objManager loadObjectsAtResourcePath:listEntrysPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"listEntry"] delegate:self];
     listEntrysLoader.userData = @"listEntrysLoader";
 }
 
-- (void)sortListEntrysByMostRecommendations
+- (void)sortListEntrysByMostRecommendations:(NSArray *)listEntrys
 {
-    NSArray* listEntrys = [[self.list.listEntrys allObjects] sortedArrayUsingComparator: ^(PBListEntry* a, PBListEntry* b) {
+    self.shownListEntrys = [listEntrys sortedArrayUsingComparator: ^(PBListEntry* a, PBListEntry* b) {
         if ([a.vendor.vendorReferralCommentsCount intValue] < [b.vendor.vendorReferralCommentsCount intValue]) {
             return (NSComparisonResult)NSOrderedDescending;
         } else if ([a.vendor.vendorReferralCommentsCount intValue] > [b.vendor.vendorReferralCommentsCount intValue]) {
@@ -110,25 +123,21 @@ double const metersToMilesMultiplier = 0.000621371192;
             return (NSComparisonResult)NSOrderedSame;
         }
     }];
-    
-    self.shownListEntrys = listEntrys;
 }
 
-- (void)sortListEntrysByDistance
+- (void)sortListEntrysByDistance:(NSArray *)listEntrys
 {
 //    // get the current location in a separate thread (blocking occurs until location is retrieved)
     dispatch_queue_t getCurrentLocationQueue = dispatch_queue_create("getCurrentLocation", NULL);
     dispatch_async(getCurrentLocationQueue, ^{
         CLLocation* currentLocation = [self.locationController getCurrentLocationAndStopLocationManager];
         dispatch_async(dispatch_get_main_queue(), ^{
-            // compare distances of listEntrys and store in a temp array
-            NSArray* listEntrys;
             if ([self.list.listEntrys count] == 1) {
-                PBListEntry* currentListEntry = [[self.list.listEntrys allObjects] objectAtIndex:0];
+                PBListEntry* currentListEntry = [listEntrys objectAtIndex:0];
                 currentListEntry.vendor.distanceFromCurrentLocationInMiles = [[[CLLocation alloc] initWithLatitude:(CLLocationDegrees)[currentListEntry.vendor.lat doubleValue] longitude:(CLLocationDegrees)[currentListEntry.vendor.lng doubleValue]] distanceFromLocation:currentLocation] * metersToMilesMultiplier;
-                listEntrys = [NSArray arrayWithObject:currentListEntry];
+                self.shownListEntrys = [NSArray arrayWithObject:currentListEntry];
             } else {
-                listEntrys = [[self.list.listEntrys allObjects] sortedArrayUsingComparator: ^(PBListEntry* a, PBListEntry* b) {
+                self.shownListEntrys = [listEntrys sortedArrayUsingComparator: ^(PBListEntry* a, PBListEntry* b) {
                     // store distance in current list entry
                     CLLocation* locationA = [[CLLocation alloc] initWithLatitude:(CLLocationDegrees)[a.vendor.lat doubleValue] longitude:(CLLocationDegrees)[a.vendor.lng doubleValue]];
                     CLLocation* locationB = [[CLLocation alloc] initWithLatitude:(CLLocationDegrees)[b.vendor.lat doubleValue] longitude:(CLLocationDegrees)[b.vendor.lng doubleValue]];
@@ -148,8 +157,6 @@ double const metersToMilesMultiplier = 0.000621371192;
                     }
                 }];
             }
-            
-            self.shownListEntrys = listEntrys;
         });
     });
     dispatch_release(getCurrentLocationQueue);
@@ -180,6 +187,7 @@ double const metersToMilesMultiplier = 0.000621371192;
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
         self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
     } 
 }
@@ -188,7 +196,12 @@ double const metersToMilesMultiplier = 0.000621371192;
 {    
     if (objectLoader.userData == @"listEntrysLoader") {
         // handle case where user has no inbox items
-        NSLog(@"list is empty");     
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.shownListEntrys = [[NSArray alloc] init];
+        self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
     } else {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
@@ -201,7 +214,9 @@ double const metersToMilesMultiplier = 0.000621371192;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.shownListEntrys count] == 0) {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]]) {
+        return 0;
+    } else if ([self.shownListEntrys count] == 0) {
         return 1;
     } else {
         return [self.shownListEntrys count];
@@ -302,8 +317,11 @@ double const metersToMilesMultiplier = 0.000621371192;
     //    if (numReferredBy == 0 && size.height > 15) {
     //        size.height = size.height - 20;
     //    }
-        
-        return size.height + 60;
+        if ([[[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] vendorReferralCommentsCount] intValue] > 0) {
+            return size.height + 55;
+        } else {
+            return size.height + 33;
+        }
     }
 }
 
@@ -379,6 +397,7 @@ double const metersToMilesMultiplier = 0.000621371192;
     }
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self loadData];
     } else {
         [self loadObjectsFromDataStore];
@@ -437,11 +456,11 @@ double const metersToMilesMultiplier = 0.000621371192;
     switch (self.segmentedControl.selectedSegmentIndex) {
         case 0:
             // most popular          
-            [self sortListEntrysByMostRecommendations];
+            [self sortListEntrysByMostRecommendations:self.sortedDateListEntrys];
             break;
         case 1:
             // nearby
-            [self sortListEntrysByDistance];
+            [self sortListEntrysByDistance:self.sortedDateListEntrys];
             break;
             
         default:
