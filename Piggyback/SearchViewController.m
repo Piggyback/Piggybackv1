@@ -10,6 +10,7 @@
 #import "JSONKit.h"
 #import "SearchTableViewCell.h"
 #import "LocationController.h"
+#import "VendorViewController.h"
 
 @interface SearchViewController ()
 
@@ -223,7 +224,7 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
 #pragma mark - table view delegate 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 #pragma mark - view lifecycle
@@ -250,8 +251,8 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
     self.location.frame = CGRectMake(self.location.frame.origin.x,self.location.frame.origin.y,self.location.frame.size.width,25);
     
     // tap outside of textfield hides keyboard
-    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-    [self.searchResultsTable addGestureRecognizer:gestureRecognizer];
+//    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+//    [self.searchResultsTable addGestureRecognizer:gestureRecognizer];
 }
 
 - (void)viewDidUnload
@@ -264,6 +265,29 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"searchToVendor"]) {
+        // set VendorViewController's vendor to selected vendor
+        PBVendor* selectedVendor = [PBVendor object];
+        NSDictionary* vendorDetails = [[self.searchResponse objectForKey:@"venues"] objectAtIndex:[self.searchResultsTable indexPathForCell:sender].row];
+        selectedVendor.vendorID = [vendorDetails objectForKey:@"id"];
+        selectedVendor.name = [vendorDetails objectForKey:@"name"];
+        selectedVendor.lat = [[vendorDetails objectForKey:@"location"] objectForKey:@"lat"];
+        selectedVendor.lng = [[vendorDetails objectForKey:@"location"] objectForKey:@"lng"];
+        selectedVendor.phone = [[vendorDetails objectForKey:@"contact"] objectForKey:@"phone"];
+        selectedVendor.addr = [[vendorDetails objectForKey:@"location"] objectForKey:@"address"];
+        selectedVendor.addrCrossStreet = [[vendorDetails objectForKey:@"location"] objectForKey:@"crossStreet"];
+        selectedVendor.addrCity = [[vendorDetails objectForKey:@"location"] objectForKey:@"city"];
+        selectedVendor.addrState = [[vendorDetails objectForKey:@"location"] objectForKey:@"state"];
+        selectedVendor.addrCountry = [[vendorDetails objectForKey:@"location"] objectForKey:@"country"];
+        selectedVendor.addrZip = [[vendorDetails objectForKey:@"location"] objectForKey:@"postalCode"];
+//        selectedVendor.website = // no website without extra api call?
+        
+        [(VendorViewController*)segue.destinationViewController setVendor:selectedVendor];
+    }
 }
 
 @end

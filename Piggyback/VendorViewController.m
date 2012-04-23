@@ -103,8 +103,10 @@ const CGFloat photoWidth = 320;
 
 - (void)loadObjectsFromDataStore {
     self.vendor = [PBVendor findFirstByAttribute:@"vendorID" withValue:self.vendor.vendorID];
+    NSLog(@"vendor: %@", self.vendor);
     NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"referralDate" ascending:YES]];
     self.referralComments = [self.vendor.vendorReferralComments sortedArrayUsingDescriptors:sortDescriptors];
+    NSLog(@"referral comments: %@", self.referralComments);
     [self resizeReferralCommentsTable];
 }
 
@@ -115,6 +117,7 @@ const CGFloat photoWidth = 320;
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* vendorReferralCommentsLoader = [objManager loadObjectsAtResourcePath:vendorReferralCommentsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"referralComment"] delegate:self];
     vendorReferralCommentsLoader.userData = @"vendorReferralCommentsLoader";
+    NSLog(@"loading data from api");
 }
 
 - (void)resizeReferralCommentsTable
