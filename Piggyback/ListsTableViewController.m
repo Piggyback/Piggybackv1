@@ -66,6 +66,7 @@ NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com 
     NSString* listsPath = [RK_LISTS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* listsLoader = [objManager loadObjectsAtResourcePath:listsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"list"] delegate:self];
+    NSLog(@"list table view controllerp ath is %@",listsPath);
     listsLoader.userData = @"listsLoader";
 }
 

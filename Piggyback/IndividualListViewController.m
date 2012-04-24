@@ -24,8 +24,8 @@
 
 @implementation IndividualListViewController
 
-NSString* const RK_LIST_ENTRYS_ID_RESOURCE_PATH = @"listapi/coreDataListEntrys/user/"; // ?/list/?
-NSString* const RK_MY_LIST_ENTRYS_ID_RESOURCE_PATH = @"listapi/coreDataMyListEntrys/user/"; // ?/list/?
+NSString* const RK_LIST_ENTRYS_ID_RESOURCE_PATH = @"/listapi/coreDataListEntrys/user/"; // ?/list/?
+NSString* const RK_MY_LIST_ENTRYS_ID_RESOURCE_PATH = @"/listapi/coreDataMyListEntrys/user/"; // ?/list/?
 double const metersToMilesMultiplier = 0.000621371192;
 
 @synthesize list = _list;
@@ -104,8 +104,10 @@ double const metersToMilesMultiplier = 0.000621371192;
     NSString* listEntrysPath;
     if (!self.fromReferral) {
         listEntrysPath = [RK_MY_LIST_ENTRYS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@/list/%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"], self.list.listID];
+        NSLog(@"my list!!!!!!!!!!! is called %@",listEntrysPath);
     } else {
         listEntrysPath = [RK_LIST_ENTRYS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@/list/%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"], self.list.listID];
+        NSLog(@"NOT my list!!!!!!!!!!!");
     }
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* listEntrysLoader = [objManager loadObjectsAtResourcePath:listEntrysPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"listEntry"] delegate:self];
@@ -435,6 +437,7 @@ double const metersToMilesMultiplier = 0.000621371192;
     if ([[segue identifier] isEqualToString:@"goToVendorFromListEntry"]) {
         // set VendorViewController's vendor to selected vendor
         [(VendorViewController*)segue.destinationViewController setVendor:[[self.shownListEntrys objectAtIndex:[self.listEntryTableView indexPathForCell:sender].row] vendor]];
+        [(VendorViewController*)segue.destinationViewController setSource:@"list"];
         
 //        NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
 //        NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];

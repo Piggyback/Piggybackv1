@@ -40,6 +40,7 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
 @synthesize photos = _photos;
 @synthesize photoScrollView = _photoScrollView;
 @synthesize photoPageControl = _photoPageControl;
+@synthesize source = _source;
 
 @synthesize hasAddress = _hasAddress;
 @synthesize hasPhone = _hasPhone;
@@ -97,6 +98,17 @@ const CGFloat photoWidth = 320;
 {
     _referralComments = referralComments;
     [self.vendorTableView reloadData];
+}
+
+- (NSString*)source {
+    if (_source == nil) {
+        _source = [[NSString alloc] init];
+    }
+    return _source;
+}
+
+- (void)setSource:(NSString *)source {
+    _source = source;
 }
 
 #pragma mark - Private Helper Methods
@@ -192,9 +204,14 @@ const CGFloat photoWidth = 320;
 {
     // retrieve data from API and use information for displaying
     if(objectLoader.userData == @"vendorReferralCommentsLoader") {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self loadObjectsFromDataStore];
+        if ([self.source isEqualToString:@"search"]) {
+            self.referralComments = objects;
+            [self resizeReferralCommentsTable];
+        } else {
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [self loadObjectsFromDataStore];
+        }
         self.reloading = NO;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
@@ -515,11 +532,21 @@ const CGFloat photoWidth = 320;
         self.scrollView.alwaysBounceVertical = YES;
     }
     
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
+    // if vendor from search
+    if ([self.source isEqualToString:@"search"]) {
+        NSLog(@"YAYY!");
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self loadData];
-    } else {
-        [self loadObjectsFromDataStore];
+    } 
+    
+    // if vendor from list or inbox
+    else {
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [self loadData];
+        } else {
+            [self loadObjectsFromDataStore];
+        }
     }
     
     // update the last update date

@@ -76,6 +76,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     // Load the object model via RestKit
     self.reloading = YES;
     NSString* inboxPath = [RK_INBOX_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
+    NSLog(@"inbox path is %@",inboxPath);
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
     inboxLoader.userData = @"inboxLoader";
@@ -443,6 +444,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     if([[segue identifier] isEqualToString:@"inboxToVendor"]) {
         // set vendor for display on vendor detail view
         [segue.destinationViewController setVendor:inboxItem.vendor];
+        [segue.destinationViewController setSource:@"inboxVendorReferral"];
         
     } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
         [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];

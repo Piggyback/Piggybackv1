@@ -287,6 +287,7 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
 //        selectedVendor.website = // no website without extra api call?
         
         [(VendorViewController*)segue.destinationViewController setVendor:selectedVendor];
+        [(VendorViewController*)segue.destinationViewController setSource:@"search"];
     }
 }
 

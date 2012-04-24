@@ -21,4 +21,6 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *photoScrollView;
 @property (weak, nonatomic) IBOutlet UIPageControl *photoPageControl;
 
+@property (nonatomic, strong) NSString* source;
+
 @end
