@@ -22,5 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIPageControl *photoPageControl;
 
 @property (nonatomic, strong) NSString* source;
+@property (nonatomic, strong) NSMutableData *responseData; // raw vendor data from 4sq API call
+@property (nonatomic, strong) NSDictionary* detailsResponse; // JSON formatted vendor data from 4sq API call
 
 @end

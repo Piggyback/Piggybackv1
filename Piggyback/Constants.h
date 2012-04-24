@@ -13,6 +13,7 @@
 extern float const FACEBOOKPICWIDTH;
 extern float const FACEBOOKPICHEIGHT;
 extern float const FACEBOOKPICMARGIN;
-
+extern NSString* const FOURSQUARECLIENTID;
+extern NSString* const FOURSQUARECLIENTSECRET;
 @end
 

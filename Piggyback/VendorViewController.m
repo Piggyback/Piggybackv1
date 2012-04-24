@@ -12,6 +12,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PBVendorPhoto.h"
 #import "MBProgressHUD.h"
+#import "JSONKit.h"
+#import "PBVendorPhoto.h"
 
 @interface VendorViewController () 
 
@@ -41,6 +43,8 @@ NSString* const RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH = @"vendorapi/coreD
 @synthesize photoScrollView = _photoScrollView;
 @synthesize photoPageControl = _photoPageControl;
 @synthesize source = _source;
+@synthesize responseData = _responseData;
+@synthesize detailsResponse = _detailsResponse;
 
 @synthesize hasAddress = _hasAddress;
 @synthesize hasPhone = _hasPhone;
@@ -111,6 +115,13 @@ const CGFloat photoWidth = 320;
     _source = source;
 }
 
+- (NSMutableData*)responseData {
+    if (_responseData == nil) {
+        _responseData = [[NSMutableData alloc] init];
+    }
+    return _responseData;
+}
+
 #pragma mark - Private Helper Methods
 
 - (void)loadObjectsFromDataStore {
@@ -177,6 +188,92 @@ const CGFloat photoWidth = 320;
     [self.photoScrollView setContentSize:CGSizeMake([self.photos count] * photoWidth,self.photoScrollView.bounds.size.height)];
 }
 
+- (void)displayPhotos {
+    [self.photoPageControl setNumberOfPages:[self.photos count]];
+    [self.photoPageControl setCurrentPage:0];
+    
+    if ([self.photos count] > 0) {
+        // create new thread
+        dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
+        dispatch_queue_t downloadOtherImagesQueue = dispatch_queue_create("downloadOtherImages",NULL);
+        
+        // show first photo immediately
+        dispatch_async(downloadImageQueue, ^{
+            
+            PBVendorPhoto* firstPhoto = [self.photos objectAtIndex:0];
+            NSString* squareFirstPhotoString = [[firstPhoto.photoURL stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
+            UIImage *firstImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:squareFirstPhotoString]]];
+            UIImageView *firstImageView = [[UIImageView alloc] initWithImage:firstImage];
+            firstImageView.contentMode = UIViewContentModeScaleAspectFill;
+            firstImageView.tag = 0;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                firstImageView.frame = CGRectMake(0,0,photoWidth,photoHeight);
+                [self.photoScrollView addSubview:firstImageView];
+            });
+        });
+        
+        // download the rest of the photos
+        dispatch_async(downloadOtherImagesQueue, ^{
+            for (int i = 1; i < [self.photos count]; i++) {
+                NSString* squarePhotoString = [[[[self.photos objectAtIndex:i] photoURL] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
+                UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:squarePhotoString]]];
+                UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                imageView.contentMode = UIViewContentModeScaleAspectFill;
+                CGRect rect = imageView.frame;
+                rect.size.height = photoHeight;
+                rect.size.width = photoWidth;
+                imageView.frame = rect;
+                imageView.tag = i;
+                [self.photoScrollView addSubview:imageView];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self layoutPhotoScrollImages];
+            });
+        });
+    } else {
+        // display icon for no picture
+        NSLog(@"no photo");
+        UIImage *image = [UIImage imageNamed:@"no_photo.png"];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        [self.photoScrollView addSubview:imageView];
+    }
+}
+
+#pragma mark - nsurlconnection delegate methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    [self.responseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.responseData appendData:data];
+    NSLog(@"received data from details request : %@",data);
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSLog(@"%@",[NSString stringWithFormat:@"Connection failed: %@", [error description]]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    self.detailsResponse = [[[[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding] objectFromJSONString] objectForKey:@"response"];
+    self.vendor.website = [[self.detailsResponse objectForKey:@"venue"] objectForKey:@"url"];
+    
+    NSMutableArray* photos = [[NSMutableArray alloc] init];
+    for (NSDictionary* group in [[[self.detailsResponse objectForKey:@"venue"] objectForKey:@"photos"] objectForKey:@"groups"]) {
+        for (NSDictionary* photo in [group objectForKey:@"items"]) {
+            PBVendorPhoto* newPhoto = [[PBVendorPhoto alloc] init];
+            newPhoto.pid = [photo objectForKey:@"id"];
+            newPhoto.photoURL = [photo objectForKey:@"url"];
+            newPhoto.vid = self.vendor.vendorID;
+            [photos addObject:newPhoto];
+        }
+    }
+    self.photos = [photos copy]; 
+    [self displayPhotos];
+    
+//    [self.searchResultsTable reloadData];
+}
+
 #pragma mark - RKObjectLoaderDelegate methods
 - (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
     if (loader.userData == @"vendorReferralCommentsLoader") {
@@ -219,55 +316,7 @@ const CGFloat photoWidth = 320;
     
     if(objectLoader.userData == @"vendorPhotoLoader") {
         self.photos = objects;
-        [self.photoPageControl setNumberOfPages:[self.photos count]];
-        [self.photoPageControl setCurrentPage:0];
-
-        if ([self.photos count] > 0) {
-            // create new thread
-            dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
-            dispatch_queue_t downloadOtherImagesQueue = dispatch_queue_create("downloadOtherImages",NULL);
-
-            // show first photo immediately
-            dispatch_async(downloadImageQueue, ^{
-
-                PBVendorPhoto* firstPhoto = [self.photos objectAtIndex:0];
-                NSString* squareFirstPhotoString = [[firstPhoto.photoURL stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
-                UIImage *firstImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:squareFirstPhotoString]]];
-                UIImageView *firstImageView = [[UIImageView alloc] initWithImage:firstImage];
-                firstImageView.contentMode = UIViewContentModeScaleAspectFill;
-                firstImageView.tag = 0;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    firstImageView.frame = CGRectMake(0,0,photoWidth,photoHeight);
-                    [self.photoScrollView addSubview:firstImageView];
-                });
-            });
-
-            // download the rest of the photos
-            dispatch_async(downloadOtherImagesQueue, ^{
-                for (int i = 1; i < [self.photos count]; i++) {
-                    NSString* squarePhotoString = [[[[self.photos objectAtIndex:i] photoURL] stringByReplacingOccurrencesOfString:@".jpg" withString:@"_300x300.jpg"] stringByReplacingOccurrencesOfString:@"pix" withString:@"derived_pix"];
-                    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:squarePhotoString]]];
-                    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-                    imageView.contentMode = UIViewContentModeScaleAspectFill;
-                        CGRect rect = imageView.frame;
-                        rect.size.height = photoHeight;
-                        rect.size.width = photoWidth;
-                        imageView.frame = rect;
-                        imageView.tag = i;
-                        [self.photoScrollView addSubview:imageView];
-                }
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self layoutPhotoScrollImages];
-                });
-            });
-
-        } else {
-            // display icon for no picture
-            NSLog(@"no photo");
-            UIImage *image = [UIImage imageNamed:@"no_photo.png"];
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-            [self.photoScrollView addSubview:imageView];
-        }
+        [self displayPhotos];
     } 
 }
 
@@ -519,11 +568,6 @@ const CGFloat photoWidth = 320;
     frame.size.height = frame.size.height/2;
     self.photoPageControl.frame = frame;
     
-    NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vendorID];
-    NSLog(@"path to get vendor photos is %@",vendorPhotoPath);
-    RKObjectManager* objManager = [RKObjectManager sharedManager];
-    RKObjectLoader* vendorPhotoLoader = [objManager loadObjectsAtResourcePath:vendorPhotoPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor-photo"] delegate:self];
-    vendorPhotoLoader.userData = @"vendorPhotoLoader";
     if (self.refreshHeaderView == nil) {
         EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, -180.0f, self.view.frame.size.width, 180.0f) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
         view.delegate = self;
@@ -532,15 +576,30 @@ const CGFloat photoWidth = 320;
         self.scrollView.alwaysBounceVertical = YES;
     }
     
-    // if vendor from search
+#warning - spinner disappears before photos are loaded
     if ([self.source isEqualToString:@"search"]) {
-        NSLog(@"YAYY!");
+        // get photos form foursquare API (vendor not guaranteed to be in pb db)
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"yyyyMMdd"];
+        NSDate* now = [NSDate date];
+        NSString *date = [dateFormat stringFromDate:now];
+        
+        NSURLRequest *detailsRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@?client_id=%@&client_secret=%@&v=%@",self.vendor.vendorID,FOURSQUARECLIENTID,FOURSQUARECLIENTSECRET,date]]];
+        NSLog(@"details request url is %@",detailsRequest);
+        NSURLConnection *detailsConnection = [[NSURLConnection alloc] initWithRequest:detailsRequest delegate:self];
+        
+        // get referral comments
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self loadData];
-    } 
-    
-    // if vendor from list or inbox
-    else {
+    } else {
+        // get photos from piggyback API (vendor guaranteed to be in pb db)
+        NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vendorID];
+        NSLog(@"path to get vendor photos is %@",vendorPhotoPath);
+        RKObjectManager* objManager = [RKObjectManager sharedManager];
+        RKObjectLoader* vendorPhotoLoader = [objManager loadObjectsAtResourcePath:vendorPhotoPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor-photo"] delegate:self];
+        vendorPhotoLoader.userData = @"vendorPhotoLoader";
+        
+        // get referral comments
         if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [self loadData];

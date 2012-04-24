@@ -11,6 +11,7 @@
 #import "SearchTableViewCell.h"
 #import "LocationController.h"
 #import "VendorViewController.h"
+#import "Constants.h"
 
 @interface SearchViewController ()
 
@@ -29,8 +30,6 @@
 const NSString* radius = @"10000000";
 const NSString* intent = @"checkin";
 const NSString* limit = @"20";
-const NSString* clientID = @"LQYMHEIG05TK2HIQJGJ3MUGDNBAW1OKJKM4SSUFNYGSQMQIZ";
-const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OLX";
 
 #pragma mark - getters and setters
 
@@ -148,7 +147,7 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
         NSDate* now = [NSDate date];
         NSString *date = [dateFormat stringFromDate:now];
         
-        NSURLRequest *searchRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@",@"https://api.foursquare.com/v2/venues/search?query=",query,@"&ll=",latlng,@"&radius=",radius,@"&intent=",intent,@"&limit=",limit,@"&client_id=",clientID,@"&client_secret=",clientSecret,@"&v=",date]]];
+        NSURLRequest *searchRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@",@"https://api.foursquare.com/v2/venues/search?query=",query,@"&ll=",latlng,@"&radius=",radius,@"&intent=",intent,@"&limit=",limit,@"&client_id=",FOURSQUARECLIENTID,@"&client_secret=",FOURSQUARECLIENTSECRET,@"&v=",date]]];
         NSURLConnection *searchConnection = [[NSURLConnection alloc] initWithRequest:searchRequest delegate:self];
         self.searchConnection = searchConnection;
     }
@@ -270,7 +269,7 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"searchToVendor"]) {
-        // set VendorViewController's vendor to selected vendor
+        // set VendorViewController's vendor to selected vendor; website populated later with detailed venue call
         PBVendor* selectedVendor = [PBVendor object];
         NSDictionary* vendorDetails = [[self.searchResponse objectForKey:@"venues"] objectAtIndex:[self.searchResultsTable indexPathForCell:sender].row];
         selectedVendor.vendorID = [vendorDetails objectForKey:@"id"];
@@ -284,8 +283,7 @@ const NSString* clientSecret = @"AXDTUGX5AA1DXDI2HUWVSODSFGKIK2RQYYGUWSUBDC0R5OL
         selectedVendor.addrState = [[vendorDetails objectForKey:@"location"] objectForKey:@"state"];
         selectedVendor.addrCountry = [[vendorDetails objectForKey:@"location"] objectForKey:@"country"];
         selectedVendor.addrZip = [[vendorDetails objectForKey:@"location"] objectForKey:@"postalCode"];
-//        selectedVendor.website = // no website without extra api call?
-        
+#warning - in search view controller, referral comments are not set in vendor? just in search view controller
         [(VendorViewController*)segue.destinationViewController setVendor:selectedVendor];
         [(VendorViewController*)segue.destinationViewController setSource:@"search"];
     }
