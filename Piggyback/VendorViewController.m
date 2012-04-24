@@ -186,6 +186,7 @@ const CGFloat photoWidth = 320;
     
     // set width of photo scroll view to fit all images
     [self.photoScrollView setContentSize:CGSizeMake([self.photos count] * photoWidth,self.photoScrollView.bounds.size.height)];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)displayPhotos {
@@ -236,6 +237,7 @@ const CGFloat photoWidth = 320;
         UIImage *image = [UIImage imageNamed:@"no_photo.png"];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         [self.photoScrollView addSubview:imageView];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
 }
 
@@ -310,7 +312,7 @@ const CGFloat photoWidth = 320;
             [self loadObjectsFromDataStore];
         }
         self.reloading = NO;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
     }
     
@@ -326,7 +328,7 @@ const CGFloat photoWidth = 320;
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
         [[NSUserDefaults standardUserDefaults] synchronize];
         self.reloading = NO;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
 
     } else {
@@ -576,8 +578,9 @@ const CGFloat photoWidth = 320;
         self.scrollView.alwaysBounceVertical = YES;
     }
     
-#warning - spinner disappears before photos are loaded
     if ([self.source isEqualToString:@"search"]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
         // get photos form foursquare API (vendor not guaranteed to be in pb db)
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"yyyyMMdd"];
@@ -589,7 +592,6 @@ const CGFloat photoWidth = 320;
         NSURLConnection *detailsConnection = [[NSURLConnection alloc] initWithRequest:detailsRequest delegate:self];
         
         // get referral comments
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self loadData];
     } else {
         // get photos from piggyback API (vendor guaranteed to be in pb db)
