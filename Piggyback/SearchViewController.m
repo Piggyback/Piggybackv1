@@ -283,7 +283,8 @@ const NSString* limit = @"20";
         selectedVendor.addrState = [[vendorDetails objectForKey:@"location"] objectForKey:@"state"];
         selectedVendor.addrCountry = [[vendorDetails objectForKey:@"location"] objectForKey:@"country"];
         selectedVendor.addrZip = [[vendorDetails objectForKey:@"location"] objectForKey:@"postalCode"];
-#warning - in search view controller, referral comments are not set in vendor? just in search view controller
+#warning - assignedinboxitems and assignedlistentrys in vendor are not set in vendor vc
+        
         [(VendorViewController*)segue.destinationViewController setVendor:selectedVendor];
         [(VendorViewController*)segue.destinationViewController setSource:@"search"];
     }

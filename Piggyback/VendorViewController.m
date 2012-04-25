@@ -305,6 +305,12 @@ const CGFloat photoWidth = 320;
     if(objectLoader.userData == @"vendorReferralCommentsLoader") {
         if ([self.source isEqualToString:@"search"]) {
             self.referralComments = objects;
+            
+            // set vendor attributes
+            NSSet* vendorReferralComments = [NSSet setWithArray:objects];
+            self.vendor.vendorReferralComments = [vendorReferralComments mutableCopy];
+            self.vendor.vendorReferralCommentsCount = [NSNumber numberWithUnsignedInt:[objects count]];
+
             [self resizeReferralCommentsTable];
         } else {
             [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
@@ -312,7 +318,6 @@ const CGFloat photoWidth = 320;
             [self loadObjectsFromDataStore];
         }
         self.reloading = NO;
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
     }
     
@@ -328,7 +333,6 @@ const CGFloat photoWidth = 320;
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
         [[NSUserDefaults standardUserDefaults] synchronize];
         self.reloading = NO;
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
 
     } else {

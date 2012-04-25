@@ -24,7 +24,8 @@
     // release existing view controllers and create new instances for next user who logs in
     UIViewController* inboxNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"inboxNavigationController"];
     UIViewController* listsNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"listsNavigationController"];
-    NSArray* newTabViewControllers = [NSArray arrayWithObjects:inboxNavigationController, listsNavigationController, nil];
+    UIViewController* searchNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"searchNavigationController"];
+    NSArray* newTabViewControllers = [NSArray arrayWithObjects:inboxNavigationController, listsNavigationController, searchNavigationController, nil];
     self.viewControllers = newTabViewControllers;
     self.selectedIndex = 0;
 }

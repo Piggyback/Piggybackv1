@@ -555,7 +555,7 @@
         <scene sceneID="KxQ-JU-q0G">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vni-9n-E3B" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController id="hsd-4q-cya" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="searchNavigationController" id="hsd-4q-cya" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Search" image="Search magnfiying glass tab bar engraved 30x30 300dpi.png" id="fS6-78-Vea"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3HQ-t5-KhM">
