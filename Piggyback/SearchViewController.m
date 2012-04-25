@@ -255,8 +255,9 @@ const NSString* limit = @"20";
     self.location.frame = CGRectMake(self.location.frame.origin.x,self.location.frame.origin.y,self.location.frame.size.width,25);
     
     // tap outside of textfield hides keyboard
-//    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-//    [self.searchResultsTable addGestureRecognizer:gestureRecognizer];
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    gestureRecognizer.cancelsTouchesInView = NO;
+    [self.searchResultsTable addGestureRecognizer:gestureRecognizer];
 }
 
 - (void)viewDidUnload
