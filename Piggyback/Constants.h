@@ -15,5 +15,9 @@ extern float const FACEBOOKPICHEIGHT;
 extern float const FACEBOOKPICMARGIN;
 extern NSString* const FOURSQUARECLIENTID;
 extern NSString* const FOURSQUARECLIENTSECRET;
+extern NSString* const RK_LISTS_ID_RESOURCE_PATH;
+extern NSString* const NO_LISTS_TEXT;
+extern NSString* const NO_LISTS_DETAILED_TEXT;
+
 @end
 

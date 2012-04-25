@@ -12,6 +12,7 @@
 #import "PBVendorReferralComment.h"
 #import "IndividualListViewController.h"
 #import "MBProgressHUD.h"
+#import "Constants.h"
 
 @interface ListsTableViewController ()
 
@@ -22,11 +23,6 @@
 @end
 
 @implementation ListsTableViewController
-
-//NSString* const RK_LIST_ENTRYS_INCOMING_REFERRALS_ID_RESOURCE_PATH = @"/listapi/listsAndEntrysAndIncomingReferrals/id/";
-NSString* const RK_LISTS_ID_RESOURCE_PATH = @"/listapi/coreDataLists/id/";
-NSString* const NO_LISTS_TEXT = @"You don't have any lists!";
-NSString* const NO_LISTS_DETAILED_TEXT = @"Create lists at www.getpiggyback.com and stay tuned for mobile app updates!";
 
 @synthesize lists = _lists;
 @synthesize currentPbAPICall = _currentPbAPICall;

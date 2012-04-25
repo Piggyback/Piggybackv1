@@ -180,7 +180,6 @@ const CGFloat photoWidth = 320;
             photo.frame = frame;
             
             curXLoc += (photoWidth);
-            NSLog(@"first photo should appear already!");
         }
     }
     
@@ -233,7 +232,6 @@ const CGFloat photoWidth = 320;
         });
     } else {
         // display icon for no picture
-        NSLog(@"no photo");
         UIImage *image = [UIImage imageNamed:@"no_photo.png"];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         [self.photoScrollView addSubview:imageView];
@@ -249,7 +247,6 @@ const CGFloat photoWidth = 320;
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [self.responseData appendData:data];
-    NSLog(@"received data from details request : %@",data);
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -472,7 +469,6 @@ const CGFloat photoWidth = 320;
         PBVendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
         
         CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(220.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-        NSLog(@"size height: %f", size.height);
         if ((size.height + 12) < FACEBOOKPICHEIGHT)
             return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
         else
@@ -592,7 +588,6 @@ const CGFloat photoWidth = 320;
         NSString *date = [dateFormat stringFromDate:now];
         
         NSURLRequest *detailsRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@?client_id=%@&client_secret=%@&v=%@",self.vendor.vendorID,FOURSQUARECLIENTID,FOURSQUARECLIENTSECRET,date]]];
-        NSLog(@"details request url is %@",detailsRequest);
         NSURLConnection *detailsConnection = [[NSURLConnection alloc] initWithRequest:detailsRequest delegate:self];
         
         // get referral comments
@@ -600,7 +595,6 @@ const CGFloat photoWidth = 320;
     } else {
         // get photos from piggyback API (vendor guaranteed to be in pb db)
         NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vendorID];
-        NSLog(@"path to get vendor photos is %@",vendorPhotoPath);
         RKObjectManager* objManager = [RKObjectManager sharedManager];
         RKObjectLoader* vendorPhotoLoader = [objManager loadObjectsAtResourcePath:vendorPhotoPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor-photo"] delegate:self];
         vendorPhotoLoader.userData = @"vendorPhotoLoader";

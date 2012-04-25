@@ -63,6 +63,7 @@
 		F936AB7F1508F12F0019F191 /* PBVendorReferralComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB7E1508F12F0019F191 /* PBVendorReferralComment.m */; };
 		F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */; };
 		F936AB85150A5AC70019F191 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB84150A5AC60019F191 /* Constants.m */; };
+		F955EB3D15479A23002E82F5 /* addToListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F955EB3C15479A23002E82F5 /* addToListTableViewController.m */; };
 		F9645D9015121F4D00A6B0F7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F956DE521511E58D00187A27 /* CoreLocation.framework */; };
 		F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9645D9215121FD100A6B0F7 /* LocationController.m */; };
 		F985B431150F5097002791B2 /* PBInboxItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B430150F5097002791B2 /* PBInboxItem.m */; };
@@ -210,6 +211,8 @@
 		F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferralCommentTableCell.m; path = Piggyback/ReferralCommentTableCell.m; sourceTree = "<group>"; };
 		F936AB83150A5AC60019F191 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		F936AB84150A5AC60019F191 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		F955EB3B15479A23002E82F5 /* addToListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = addToListTableViewController.h; sourceTree = "<group>"; };
+		F955EB3C15479A23002E82F5 /* addToListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = addToListTableViewController.m; sourceTree = "<group>"; };
 		F956DE521511E58D00187A27 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F9645D9115121FD100A6B0F7 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
 		F9645D9215121FD100A6B0F7 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
@@ -354,6 +357,8 @@
 				F9BDEEAB153F5DD50030363B /* SearchViewController.m */,
 				F9D0BDBC1508BC8F00D963B7 /* VendorViewController.h */,
 				F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */,
+				F955EB3B15479A23002E82F5 /* addToListTableViewController.h */,
+				F955EB3C15479A23002E82F5 /* addToListTableViewController.m */,
 				3E36D55E152331F0001C9070 /* EGORefreshTableHeaderView.h */,
 				3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */,
 				F929ACBC15121296008B7463 /* Views */,
@@ -632,6 +637,7 @@
 				F9BDEEB3153FD3750030363B /* SearchTableViewCell.m in Sources */,
 				3E1E88D9153F8DA50048219C /* PBVendorPhoto.m in Sources */,
 				3E1E88DC153F8DC70048219C /* MBProgressHUD.m in Sources */,
+				F955EB3D15479A23002E82F5 /* addToListTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
