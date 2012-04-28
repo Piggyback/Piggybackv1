@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *location;
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTable;
 
+@property (weak, nonatomic) IBOutlet UIView *grayLayer;
+
 - (void)hideKeyboard;
 
 @end

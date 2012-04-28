@@ -12,6 +12,7 @@
 #import "LocationController.h"
 #import "VendorViewController.h"
 #import "Constants.h"
+#import "MBProgressHUD.h"
 
 @interface SearchViewController ()
 
@@ -26,6 +27,7 @@
 @synthesize query = _query;
 @synthesize location = _location;
 @synthesize searchResultsTable = _searchResultsTable;
+@synthesize grayLayer = _grayLayer;
 
 const NSString* radius = @"10000000";
 const NSString* intent = @"checkin";
@@ -77,8 +79,19 @@ const NSString* limit = @"20";
     [self.location resignFirstResponder]; 
 }
 
+- (void)keyboardDidShow:(NSNotification *)note 
+{
+    [self.view bringSubviewToFront:self.grayLayer];
+}
+
+- (void)keyboardDidHide:(NSNotification *)note 
+{
+    [self.view bringSubviewToFront:self.searchResultsTable];
+}
+
 // perform search when search button is hit on keyboard
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+
     [textField resignFirstResponder];
 
     NSString *location = [self.location.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -97,11 +110,6 @@ const NSString* limit = @"20";
         // get lat and lng of specified text-location
         [self callGeocodeAPI:location];
     }
-    
-
-//    NSURLRequest *geocodeRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",@"https://maps.googleapis.com/maps/api/geocode/json?address=",location,@"&sensor=false"]]];
-//    NSURLConnection *geocodeConnection = [[NSURLConnection alloc] initWithRequest:geocodeRequest delegate:self];
-//    self.geocodeConnection = geocodeConnection;
     
     return YES;
 }
@@ -156,8 +164,6 @@ const NSString* limit = @"20";
         self.searchResponse = [[[[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding] objectFromJSONString] objectForKey:@"response"];
         
         [self.searchResultsTable reloadData];
-        NSLog(@"search response! %@",self.searchResponse);
-        NSLog(@"size of search response is %u",[self.searchResponse count]);
     }
 }
 
@@ -257,12 +263,16 @@ const NSString* limit = @"20";
     // tap outside of textfield hides keyboard
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     gestureRecognizer.cancelsTouchesInView = NO;
-    [self.searchResultsTable addGestureRecognizer:gestureRecognizer];
+    [self.grayLayer addGestureRecognizer:gestureRecognizer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];  
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil]; 
 }
 
 - (void)viewDidUnload
 {
     [self setSearchResultsTable:nil];
+    [self setGrayLayer:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }

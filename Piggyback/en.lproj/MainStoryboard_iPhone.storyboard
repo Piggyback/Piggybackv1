@@ -638,6 +638,11 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view alpha="0.70000000000000007" contentMode="scaleToFill" id="rFo-Gm-u7B">
+                                <rect key="frame" x="0.0" y="32" width="320" height="335"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for..." minimumFontSize="17" id="0ox-Uv-TdD">
                                 <rect key="frame" x="24" y="4" width="164" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -756,6 +761,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Search" id="baM-BZ-ABA"/>
                     <connections>
+                        <outlet property="grayLayer" destination="rFo-Gm-u7B" id="REZ-cv-vcp"/>
                         <outlet property="location" destination="gZL-WI-vYs" id="plN-e3-KOy"/>
                         <outlet property="query" destination="0ox-Uv-TdD" id="ZfI-0V-Bnh"/>
                         <outlet property="searchResultsTable" destination="52m-vI-8Ci" id="30h-qA-JQC"/>
