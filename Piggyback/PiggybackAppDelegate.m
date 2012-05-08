@@ -94,6 +94,17 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [inboxMapping mapRelationship:@"vendor" withMapping:vendorMapping];
     [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
     
+    RKManagedObjectMapping* vendorPhotoMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBVendorPhoto"];
+    vendorPhotoMapping.primaryKeyAttribute = @"pid";
+    [vendorPhotoMapping mapAttributes:@"pid",@"vid",@"photoURL",nil];
+    [vendorPhotoMapping mapRelationship:@"vendor" withMapping:vendorMapping];
+    [vendorPhotoMapping connectRelationship:@"vendor" withObjectForPrimaryKeyAttribute:@"vid"];
+    [objectManager.mappingProvider setMapping:vendorPhotoMapping forKeyPath:@"vendor-photo"];
+
+//    RKObjectMapping* vendorPhotoMapping = [RKObjectMapping mappingForClass:[PBVendorPhoto class]];
+//    [vendorPhotoMapping mapAttributes:@"vid",@"pid",@"photoURL",nil];
+//    [objectManager.mappingProvider setMapping:vendorPhotoMapping forKeyPath:@"vendor-photo"];
+    
 //    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[PBUser class]];
 //    [userMapping mapAttributes:@"uid", @"fbid", @"email", @"firstName", @"lastName", nil];
 //    [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
@@ -123,10 +134,6 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 //    [inboxMapping mapRelationship:@"referrer" withMapping:userMapping];
 //    [inboxMapping mapRelationship:@"vendor" withMapping:vendorObjectMapping];
 //    [objectManager.mappingProvider setMapping:inboxMapping forKeyPath:@"inbox"];
-
-    RKObjectMapping* vendorPhotoMapping = [RKObjectMapping mappingForClass:[PBVendorPhoto class]];
-    [vendorPhotoMapping mapAttributes:@"vid",@"pid",@"photoURL",nil];
-    [objectManager.mappingProvider setMapping:vendorPhotoMapping forKeyPath:@"vendor-photo"];
     
     /* Setting up Facebook SDK */
     PiggybackTabBarController *rootViewController = (PiggybackTabBarController *)self.window.rootViewController;

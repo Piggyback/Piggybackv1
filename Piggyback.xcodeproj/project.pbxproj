@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3E0EABA61528891F008CB78C /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E0EAB9C15288860008CB78C /* libRestKit.a */; };
-		3E1E88D9153F8DA50048219C /* PBVendorPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1E88D8153F8DA50048219C /* PBVendorPhoto.m */; };
 		3E1E88DC153F8DC70048219C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1E88DB153F8DC70048219C /* MBProgressHUD.m */; };
 		3E1E8903154101770048219C /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3E1E88F6154101770048219C /* FBDialog.bundle */; };
 		3E1E8904154101770048219C /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E1E88FC154101770048219C /* libfacebook_ios_sdk.a */; };
@@ -69,6 +68,7 @@
 		F985B431150F5097002791B2 /* PBInboxItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B430150F5097002791B2 /* PBInboxItem.m */; };
 		F985B437150FE9D0002791B2 /* InboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B436150FE9D0002791B2 /* InboxTableViewController.m */; };
 		F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B439151010F2002791B2 /* InboxTableCell.m */; };
+		F98F4A5B1558F29B001777D4 /* PBVendorPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = F98F4A5A1558F29B001777D4 /* PBVendorPhoto.m */; };
 		F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B74037151934E9005D125B /* VendorInfoTableCell.m */; };
 		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
 		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
@@ -124,8 +124,6 @@
 
 /* Begin PBXFileReference section */
 		3E0EAB9115288860008CB78C /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
-		3E1E88D7153F8DA50048219C /* PBVendorPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBVendorPhoto.h; path = Piggyback/PBVendorPhoto.h; sourceTree = "<group>"; };
-		3E1E88D8153F8DA50048219C /* PBVendorPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendorPhoto.m; path = Piggyback/PBVendorPhoto.m; sourceTree = "<group>"; };
 		3E1E88DA153F8DC70048219C /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		3E1E88DB153F8DC70048219C /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3E1E88F4154101770048219C /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
@@ -222,6 +220,8 @@
 		F985B436150FE9D0002791B2 /* InboxTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxTableViewController.m; sourceTree = "<group>"; };
 		F985B438151010F2002791B2 /* InboxTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InboxTableCell.h; path = Piggyback/InboxTableCell.h; sourceTree = "<group>"; };
 		F985B439151010F2002791B2 /* InboxTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxTableCell.m; path = Piggyback/InboxTableCell.m; sourceTree = "<group>"; };
+		F98F4A591558F29B001777D4 /* PBVendorPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBVendorPhoto.h; path = Piggyback/PBVendorPhoto.h; sourceTree = "<group>"; };
+		F98F4A5A1558F29B001777D4 /* PBVendorPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendorPhoto.m; path = Piggyback/PBVendorPhoto.m; sourceTree = "<group>"; };
 		F9B74036151934E9005D125B /* VendorInfoTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VendorInfoTableCell.h; path = Piggyback/VendorInfoTableCell.h; sourceTree = "<group>"; };
 		F9B74037151934E9005D125B /* VendorInfoTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VendorInfoTableCell.m; path = Piggyback/VendorInfoTableCell.m; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -440,6 +440,8 @@
 		F929ACBB1512112D008B7463 /* PB API Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F98F4A591558F29B001777D4 /* PBVendorPhoto.h */,
+				F98F4A5A1558F29B001777D4 /* PBVendorPhoto.m */,
 				3E734B761508F983003FD9CB /* PBList.h */,
 				3E734B771508F983003FD9CB /* PBList.m */,
 				3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */,
@@ -448,8 +450,6 @@
 				3E734B711508C24C003FD9CB /* PBUser.m */,
 				F9D0BDB91508B76000D963B7 /* PBVendor.h */,
 				F9D0BDBA1508B76000D963B7 /* PBVendor.m */,
-				3E1E88D7153F8DA50048219C /* PBVendorPhoto.h */,
-				3E1E88D8153F8DA50048219C /* PBVendorPhoto.m */,
 				F936AB7D1508F12F0019F191 /* PBVendorReferralComment.h */,
 				F936AB7E1508F12F0019F191 /* PBVendorReferralComment.m */,
 				F985B42F150F5097002791B2 /* PBInboxItem.h */,
@@ -635,9 +635,9 @@
 				3E36D560152331F0001C9070 /* EGORefreshTableHeaderView.m in Sources */,
 				F9BDEEAC153F5DD50030363B /* SearchViewController.m in Sources */,
 				F9BDEEB3153FD3750030363B /* SearchTableViewCell.m in Sources */,
-				3E1E88D9153F8DA50048219C /* PBVendorPhoto.m in Sources */,
 				3E1E88DC153F8DC70048219C /* MBProgressHUD.m in Sources */,
 				F955EB3D15479A23002E82F5 /* addToListTableViewController.m in Sources */,
+				F98F4A5B1558F29B001777D4 /* PBVendorPhoto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
