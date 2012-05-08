@@ -137,6 +137,7 @@ const CGFloat photoWidth = 320;
     // Load the object model via RestKit
     self.reloading = YES;
     NSString* vendorReferralCommentsPath = [RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@/vendor/%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"], self.vendor.vendorID];
+    NSLog(@"vendorReferralcomments path is %@",vendorReferralCommentsPath);
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* vendorReferralCommentsLoader = [objManager loadObjectsAtResourcePath:vendorReferralCommentsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"referralComment"] delegate:self];
     vendorReferralCommentsLoader.userData = @"vendorReferralCommentsLoader";
