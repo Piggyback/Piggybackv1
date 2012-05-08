@@ -135,7 +135,7 @@ const CGFloat photoWidth = 320;
 
 - (void)loadData {
     // Load the object model via RestKit
-    self.reloading = YES;
+//    self.reloading = YES;
     NSString* vendorReferralCommentsPath = [RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@/vendor/%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"], self.vendor.vendorID];
     NSLog(@"vendorReferralcomments path is %@",vendorReferralCommentsPath);
     RKObjectManager* objManager = [RKObjectManager sharedManager];
@@ -187,6 +187,8 @@ const CGFloat photoWidth = 320;
     // set width of photo scroll view to fit all images
     [self.photoScrollView setContentSize:CGSizeMake([self.photos count] * photoWidth,self.photoScrollView.bounds.size.height)];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    self.reloading = NO;
+    [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
 }
 
 - (void)displayPhotos {
@@ -237,6 +239,8 @@ const CGFloat photoWidth = 320;
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         [self.photoScrollView addSubview:imageView];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.reloading = NO;
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
     }
 }
 
@@ -315,8 +319,6 @@ const CGFloat photoWidth = 320;
             [[NSUserDefaults standardUserDefaults] synchronize];
             [self loadObjectsFromDataStore];
         }
-        self.reloading = NO;
-        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
     }
     
     if(objectLoader.userData == @"vendorPhotoLoader") {
@@ -330,8 +332,9 @@ const CGFloat photoWidth = 320;
     if (objectLoader.userData == @"vendorReferralCommentsLoader") {
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        self.reloading = NO;
-        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        self.reloading = NO;
+//        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
 
     } else {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -579,10 +582,11 @@ const CGFloat photoWidth = 320;
         self.scrollView.alwaysBounceVertical = YES;
     }
     
-    if ([self.source isEqualToString:@"search"]) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
+    if ([self.source isEqualToString:@"search"]) {        
         // get photos form foursquare API (vendor not guaranteed to be in pb db)
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.reloading = YES;
+        
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"yyyyMMdd"];
         NSDate* now = [NSDate date];
@@ -593,8 +597,11 @@ const CGFloat photoWidth = 320;
         
         // get referral comments
         [self loadData];
-    } else {
+    } else {        
         // get photos from piggyback API (vendor guaranteed to be in pb db)
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.reloading = YES;
+
         NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vendorID];
         RKObjectManager* objManager = [RKObjectManager sharedManager];
         RKObjectLoader* vendorPhotoLoader = [objManager loadObjectsAtResourcePath:vendorPhotoPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor-photo"] delegate:self];
@@ -602,7 +609,6 @@ const CGFloat photoWidth = 320;
         
         // get referral comments
         if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [self loadData];
         } else {
             [self loadObjectsFromDataStore];
