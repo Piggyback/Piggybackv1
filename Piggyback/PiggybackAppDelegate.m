@@ -35,6 +35,7 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:RK_BASE_URL];
     
     objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
+#pragma note - access context globally in code using [[[RKObjectManager sharedManager] objectStore] managedObjectContext]
     
     // add default date formatter to convert mysql datetime to nsdate
     [RKObjectMapping addDefaultDateFormatterForString:RK_DATE_FORMAT inTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];

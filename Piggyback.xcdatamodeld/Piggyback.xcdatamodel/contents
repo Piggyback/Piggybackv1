@@ -73,7 +73,7 @@
         <attribute name="referralAndVendorID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="referralDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="referralID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="assignedVendor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBVendor" inverseName="vendorReferralComments" inverseEntity="PBVendor" syncable="YES"/>
+        <relationship name="assignedVendor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PBVendor" inverseName="vendorReferralComments" inverseEntity="PBVendor" syncable="YES"/>
         <relationship name="referrer" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBUser" inverseName="vendorReferralComments" inverseEntity="PBUser" syncable="YES"/>
     </entity>
     <elements>
@@ -82,7 +82,7 @@
         <element name="PBListEntry" positionX="45" positionY="432" width="128" height="135"/>
         <element name="PBUser" positionX="-0" positionY="585" width="128" height="165"/>
         <element name="PBVendor" positionX="97" positionY="135" width="128" height="300"/>
-        <element name="PBVendorReferralComment" positionX="151" positionY="-27" width="128" height="150"/>
         <element name="PBVendorPhoto" positionX="304" positionY="180" width="128" height="105"/>
+        <element name="PBVendorReferralComment" positionX="151" positionY="-27" width="128" height="150"/>
     </elements>
 </model>
