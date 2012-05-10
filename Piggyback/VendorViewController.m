@@ -167,6 +167,7 @@ const CGFloat photoWidth = 320;
 
 - (void)loadPhotosData {
     NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vendorID];
+    NSLog(@"photo path is : %@",vendorPhotoPath);
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* vendorPhotoLoader = [objManager loadObjectsAtResourcePath:vendorPhotoPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor-photo"] delegate:self];
     vendorPhotoLoader.userData = @"vendorPhotoLoader";
@@ -297,15 +298,19 @@ const CGFloat photoWidth = 320;
     NSMutableArray* photos = [[NSMutableArray alloc] init];
     for (NSDictionary* group in [[[self.detailsResponse objectForKey:@"venue"] objectForKey:@"photos"] objectForKey:@"groups"]) {
         for (NSDictionary* photo in [group objectForKey:@"items"]) {
-            PBVendorPhoto* newPhoto = [PBVendorPhoto object];
-//            PBVendorPhoto* newPhoto = [[PBVendorPhoto alloc] init];
+            PBVendorPhotoObject* newPhoto = [[PBVendorPhotoObject alloc] init];
+//            PBVendorPhoto* newPhoto = [PBVendorPhoto object];
             newPhoto.pid = [photo objectForKey:@"id"];
             newPhoto.photoURL = [photo objectForKey:@"url"];
             newPhoto.vid = self.vendor.vendorID;
+            newPhoto.vendor = self.vendor;
             [photos addObject:newPhoto];
+//            [[NSManagedObject managedObjectContext] deleteObject:newPhoto];
         }
     }
+
     self.photos = [photos copy]; 
+    NSLog(@"NEW PHOTOS ARE: %@",self.photos);
     [self displayPhotos];
     
 //    [self.searchResultsTable reloadData];
@@ -345,6 +350,7 @@ const CGFloat photoWidth = 320;
         
         NSError* error;
         [[NSManagedObject managedObjectContext] save:&error];
+        
 //        if ([self.source isEqualToString:@"search"]) {
 //            // set vendor attributes
 //            NSSet* vendorReferralComments = [NSSet setWithArray:objects];
@@ -369,9 +375,11 @@ const CGFloat photoWidth = 320;
     }
     
     if(objectLoader.userData == @"vendorPhotoLoader") {
-        self.photos = objects;
-//        [self loadPhotosObjectsFromDataStore];
-        [self displayPhotos];
+//        self.photos = objects;
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self loadPhotosObjectsFromDataStore];
+//        [self displayPhotos];
     } 
 }
 
@@ -633,44 +641,47 @@ const CGFloat photoWidth = 320;
         self.scrollView.alwaysBounceVertical = YES;
     }
     
-//    if ([self.source isEqualToString:@"search"]) {        
-////        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-////        self.reloading = YES;
-//        
-//        // get photos from foursquare API (vendor not guaranteed to be in pb db)
-//        NSLog(@"CALLING FOURSQUARE API FOR PHOTOS");
-//        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//        [dateFormat setDateFormat:@"yyyyMMdd"];
-//        NSDate* now = [NSDate date];
-//        NSString *date = [dateFormat stringFromDate:now];
-//        
-//        NSURLRequest *detailsRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@?client_id=%@&client_secret=%@&v=%@",self.vendor.vendorID,FOURSQUARECLIENTID,FOURSQUARECLIENTSECRET,date]]];
-//        NSURLConnection *detailsConnection = [[NSURLConnection alloc] initWithRequest:detailsRequest delegate:self];
-//        
-//        // get referal comments
-//        if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
-//            [self loadReferralCommentsData];
-//        } else {
-////            NSLog(@"GETTING REFERRAL COMMENTS FROM CORE DATA");
-//            [self loadReferralCommentsObjectsFromDataStore];
-//////            [self loadPhotosObjectsFromDataStore];
-//        }
-//    } else {        
+    if ([self.source isEqualToString:@"search"]) {        
+//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        self.reloading = YES;
+        
+        // get photos from foursquare API (vendor not guaranteed to be in pb db)
+        NSLog(@"CALLING FOURSQUARE API FOR PHOTOS");
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"yyyyMMdd"];
+        NSDate* now = [NSDate date];
+        NSString *date = [dateFormat stringFromDate:now];
+        
+        NSURLRequest *detailsRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@?client_id=%@&client_secret=%@&v=%@",self.vendor.vendorID,FOURSQUARECLIENTID,FOURSQUARECLIENTSECRET,date]]];
+        NSURLConnection *detailsConnection = [[NSURLConnection alloc] initWithRequest:detailsRequest delegate:self];
+        
+        // get referal comments
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
+            [self loadReferralCommentsData];
+        } else {
+            [self loadReferralCommentsObjectsFromDataStore];
+//            [self loadPhotosObjectsFromDataStore];
+        }
+    } else {        
         // get photos from piggyback API (vendor guaranteed to be in pb db)
 //        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 //        self.reloading = YES;
 
 //        [self loadPhotosData];
         
-        // get referral comments and photos
+        // get referral comments
         if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
             [self loadReferralCommentsData];
-//            [self loadPhotosData];
         } else {
             [self loadReferralCommentsObjectsFromDataStore];
-//            [self loadPhotosObjectsFromDataStore];
         }
-//    }
+        
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]]) {
+            [self loadPhotosData];
+        } else {
+            [self loadPhotosObjectsFromDataStore];
+        }
+    }
     
     // update the last update date
     [self.refreshHeaderView refreshLastUpdatedDate];

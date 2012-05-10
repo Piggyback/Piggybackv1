@@ -18,3 +18,12 @@
 @dynamic vendor;
 
 @end
+
+@implementation PBVendorPhotoObject
+
+@synthesize vid = _vid;
+@synthesize pid = _pid;
+@synthesize photoURL = _photoURL;
+@synthesize vendor = _vendor;
+
+@end

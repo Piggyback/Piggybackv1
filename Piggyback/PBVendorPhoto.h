@@ -11,11 +11,23 @@
 
 @class PBVendor;
 
-@interface PBVendorPhoto : NSManagedObject
+@protocol VendorPhotoInterface <NSObject>
 
 @property (nonatomic, retain) NSString * vid;
 @property (nonatomic, retain) NSString * pid;
 @property (nonatomic, retain) NSString * photoURL;
 @property (nonatomic, retain) PBVendor *vendor;
 
+@end
+
+@interface PBVendorPhoto : NSManagedObject <VendorPhotoInterface>
+
+//@property (nonatomic, retain) NSString * vid;
+//@property (nonatomic, retain) NSString * pid;
+//@property (nonatomic, retain) NSString * photoURL;
+//@property (nonatomic, retain) PBVendor *vendor;
+
+@end
+
+@interface PBVendorPhotoObject : NSObject <VendorPhotoInterface>
 @end

@@ -83,6 +83,6 @@
         <element name="PBUser" positionX="-0" positionY="585" width="128" height="165"/>
         <element name="PBVendor" positionX="97" positionY="135" width="128" height="300"/>
         <element name="PBVendorPhoto" positionX="304" positionY="180" width="128" height="105"/>
-        <element name="PBVendorReferralComment" positionX="151" positionY="-27" width="128" height="150"/>
+        <element name="PBVendorReferralComment" positionX="286" positionY="-81" width="128" height="150"/>
     </elements>
 </model>
