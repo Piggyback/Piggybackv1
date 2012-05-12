@@ -160,9 +160,11 @@ const CGFloat photoWidth = 320;
 
 - (void)loadPhotosObjectsFromDataStore {
     self.vendor = [PBVendor findFirstByAttribute:@"vendorID" withValue:self.vendor.vendorID];
+    NSLog(@"vendor from photo core data is : %@",self.vendor);
     NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"pid" ascending:NO]];
     self.photos = [self.vendor.vendorPhotos sortedArrayUsingDescriptors:sortDescriptors];
-    NSLog(@"LOAD VENDOR PHOTOS FOR %@ FROM CORE DATA: %@", self.vendor.vendorID, self.photos);
+#warning - currently doesnt work without this nslog printing vid bc will fault unless it needs photo attributes
+    NSLog(@"LOAD VENDOR PHOTOS FOR %@ FROM CORE DATA: %@", self.vendor.vendorID, [(PBVendorPhoto*)[self.photos objectAtIndex:0] vid]);
     [self displayPhotos];
 }
 
@@ -356,11 +358,16 @@ const CGFloat photoWidth = 320;
     }
     
     if(objectLoader.userData == @"vendorPhotoLoader") {
-//        self.photos = objects;
+//        for (PBVendorPhoto* photo in objects) {
+//            photo.vendor = self.vendor; 
+//        }
+//        
+//        NSError* error;
+//        [[NSManagedObject managedObjectContext] save:&error];
+        
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadPhotosObjectsFromDataStore];
-//        [self displayPhotos];
     } 
 }
 
