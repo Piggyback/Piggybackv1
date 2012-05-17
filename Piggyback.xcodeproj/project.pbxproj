@@ -12,8 +12,6 @@
 		3E1E88DC153F8DC70048219C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E1E88DB153F8DC70048219C /* MBProgressHUD.m */; };
 		3E1E8903154101770048219C /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3E1E88F6154101770048219C /* FBDialog.bundle */; };
 		3E1E8904154101770048219C /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E1E88FC154101770048219C /* libfacebook_ios_sdk.a */; };
-		3E1E8907154101CB0048219C /* LoginWithFacebookNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1E8905154101CB0048219C /* LoginWithFacebookNormal.png */; };
-		3E1E8908154101CB0048219C /* LoginWithFacebookNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E1E8906154101CB0048219C /* LoginWithFacebookNormal@2x.png */; };
 		3E36D560152331F0001C9070 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */; };
 		3E3BDF3D150D9FD200C1C81C /* PBListEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3BDF3C150D9FD200C1C81C /* PBListEntry.m */; };
 		3E47337D1519A78200083B53 /* blue_square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E47337C1519A78200083B53 /* blue_square@2x.png */; };
@@ -143,8 +141,6 @@
 		3E1E8900154101770048219C /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		3E1E8901154101770048219C /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		3E1E8902154101770048219C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
-		3E1E8905154101CB0048219C /* LoginWithFacebookNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginWithFacebookNormal.png; sourceTree = "<group>"; };
-		3E1E8906154101CB0048219C /* LoginWithFacebookNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginWithFacebookNormal@2x.png"; sourceTree = "<group>"; };
 		3E36D55E152331F0001C9070 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		3E3BDF3B150D9FD200C1C81C /* PBListEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBListEntry.h; path = Piggyback/PBListEntry.h; sourceTree = "<group>"; };
@@ -431,8 +427,6 @@
 				3ED78A351523277700FE5C69 /* grayArrow@2x.png */,
 				3ED78A361523277700FE5C69 /* whiteArrow.png */,
 				3ED78A371523277700FE5C69 /* whiteArrow@2x.png */,
-				3E1E8905154101CB0048219C /* LoginWithFacebookNormal.png */,
-				3E1E8906154101CB0048219C /* LoginWithFacebookNormal@2x.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -596,8 +590,6 @@
 				3E47FED6152C16BD00421FFE /* no_photo.png in Resources */,
 				F9BDEEB0153F926F0030363B /* search magnifying glass 22x31 v2.png in Resources */,
 				3E1E8903154101770048219C /* FBDialog.bundle in Resources */,
-				3E1E8907154101CB0048219C /* LoginWithFacebookNormal.png in Resources */,
-				3E1E8908154101CB0048219C /* LoginWithFacebookNormal@2x.png in Resources */,
 				F90340961546A76E00F51F8B /* Search magnfiying glass tab bar engraved 30x30 300dpi.png in Resources */,
 				F90340971546A76E00F51F8B /* Search magnfiying glass tab bar engraved 60x60 300dpi (retina).png in Resources */,
 			);
