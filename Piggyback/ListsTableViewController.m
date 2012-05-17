@@ -151,12 +151,12 @@
         
         PBList* myList = [self.lists objectAtIndex:indexPath.row];
         cell.textLabel.text = myList.name;
-        if ([myList.listCount intValue] == 1)
+        
+        if ([myList.listCount intValue] == 1) {
             cell.detailTextLabel.text = [[NSString stringWithFormat:@"%@", myList.listCount] stringByAppendingString:@" item"];
-        else
+        } else {
             cell.detailTextLabel.text = [[NSString stringWithFormat:@"%@", myList.listCount] stringByAppendingString:@" items"];
-//        tableView.userInteractionEnabled = YES;
-//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
         
         return cell;
     } else {
@@ -265,13 +265,6 @@
         self.refreshHeaderView = view;
     }
     
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self loadData];
-    } else {
-        [self loadObjectsFromDataStore];
-    }
-    
     // update the last update date
     [self.refreshHeaderView refreshLastUpdatedDate];
 }
@@ -284,6 +277,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self loadData];
+    } else {
+        [self loadObjectsFromDataStore];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

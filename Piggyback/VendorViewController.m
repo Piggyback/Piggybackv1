@@ -14,6 +14,7 @@
 #import "MBProgressHUD.h"
 #import "JSONKit.h"
 #import "PBVendorPhoto.h"
+#import "addToListTableViewController.h"
 
 @interface VendorViewController () 
 
@@ -305,20 +306,20 @@ const CGFloat photoWidth = 320;
 {
     // retrieve data from API and use information for displaying
     if(objectLoader.userData == @"vendorReferralCommentsLoader") {
-        if ([self.source isEqualToString:@"search"]) {
-            self.referralComments = objects;
-            
-            // set vendor attributes
-            NSSet* vendorReferralComments = [NSSet setWithArray:objects];
-            self.vendor.vendorReferralComments = [vendorReferralComments mutableCopy];
-            self.vendor.vendorReferralCommentsCount = [NSNumber numberWithUnsignedInt:[objects count]];
-
-            [self resizeReferralCommentsTable];
-        } else {
+//        if ([self.source isEqualToString:@"search"]) {
+//            self.referralComments = objects;
+//            
+//            // set vendor attributes
+//            NSSet* vendorReferralComments = [NSSet setWithArray:objects];
+//            self.vendor.vendorReferralComments = [vendorReferralComments mutableCopy];
+//            self.vendor.vendorReferralCommentsCount = [NSNumber numberWithUnsignedInt:[objects count]];
+//
+//            [self resizeReferralCommentsTable];
+//        } else {
             [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
             [[NSUserDefaults standardUserDefaults] synchronize];
             [self loadObjectsFromDataStore];
-        }
+//        }
     }
     
     if(objectLoader.userData == @"vendorPhotoLoader") {
@@ -648,6 +649,14 @@ const CGFloat photoWidth = 320;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"addVendorToList"]) {
+        // set addToListTableViewController's vendor to selected vendor
+        [(addToListTableViewController*)[segue.destinationViewController topViewController] setVendor:self.vendor];
+    }
 }
 
 @end

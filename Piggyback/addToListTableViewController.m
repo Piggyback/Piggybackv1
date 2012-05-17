@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "PBUser.h"
 #import "PBList.h"
+#import "PBListEntry.h"
 #import "Constants.h"
 
 @interface addToListTableViewController ()
@@ -17,6 +18,7 @@
 @property int currentPbAPICall;
 @property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView;
 @property BOOL reloading;
+@property (nonatomic, strong) NSMutableSet *selectedListIndexes;
 
 @end
 
@@ -26,6 +28,8 @@
 @synthesize reloading = _reloading;
 @synthesize currentPbAPICall = _currentPbAPICall;
 @synthesize refreshHeaderView = _refreshHeaderView;
+@synthesize vendor = _vendor;
+@synthesize selectedListIndexes = _selectedListsIndexes;
 
 #pragma mark - Getters and Setters
 
@@ -35,6 +39,14 @@
     }
     
     return _lists;
+}
+
+- (NSMutableSet *)selectedListIndexes {
+    if (!_selectedListsIndexes) {
+        _selectedListsIndexes = [[NSMutableSet alloc] init];
+    }
+    
+    return _selectedListsIndexes;
 }
 
 - (void)setLists:(NSArray *)lists {
@@ -181,8 +193,10 @@
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     if (cell.accessoryType == UITableViewCellAccessoryNone) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [self.selectedListIndexes addObject:[NSNumber numberWithInt:indexPath.row]];
     } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
+        [self.selectedListIndexes removeObject:[NSNumber numberWithInt:indexPath.row]];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -203,6 +217,32 @@
 
 - (IBAction)cancelAddToList:(id)sender {
     [self.navigationController dismissModalViewControllerAnimated:YES];
+}
+
+- (IBAction)addToList:(id)sender {
+    for (NSNumber *currentListIndex in self.selectedListIndexes) {
+//        PBListEntry *newListEntry = [NSEntityDescription insertNewObjectForEntityForName:@"PBListEntry" inManagedObjectContext:[NSManagedObject managedObjectContext]];
+//#warning need to obtain actual listEntryID (autoincremented value? consistent with DB?)
+//        newListEntry.listEntryID = [NSNumber numberWithInt:1000];
+        PBList *currentList = [self.lists objectAtIndex:[currentListIndex intValue]];
+//        newListEntry.assignedList = currentList;
+//        newListEntry.assignedListID = currentList.listID;
+//        newListEntry.assignedList.listCount = [NSNumber numberWithInt:[newListEntry.assignedList.listCount intValue] + 1];
+//        newListEntry.comment = @"static test comment";
+//        newListEntry.addedDate = [NSDate date];
+//        newListEntry.vendor = self.vendor;
+        
+        PBListEntry *newListEntryDB = [PBListEntry object];
+//        newListEntryDB.assignedListID = currentList.listID;
+        newListEntryDB.comment = @"static test comment";
+//        newListEntryDB.addedDate = [NSDate date];
+        
+        [[RKObjectManager sharedManager] postObject:newListEntryDB delegate:self];
+    }
+//    [[NSManagedObject managedObjectContext] save:nil];
+    
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+    
 }
 
 @end

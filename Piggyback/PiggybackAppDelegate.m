@@ -22,8 +22,8 @@
 @implementation PiggybackAppDelegate
 
 NSString* const FB_APP_ID = @"251920381531962";
-NSString* RK_BASE_URL = @"http://beta.getpiggyback.com/api";
-//NSString* RK_BASE_URL = @"http://192.168.11.28/api";
+//NSString* RK_BASE_URL = @"http://beta.getpiggyback.com/api";
+NSString* RK_BASE_URL = @"http://192.168.11.28/api";
 NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 @synthesize window = _window;
@@ -33,6 +33,8 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 {
     /* Setting up RestKit SDK */
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:RK_BASE_URL];
+    objectManager.acceptMIMEType = RKMIMETypeJSON;
+    objectManager.serializationMIMEType = RKMIMETypeJSON;
     
     objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
     
@@ -45,6 +47,11 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     NSString* databaseName = @"Piggyback.sqlite";
     
     objectManager.objectStore = [RKManagedObjectStore objectStoreWithStoreFilename:databaseName usingSeedDatabaseName:seedDatabaseName managedObjectModel:nil delegate:self];
+    
+    RKObjectRouter *router = objectManager.router;
+    [router routeClass:[PBListEntry class] toResourcePath:@"/listapi/coreDataMyListEntrys"];
+    [router routeClass:[PBListEntry class] toResourcePath:@"/listapi/coreDataMyListEntrys" forMethod:RKRequestMethodPOST];
+    objectManager.router = router;
     
     // Setup our object mappings
     RKManagedObjectMapping* listMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBList"];
@@ -85,6 +92,12 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [listEntryMapping mapRelationship:@"assignedList" withMapping:listMapping];
     [listEntryMapping connectRelationship:@"assignedList" withObjectForPrimaryKeyAttribute:@"assignedListID"];
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
+    
+    RKObjectMapping *listEntrySerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
+//    [listEntrySerializationMapping mapKeyPath:@"listEntryID" toAttribute:@"lid"];
+//    [listEntrySerializationMapping mapKeyPath:@"addedDate" toAttribute:@"date"];
+    [listEntrySerializationMapping mapKeyPath:@"comment" toAttribute:@"comment"];
+    [objectManager.mappingProvider setSerializationMapping:listEntrySerializationMapping forClass:[PBListEntry class]];
     
     RKManagedObjectMapping* inboxMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBInboxItem"];
     inboxMapping.primaryKeyAttribute = @"referralID";
