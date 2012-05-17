@@ -105,6 +105,19 @@ const CGFloat photoWidth = 320;
     [self.vendorTableView reloadData];
 }
 
+- (NSArray*)photos 
+{
+    if (_photos == nil) {
+        _photos = [[NSArray alloc] init];
+    }
+    return _photos;
+}
+
+- (void)setPhotos:(NSArray *)photos
+{
+    _photos = photos;
+}
+
 - (NSString*)source {
     if (_source == nil) {
         _source = [[NSString alloc] init];
@@ -125,24 +138,43 @@ const CGFloat photoWidth = 320;
 
 #pragma mark - Private Helper Methods
 
-- (void)loadObjectsFromDataStore {
+- (void)loadReferralCommentsObjectsFromDataStore {
     self.vendor = [PBVendor findFirstByAttribute:@"vendorID" withValue:self.vendor.vendorID];
-    NSLog(@"vendor: %@", self.vendor);
     NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"referralDate" ascending:YES]];
     self.referralComments = [self.vendor.vendorReferralComments sortedArrayUsingDescriptors:sortDescriptors];
-    NSLog(@"referral comments: %@", self.referralComments);
+    NSLog(@"LOAD REFERRAL COMMENTS FROM CORE DATA: %@", self.referralComments);
     [self resizeReferralCommentsTable];
+    
+    // for refreshing on pull down
+    [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+    self.reloading = NO;
 }
 
-- (void)loadData {
+- (void)loadReferralCommentsData {
     // Load the object model via RestKit
-//    self.reloading = YES;
     NSString* vendorReferralCommentsPath = [RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@/vendor/%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"], self.vendor.vendorID];
-    NSLog(@"vendorReferralcomments path is %@",vendorReferralCommentsPath);
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* vendorReferralCommentsLoader = [objManager loadObjectsAtResourcePath:vendorReferralCommentsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"referralComment"] delegate:self];
     vendorReferralCommentsLoader.userData = @"vendorReferralCommentsLoader";
-    NSLog(@"loading data from api");
+    NSLog(@"LOADING REFERRAL COMMENTS FROM PIGGYBACK API");
+}
+
+- (void)loadPhotosObjectsFromDataStore {
+    self.vendor = [PBVendor findFirstByAttribute:@"vendorID" withValue:self.vendor.vendorID];
+    NSLog(@"vendor from photo core data is : %@",self.vendor);
+    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"pid" ascending:NO]];
+    self.photos = [self.vendor.vendorPhotos sortedArrayUsingDescriptors:sortDescriptors];
+#warning - currently doesnt work without this nslog printing vid bc will fault unless it needs photo attributes
+    NSLog(@"LOAD VENDOR PHOTOS FOR %@ FROM CORE DATA: %@", self.vendor.vendorID, [(PBVendorPhoto*)[self.photos objectAtIndex:0] vid]);
+    [self displayPhotos];
+}
+
+- (void)loadPhotosData {
+    NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vendorID];
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
+    RKObjectLoader* vendorPhotoLoader = [objManager loadObjectsAtResourcePath:vendorPhotoPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor-photo"] delegate:self];
+    vendorPhotoLoader.userData = @"vendorPhotoLoader";
+    NSLog(@"LOAD PHOTOS FROM PIGGYBACK API");
 }
 
 - (void)resizeReferralCommentsTable
@@ -187,6 +219,8 @@ const CGFloat photoWidth = 320;
     
     // set width of photo scroll view to fit all images
     [self.photoScrollView setContentSize:CGSizeMake([self.photos count] * photoWidth,self.photoScrollView.bounds.size.height)];
+    
+    // hide spinner when photos are done loading
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     self.reloading = NO;
     [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
@@ -239,6 +273,8 @@ const CGFloat photoWidth = 320;
         UIImage *image = [UIImage imageNamed:@"no_photo.png"];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         [self.photoScrollView addSubview:imageView];
+        
+        // hide spinner bc no photos. done loading.
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.reloading = NO;
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
@@ -266,13 +302,17 @@ const CGFloat photoWidth = 320;
     NSMutableArray* photos = [[NSMutableArray alloc] init];
     for (NSDictionary* group in [[[self.detailsResponse objectForKey:@"venue"] objectForKey:@"photos"] objectForKey:@"groups"]) {
         for (NSDictionary* photo in [group objectForKey:@"items"]) {
-            PBVendorPhoto* newPhoto = [[PBVendorPhoto alloc] init];
+            PBVendorPhotoObject* newPhoto = [[PBVendorPhotoObject alloc] init];
+//            PBVendorPhoto* newPhoto = [PBVendorPhoto object];
             newPhoto.pid = [photo objectForKey:@"id"];
             newPhoto.photoURL = [photo objectForKey:@"url"];
             newPhoto.vid = self.vendor.vendorID;
+            newPhoto.vendor = self.vendor;
             [photos addObject:newPhoto];
+//            [[NSManagedObject managedObjectContext] deleteObject:newPhoto];
         }
     }
+
     self.photos = [photos copy]; 
     [self displayPhotos];
     
@@ -323,16 +363,26 @@ const CGFloat photoWidth = 320;
     }
     
     if(objectLoader.userData == @"vendorPhotoLoader") {
-        self.photos = objects;
-        [self displayPhotos];
+//        for (PBVendorPhoto* photo in objects) {
+//            photo.vendor = self.vendor; 
+//        }
+//        
+//        NSError* error;
+//        [[NSManagedObject managedObjectContext] save:&error];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self loadPhotosObjectsFromDataStore];
     } 
 }
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
 {    
+    NSLog(@"IN ERROROREREOROROROROROROROROROROROROORORR");
+
     if (objectLoader.userData == @"vendorReferralCommentsLoader") {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+//        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
 //        [MBProgressHUD hideHUDForView:self.view animated:YES];
 //        self.reloading = NO;
 //        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
@@ -531,7 +581,8 @@ const CGFloat photoWidth = 320;
 
 #pragma mark - EGORefreshTableHeaderDelegate Methods
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
-    [self loadData];
+    [self loadReferralCommentsData];
+    // dont reload photos: if coming from search, calling load photos will fail
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
@@ -565,7 +616,7 @@ const CGFloat photoWidth = 320;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+        
     self.title = self.vendor.name;
     [self.scrollView setScrollEnabled:YES];
     
@@ -583,51 +634,51 @@ const CGFloat photoWidth = 320;
         self.scrollView.alwaysBounceVertical = YES;
     }
     
+    // show spinner on page load
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.reloading = YES;
+    
     if ([self.source isEqualToString:@"search"]) {        
-        // get photos form foursquare API (vendor not guaranteed to be in pb db)
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.reloading = YES;
-        
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"yyyyMMdd"];
-        NSDate* now = [NSDate date];
-        NSString *date = [dateFormat stringFromDate:now];
-        
-        NSURLRequest *detailsRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@?client_id=%@&client_secret=%@&v=%@",self.vendor.vendorID,FOURSQUARECLIENTID,FOURSQUARECLIENTSECRET,date]]];
-        NSURLConnection *detailsConnection = [[NSURLConnection alloc] initWithRequest:detailsRequest delegate:self];
-        
-        // get referral comments
-        [self loadData];
-    } else {        
-        // get photos from piggyback API (vendor guaranteed to be in pb db)
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.reloading = YES;
 
-        NSString* vendorPhotoPath = [@"vendorapi/vendorphotos/id/" stringByAppendingFormat:@"%@",self.vendor.vendorID];
-        RKObjectManager* objManager = [RKObjectManager sharedManager];
-        RKObjectLoader* vendorPhotoLoader = [objManager loadObjectsAtResourcePath:vendorPhotoPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"vendor-photo"] delegate:self];
-        vendorPhotoLoader.userData = @"vendorPhotoLoader";
+        // get photos from foursquare API or core data
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]]) {
+            NSLog(@"CALLING FOURSQUARE API FOR PHOTOS");
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"yyyyMMdd"];
+            NSDate* now = [NSDate date];
+            NSString *date = [dateFormat stringFromDate:now];
+            
+            NSURLRequest *detailsRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@?client_id=%@&client_secret=%@&v=%@",self.vendor.vendorID,FOURSQUARECLIENTID,FOURSQUARECLIENTSECRET,date]]];
+            NSURLConnection *detailsConnection = [[NSURLConnection alloc] initWithRequest:detailsRequest delegate:self];
+        } else {
+            [self loadPhotosObjectsFromDataStore];
+        }
+        
+        // get referal comments
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
+            [self loadReferralCommentsData];
+        } else {
+            [self loadReferralCommentsObjectsFromDataStore];
+        }
+    } else {        
+
+        // get photos from piggyback api or core data
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]]) {
+            [self loadPhotosData];
+        } else {
+            [self loadPhotosObjectsFromDataStore];
+        }
         
         // get referral comments
         if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
-            [self loadData];
+            [self loadReferralCommentsData];
         } else {
-            [self loadObjectsFromDataStore];
+            [self loadReferralCommentsObjectsFromDataStore];
         }
     }
     
     // update the last update date
     [self.refreshHeaderView refreshLastUpdatedDate];
-    
-    // display image in a separate thread
-//    dispatch_queue_t downloadImageQueue = dispatch_queue_create("downloadImage",NULL);
-//    dispatch_async(downloadImageQueue, ^{
-//        UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.vendor.icon]]];
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.vendorImage setImage:image];
-//        });
-//    });
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {

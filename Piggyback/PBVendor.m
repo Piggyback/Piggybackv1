@@ -24,6 +24,7 @@
 @dynamic website;
 @dynamic vendorReferralComments;
 @dynamic vendorReferralCommentsCount;
+@dynamic vendorPhotos;
 @synthesize distanceFromCurrentLocationInMiles = _distanceFromCurrentLocationInMiles;
 
 - (PBVendor*) init

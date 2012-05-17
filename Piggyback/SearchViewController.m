@@ -285,21 +285,28 @@ const NSString* limit = @"20";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"searchToVendor"]) {
-        // set VendorViewController's vendor to selected vendor; website populated later with detailed venue call
-        PBVendor* selectedVendor = [PBVendor object];
         NSDictionary* vendorDetails = [[self.searchResponse objectForKey:@"venues"] objectAtIndex:[self.searchResultsTable indexPathForCell:sender].row];
-        selectedVendor.vendorID = [vendorDetails objectForKey:@"id"];
-        selectedVendor.name = [vendorDetails objectForKey:@"name"];
-        selectedVendor.lat = [[vendorDetails objectForKey:@"location"] objectForKey:@"lat"];
-        selectedVendor.lng = [[vendorDetails objectForKey:@"location"] objectForKey:@"lng"];
-        selectedVendor.phone = [[vendorDetails objectForKey:@"contact"] objectForKey:@"formattedPhone"];
-        selectedVendor.addr = [[vendorDetails objectForKey:@"location"] objectForKey:@"address"];
-        selectedVendor.addrCrossStreet = [[vendorDetails objectForKey:@"location"] objectForKey:@"crossStreet"];
-        selectedVendor.addrCity = [[vendorDetails objectForKey:@"location"] objectForKey:@"city"];
-        selectedVendor.addrState = [[vendorDetails objectForKey:@"location"] objectForKey:@"state"];
-        selectedVendor.addrCountry = [[vendorDetails objectForKey:@"location"] objectForKey:@"country"];
-        selectedVendor.addrZip = [[vendorDetails objectForKey:@"location"] objectForKey:@"postalCode"];
-#warning - assignedinboxitems and assignedlistentrys in vendor are not set in vendor vc
+        PBVendor* selectedVendor = [PBVendor findFirstByAttribute:@"vendorID" withValue:[vendorDetails objectForKey:@"id"]];
+        
+        if (selectedVendor == nil) {
+            // set VendorViewController's vendor to selected vendor; website populated later with detailed venue call
+            selectedVendor = [PBVendor object];
+
+            NSDictionary* vendorDetails = [[self.searchResponse objectForKey:@"venues"] objectAtIndex:[self.searchResultsTable indexPathForCell:sender].row];
+            selectedVendor.vendorID = [vendorDetails objectForKey:@"id"];
+            selectedVendor.name = [vendorDetails objectForKey:@"name"];
+            selectedVendor.lat = [[vendorDetails objectForKey:@"location"] objectForKey:@"lat"];
+            selectedVendor.lng = [[vendorDetails objectForKey:@"location"] objectForKey:@"lng"];
+            selectedVendor.phone = [[vendorDetails objectForKey:@"contact"] objectForKey:@"formattedPhone"];
+            selectedVendor.addr = [[vendorDetails objectForKey:@"location"] objectForKey:@"address"];
+            selectedVendor.addrCrossStreet = [[vendorDetails objectForKey:@"location"] objectForKey:@"crossStreet"];
+            selectedVendor.addrCity = [[vendorDetails objectForKey:@"location"] objectForKey:@"city"];
+            selectedVendor.addrState = [[vendorDetails objectForKey:@"location"] objectForKey:@"state"];
+            selectedVendor.addrCountry = [[vendorDetails objectForKey:@"location"] objectForKey:@"country"];
+            selectedVendor.addrZip = [[vendorDetails objectForKey:@"location"] objectForKey:@"postalCode"];
+        }
+
+                    NSLog(@"newly created vendor : %@",selectedVendor);
         
         [(VendorViewController*)segue.destinationViewController setVendor:selectedVendor];
         [(VendorViewController*)segue.destinationViewController setSource:@"search"];

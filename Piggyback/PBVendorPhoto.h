@@ -2,16 +2,32 @@
 //  PBVendorPhoto.h
 //  Piggyback
 //
-//  Created by Kimberly Hsiao on 3/23/12.
+//  Created by Kimberly Hsiao on 5/7/12.
 //  Copyright (c) 2012 Calimucho. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@interface PBVendorPhoto : NSObject
+@class PBVendor;
 
-@property (nonatomic, strong) NSString* vid;
-@property (nonatomic, strong) NSString* pid;
-@property (nonatomic, strong) NSString* photoURL;
+@protocol VendorPhotoInterface <NSObject>
 
+@property (nonatomic, retain) NSString * vid;
+@property (nonatomic, retain) NSString * pid;
+@property (nonatomic, retain) NSString * photoURL;
+@property (nonatomic, retain) PBVendor *vendor;
+
+@end
+
+@interface PBVendorPhoto : NSManagedObject <VendorPhotoInterface>
+
+//@property (nonatomic, retain) NSString * vid;
+//@property (nonatomic, retain) NSString * pid;
+//@property (nonatomic, retain) NSString * photoURL;
+//@property (nonatomic, retain) PBVendor *vendor;
+
+@end
+
+@interface PBVendorPhotoObject : NSObject <VendorPhotoInterface>
 @end

@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSString* website;
 @property (nonatomic, strong) NSMutableSet* vendorReferralComments;  // array of PBVendorReferralComment for vendor
 @property (nonatomic, strong) NSNumber* vendorReferralCommentsCount;
+@property (nonatomic, strong) NSMutableSet* vendorPhotos;
 @property CLLocationDistance distanceFromCurrentLocationInMiles;
 
 @end

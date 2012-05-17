@@ -439,6 +439,8 @@ double const metersToMilesMultiplier = 0.000621371192;
         [(VendorViewController*)segue.destinationViewController setVendor:[[self.shownListEntrys objectAtIndex:[self.listEntryTableView indexPathForCell:sender].row] vendor]];
         [(VendorViewController*)segue.destinationViewController setSource:@"list"];
         
+//        NSLog(@"VENDOR FROM LIST IS : %@", [(VendorViewController*)segue.destinationViewController vendor]);
+        
 //        NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
 //        NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];
 ////        for (PBVendorReferralComment* commentObject in [[self.shownListEntrys objectAtIndex:[self.listEntryTableView indexPathForCell:sender].row] referredBy]) {
