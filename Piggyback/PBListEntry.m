@@ -16,7 +16,7 @@
 @dynamic comment;
 @dynamic addedDate;
 @dynamic vendor;
-//@dynamic vendorID;
+@synthesize vendorID;
 
 //- (NSArray *)referredBy {
 //    if (!_referredBy) {

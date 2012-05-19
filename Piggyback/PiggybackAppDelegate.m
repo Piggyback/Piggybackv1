@@ -34,7 +34,7 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     /* Setting up RestKit SDK */
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:RK_BASE_URL];
     objectManager.acceptMIMEType = RKMIMETypeJSON;
-    objectManager.serializationMIMEType = RKMIMETypeJSON;
+    objectManager.serializationMIMEType = RKMIMETypeFormURLEncoded;
     
     objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
 #pragma note - access context globally in code using [[[RKObjectManager sharedManager] objectStore] managedObjectContext]
@@ -95,9 +95,11 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
     
     RKObjectMapping *listEntrySerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
-//    [listEntrySerializationMapping mapKeyPath:@"listEntryID" toAttribute:@"lid"];
-//    [listEntrySerializationMapping mapKeyPath:@"addedDate" toAttribute:@"date"];
+    [listEntrySerializationMapping mapKeyPath:@"assignedListID" toAttribute:@"lid"];
+    [listEntrySerializationMapping mapKeyPath:@"vendorID" toAttribute:@"vid"];
+    [listEntrySerializationMapping mapKeyPath:@"addedDate" toAttribute:@"date"];
     [listEntrySerializationMapping mapKeyPath:@"comment" toAttribute:@"comment"];
+    [listEntrySerializationMapping mapKeyPath:@"vendor" toAttribute:@"vendor"];
     [objectManager.mappingProvider setSerializationMapping:listEntrySerializationMapping forClass:[PBListEntry class]];
     
     RKManagedObjectMapping* inboxMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBInboxItem"];

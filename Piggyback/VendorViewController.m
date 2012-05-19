@@ -346,20 +346,16 @@ const CGFloat photoWidth = 320;
 {
     // retrieve data from API and use information for displaying
     if(objectLoader.userData == @"vendorReferralCommentsLoader") {
-//        if ([self.source isEqualToString:@"search"]) {
-//            self.referralComments = objects;
-//            
-//            // set vendor attributes
-//            NSSet* vendorReferralComments = [NSSet setWithArray:objects];
-//            self.vendor.vendorReferralComments = [vendorReferralComments mutableCopy];
-//            self.vendor.vendorReferralCommentsCount = [NSNumber numberWithUnsignedInt:[objects count]];
-//
-//            [self resizeReferralCommentsTable];
-//        } else {
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [self loadObjectsFromDataStore];
-//        }
+        for (PBVendorReferralComment* comment in objects) {
+            comment.assignedVendor = self.vendor; 
+        }
+        
+        NSError* error;
+        [[NSManagedObject managedObjectContext] save:&error];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self loadReferralCommentsObjectsFromDataStore];
     }
     
     if(objectLoader.userData == @"vendorPhotoLoader") {

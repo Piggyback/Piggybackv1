@@ -225,6 +225,7 @@
 //#warning need to obtain actual listEntryID (autoincremented value? consistent with DB?)
 //        newListEntry.listEntryID = [NSNumber numberWithInt:1000];
         PBList *currentList = [self.lists objectAtIndex:[currentListIndex intValue]];
+        currentList.listCount = [NSNumber numberWithInt:[currentList.listCount intValue] + 1];
 //        newListEntry.assignedList = currentList;
 //        newListEntry.assignedListID = currentList.listID;
 //        newListEntry.assignedList.listCount = [NSNumber numberWithInt:[newListEntry.assignedList.listCount intValue] + 1];
@@ -233,9 +234,11 @@
 //        newListEntry.vendor = self.vendor;
         
         PBListEntry *newListEntryDB = [PBListEntry object];
-//        newListEntryDB.assignedListID = currentList.listID;
+        newListEntryDB.assignedListID = currentList.listID;
+        newListEntryDB.vendorID = self.vendor.vendorID;
         newListEntryDB.comment = @"static test comment";
-//        newListEntryDB.addedDate = [NSDate date];
+        newListEntryDB.addedDate = [NSDate date];
+        newListEntryDB.vendor = self.vendor;
         
         [[RKObjectManager sharedManager] postObject:newListEntryDB delegate:self];
     }
