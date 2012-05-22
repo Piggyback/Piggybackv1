@@ -31,15 +31,15 @@
 
 #pragma mark - Getters and Setters
 
-- (NSArray *)lists {
+- (NSMutableArray *)lists {
     if (!_lists) {
-        _lists = [[NSArray alloc] init];
+        _lists = [[NSMutableArray alloc] init];
     }
     
     return _lists;
 }
 
-- (void)setLists:(NSArray *)lists {
+- (void)setLists:(NSMutableArray *)lists {
     if (_lists != lists) {
         _lists = lists;
         [self.tableView reloadData];
@@ -52,7 +52,7 @@
     // fetch current user & set self.lists to currentUser.lists   
     PBUser* currentUser = [PBUser findFirstByAttribute:@"userID" withValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
     NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"createdDate" ascending:YES]];
-    self.lists = [currentUser.lists sortedArrayUsingDescriptors:sortDescriptors];
+    self.lists = [[currentUser.lists sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
 }
 
 - (void)loadData {
@@ -104,7 +104,7 @@
             // handle case where user has no lists
             [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"ListsLastUpdatedAt"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            self.lists = [[NSArray alloc] init];
+            self.lists = [[NSMutableArray alloc] init];
             self.reloading = NO;
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
@@ -186,6 +186,34 @@
         return 80;
     } else {
         return tableView.rowHeight;
+    }
+}
+
+#pragma mark - swipe to delete delegate methods
+-(void)tableView:(UITableView*)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // If row is deleted, remove it from the list.
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        // delete from piggyback api
+        NSNumber* lid = [[self.lists objectAtIndex:indexPath.row] listID];
+        NSDictionary* params = [NSDictionary dictionaryWithObject:lid forKey:@"lid"];
+        [[RKClient sharedClient] put:@"listapi/coreDataListDelete" params:params delegate:self];
+#warning - deleting list entries from core data, but not deleting list entries from piggyback db
+        
+        // delete from core data
+        PBList* deletedList = [self.lists objectAtIndex:indexPath.row];
+        [[[[RKObjectManager sharedManager] objectStore] managedObjectContext] deleteObject:deletedList];
+        [[[[RKObjectManager sharedManager] objectStore] managedObjectContext] save:nil];
+        
+        // delete from view
+        [self.lists removeObjectAtIndex:indexPath.row];
+        [self.tableView reloadData];
     }
 }
 

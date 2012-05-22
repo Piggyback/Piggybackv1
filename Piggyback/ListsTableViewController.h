@@ -17,6 +17,6 @@ typedef enum pbApiCall {
 
 @interface ListsTableViewController : UITableViewController <RKObjectLoaderDelegate, EGORefreshTableHeaderDelegate>
 
-@property (nonatomic, strong) NSArray* lists;
+@property (nonatomic, strong) NSMutableArray* lists;
 
 @end
