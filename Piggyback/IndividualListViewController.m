@@ -339,8 +339,13 @@ double const metersToMilesMultiplier = 0.000621371192;
     {
         // delete from piggyback api
         NSNumber* leid = [[self.shownListEntrys objectAtIndex:indexPath.row] listEntryID];
-        NSDate* date = [NSDate date];
-        NSDictionary* params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:leid,date,nil] forKeys:[NSArray arrayWithObjects:@"leid",@"date",nil]];
+
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
+        NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
+                
+        NSDictionary* params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:leid,timeStamp,nil] forKeys:[NSArray arrayWithObjects:@"leid",@"date",nil]];
         [[RKClient sharedClient] put:@"listapi/coreDataListEntryDelete" params:params delegate:self];
         
         // delete from core data
