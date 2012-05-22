@@ -21,7 +21,7 @@
 
 @interface InboxTableViewController()
 
-@property (nonatomic, strong) NSArray* inboxItems;
+@property (nonatomic, strong) NSMutableArray* inboxItems;
 @property (nonatomic, strong) NSMutableDictionary* userFbPics;
 @property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView;
 @property BOOL reloading;
@@ -40,16 +40,16 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 @synthesize reloading = _reloading;
 
 #pragma mark - Getters and Setters
--(NSArray *)inboxItems
+-(NSMutableArray *)inboxItems
 {
     if (!_inboxItems) {
-        _inboxItems = [[NSArray alloc] init];
+        _inboxItems = [[NSMutableArray alloc] init];
     }
 
     return _inboxItems;
 }
 
--(void)setInboxItems:(NSArray *)inboxItems
+-(void)setInboxItems:(NSMutableArray *)inboxItems
 {
     _inboxItems = inboxItems;
     [self.tableView reloadData];
@@ -69,7 +69,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     NSFetchRequest* request = [PBInboxItem fetchRequest];
     NSSortDescriptor* descriptor = [NSSortDescriptor sortDescriptorWithKey:@"referralDate" ascending:NO];
     [request setSortDescriptors:[NSArray arrayWithObject:descriptor]];
-    self.inboxItems = [PBInboxItem objectsWithFetchRequest:request];
+    self.inboxItems = [[PBInboxItem objectsWithFetchRequest:request] mutableCopy];
 }
 
 - (void)loadData {
@@ -185,7 +185,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         // handle case where user has no inbox items
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"InboxLastUpdatedAt"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        self.inboxItems = [[NSArray alloc] init];
+        self.inboxItems = [[NSMutableArray alloc] init];
         self.reloading = NO;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
@@ -316,6 +316,33 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         } else {
             return size.height + 2*FACEBOOKPICMARGIN + 35;
         }
+    }
+}
+
+#pragma mark - swipe to delete delegate methods
+-(void)tableView:(UITableView*)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // If row is deleted, remove it from the list.
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        // delete from piggyback api
+        NSNumber* rid = [[self.inboxItems objectAtIndex:indexPath.row] referralID];
+        NSDictionary* params = [NSDictionary dictionaryWithObject:rid forKey:@"rid"];
+        [[RKClient sharedClient] put:@"inboxapi/coreDataInboxItemDelete" params:params delegate:self];
+        
+        // delete from core data
+        PBInboxItem* deletedInboxItem = [self.inboxItems objectAtIndex:indexPath.row];
+        [[[[RKObjectManager sharedManager] objectStore] managedObjectContext] deleteObject:deletedInboxItem];
+        [[[[RKObjectManager sharedManager] objectStore] managedObjectContext] save:nil];
+        
+        // delete from view
+        [self.inboxItems removeObjectAtIndex:indexPath.row];
+        [self.tableView reloadData];
     }
 }
 

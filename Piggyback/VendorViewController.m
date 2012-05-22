@@ -152,6 +152,7 @@ const CGFloat photoWidth = 320;
 - (void)loadReferralCommentsData {
     // Load the object model via RestKit
     NSString* vendorReferralCommentsPath = [RK_VENDOR_REFERRAL_COMMENTS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@/vendor/%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"], self.vendor.vendorID];
+    NSLog(@"path to vendor referral comments is %@",vendorReferralCommentsPath);
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* vendorReferralCommentsLoader = [objManager loadObjectsAtResourcePath:vendorReferralCommentsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"referralComment"] delegate:self];
     vendorReferralCommentsLoader.userData = @"vendorReferralCommentsLoader";
@@ -374,7 +375,6 @@ const CGFloat photoWidth = 320;
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
 {    
     NSLog(@"IN ERROROREREOROROROROROROROROROROROROORORR");
-
     if (objectLoader.userData == @"vendorReferralCommentsLoader") {
 //        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
 //        [[NSUserDefaults standardUserDefaults] synchronize];
