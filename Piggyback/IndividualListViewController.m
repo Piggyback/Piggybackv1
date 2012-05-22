@@ -191,7 +191,9 @@ double const metersToMilesMultiplier = 0.000621371192;
         self.reloading = NO;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
-    } 
+    } else {
+        NSLog(@"loading from the post call");
+    }
 }
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
@@ -398,12 +400,12 @@ double const metersToMilesMultiplier = 0.000621371192;
         self.scrollView.alwaysBounceVertical = YES;
     }
     
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]]) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self loadData];
-    } else {
-        [self loadObjectsFromDataStore];
-    }
+//    if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]]) {
+//        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        [self loadData];
+//    } else {
+//        [self loadObjectsFromDataStore];
+//    }
     
     // update the last update date
     [self.refreshHeaderView refreshLastUpdatedDate];
@@ -412,6 +414,13 @@ double const metersToMilesMultiplier = 0.000621371192;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self loadData];
+    } else {
+        [self loadObjectsFromDataStore];
+    }
 }
 
 - (void)viewDidUnload

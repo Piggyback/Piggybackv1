@@ -28,6 +28,7 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 @synthesize window = _window;
 @synthesize facebook = _facebook;
+@synthesize currentUser = _currentUser;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -50,6 +51,8 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     objectManager.objectStore = [RKManagedObjectStore objectStoreWithStoreFilename:databaseName usingSeedDatabaseName:seedDatabaseName managedObjectModel:nil delegate:self];
     
     RKObjectRouter *router = objectManager.router;
+    [router routeClass:[PBList class] toResourcePath:@"/listapi/coreDataLists"];
+    [router routeClass:[PBList class] toResourcePath:@"/listapi/coreDataLists" forMethod:RKRequestMethodPOST];
     [router routeClass:[PBListEntry class] toResourcePath:@"/listapi/coreDataMyListEntrys"];
     [router routeClass:[PBListEntry class] toResourcePath:@"/listapi/coreDataMyListEntrys" forMethod:RKRequestMethodPOST];
     objectManager.router = router;
@@ -57,6 +60,12 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     // Setup our object mappings
     RKManagedObjectMapping* listMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBList"];
     listMapping.primaryKeyAttribute = @"listID";
+    
+    RKObjectMapping *listSerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
+    [listSerializationMapping mapKeyPath:@"createdDate" toAttribute:@"date"];
+    [listSerializationMapping mapKeyPath:@"name" toAttribute:@"name"];
+    [listSerializationMapping mapKeyPath:@"listOwnerID" toAttribute:@"uid"];
+    [objectManager.mappingProvider setSerializationMapping:listSerializationMapping forClass:[PBList class]];
     
     RKManagedObjectMapping* userMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBUser"];
     userMapping.primaryKeyAttribute = @"userID";
@@ -83,13 +92,11 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [listMapping mapAttributes:@"listID", @"createdDate", @"name", @"listOwnerID", @"listCount", nil];
     [listMapping mapRelationship:@"listEntrys" withMapping:listEntryMapping];
     [listMapping mapRelationship:@"listOwner" withMapping:userMapping];
-//    [listMapping connectRelationship:@"listEntrys" withObjectForPrimaryKeyAttribute:@"listEntryID"];
     [listMapping connectRelationship:@"listOwner" withObjectForPrimaryKeyAttribute:@"listOwnerID"];
     [objectManager.mappingProvider setMapping:listMapping forKeyPath:@"list"]; 
     
     [listEntryMapping mapAttributes:@"listEntryID", @"assignedListID", @"comment", @"addedDate", nil];
     [listEntryMapping mapRelationship:@"vendor" withMapping:vendorMapping];
-//    [listEntryMapping connectRelationship:@"vendor" withObjectForPrimaryKeyAttribute:@"vendorID"];
     [listEntryMapping mapRelationship:@"assignedList" withMapping:listMapping];
     [listEntryMapping connectRelationship:@"assignedList" withObjectForPrimaryKeyAttribute:@"assignedListID"];
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
@@ -99,7 +106,6 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [listEntrySerializationMapping mapKeyPath:@"vendorID" toAttribute:@"vid"];
     [listEntrySerializationMapping mapKeyPath:@"addedDate" toAttribute:@"date"];
     [listEntrySerializationMapping mapKeyPath:@"comment" toAttribute:@"comment"];
-    [listEntrySerializationMapping mapKeyPath:@"vendor" toAttribute:@"vendor"];
     [objectManager.mappingProvider setSerializationMapping:listEntrySerializationMapping forClass:[PBListEntry class]];
     
     RKManagedObjectMapping* inboxMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBInboxItem"];

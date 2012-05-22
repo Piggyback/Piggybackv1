@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "FBConnect.h"
 #import <RestKit/RestKit.h>
+#import "PBUser.h"
 
 @interface PiggybackAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) Facebook *facebook;
+@property (strong, nonatomic) PBUser *currentUser;
 
 @end

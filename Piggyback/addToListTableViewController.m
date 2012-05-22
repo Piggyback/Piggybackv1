@@ -100,6 +100,7 @@
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
+    NSLog(@"failed to map list entry");
     switch (self.currentPbAPICall) {
         case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
@@ -221,17 +222,8 @@
 
 - (IBAction)addToList:(id)sender {
     for (NSNumber *currentListIndex in self.selectedListIndexes) {
-//        PBListEntry *newListEntry = [NSEntityDescription insertNewObjectForEntityForName:@"PBListEntry" inManagedObjectContext:[NSManagedObject managedObjectContext]];
-//#warning need to obtain actual listEntryID (autoincremented value? consistent with DB?)
-//        newListEntry.listEntryID = [NSNumber numberWithInt:1000];
         PBList *currentList = [self.lists objectAtIndex:[currentListIndex intValue]];
         currentList.listCount = [NSNumber numberWithInt:[currentList.listCount intValue] + 1];
-//        newListEntry.assignedList = currentList;
-//        newListEntry.assignedListID = currentList.listID;
-//        newListEntry.assignedList.listCount = [NSNumber numberWithInt:[newListEntry.assignedList.listCount intValue] + 1];
-//        newListEntry.comment = @"static test comment";
-//        newListEntry.addedDate = [NSDate date];
-//        newListEntry.vendor = self.vendor;
         
         PBListEntry *newListEntryDB = [PBListEntry object];
         newListEntryDB.assignedListID = currentList.listID;
@@ -239,10 +231,10 @@
         newListEntryDB.comment = @"static test comment";
         newListEntryDB.addedDate = [NSDate date];
         newListEntryDB.vendor = self.vendor;
+        newListEntryDB.assignedList = currentList;
         
-        [[RKObjectManager sharedManager] postObject:newListEntryDB delegate:self];
+        [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:self];
     }
-//    [[NSManagedObject managedObjectContext] save:nil];
     
     [self.navigationController dismissModalViewControllerAnimated:YES];
     

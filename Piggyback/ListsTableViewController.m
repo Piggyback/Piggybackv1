@@ -66,16 +66,6 @@
     listsLoader.userData = @"listsLoader";
 }
 
-
-//- (void)getCurrentUserLists:(NSString *)uid {
-//    // Load the user object via RestKit	
-//    self.currentPbAPICall = pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals;
-//    
-//    RKObjectManager* objectManager = [RKObjectManager sharedManager];
-//    NSString* resourcePath = [RK_LISTS_ID_RESOURCE_PATH stringByAppendingString:uid];
-//    [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"list"] delegate:self];
-//}
-
 #pragma mark - RKObjectLoaderDelegate methods
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
