@@ -164,8 +164,8 @@ const CGFloat photoWidth = 320;
     NSLog(@"vendor from photo core data is : %@",self.vendor);
     NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"pid" ascending:NO]];
     self.photos = [self.vendor.vendorPhotos sortedArrayUsingDescriptors:sortDescriptors];
-#warning - currently doesnt work without this nslog printing vid bc will fault unless it needs photo attributes
-    NSLog(@"LOAD VENDOR PHOTOS FOR %@ FROM CORE DATA: %@", self.vendor.vendorID, [(PBVendorPhoto*)[self.photos objectAtIndex:0] vid]);
+//#warning - currently doesnt work without this nslog printing vid bc will fault unless it needs photo attributes
+//    NSLog(@"LOAD VENDOR PHOTOS FOR %@ FROM CORE DATA: %@", self.vendor.vendorID, [(PBVendorPhoto*)[self.photos objectAtIndex:0] vid]);
     [self displayPhotos];
 }
 
@@ -374,20 +374,20 @@ const CGFloat photoWidth = 320;
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
 {    
-    NSLog(@"IN ERROROREREOROROROROROROROROROROROROORORR");
+    NSLog(@"IN ERROROREREOROROROROROROROROROROROROORORR %i",[objectLoader.response statusCode]);
+    
     if (objectLoader.userData == @"vendorReferralCommentsLoader") {
-//        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
-//        self.reloading = NO;
-//        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
-
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-        NSLog(@"InboxTableViewController RK error: %@", error);
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self loadPhotosObjectsFromDataStore];
     }
     
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    self.reloading = NO;
+    [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
 }
 
 #pragma mark - table data source protocol methods
@@ -578,6 +578,7 @@ const CGFloat photoWidth = 320;
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
     [self loadReferralCommentsData];
     // dont reload photos: if coming from search, calling load photos will fail
+    // right now, photos in db dont change anyway so no need
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
