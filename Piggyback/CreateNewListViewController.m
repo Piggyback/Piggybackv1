@@ -17,6 +17,11 @@
 @implementation CreateNewListViewController
 @synthesize listNameTextField;
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return NO;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -29,6 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    listNameTextField.delegate = self;
     [listNameTextField becomeFirstResponder];
 	// Do any additional setup after loading the view.
 }
@@ -64,6 +70,9 @@
         [[RKObjectManager sharedManager] postObject:newList mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"list"] delegate:(id<RKObjectLoaderDelegate>)[self presentingViewController]];
         
         [self.navigationController dismissModalViewControllerAnimated:YES];
+    } else {
+        UIAlertView *emptyNameAlert = [[UIAlertView alloc] initWithTitle:@"Empty list name" message:@"Name cannot be blank!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
+        [emptyNameAlert show];
     }
 }
 @end

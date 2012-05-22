@@ -53,7 +53,7 @@
         <attribute name="lng" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="vendorID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vendorID" attributeType="String" syncable="YES"/>
         <attribute name="vendorReferralCommentsCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="website" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="assignedInboxItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBInboxItem" inverseName="vendor" inverseEntity="PBInboxItem" syncable="YES"/>

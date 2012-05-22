@@ -225,6 +225,13 @@
         PBList *currentList = [self.lists objectAtIndex:[currentListIndex intValue]];
         currentList.listCount = [NSNumber numberWithInt:[currentList.listCount intValue] + 1];
         
+//        if (![PBVendor findFirstByAttribute:@"vendorID" withValue:self.vendor.vendorID]) {
+//            // vendor does not exist in core data
+//            PBVendor *newVendor = [PBVendor object];
+//            newVendor.vendorID = self.vendor.vendorID;
+//            newVendor.name = self.vendor.name;
+//        }
+        
         PBListEntry *newListEntryDB = [PBListEntry object];
         newListEntryDB.assignedListID = currentList.listID;
         newListEntryDB.vendorID = self.vendor.vendorID;

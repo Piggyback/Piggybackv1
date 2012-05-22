@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CreateNewListViewController : UIViewController
+@interface CreateNewListViewController : UIViewController <UITextFieldDelegate>
 
 - (IBAction)cancelCreateNewList:(id)sender;
 - (IBAction)createNewList:(id)sender;

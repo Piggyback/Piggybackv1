@@ -35,7 +35,8 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     /* Setting up RestKit SDK */
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:RK_BASE_URL];
     objectManager.acceptMIMEType = RKMIMETypeJSON;
-    objectManager.serializationMIMEType = RKMIMETypeFormURLEncoded;
+//    objectManager.serializationMIMEType = RKMIMETypeFormURLEncoded;
+    objectManager.serializationMIMEType = RKMIMETypeJSON;
     
     objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
 #pragma note - access context globally in code using [[[RKObjectManager sharedManager] objectStore] managedObjectContext]
@@ -101,11 +102,22 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [listEntryMapping connectRelationship:@"assignedList" withObjectForPrimaryKeyAttribute:@"assignedListID"];
     [objectManager.mappingProvider setMapping:listEntryMapping forKeyPath:@"listEntry"];
     
+//    RKObjectMapping *vendorSerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
+//    [vendorSerializationMapping mapKeyPath:@"vendorID" toAttribute:@"vid"];
+//    [vendorSerializationMapping mapKeyPath:@"name" toAttribute:@"vendorName"];
+//    [vendorSerializationMapping mapKeyPath:@"lat" toAttribute:@"lat"];
+//    [vendorSerializationMapping mapKeyPath:@"lng" toAttribute:@"lng"];
+//    [objectManager.mappingProvider setSerializationMapping:vendorSerializationMapping forClass:[PBVendor class]];
+    
+    RKObjectMapping *vendorSerializationMapping = [vendorMapping inverseMapping];
+    [objectManager.mappingProvider setSerializationMapping:vendorSerializationMapping forClass:[PBVendor class]];
+    
     RKObjectMapping *listEntrySerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
     [listEntrySerializationMapping mapKeyPath:@"assignedListID" toAttribute:@"lid"];
     [listEntrySerializationMapping mapKeyPath:@"vendorID" toAttribute:@"vid"];
     [listEntrySerializationMapping mapKeyPath:@"addedDate" toAttribute:@"date"];
     [listEntrySerializationMapping mapKeyPath:@"comment" toAttribute:@"comment"];
+    [listEntrySerializationMapping mapKeyPath:@"vendor" toRelationship:@"vendor" withMapping:vendorSerializationMapping];
     [objectManager.mappingProvider setSerializationMapping:listEntrySerializationMapping forClass:[PBListEntry class]];
     
     RKManagedObjectMapping* inboxMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBInboxItem"];
