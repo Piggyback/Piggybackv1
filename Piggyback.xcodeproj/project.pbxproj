@@ -58,8 +58,8 @@
 		3ED78A3F1523277700FE5C69 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED78A371523277700FE5C69 /* whiteArrow@2x.png */; };
 		4F4DACB2151AD58200E6E65C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB0151AD58200E6E65C /* Icon.png */; };
 		4F4DACB3151AD58200E6E65C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB1151AD58200E6E65C /* Icon@2x.png */; };
-		F90340961546A76E00F51F8B /* Search magnfiying glass tab bar engraved 30x30 300dpi.png in Resources */ = {isa = PBXBuildFile; fileRef = F90340941546A76E00F51F8B /* Search magnfiying glass tab bar engraved 30x30 300dpi.png */; };
-		F90340971546A76E00F51F8B /* Search magnfiying glass tab bar engraved 60x60 300dpi (retina).png in Resources */ = {isa = PBXBuildFile; fileRef = F90340951546A76E00F51F8B /* Search magnfiying glass tab bar engraved 60x60 300dpi (retina).png */; };
+		F90340961546A76E00F51F8B /* searchMagGlass.png in Resources */ = {isa = PBXBuildFile; fileRef = F90340941546A76E00F51F8B /* searchMagGlass.png */; };
+		F90340971546A76E00F51F8B /* searchMagGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F90340951546A76E00F51F8B /* searchMagGlass@2x.png */; };
 		F936AB7F1508F12F0019F191 /* PBVendorReferralComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB7E1508F12F0019F191 /* PBVendorReferralComment.m */; };
 		F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */; };
 		F936AB85150A5AC70019F191 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB84150A5AC60019F191 /* Constants.m */; };
@@ -204,8 +204,8 @@
 		3ED78A371523277700FE5C69 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
 		4F4DACB0151AD58200E6E65C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		4F4DACB1151AD58200E6E65C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		F90340941546A76E00F51F8B /* Search magnfiying glass tab bar engraved 30x30 300dpi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Search magnfiying glass tab bar engraved 30x30 300dpi.png"; sourceTree = "<group>"; };
-		F90340951546A76E00F51F8B /* Search magnfiying glass tab bar engraved 60x60 300dpi (retina).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Search magnfiying glass tab bar engraved 60x60 300dpi (retina).png"; sourceTree = "<group>"; };
+		F90340941546A76E00F51F8B /* searchMagGlass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchMagGlass.png; sourceTree = "<group>"; };
+		F90340951546A76E00F51F8B /* searchMagGlass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchMagGlass@2x.png"; sourceTree = "<group>"; };
 		F936AB7D1508F12F0019F191 /* PBVendorReferralComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBVendorReferralComment.h; path = Piggyback/PBVendorReferralComment.h; sourceTree = "<group>"; };
 		F936AB7E1508F12F0019F191 /* PBVendorReferralComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendorReferralComment.m; path = Piggyback/PBVendorReferralComment.m; sourceTree = "<group>"; };
 		F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferralCommentTableCell.h; path = Piggyback/ReferralCommentTableCell.h; sourceTree = "<group>"; };
@@ -407,8 +407,8 @@
 		3EFDB51C1501793200CC57A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F90340941546A76E00F51F8B /* Search magnfiying glass tab bar engraved 30x30 300dpi.png */,
-				F90340951546A76E00F51F8B /* Search magnfiying glass tab bar engraved 60x60 300dpi (retina).png */,
+				F90340941546A76E00F51F8B /* searchMagGlass.png */,
+				F90340951546A76E00F51F8B /* searchMagGlass@2x.png */,
 				F9BDEEAF153F926F0030363B /* search magnifying glass 22x31 v2.png */,
 				3E47FED5152C16BD00421FFE /* no_photo.png */,
 				3EAC2AF4152157FF00B69392 /* login_bg.png */,
@@ -601,8 +601,8 @@
 				3E47FED6152C16BD00421FFE /* no_photo.png in Resources */,
 				F9BDEEB0153F926F0030363B /* search magnifying glass 22x31 v2.png in Resources */,
 				3E1E8903154101770048219C /* FBDialog.bundle in Resources */,
-				F90340961546A76E00F51F8B /* Search magnfiying glass tab bar engraved 30x30 300dpi.png in Resources */,
-				F90340971546A76E00F51F8B /* Search magnfiying glass tab bar engraved 60x60 300dpi (retina).png in Resources */,
+				F90340961546A76E00F51F8B /* searchMagGlass.png in Resources */,
+				F90340971546A76E00F51F8B /* searchMagGlass@2x.png in Resources */,
 				3EC3CDDE1564840900B1C753 /* LoginWithFacebookNormal.png in Resources */,
 				3EC3CDDF1564840900B1C753 /* LoginWithFacebookNormal@2x.png in Resources */,
 			);
