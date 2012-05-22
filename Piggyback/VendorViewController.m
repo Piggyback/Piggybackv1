@@ -374,7 +374,7 @@ const CGFloat photoWidth = 320;
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
 {    
-    NSLog(@"IN ERROROREREOROROROROROROROROROROROROORORR %i",[objectLoader.response statusCode]);
+    NSLog(@"IN ERROR: No Results Returned. Status Code: %i",[objectLoader.response statusCode]);
     
     if (objectLoader.userData == @"vendorReferralCommentsLoader") {
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]];
