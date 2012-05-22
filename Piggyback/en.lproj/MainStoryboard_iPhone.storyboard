@@ -393,62 +393,85 @@
             </objects>
             <point key="canvasLocation" x="3220" y="-272"/>
         </scene>
-        <!--Add To List Table View Controller - Add to List-->
-        <scene sceneID="yZI-XC-H0Z">
+        <!--Add To List View Controller - Add to List-->
+        <scene sceneID="6qi-Ti-CZ8">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cHS-pk-lAe" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tableViewController id="wcn-5g-BW0" customClass="addToListTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ggT-k4-yHB">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7eZ-4b-Rgv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="addToListViewController" id="x3c-HG-08m" customClass="AddToListViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="k0F-o0-8Az">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view alpha="0.70000000000000007" contentMode="scaleToFill" id="mi3-Yj-djr">
+                                <rect key="frame" x="0.0" y="59" width="320" height="357"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add comment..." minimumFontSize="17" id="Uld-Hy-6am">
+                                <rect key="frame" x="10" y="20" width="300" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="G9G-Ga-tjY">
+                                <rect key="frame" x="0.0" y="59" width="320" height="357"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="addToListCell" textLabel="u5e-Bt-Dhb" detailTextLabel="Lo8-9d-dkH" style="IBUITableViewCellStyleSubtitle" id="QtJ-Ih-4yK">
+                                        <rect key="frame" x="0.0" y="46" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="u5e-Bt-Dhb">
+                                                    <rect key="frame" x="10" y="2" width="38" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lo8-9d-dkH">
+                                                    <rect key="frame" x="10" y="24" width="47" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="x3c-HG-08m" id="hZD-a8-OfJ"/>
+                                    <outlet property="delegate" destination="x3c-HG-08m" id="fxJ-oS-cA3"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="addToListCell" textLabel="5gw-KC-HZo" detailTextLabel="zGw-sA-MbO" style="IBUITableViewCellStyleSubtitle" id="fok-Kr-8Hx">
-                                <rect key="frame" x="0.0" y="46" width="320" height="46"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="10" y="1" width="300" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5gw-KC-HZo">
-                                            <rect key="frame" x="10" y="2" width="38" height="22"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zGw-sA-MbO">
-                                            <rect key="frame" x="10" y="24" width="47" height="18"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="wcn-5g-BW0" id="4L3-gE-Nhw"/>
-                            <outlet property="delegate" destination="wcn-5g-BW0" id="p50-Zb-v1Z"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Add to List" id="mvu-YQ-rJQ">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="3NQ-rM-YaX">
+                    </view>
+                    <navigationItem key="navigationItem" title="Add to List" id="yjS-hZ-MvP">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="auM-OC-SlM">
                             <connections>
-                                <action selector="cancelAddToList:" destination="wcn-5g-BW0" id="uAX-4U-7cP"/>
+                                <action selector="cancelAddToList:" destination="x3c-HG-08m" id="StN-CS-a4Q"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Add" id="ar2-UP-lkk">
+                        <barButtonItem key="rightBarButtonItem" title="Add" id="Vqu-6d-chZ">
                             <connections>
-                                <action selector="addToList:" destination="wcn-5g-BW0" id="uz2-DP-vp9"/>
+                                <action selector="addToList:" destination="x3c-HG-08m" id="zHA-C9-q0b"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                </tableViewController>
+                    <connections>
+                        <outlet property="commentTextField" destination="Uld-Hy-6am" id="Kx6-13-gZx"/>
+                        <outlet property="grayLayer" destination="mi3-Yj-djr" id="21n-cg-KV5"/>
+                        <outlet property="tableView" destination="G9G-Ga-tjY" id="QAf-x4-Wfc"/>
+                    </connections>
+                </viewController>
             </objects>
-            <point key="canvasLocation" x="4106" y="-272"/>
+            <point key="canvasLocation" x="4104" y="-272"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="5">
@@ -847,7 +870,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="wcn-5g-BW0" kind="relationship" relationship="rootViewController" id="MY8-da-0c5"/>
+                        <segue destination="x3c-HG-08m" kind="relationship" relationship="rootViewController" id="hAR-NB-72W"/>
                     </connections>
                 </navigationController>
             </objects>
@@ -881,6 +904,16 @@
         <image name="searchMagGlass.png" width="30" height="30"/>
     </resources>
     <classes>
+        <class className="AddToListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddToListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addToList:"/>
+                <relationship kind="action" name="cancelAddToList:"/>
+                <relationship kind="outlet" name="commentTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="grayLayer" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
         <class className="CreateNewListViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CreateNewListViewController.h"/>
             <relationships>
@@ -966,13 +999,6 @@
                 <relationship kind="outlet" name="photoScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="vendorTableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="addToListTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/addToListTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addToList:"/>
-                <relationship kind="action" name="cancelAddToList:"/>
             </relationships>
         </class>
     </classes>

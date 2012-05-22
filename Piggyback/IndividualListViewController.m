@@ -339,6 +339,7 @@ double const metersToMilesMultiplier = 0.000621371192;
     // If row is deleted, remove it from the list.
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
+        self.list.listCount = [NSNumber numberWithInt:([self.list.listCount intValue] - 1)];
         // delete from piggyback api
         NSNumber* leid = [[self.shownListEntrys objectAtIndex:indexPath.row] listEntryID];
 
