@@ -16,7 +16,7 @@
 
 @interface IndividualListViewController()
 
-@property (nonatomic, strong) NSArray* sortedDateListEntrys;
+@property (nonatomic, strong) NSMutableArray* sortedDateListEntrys;
 @property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView;
 @property BOOL reloading;
 
@@ -56,16 +56,16 @@ double const metersToMilesMultiplier = 0.000621371192;
     self.title = list.name;
 }
 
-- (NSArray*)shownListEntrys
+- (NSMutableArray*)shownListEntrys
 {
     if (!_shownListEntrys) {
-        _shownListEntrys = [[NSArray alloc] init];
+        _shownListEntrys = [[NSMutableArray alloc] init];
     }
     
     return _shownListEntrys;
 }
 
-- (void)setShownListEntrys:(NSArray *)shownListEntrys
+- (void)setShownListEntrys:(NSMutableArray *)shownListEntrys
 {
     _shownListEntrys = shownListEntrys;
     [self.listEntryTableView reloadData];
@@ -76,7 +76,7 @@ double const metersToMilesMultiplier = 0.000621371192;
 - (void)loadObjectsFromDataStore {
     self.list = [PBList findFirstByAttribute:@"listID" withValue:self.list.listID];
     NSArray* sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"addedDate" ascending:YES]];
-    self.sortedDateListEntrys = [self.list.listEntrys sortedArrayUsingDescriptors:sortDescriptors];
+    self.sortedDateListEntrys = [[self.list.listEntrys sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
     
     for (PBListEntry* currentEntry in self.sortedDateListEntrys) {
         currentEntry.vendor.distanceFromCurrentLocationInMiles = -1;
@@ -114,9 +114,9 @@ double const metersToMilesMultiplier = 0.000621371192;
     listEntrysLoader.userData = @"listEntrysLoader";
 }
 
-- (void)sortListEntrysByMostRecommendations:(NSArray *)listEntrys
+- (void)sortListEntrysByMostRecommendations:(NSMutableArray *)listEntrys
 {
-    self.shownListEntrys = [listEntrys sortedArrayUsingComparator: ^(PBListEntry* a, PBListEntry* b) {
+    self.shownListEntrys = [[listEntrys sortedArrayUsingComparator: ^(PBListEntry* a, PBListEntry* b) {
         if ([a.vendor.vendorReferralCommentsCount intValue] < [b.vendor.vendorReferralCommentsCount intValue]) {
             return (NSComparisonResult)NSOrderedDescending;
         } else if ([a.vendor.vendorReferralCommentsCount intValue] > [b.vendor.vendorReferralCommentsCount intValue]) {
@@ -124,10 +124,10 @@ double const metersToMilesMultiplier = 0.000621371192;
         } else {
             return (NSComparisonResult)NSOrderedSame;
         }
-    }];
+    }] mutableCopy];
 }
 
-- (void)sortListEntrysByDistance:(NSArray *)listEntrys
+- (void)sortListEntrysByDistance:(NSMutableArray *)listEntrys
 {
 //    // get the current location in a separate thread (blocking occurs until location is retrieved)
     dispatch_queue_t getCurrentLocationQueue = dispatch_queue_create("getCurrentLocation", NULL);
@@ -137,9 +137,9 @@ double const metersToMilesMultiplier = 0.000621371192;
             if ([self.list.listEntrys count] == 1) {
                 PBListEntry* currentListEntry = [listEntrys objectAtIndex:0];
                 currentListEntry.vendor.distanceFromCurrentLocationInMiles = [[[CLLocation alloc] initWithLatitude:(CLLocationDegrees)[currentListEntry.vendor.lat doubleValue] longitude:(CLLocationDegrees)[currentListEntry.vendor.lng doubleValue]] distanceFromLocation:currentLocation] * metersToMilesMultiplier;
-                self.shownListEntrys = [NSArray arrayWithObject:currentListEntry];
+                self.shownListEntrys = [NSMutableArray arrayWithObject:currentListEntry];
             } else {
-                self.shownListEntrys = [listEntrys sortedArrayUsingComparator: ^(PBListEntry* a, PBListEntry* b) {
+                self.shownListEntrys = [[listEntrys sortedArrayUsingComparator: ^(PBListEntry* a, PBListEntry* b) {
                     // store distance in current list entry
                     CLLocation* locationA = [[CLLocation alloc] initWithLatitude:(CLLocationDegrees)[a.vendor.lat doubleValue] longitude:(CLLocationDegrees)[a.vendor.lng doubleValue]];
                     CLLocation* locationB = [[CLLocation alloc] initWithLatitude:(CLLocationDegrees)[b.vendor.lat doubleValue] longitude:(CLLocationDegrees)[b.vendor.lng doubleValue]];
@@ -157,7 +157,7 @@ double const metersToMilesMultiplier = 0.000621371192;
                     } else {
                         return (NSComparisonResult)NSOrderedSame;
                     }
-                }];
+                }] mutableCopy];
             }
         });
     });
@@ -202,7 +202,7 @@ double const metersToMilesMultiplier = 0.000621371192;
         // handle case where user has no inbox items
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        self.shownListEntrys = [[NSArray alloc] init];
+        self.shownListEntrys = [[NSMutableArray alloc] init];
         self.reloading = NO;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
@@ -326,6 +326,39 @@ double const metersToMilesMultiplier = 0.000621371192;
         } else {
             return size.height + 33;
         }
+    }
+}
+
+#pragma mark - swipe to delete delegate methods
+-(void)tableView:(UITableView*)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // If row is deleted, remove it from the list.
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        // delete from piggyback api
+        NSNumber* leid = [[self.shownListEntrys objectAtIndex:indexPath.row] listEntryID];
+
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
+        NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
+                
+        NSDictionary* params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:leid,timeStamp,nil] forKeys:[NSArray arrayWithObjects:@"leid",@"date",nil]];
+        [[RKClient sharedClient] put:@"listapi/coreDataListEntryDelete" params:params delegate:self];
+        
+        // delete from core data
+        PBListEntry* deletedListEntry = [self.shownListEntrys objectAtIndex:indexPath.row];
+        [[[[RKObjectManager sharedManager] objectStore] managedObjectContext] deleteObject:deletedListEntry];
+        [[[[RKObjectManager sharedManager] objectStore] managedObjectContext] save:nil];
+        
+        // delete from view
+        [self.shownListEntrys removeObjectAtIndex:indexPath.row];
+        [self.sortedDateListEntrys removeObject:deletedListEntry];
+        [self.listEntryTableView reloadData];
     }
 }
 

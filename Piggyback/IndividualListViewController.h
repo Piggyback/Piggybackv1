@@ -16,7 +16,7 @@
 
 @property (nonatomic, strong) PBList* list;
 @property (weak, nonatomic) IBOutlet UITableView *listEntryTableView;
-@property (nonatomic, strong) NSArray* shownListEntrys;
+@property (nonatomic, strong) NSMutableArray* shownListEntrys;
 @property (nonatomic, strong) LocationController* locationController;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;

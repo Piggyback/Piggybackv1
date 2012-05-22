@@ -9,7 +9,7 @@
         <attribute name="referrerLastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="vendorID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="vendorName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="list" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBList" inverseName="assignedInboxItems" inverseEntity="PBList" syncable="YES"/>
+        <relationship name="list" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="PBList" inverseName="assignedInboxItems" inverseEntity="PBList" syncable="YES"/>
         <relationship name="referrer" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBUser" inverseName="referredInboxItems" inverseEntity="PBUser" syncable="YES"/>
         <relationship name="vendor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBVendor" inverseName="assignedInboxItems" inverseEntity="PBVendor" syncable="YES"/>
     </entity>
@@ -20,7 +20,7 @@
         <attribute name="listOwnerID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="assignedInboxItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBInboxItem" inverseName="list" inverseEntity="PBInboxItem" syncable="YES"/>
-        <relationship name="listEntrys" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBListEntry" inverseName="assignedList" inverseEntity="PBListEntry" syncable="YES"/>
+        <relationship name="listEntrys" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PBListEntry" inverseName="assignedList" inverseEntity="PBListEntry" syncable="YES"/>
         <relationship name="listOwner" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBUser" inverseName="lists" inverseEntity="PBUser" syncable="YES"/>
     </entity>
     <entity name="PBListEntry" representedClassName="PBListEntry" syncable="YES">
