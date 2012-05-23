@@ -173,10 +173,11 @@ const NSString* limit = @"20";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // add a row for foursquare cell
     if ([[self.searchResponse objectForKey:@"venues"] count] == 0) {
         return 1;
     } else {
-        return [[self.searchResponse objectForKey:@"venues"] count];
+        return [[self.searchResponse objectForKey:@"venues"] count] + 1;
     }
 }
 
@@ -201,43 +202,56 @@ const NSString* limit = @"20";
         
         return cell;
     } else {
-        static NSString *CellIdentifier = @"searchCell";
+        NSLog(@"total number of objects is %i",[[self.searchResponse objectForKey:@"venues"] count]);
         
-        SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        }
-                
-        NSDictionary *vendorDetails = [[self.searchResponse objectForKey:@"venues"] objectAtIndex:indexPath.row];
-        NSString* addr = [[vendorDetails objectForKey:@"location"] objectForKey:@"address"];
-        NSString* addrCity = [[vendorDetails objectForKey:@"location"] objectForKey:@"city"];
-        NSString* addrState = [[vendorDetails objectForKey:@"location"] objectForKey:@"state"];
-//        NSString* addrZip = [[vendorDetails objectForKey:@"location"] objectForKey:@"postalCode"];
-        
-        NSMutableString* formattedAddress = [[NSMutableString alloc] init];
-        if ([addr length] != 0 || [addrCity length] != 0 || [addrState length] != 0)  {
-            formattedAddress = [[NSMutableString alloc] init];
-            if ([addr length])
-                [formattedAddress appendFormat:@"%@", addr];
-            if ([addr length] && ([addrCity length] || [addrState length])) {
-                [formattedAddress appendFormat:@", "];
+        if (indexPath.row == [[self.searchResponse objectForKey:@"venues"] count]) {
+            static NSString *CellIdentifier = @"foursquareCell";
+            NSLog(@"index path row of foursquare is %i",indexPath.row);
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             }
-            if ([addrCity length] || [addrState length]) {
-                if ([addrCity length]) {
-                    [formattedAddress appendFormat:@"%@",addrCity];
-                    if ([addrState length]) {
-                        [formattedAddress appendFormat:@", %@",addrState];
-                    }
-                } else {
-                    [formattedAddress appendFormat:@"%@",addrState];
+            
+            return cell;
+        } else {
+            static NSString *CellIdentifier = @"searchCell";
+            
+            SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            }
+                    
+            NSLog(@"index path row is %i",indexPath.row);
+            NSDictionary *vendorDetails = [[self.searchResponse objectForKey:@"venues"] objectAtIndex:indexPath.row];
+            NSString* addr = [[vendorDetails objectForKey:@"location"] objectForKey:@"address"];
+            NSString* addrCity = [[vendorDetails objectForKey:@"location"] objectForKey:@"city"];
+            NSString* addrState = [[vendorDetails objectForKey:@"location"] objectForKey:@"state"];
+            
+            NSMutableString* formattedAddress = [[NSMutableString alloc] init];
+            if ([addr length] != 0 || [addrCity length] != 0 || [addrState length] != 0)  {
+                formattedAddress = [[NSMutableString alloc] init];
+                if ([addr length])
+                    [formattedAddress appendFormat:@"%@", addr];
+                if ([addr length] && ([addrCity length] || [addrState length])) {
+                    [formattedAddress appendFormat:@", "];
                 }
-            }      
+                if ([addrCity length] || [addrState length]) {
+                    if ([addrCity length]) {
+                        [formattedAddress appendFormat:@"%@",addrCity];
+                        if ([addrState length]) {
+                            [formattedAddress appendFormat:@", %@",addrState];
+                        }
+                    } else {
+                        [formattedAddress appendFormat:@"%@",addrState];
+                    }
+                }      
+            }
+            
+            cell.name.text = [[[self.searchResponse objectForKey:@"venues"] objectAtIndex:indexPath.row] objectForKey:@"name"];
+            cell.address.text = formattedAddress;
+            
+            return cell;
         }
-        
-        cell.name.text = [[[self.searchResponse objectForKey:@"venues"] objectAtIndex:indexPath.row] objectForKey:@"name"];
-        cell.address.text = formattedAddress;
-        
-        return cell;   
     }
 }
 
@@ -248,7 +262,11 @@ const NSString* limit = @"20";
     } else if ([[self.searchResponse objectForKey:@"venues"] count] == 0) {
         return 60;
     } else {
-        return 46;
+        if (indexPath.row == [[self.searchResponse objectForKey:@"venues"] count]) {
+            return 25;
+        } else {
+            return 46;
+        }
     }
 }
 
@@ -257,6 +275,8 @@ const NSString* limit = @"20";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
+
+
 
 #pragma mark - view lifecycle
 

@@ -70,6 +70,7 @@
 		F985B437150FE9D0002791B2 /* InboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B436150FE9D0002791B2 /* InboxTableViewController.m */; };
 		F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B439151010F2002791B2 /* InboxTableCell.m */; };
 		F98F4A5B1558F29B001777D4 /* PBVendorPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = F98F4A5A1558F29B001777D4 /* PBVendorPhoto.m */; };
+		F99C2C8B156CF3C900C8E65B /* foursquare-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */; };
 		F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B74037151934E9005D125B /* VendorInfoTableCell.m */; };
 		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
 		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
@@ -225,6 +226,7 @@
 		F985B439151010F2002791B2 /* InboxTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InboxTableCell.m; path = Piggyback/InboxTableCell.m; sourceTree = "<group>"; };
 		F98F4A591558F29B001777D4 /* PBVendorPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBVendorPhoto.h; path = Piggyback/PBVendorPhoto.h; sourceTree = "<group>"; };
 		F98F4A5A1558F29B001777D4 /* PBVendorPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendorPhoto.m; path = Piggyback/PBVendorPhoto.m; sourceTree = "<group>"; };
+		F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "foursquare-logo.png"; sourceTree = "<group>"; };
 		F9B74036151934E9005D125B /* VendorInfoTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VendorInfoTableCell.h; path = Piggyback/VendorInfoTableCell.h; sourceTree = "<group>"; };
 		F9B74037151934E9005D125B /* VendorInfoTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VendorInfoTableCell.m; path = Piggyback/VendorInfoTableCell.m; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -408,6 +410,7 @@
 			isa = PBXGroup;
 			children = (
 				F90340941546A76E00F51F8B /* searchMagGlass.png */,
+				F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */,
 				F90340951546A76E00F51F8B /* searchMagGlass@2x.png */,
 				F9BDEEAF153F926F0030363B /* search magnifying glass 22x31 v2.png */,
 				3E47FED5152C16BD00421FFE /* no_photo.png */,
@@ -605,6 +608,7 @@
 				F90340971546A76E00F51F8B /* searchMagGlass@2x.png in Resources */,
 				3EC3CDDE1564840900B1C753 /* LoginWithFacebookNormal.png in Resources */,
 				3EC3CDDF1564840900B1C753 /* LoginWithFacebookNormal@2x.png in Resources */,
+				F99C2C8B156CF3C900C8E65B /* foursquare-logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
