@@ -120,9 +120,7 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [vendorSerializationMapping mapAttributes:@"vendorID",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",@"vendorReferralCommentsCount",nil];
     [vendorSerializationMapping mapKeyPath:@"vendorPhotos" toRelationship:@"vendorPhotos" withMapping:vendorPhotoSerializationMapping];
     [objectManager.mappingProvider setSerializationMapping:vendorSerializationMapping forClass:[PBVendor class]];
-    
-    
-    
+        
     RKObjectMapping *listEntrySerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
     [listEntrySerializationMapping mapKeyPath:@"assignedListID" toAttribute:@"lid"];
     [listEntrySerializationMapping mapKeyPath:@"vendorID" toAttribute:@"vid"];
