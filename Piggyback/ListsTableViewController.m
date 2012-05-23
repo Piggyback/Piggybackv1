@@ -13,6 +13,8 @@
 #import "IndividualListViewController.h"
 #import "MBProgressHUD.h"
 #import "Constants.h"
+#import "CreateNewListViewController.h"
+#import "PiggybackNavigationController.h"
 
 @interface ListsTableViewController ()
 
@@ -69,6 +71,7 @@
 #pragma mark - RKObjectLoaderDelegate methods
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
+    NSLog(@"in did load objects");
     switch (self.currentPbAPICall) {
         case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
@@ -88,6 +91,7 @@
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
+    NSLog(@"in failed to load objects");
     switch (self.currentPbAPICall) {
         case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {
@@ -116,6 +120,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"list count: %i", [self.lists count]);
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
         return 0;
     }
@@ -275,6 +280,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self loadData];
+    } else {
+        [self loadObjectsFromDataStore];
+    }
 
     if (self.refreshHeaderView == nil) {
         EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, -180.0f, self.view.frame.size.width, 180.0f) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
@@ -295,13 +307,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self loadData];
-    } else {
-        [self loadObjectsFromDataStore];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -327,19 +332,14 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([segue.identifier isEqualToString:@"createNewList"]) {
+        NSLog(@"in the createNewList segue");
+        [(CreateNewListViewController*)[(PiggybackNavigationController*)segue.destinationViewController topViewController] setRealPresentingViewController:self];
+    }
+    
     PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
     
     if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
-        // get num of unique referrals for specific listEntry
-//        for (PBListEntry* currentListEntry in list.listEntrys) {
-//            NSMutableSet* uniqueReferrers = [[NSMutableSet alloc] init];
-                
-//            for (PBVendorReferralComment* currentReferralComment in currentListEntry.referredBy) {
-//                [uniqueReferrers addObject:currentReferralComment.referrer.uid];
-//            }
-//            currentListEntry.numUniqueReferredBy = [NSNumber numberWithInt:[uniqueReferrers count]];
-//        }
-
         [segue.destinationViewController setList:list];
         [segue.destinationViewController setFromReferral:NO];
     }

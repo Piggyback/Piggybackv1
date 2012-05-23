@@ -89,13 +89,13 @@
                         <barButtonItem key="rightBarButtonItem" title="New List" id="L5s-PQ-h59">
                             <connections>
                                 <action selector="createNewList:" destination="r5v-ip-udV" id="n5k-gL-myx"/>
-                                <segue destination="qPn-0B-1wP" kind="modal" id="fcT-ez-QrU"/>
+                                <segue destination="ak8-bi-bZ6" kind="modal" identifier="createNewList" id="OIC-48-bwn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="2284" y="-272"/>
+            <point key="canvasLocation" x="2287" y="-272"/>
         </scene>
         <!--Create New List View Controller - Create New List-->
         <scene sceneID="gEh-Bb-wTK">
@@ -149,7 +149,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="3531" y="-881"/>
+            <point key="canvasLocation" x="3415" y="-887"/>
         </scene>
         <!--Individual List View Controller-->
         <scene sceneID="1Eo-1b-xNB">
@@ -877,22 +877,22 @@
             <point key="canvasLocation" x="3664" y="-272"/>
         </scene>
         <!--Piggyback Navigation Controller-->
-        <scene sceneID="Atd-fO-ALQ">
+        <scene sceneID="QIO-OV-FnE">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yRV-q1-DIC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController id="qPn-0B-1wP" customClass="PiggybackNavigationController" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PHF-yZ-Her" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController id="ak8-bi-bZ6" customClass="PiggybackNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="KFS-ja-aqa">
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="OE8-ok-QX3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Ivr-fL-Vbr" kind="relationship" relationship="rootViewController" id="xxf-6X-clB"/>
+                        <segue destination="Ivr-fL-Vbr" kind="relationship" relationship="rootViewController" id="Gub-Cv-I3k"/>
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="3005" y="-881"/>
+            <point key="canvasLocation" x="2965" y="-887"/>
         </scene>
     </scenes>
     <resources>
@@ -903,105 +903,6 @@
         <image name="search magnifying glass 22x31 v2.png" width="22" height="31"/>
         <image name="searchMagGlass.png" width="30" height="30"/>
     </resources>
-    <classes>
-        <class className="AddToListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddToListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addToList:"/>
-                <relationship kind="action" name="cancelAddToList:"/>
-                <relationship kind="outlet" name="commentTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="grayLayer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="CreateNewListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CreateNewListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelCreateNewList:"/>
-                <relationship kind="action" name="createNewList:"/>
-                <relationship kind="outlet" name="listNameTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="InboxTableCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxTableCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="comment" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="date" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="numItemsInList" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="referredBy" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="referredTo" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="InboxTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="logout:"/>
-            </relationships>
-        </class>
-        <class className="IndividualListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/IndividualListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="segmentedControlChanged"/>
-                <relationship kind="outlet" name="listEntryTableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="segmentedControl" candidateClass="UISegmentedControl"/>
-            </relationships>
-        </class>
-        <class className="ListEntryTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListEntryTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="descriptionOrBlank" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="distance" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="referredByOrDescription" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ListsTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListsTableViewController.h"/>
-        </class>
-        <class className="LoginViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="loginWithFacebook:"/>
-            </relationships>
-        </class>
-        <class className="PiggybackNavigationController" superclassName="UINavigationController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PiggybackNavigationController.h"/>
-        </class>
-        <class className="PiggybackTabBarController" superclassName="UITabBarController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PiggybackTabBarController.h"/>
-        </class>
-        <class className="ReferralCommentTableCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ReferralCommentTableCell.h"/>
-        </class>
-        <class className="SearchTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SearchViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="grayLayer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="location" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="query" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="searchResultsTable" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="VendorViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/VendorViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="photoPageControl" candidateClass="UIPageControl"/>
-                <relationship kind="outlet" name="photoScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="vendorTableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

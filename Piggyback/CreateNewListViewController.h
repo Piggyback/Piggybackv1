@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <RestKit/RestKit.h>
 
-@interface CreateNewListViewController : UIViewController <UITextFieldDelegate>
+@interface CreateNewListViewController : UIViewController <UITextFieldDelegate, RKObjectLoaderDelegate>
 
 - (IBAction)cancelCreateNewList:(id)sender;
 - (IBAction)createNewList:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UITextField *listNameTextField;
+@property (strong, nonatomic) UIViewController *realPresentingViewController;
 
 @end

@@ -100,6 +100,7 @@
 #pragma mark - RKObjectLoaderDelegate methods
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
+    NSLog(@"did load add to list view controller");
     switch (self.currentPbAPICall) {
         case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
         {

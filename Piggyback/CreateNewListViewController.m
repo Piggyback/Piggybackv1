@@ -15,7 +15,8 @@
 @end
 
 @implementation CreateNewListViewController
-@synthesize listNameTextField;
+@synthesize listNameTextField = _listNameTextField;
+@synthesize realPresentingViewController = _realPresentingViewController;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
@@ -34,8 +35,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    listNameTextField.delegate = self;
-    [listNameTextField becomeFirstResponder];
+    self.listNameTextField.delegate = self;
+    [self.listNameTextField becomeFirstResponder];
 	// Do any additional setup after loading the view.
 }
 
@@ -51,15 +52,27 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - RKObjectLoaderDelegate methods
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
+    NSLog(@"in did load objects");
+    NSLog(@"num of lists returned: %i", [objects count]);
+            
+}
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
+    NSLog(@"in failed to load objects");
+}
+
+
 - (IBAction)cancelCreateNewList:(id)sender {
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 - (IBAction)createNewList:(id)sender {
-    NSLog(@"text is: %@", [listNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]);
-    if ([[listNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]) {
+    if ([[self.listNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]) {
         PBList *newList = [PBList object];
-        newList.name = listNameTextField.text;
+        newList.name = self.listNameTextField.text;
         newList.createdDate = [NSDate date];
         newList.listEntrys = [[NSMutableSet alloc] init];
         PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -67,8 +80,9 @@
         newList.listOwnerID = [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"];
         newList.listCount = [NSNumber numberWithInt:0];
         
-        [[RKObjectManager sharedManager] postObject:newList mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"list"] delegate:(id<RKObjectLoaderDelegate>)[self presentingViewController]];
-        
+//        [[RKObjectManager sharedManager] postObject:newList mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"list"] delegate:(id<RKObjectLoaderDelegate>)self.parentViewController.parentViewController]; 
+        [[RKObjectManager sharedManager] postObject:newList mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"list"] delegate:(id<RKObjectLoaderDelegate>)self.realPresentingViewController]; 
+        NSLog(@"view controller: %@", self.realPresentingViewController);
         [self.navigationController dismissModalViewControllerAnimated:YES];
     } else {
         UIAlertView *emptyNameAlert = [[UIAlertView alloc] initWithTitle:@"Empty list name" message:@"Name cannot be blank!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
