@@ -23,5 +23,6 @@ typedef enum pbApiCall {
 - (IBAction)cancelAddToList:(id)sender;
 - (IBAction)addToList:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *grayLayer;
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
 
 @end
