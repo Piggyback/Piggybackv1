@@ -91,6 +91,13 @@
     [self.view bringSubviewToFront:self.tableView];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch * touch = [touches anyObject];
+    if(touch.phase == UITouchPhaseBegan) {
+        [self.commentTextField resignFirstResponder];
+    }
+}
+
 // perform search when search button is hit on keyboard
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
