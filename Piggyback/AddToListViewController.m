@@ -250,6 +250,8 @@
             newListEntryDB.vendor = self.vendor;
             newListEntryDB.assignedList = currentList;
             
+            NSLog(@"vendor in add to list is %@",newListEntryDB.vendor);
+            
             [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:self];
         }
         

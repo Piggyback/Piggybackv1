@@ -109,8 +109,19 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 //    [vendorSerializationMapping mapKeyPath:@"lng" toAttribute:@"lng"];
 //    [objectManager.mappingProvider setSerializationMapping:vendorSerializationMapping forClass:[PBVendor class]];
     
-    RKObjectMapping *vendorSerializationMapping = [vendorMapping inverseMapping];
+//    RKObjectMapping *vendorSerializationMapping = [vendorMapping inverseMapping];
+//    [objectManager.mappingProvider setSerializationMapping:vendorSerializationMapping forClass:[PBVendor class]];
+    
+    RKObjectMapping *vendorPhotoSerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
+    [vendorPhotoSerializationMapping mapAttributes:@"pid",@"vid",@"photoURL",nil];
+    [objectManager.mappingProvider setSerializationMapping:vendorPhotoSerializationMapping forClass:[PBVendorPhoto class]];
+    
+    RKObjectMapping *vendorSerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
+    [vendorSerializationMapping mapAttributes:@"vendorID",@"name",@"lat",@"lng",@"phone",@"addr",@"addrCrossStreet",@"addrCity",@"addrState",@"addrCountry",@"addrZip",@"website",@"vendorReferralCommentsCount",nil];
+    [vendorSerializationMapping mapKeyPath:@"vendorPhotos" toRelationship:@"vendorPhotos" withMapping:vendorPhotoSerializationMapping];
     [objectManager.mappingProvider setSerializationMapping:vendorSerializationMapping forClass:[PBVendor class]];
+    
+    
     
     RKObjectMapping *listEntrySerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
     [listEntrySerializationMapping mapKeyPath:@"assignedListID" toAttribute:@"lid"];
