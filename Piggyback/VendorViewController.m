@@ -304,13 +304,11 @@ const CGFloat photoWidth = 320;
     for (NSDictionary* group in [[[self.detailsResponse objectForKey:@"venue"] objectForKey:@"photos"] objectForKey:@"groups"]) {
         for (NSDictionary* photo in [group objectForKey:@"items"]) {
             PBVendorPhotoObject* newPhoto = [[PBVendorPhotoObject alloc] init];
-//            PBVendorPhoto* newPhoto = [PBVendorPhoto object];
             newPhoto.pid = [photo objectForKey:@"id"];
             newPhoto.photoURL = [photo objectForKey:@"url"];
             newPhoto.vid = self.vendor.vendorID;
             newPhoto.vendor = self.vendor;
             [photos addObject:newPhoto];
-//            [[NSManagedObject managedObjectContext] deleteObject:newPhoto];
         }
     }
 
@@ -701,7 +699,30 @@ const CGFloat photoWidth = 320;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"addVendorToList"]) {
+    // self.photos from foursquare is an array of PBVENDORPHOTOOBJECTs (nsobject)
+    // selfphotos from coredata is an array of PBVENDORPHOTOs (nsmanagedobject)
+    // trying to add nsobject to core data
+    
+    // if photos are from foursquare, convert the photos from NSObjects to NSManagedObjects so they can be stored in core data
+    if ([[segue identifier] isEqualToString:@"addVendorToList"]) {  
+        if ([self.source isEqualToString:@"search"] && ![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]]) {
+            
+            for (PBVendorPhotoObject* photoObject in self.photos) {
+                PBVendorPhoto* photo = [PBVendorPhoto object];
+                photo.pid = photoObject.pid;
+                photo.vid = photoObject.vid;
+                photo.photoURL = photoObject.photoURL;
+                photo.vendor = photoObject.vendor;
+                [self.vendor.vendorPhotos addObject:photo];
+                
+                // update nsuserdefaults to indicate that photos are stored in core data
+                [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            }
+        } else {
+            self.vendor.vendorPhotos = [NSMutableSet setWithArray:self.photos];
+        }
+        
         // set addToListTableViewController's vendor to selected vendor
         [(addToListTableViewController*)[segue.destinationViewController topViewController] setVendor:self.vendor];
     }
