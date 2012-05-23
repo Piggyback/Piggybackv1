@@ -207,9 +207,35 @@ const NSString* limit = @"20";
         if (cell == nil) {
             cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
+                
+        NSDictionary *vendorDetails = [[self.searchResponse objectForKey:@"venues"] objectAtIndex:indexPath.row];
+        NSString* addr = [[vendorDetails objectForKey:@"location"] objectForKey:@"address"];
+        NSString* addrCity = [[vendorDetails objectForKey:@"location"] objectForKey:@"city"];
+        NSString* addrState = [[vendorDetails objectForKey:@"location"] objectForKey:@"state"];
+//        NSString* addrZip = [[vendorDetails objectForKey:@"location"] objectForKey:@"postalCode"];
+        
+        NSMutableString* formattedAddress = [[NSMutableString alloc] init];
+        if ([addr length] != 0 || [addrCity length] != 0 || [addrState length] != 0)  {
+            formattedAddress = [[NSMutableString alloc] init];
+            if ([addr length])
+                [formattedAddress appendFormat:@"%@", addr];
+            if ([addr length] && ([addrCity length] || [addrState length])) {
+                [formattedAddress appendFormat:@", "];
+            }
+            if ([addrCity length] || [addrState length]) {
+                if ([addrCity length]) {
+                    [formattedAddress appendFormat:@"%@",addrCity];
+                    if ([addrState length]) {
+                        [formattedAddress appendFormat:@", %@",addrState];
+                    }
+                } else {
+                    [formattedAddress appendFormat:@"%@",addrState];
+                }
+            }      
+        }
         
         cell.name.text = [[[self.searchResponse objectForKey:@"venues"] objectAtIndex:indexPath.row] objectForKey:@"name"];
-        cell.address.text = [[[[self.searchResponse objectForKey:@"venues"] objectAtIndex:indexPath.row] objectForKey:@"location"] objectForKey:@"address"];
+        cell.address.text = formattedAddress;
         
         return cell;   
     }
