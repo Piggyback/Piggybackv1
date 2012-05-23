@@ -199,7 +199,6 @@
         NSNumber* lid = [[self.lists objectAtIndex:indexPath.row] listID];
         NSDictionary* params = [NSDictionary dictionaryWithObject:lid forKey:@"lid"];
         [[RKClient sharedClient] put:@"listapi/coreDataListDelete" params:params delegate:self];
-#warning - deleting list entries from core data, but not deleting list entries from piggyback db
         
         // delete from core data
         PBList* deletedList = [self.lists objectAtIndex:indexPath.row];
@@ -280,13 +279,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self loadData];
-    } else {
-        [self loadObjectsFromDataStore];
-    }
 
     if (self.refreshHeaderView == nil) {
         EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, -180.0f, self.view.frame.size.width, 180.0f) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
@@ -307,6 +299,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self loadData];
+    } else {
+        [self loadObjectsFromDataStore];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

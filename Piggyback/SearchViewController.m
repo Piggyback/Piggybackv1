@@ -94,6 +94,9 @@ const NSString* limit = @"20";
 
     [textField resignFirstResponder];
 
+    // start spinner
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     NSString *location = [self.location.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     if ([location length] == 0) {
         LocationController* locationController = [[LocationController alloc] init];
@@ -133,6 +136,9 @@ const NSString* limit = @"20";
         NSLog(@"Geocode connection error");
     } else if (connection == self.searchConnection) {
         NSLog(@"Search connection error");
+        
+        // hide spinner
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
     
     NSLog(@"%@",[NSString stringWithFormat:@"Connection failed: %@", [error description]]);
@@ -164,6 +170,9 @@ const NSString* limit = @"20";
         self.searchResponse = [[[[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding] objectFromJSONString] objectForKey:@"response"];
         
         [self.searchResultsTable reloadData];
+        
+        // hide spinner
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
 }
 
