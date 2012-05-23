@@ -18,9 +18,11 @@
 @synthesize listNameTextField = _listNameTextField;
 @synthesize realPresentingViewController = _realPresentingViewController;
 
+// return button on keyboard calls the same function as pressing the 'submit' button
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
-    return NO;
+    [self createNewList:self];
+    return YES;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
