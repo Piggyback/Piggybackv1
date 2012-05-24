@@ -98,7 +98,6 @@
     }
 }
 
-// perform search when search button is hit on keyboard
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
     [textField resignFirstResponder];
