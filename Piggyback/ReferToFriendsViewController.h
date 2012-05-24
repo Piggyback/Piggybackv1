@@ -17,7 +17,7 @@
 @property (nonatomic, strong) PBList *list;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
-- (IBAction)cancelAddToList:(id)sender;
+- (IBAction)cancelReferToFriends:(id)sender;
 - (IBAction)referToFriends:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *grayLayer;
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;

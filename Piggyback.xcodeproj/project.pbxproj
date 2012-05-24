@@ -69,6 +69,7 @@
 		F95B4DE4156DFDBE00EC576C /* submit-button.png in Resources */ = {isa = PBXBuildFile; fileRef = F95B4DE0156DFDBE00EC576C /* submit-button.png */; };
 		F95B4DE5156DFDBE00EC576C /* submit-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F95B4DE1156DFDBE00EC576C /* submit-button@2x.png */; };
 		F95B4DE8156E3CA400EC576C /* ReferToFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F95B4DE7156E3CA400EC576C /* ReferToFriendsViewController.m */; };
+		F95B4DEB156E4B4700EC576C /* ReferToFriendsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F95B4DEA156E4B4700EC576C /* ReferToFriendsCell.m */; };
 		F9645D9015121F4D00A6B0F7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F956DE521511E58D00187A27 /* CoreLocation.framework */; };
 		F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9645D9215121FD100A6B0F7 /* LocationController.m */; };
 		F985B431150F5097002791B2 /* PBInboxItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B430150F5097002791B2 /* PBInboxItem.m */; };
@@ -227,6 +228,8 @@
 		F95B4DE1156DFDBE00EC576C /* submit-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "submit-button@2x.png"; sourceTree = "<group>"; };
 		F95B4DE6156E3CA400EC576C /* ReferToFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferToFriendsViewController.h; sourceTree = "<group>"; };
 		F95B4DE7156E3CA400EC576C /* ReferToFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferToFriendsViewController.m; sourceTree = "<group>"; };
+		F95B4DE9156E4B4700EC576C /* ReferToFriendsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferToFriendsCell.h; path = Piggyback/ReferToFriendsCell.h; sourceTree = "<group>"; };
+		F95B4DEA156E4B4700EC576C /* ReferToFriendsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferToFriendsCell.m; path = Piggyback/ReferToFriendsCell.m; sourceTree = "<group>"; };
 		F9645D9115121FD100A6B0F7 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
 		F9645D9215121FD100A6B0F7 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		F985B42F150F5097002791B2 /* PBInboxItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBInboxItem.h; path = Piggyback/PBInboxItem.h; sourceTree = "<group>"; };
@@ -497,6 +500,8 @@
 				F9B74037151934E9005D125B /* VendorInfoTableCell.m */,
 				F9BDEEB1153FD3750030363B /* SearchTableViewCell.h */,
 				F9BDEEB2153FD3750030363B /* SearchTableViewCell.m */,
+				F95B4DE9156E4B4700EC576C /* ReferToFriendsCell.h */,
+				F95B4DEA156E4B4700EC576C /* ReferToFriendsCell.m */,
 			);
 			name = Views;
 			path = ..;
@@ -670,6 +675,7 @@
 				3E21FC2B156B320900A9A088 /* CreateNewListViewController.m in Sources */,
 				3E4727B6156C475E005EF3DA /* AddToListViewController.m in Sources */,
 				F95B4DE8156E3CA400EC576C /* ReferToFriendsViewController.m in Sources */,
+				F95B4DEB156E4B4700EC576C /* ReferToFriendsCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

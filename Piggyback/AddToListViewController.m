@@ -164,7 +164,7 @@
 {
     [super viewDidLoad];
     self.commentTextField.delegate = self;
-    self.commentTextField.frame = CGRectMake(self.commentTextField.frame.origin.x, self.commentTextField.frame.origin.y, self.commentTextField.frame.size.width,25);
+//    self.commentTextField.frame = CGRectMake(self.commentTextField.frame.origin.x, self.commentTextField.frame.origin.y, self.commentTextField.frame.size.width,25);
     
     // tap outside of textfield hides keyboard
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];

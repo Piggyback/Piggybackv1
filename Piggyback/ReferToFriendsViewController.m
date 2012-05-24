@@ -7,8 +7,12 @@
 //
 
 #import "ReferToFriendsViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "Constants.h"
 
 @interface ReferToFriendsViewController ()
+
+@property (nonatomic, strong) NSMutableSet *selectedFriendsIndexes;
 
 @end
 
@@ -21,6 +25,7 @@
 @synthesize commentTextField = _commentTextField;
 @synthesize grayLayer = _grayLayer;
 @synthesize backgroundView = _backgroundView;
+@synthesize selectedFriendsIndexes = _selectedFriendsIndexes;
 
 #pragma mark - getters / setters
 
@@ -30,6 +35,13 @@
     }
     
     return _friends;
+}
+
+- (NSMutableSet*)selectedFriendsIndexes {
+    if (!_selectedFriendsIndexes) {
+        _selectedFriendsIndexes = [[NSMutableSet alloc] init];
+    }
+    return _selectedFriendsIndexes;
 }
 
 #pragma mark - keyboard delegate functions
@@ -70,13 +82,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    return [self.friends count];
+//    return [self.friends count];
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"referToFriendsCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    cell.textLabel.text = @"Random Dude";
+    NSString* imgURL = @"http://profile.ak.fbcdn.net/hprofile-ak-snc4/370403_1068270066_754929813_q.jpg";
+    UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
+    cell.imageView.layer.cornerRadius = 8.0;
+    cell.imageView.layer.masksToBounds = YES;
+    cell.imageView.image = img;
+    
 //    
 //    PBList* myList = [self.lists objectAtIndex:indexPath.row];
 //    cell.textLabel.text = myList.name;
@@ -92,16 +113,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-//    if (cell.accessoryType == UITableViewCellAccessoryNone) {
-//        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-//        [self.selectedListIndexes addObject:[NSNumber numberWithInt:indexPath.row]];
-//    } else {
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//        [self.selectedListIndexes removeObject:[NSNumber numberWithInt:indexPath.row]];
-//    }
-//    
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (cell.accessoryType == UITableViewCellAccessoryNone) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [self.selectedFriendsIndexes addObject:[NSNumber numberWithInt:indexPath.row]];
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        [self.selectedFriendsIndexes removeObject:[NSNumber numberWithInt:indexPath.row]];
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath {
+    return REFERFRIENDPICHEIGHT + 3;
 }
 
 #pragma mark - view lifecycle 
@@ -118,9 +143,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    // resize height of comment text field
-    self.commentTextField.frame = CGRectMake(self.commentTextField.frame.origin.x, self.commentTextField.frame.origin.y, self.commentTextField.frame.size.width,25);
     
     // tap outside of textfield hides keyboard
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
@@ -144,7 +166,7 @@
 
 #pragma mark - storyboard actions
 
-- (IBAction)cancelAddToList:(id)sender {
+- (IBAction)cancelReferToFriends:(id)sender {
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
