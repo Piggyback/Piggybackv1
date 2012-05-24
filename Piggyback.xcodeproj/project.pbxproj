@@ -64,6 +64,10 @@
 		F936AB7F1508F12F0019F191 /* PBVendorReferralComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB7E1508F12F0019F191 /* PBVendorReferralComment.m */; };
 		F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */; };
 		F936AB85150A5AC70019F191 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB84150A5AC60019F191 /* Constants.m */; };
+		F95B4DE2156DFDBE00EC576C /* submit-button-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F95B4DDE156DFDBE00EC576C /* submit-button-pressed.png */; };
+		F95B4DE3156DFDBE00EC576C /* submit-button-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F95B4DDF156DFDBE00EC576C /* submit-button-pressed@2x.png */; };
+		F95B4DE4156DFDBE00EC576C /* submit-button.png in Resources */ = {isa = PBXBuildFile; fileRef = F95B4DE0156DFDBE00EC576C /* submit-button.png */; };
+		F95B4DE5156DFDBE00EC576C /* submit-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F95B4DE1156DFDBE00EC576C /* submit-button@2x.png */; };
 		F9645D9015121F4D00A6B0F7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F956DE521511E58D00187A27 /* CoreLocation.framework */; };
 		F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9645D9215121FD100A6B0F7 /* LocationController.m */; };
 		F985B431150F5097002791B2 /* PBInboxItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B430150F5097002791B2 /* PBInboxItem.m */; };
@@ -216,6 +220,10 @@
 		F936AB83150A5AC60019F191 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		F936AB84150A5AC60019F191 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		F956DE521511E58D00187A27 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		F95B4DDE156DFDBE00EC576C /* submit-button-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "submit-button-pressed.png"; sourceTree = "<group>"; };
+		F95B4DDF156DFDBE00EC576C /* submit-button-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "submit-button-pressed@2x.png"; sourceTree = "<group>"; };
+		F95B4DE0156DFDBE00EC576C /* submit-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "submit-button.png"; sourceTree = "<group>"; };
+		F95B4DE1156DFDBE00EC576C /* submit-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "submit-button@2x.png"; sourceTree = "<group>"; };
 		F9645D9115121FD100A6B0F7 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
 		F9645D9215121FD100A6B0F7 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		F985B42F150F5097002791B2 /* PBInboxItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBInboxItem.h; path = Piggyback/PBInboxItem.h; sourceTree = "<group>"; };
@@ -415,6 +423,10 @@
 				F9BDEEAF153F926F0030363B /* search magnifying glass 22x31 v2.png */,
 				3E47FED5152C16BD00421FFE /* no_photo.png */,
 				3EAC2AF4152157FF00B69392 /* login_bg.png */,
+				F95B4DDE156DFDBE00EC576C /* submit-button-pressed.png */,
+				F95B4DDF156DFDBE00EC576C /* submit-button-pressed@2x.png */,
+				F95B4DE0156DFDBE00EC576C /* submit-button.png */,
+				F95B4DE1156DFDBE00EC576C /* submit-button@2x.png */,
 				3EAC2AF3152157FF00B69392 /* login_bg@2x.png */,
 				4F4DACB0151AD58200E6E65C /* Icon.png */,
 				4F4DACB1151AD58200E6E65C /* Icon@2x.png */,
@@ -609,6 +621,10 @@
 				3EC3CDDE1564840900B1C753 /* LoginWithFacebookNormal.png in Resources */,
 				3EC3CDDF1564840900B1C753 /* LoginWithFacebookNormal@2x.png in Resources */,
 				F99C2C8B156CF3C900C8E65B /* foursquare-logo.png in Resources */,
+				F95B4DE2156DFDBE00EC576C /* submit-button-pressed.png in Resources */,
+				F95B4DE3156DFDBE00EC576C /* submit-button-pressed@2x.png in Resources */,
+				F95B4DE4156DFDBE00EC576C /* submit-button.png in Resources */,
+				F95B4DE5156DFDBE00EC576C /* submit-button@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="ObY-HI-M1M">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="ObY-HI-M1M">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
@@ -112,13 +112,13 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jon-tu-co3">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jon-tu-co3">
                                 <rect key="frame" x="20" y="59" width="280" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Submit">
-                                    <color key="titleColor" red="0.97448979591836737" green="0.86527448627730874" blue="0.057572788729932677" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Submit" image="submit-button.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -146,6 +146,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="listNameTextField" destination="rNB-F2-Tn1" id="oQp-ak-ph6"/>
+                        <outlet property="submitButton" destination="jon-tu-co3" id="jH3-ag-L8z"/>
                     </connections>
                 </viewController>
             </objects>
@@ -947,6 +948,7 @@
         <image name="login_bg.png" width="320" height="480"/>
         <image name="search magnifying glass 22x31 v2.png" width="22" height="31"/>
         <image name="searchMagGlass.png" width="30" height="30"/>
+        <image name="submit-button.png" width="280" height="35"/>
     </resources>
     <classes>
         <class className="AddToListViewController" superclassName="UIViewController">
@@ -966,6 +968,7 @@
                 <relationship kind="action" name="cancelCreateNewList:"/>
                 <relationship kind="action" name="createNewList:"/>
                 <relationship kind="outlet" name="listNameTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="submitButton" candidateClass="UIButton"/>
             </relationships>
         </class>
         <class className="InboxTableCell" superclassName="UITableViewCell">
@@ -1054,7 +1057,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="aUp-Va-zv1"/>
-        <segue reference="pdA-ib-Qlw"/>
+        <segue reference="pOV-NT-cee"/>
+        <segue reference="xbg-e1-zdk"/>
     </inferredMetricsTieBreakers>
 </document>

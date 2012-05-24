@@ -14,6 +14,7 @@
 - (IBAction)cancelCreateNewList:(id)sender;
 - (IBAction)createNewList:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UITextField *listNameTextField;
 @property (strong, nonatomic) UIViewController *realPresentingViewController;
 
