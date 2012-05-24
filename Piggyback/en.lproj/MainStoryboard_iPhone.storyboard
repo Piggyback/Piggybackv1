@@ -274,7 +274,9 @@
                         </subviews>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="n8l-0c-QnT"/>
+                    <navigationItem key="navigationItem" id="n8l-0c-QnT">
+                        <barButtonItem key="rightBarButtonItem" title="Refer" id="xzk-Cn-WUj"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="listEntryTableView" destination="jSJ-zc-dU5" id="GZN-QC-smw"/>
                         <outlet property="scrollView" destination="eLK-MR-7TU" id="RE8-An-D1n"/>
@@ -297,18 +299,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
+                                    <pageControl opaque="NO" alpha="0.60000000000000009" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" id="6Ya-NZ-CQK">
+                                        <rect key="frame" x="0.0" y="140" width="320" height="36"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    </pageControl>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" rowHeight="36" sectionHeaderHeight="10" sectionFooterHeight="10" id="Dnq-FA-iQ6">
-                                        <rect key="frame" x="0.0" y="153" width="320" height="214"/>
+                                        <rect key="frame" x="0.0" y="195" width="320" height="174"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
-                                        <pageControl key="tableHeaderView" opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" id="6Ya-NZ-CQK">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="36"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        </pageControl>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="vendorInfoCell" textLabel="RsM-8B-bCC" style="IBUITableViewCellStyleDefault" id="k73-xO-6Zi">
-                                                <rect key="frame" x="0.0" y="72" width="320" height="37"/>
+                                                <rect key="frame" x="0.0" y="46" width="320" height="37"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                     <rect key="frame" x="10" y="1" width="300" height="35"/>
@@ -328,7 +330,7 @@
                                                 <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             </tableViewCell>
                                             <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="vendorReferralsCell" textLabel="6g4-rc-jEx" detailTextLabel="8ha-H4-aKT" style="IBUITableViewCellStyleSubtitle" id="R8G-gG-ZbP" customClass="ReferralCommentTableCell">
-                                                <rect key="frame" x="0.0" y="109" width="320" height="36"/>
+                                                <rect key="frame" x="0.0" y="83" width="320" height="36"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                     <rect key="frame" x="10" y="0.0" width="300" height="35"/>
@@ -369,6 +371,21 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </scrollView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SSa-yX-imi">
+                                        <rect key="frame" x="8" y="161" width="304" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                        <state key="normal" title="Add to List">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="4df-f4-NLc" kind="modal" identifier="addVendorToList" id="HSW-wg-6lG"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -378,11 +395,7 @@
                         </subviews>
                     </view>
                     <navigationItem key="navigationItem" id="apH-Ek-egQ">
-                        <barButtonItem key="rightBarButtonItem" title="Add to List" id="jY4-p5-bnv">
-                            <connections>
-                                <segue destination="4df-f4-NLc" kind="modal" identifier="addVendorToList" id="sQB-uO-uab"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Refer" id="jY4-p5-bnv"/>
                     </navigationItem>
                     <connections>
                         <outlet property="photoPageControl" destination="6Ya-NZ-CQK" id="0iT-kJ-vXH"/>

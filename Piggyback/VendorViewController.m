@@ -614,11 +614,12 @@ const CGFloat photoWidth = 320;
         
     self.title = self.vendor.name;
     [self.scrollView setScrollEnabled:YES];
+    [self.scrollView bringSubviewToFront:self.photoPageControl];
     
     // set up page control
     self.photoScrollView.delegate = self;
     CGRect frame = self.photoPageControl.frame;
-    frame.size.height = frame.size.height/2;
+    frame.size.height = frame.size.height/2.5;
     self.photoPageControl.frame = frame;
     
     if (self.refreshHeaderView == nil) {
