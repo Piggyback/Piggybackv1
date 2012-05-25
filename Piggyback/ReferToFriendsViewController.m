@@ -102,17 +102,7 @@
     cell.imageView.layer.cornerRadius = 8.0;
     cell.imageView.layer.masksToBounds = YES;
     cell.imageView.image = img;
-    
-    
-    
-//    
-//    PBList* myList = [self.lists objectAtIndex:indexPath.row];
-//    cell.textLabel.text = myList.name;
-//    if ([myList.listCount intValue] == 1)
-//        cell.detailTextLabel.text = [[NSString stringWithFormat:@"%@", myList.listCount] stringByAppendingString:@" item"];
-//    else
-//        cell.detailTextLabel.text = [[NSString stringWithFormat:@"%@", myList.listCount] stringByAppendingString:@" items"];
-//    
+       
     return cell;
 }
 
@@ -134,6 +124,16 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath: (NSIndexPath *) indexPath {
     return REFERFRIENDPICHEIGHT + 3;
+}
+
+#pragma mark - RKObjectLoaderDelegate methods
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
+    NSLog(@"did load objects!");
+}
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
+    NSLog(@"ERROR");
 }
 
 #pragma mark - view lifecycle 
@@ -208,7 +208,7 @@
             // set lid or vendor
             if ([self.source isEqualToString:@"list"]) {
                 newReferral.lid = self.lid;
-                newReferral.vid = 0;
+                newReferral.vid = nil;
             } else if ([self.source isEqualToString:@"vendor"]) {
                 newReferral.lid = 0;
                 newReferral.vid = self.vendor.vendorID;
@@ -219,8 +219,7 @@
             // add vendor to vendor table if it doesnt exist yet in core data and on the database
             
             NSLog(@"new referral is %@",newReferral);
-            
-//            [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:self];
+            [[RKObjectManager sharedManager] postObject:newReferral delegate:self];
         }
         
         [self.navigationController dismissModalViewControllerAnimated:YES];

@@ -18,6 +18,7 @@
 #import "PBListEntry.h"
 #import "PBInboxItem.h"
 #import "PBVendorPhoto.h"
+#import "PBReferral.h"
 
 @implementation PiggybackAppDelegate
 
@@ -56,6 +57,7 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [router routeClass:[PBList class] toResourcePath:@"/listapi/coreDataLists" forMethod:RKRequestMethodPOST];
     [router routeClass:[PBListEntry class] toResourcePath:@"/listapi/coreDataMyListEntrys"];
     [router routeClass:[PBListEntry class] toResourcePath:@"/listapi/coreDataMyListEntrys" forMethod:RKRequestMethodPOST];
+    [router routeClass:[PBReferral class] toResourcePath:@"/referapi/restRefer" forMethod:RKRequestMethodPOST];
     objectManager.router = router;
     
     // Setup our object mappings
@@ -143,6 +145,10 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [vendorPhotoMapping mapRelationship:@"vendor" withMapping:vendorMapping];
     [vendorPhotoMapping connectRelationship:@"vendor" withObjectForPrimaryKeyAttribute:@"vid"];
     [objectManager.mappingProvider setMapping:vendorPhotoMapping forKeyPath:@"vendor-photo"];
+    
+    RKObjectMapping *referralSerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
+    [referralSerializationMapping mapAttributes:@"senderUID",@"receiverUID",@"date",@"lid",@"vid",@"comment",nil];
+    [objectManager.mappingProvider setSerializationMapping:referralSerializationMapping forClass:[PBReferral class]];
 
 //    RKObjectMapping* vendorPhotoMapping = [RKObjectMapping mappingForClass:[PBVendorPhoto class]];
 //    [vendorPhotoMapping mapAttributes:@"vid",@"pid",@"photoURL",nil];
