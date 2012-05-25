@@ -14,7 +14,7 @@
 #import "MBProgressHUD.h"
 #import "JSONKit.h"
 #import "PBVendorPhoto.h"
-#import "addToListTableViewController.h"
+#import "AddToListViewController.h"
 #import "ReferToFriendsViewController.h"
 
 @interface VendorViewController () 
@@ -725,8 +725,8 @@ const CGFloat photoWidth = 320;
             self.vendor.vendorPhotos = [NSMutableSet setWithArray:self.photos];
         }
         
-        // set addToListTableViewController's vendor to selected vendor
-        [(addToListTableViewController*)[segue.destinationViewController topViewController] setVendor:self.vendor];
+        // set AddToListViewController's vendor to selected vendor
+        [(AddToListViewController*)[segue.destinationViewController topViewController] setVendor:self.vendor];
     } else if ([[segue identifier] isEqualToString:@"vendorToRefer"]) {
         [(ReferToFriendsViewController*)[segue.destinationViewController topViewController] setSource:@"vendor"];
         [(ReferToFriendsViewController*)[segue.destinationViewController topViewController] setVendor:self.vendor];

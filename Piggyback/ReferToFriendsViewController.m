@@ -86,7 +86,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 //    return [self.friends count];
-    return 2;
+    return 20;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -102,6 +102,13 @@
     cell.imageView.layer.cornerRadius = 8.0;
     cell.imageView.layer.masksToBounds = YES;
     cell.imageView.image = img;
+    
+    // set checkmark
+    if ([self.selectedFriendsIndexes containsObject:[NSNumber numberWithInt:indexPath.row]]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
        
     return cell;
 }
@@ -110,14 +117,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.accessoryType == UITableViewCellAccessoryNone) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        [self.selectedFriendsIndexes addObject:[NSNumber numberWithInt:indexPath.row]];
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
+    if ([self.selectedFriendsIndexes containsObject:[NSNumber numberWithInt:indexPath.row]]) {
         [self.selectedFriendsIndexes removeObject:[NSNumber numberWithInt:indexPath.row]];
+    } else {
+        [self.selectedFriendsIndexes addObject:[NSNumber numberWithInt:indexPath.row]];
     }
+    
+    NSLog(@"selected friend indexes are %@",self.selectedFriendsIndexes);
+    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -165,7 +172,7 @@
     friend.firstName = @"Fake";
     friend.lastName = @"Person";
     
-    NSArray* testFriends = [NSArray arrayWithObjects:friend,friend,nil];
+    NSArray* testFriends = [NSArray arrayWithObjects:friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,nil];
     self.friends = testFriends;
     //-----------------
 }
