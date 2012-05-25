@@ -335,10 +335,9 @@
         NSLog(@"in the createNewList segue");
         [(CreateNewListViewController*)[(PiggybackNavigationController*)segue.destinationViewController topViewController] setRealPresentingViewController:self];
     }
-    
-    PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
-    
+        
     if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
+        PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
         [segue.destinationViewController setList:list];
         [segue.destinationViewController setFromReferral:NO];
     }

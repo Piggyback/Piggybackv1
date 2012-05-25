@@ -147,7 +147,8 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [objectManager.mappingProvider setMapping:vendorPhotoMapping forKeyPath:@"vendor-photo"];
     
     RKObjectMapping *referralSerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
-    [referralSerializationMapping mapAttributes:@"senderUID",@"receiverUID",@"date",@"lid",@"vid",@"comment",nil];
+    [referralSerializationMapping mapAttributes:@"senderUID",@"receiverUID",@"date",@"lid",@"comment",nil];
+    [referralSerializationMapping mapKeyPath:@"vendor" toRelationship:@"vendor" withMapping:vendorSerializationMapping];
     [objectManager.mappingProvider setSerializationMapping:referralSerializationMapping forClass:[PBReferral class]];
 
 //    RKObjectMapping* vendorPhotoMapping = [RKObjectMapping mappingForClass:[PBVendorPhoto class]];

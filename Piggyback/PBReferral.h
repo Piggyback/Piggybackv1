@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NSNumber* receiverUID;
 @property (nonatomic, strong) NSString* date;
 @property (nonatomic, strong) NSNumber* lid;
-@property (nonatomic, strong) NSString* vid;
+@property (nonatomic, strong) PBVendor* vendor;
 @property (nonatomic, strong) NSString* comment;
 
 @end

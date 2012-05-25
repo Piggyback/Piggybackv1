@@ -86,7 +86,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 //    return [self.friends count];
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -165,7 +165,7 @@
     friend.firstName = @"Fake";
     friend.lastName = @"Person";
     
-    NSArray* testFriends = [NSArray arrayWithObject:friend];
+    NSArray* testFriends = [NSArray arrayWithObjects:friend,friend,nil];
     self.friends = testFriends;
     //-----------------
 }
@@ -208,10 +208,10 @@
             // set lid or vendor
             if ([self.source isEqualToString:@"list"]) {
                 newReferral.lid = self.lid;
-                newReferral.vid = nil;
+                newReferral.vendor = nil;
             } else if ([self.source isEqualToString:@"vendor"]) {
                 newReferral.lid = 0;
-                newReferral.vid = self.vendor.vendorID;
+                newReferral.vendor = self.vendor;
             }
             
             newReferral.comment = self.commentTextField.text;

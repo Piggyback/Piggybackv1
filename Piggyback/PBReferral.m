@@ -14,11 +14,11 @@
 @synthesize receiverUID = _receiverUID;
 @synthesize date = _date;
 @synthesize lid = _lid;
-@synthesize vid = _vid;
+@synthesize vendor = _vendor;
 @synthesize comment = _comment;
 
 - (NSString*)description {
-    NSString *descriptionString = [NSString stringWithFormat:@"senderUID: %@\n, receiverUID: %@\n, date: %@\n, lid: %i\n, vid: %@\n, comment: %@", self.senderUID, self.receiverUID, self.date, [self.lid intValue], self.vid, self.comment]; 
+    NSString *descriptionString = [NSString stringWithFormat:@"senderUID: %@\n, receiverUID: %@\n, date: %@\n, lid: %i\n, vendor: %@\n, comment: %@", self.senderUID, self.receiverUID, self.date, [self.lid intValue], self.vendor, self.comment]; 
     return descriptionString;
 }
 
