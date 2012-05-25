@@ -9,18 +9,22 @@
 #import "CreateNewListViewController.h"
 #import "PiggybackAppDelegate.h"
 #import "PBList.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface CreateNewListViewController ()
 
 @end
 
 @implementation CreateNewListViewController
+@synthesize submitButton = _submitButton;
 @synthesize listNameTextField = _listNameTextField;
 @synthesize realPresentingViewController = _realPresentingViewController;
 
+// return button on keyboard calls the same function as pressing the 'submit' button
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
-    return NO;
+    [self createNewList:self];
+    return YES;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -37,12 +41,14 @@
     [super viewDidLoad];
     self.listNameTextField.delegate = self;
     [self.listNameTextField becomeFirstResponder];
+    self.submitButton.layer.cornerRadius = 5;
 	// Do any additional setup after loading the view.
 }
 
 - (void)viewDidUnload
 {
     [self setListNameTextField:nil];
+    [self setSubmitButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }

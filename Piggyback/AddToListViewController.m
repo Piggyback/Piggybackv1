@@ -22,6 +22,7 @@
 
 @implementation AddToListViewController
 @synthesize grayLayer = _grayLayer;
+@synthesize backgroundView = _backgroundView;
 @synthesize tableView = _tableView;
 @synthesize commentTextField = _commentTextField;
 @synthesize lists = _lists;
@@ -86,10 +87,17 @@
 
 - (void)keyboardDidHide:(NSNotification *)note 
 {
+    [self.view bringSubviewToFront:self.backgroundView];
     [self.view bringSubviewToFront:self.tableView];
 }
 
-// perform search when search button is hit on keyboard
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch * touch = [touches anyObject];
+    if(touch.phase == UITouchPhaseBegan) {
+        [self.commentTextField resignFirstResponder];
+    }
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
     [textField resignFirstResponder];
@@ -156,6 +164,7 @@
 {
     [super viewDidLoad];
     self.commentTextField.delegate = self;
+//    self.commentTextField.frame = CGRectMake(self.commentTextField.frame.origin.x, self.commentTextField.frame.origin.y, self.commentTextField.frame.size.width,25);
     
     // tap outside of textfield hides keyboard
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
@@ -178,6 +187,7 @@
     [self setTableView:nil];
     [self setCommentTextField:nil];
     [self setGrayLayer:nil];
+    [self setBackgroundView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
