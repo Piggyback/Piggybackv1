@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50b" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11E53" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="PBInboxItem" representedClassName="PBInboxItem" syncable="YES">
         <attribute name="referralComment" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="referralDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -38,6 +38,7 @@
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumbnail" optional="YES" attributeType="Transformable" valueTransformerName="FBImageToDataTransformer" syncable="YES"/>
         <attribute name="userID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="friends" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBUser" inverseName="friends" inverseEntity="PBUser" syncable="YES"/>
         <relationship name="lists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBList" inverseName="listOwner" inverseEntity="PBList" syncable="YES"/>
         <relationship name="referredInboxItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBInboxItem" inverseName="referrer" inverseEntity="PBInboxItem" syncable="YES"/>
         <relationship name="vendorReferralComments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PBVendorReferralComment" inverseName="referrer" inverseEntity="PBVendorReferralComment" syncable="YES"/>
@@ -80,7 +81,7 @@
         <element name="PBInboxItem" positionX="-234" positionY="-36" width="128" height="210"/>
         <element name="PBList" positionX="-236" positionY="285" width="128" height="150"/>
         <element name="PBListEntry" positionX="45" positionY="432" width="128" height="135"/>
-        <element name="PBUser" positionX="-0" positionY="585" width="128" height="165"/>
+        <element name="PBUser" positionX="-0" positionY="585" width="128" height="195"/>
         <element name="PBVendor" positionX="97" positionY="135" width="128" height="300"/>
         <element name="PBVendorPhoto" positionX="304" positionY="180" width="128" height="105"/>
         <element name="PBVendorReferralComment" positionX="286" positionY="-81" width="128" height="150"/>

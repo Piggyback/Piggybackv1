@@ -85,10 +85,8 @@
         newList.listOwner = appDelegate.currentUser;
         newList.listOwnerID = [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"];
         newList.listCount = [NSNumber numberWithInt:0];
-        
-//        [[RKObjectManager sharedManager] postObject:newList mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"list"] delegate:(id<RKObjectLoaderDelegate>)self.parentViewController.parentViewController]; 
+
         [[RKObjectManager sharedManager] postObject:newList mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"list"] delegate:(id<RKObjectLoaderDelegate>)self.realPresentingViewController]; 
-        NSLog(@"view controller: %@", self.realPresentingViewController);
         [self.navigationController dismissModalViewControllerAnimated:YES];
     } else {
         UIAlertView *emptyNameAlert = [[UIAlertView alloc] initWithTitle:@"Empty list name" message:@"Name cannot be blank!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];

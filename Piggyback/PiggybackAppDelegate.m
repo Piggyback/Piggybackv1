@@ -58,6 +58,8 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [router routeClass:[PBListEntry class] toResourcePath:@"/listapi/coreDataMyListEntrys"];
     [router routeClass:[PBListEntry class] toResourcePath:@"/listapi/coreDataMyListEntrys" forMethod:RKRequestMethodPOST];
     [router routeClass:[PBReferral class] toResourcePath:@"/referapi/restRefer" forMethod:RKRequestMethodPOST];
+    [router routeClass:[PBUser class] toResourcePath:@"/userapi/user"];
+    [router routeClass:[PBUser class] toResourcePath:@"/userapi/user" forMethod:RKRequestMethodPOST];
     objectManager.router = router;
     
     // Setup our object mappings
@@ -74,7 +76,13 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     userMapping.primaryKeyAttribute = @"userID";
     [userMapping mapAttributes:@"userID", @"fbid", @"email", @"firstName", @"lastName", @"thumbnail", nil];
     [userMapping mapRelationship:@"lists" withMapping:listMapping];
+    [userMapping mapRelationship:@"friends" withMapping:userMapping];
     [objectManager.mappingProvider setMapping:userMapping forKeyPath:@"user"];
+    
+    RKObjectMapping *userSerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
+    [userSerializationMapping mapAttributes:@"fbid", @"email", @"firstName", @"lastName", @"friendsID", nil];
+//    [userSerializationMapping mapKeyPath:@"friends" toRelationship:@"friends" withMapping:userSerializationMapping];
+    [objectManager.mappingProvider setSerializationMapping:userSerializationMapping forClass:[PBUser class]];
     
     RKManagedObjectMapping* vendorMapping = [RKManagedObjectMapping mappingForEntityWithName:@"PBVendor"];
     vendorMapping.primaryKeyAttribute = @"vendorID";

@@ -383,9 +383,9 @@ const CGFloat photoWidth = 320;
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadPhotosObjectsFromDataStore];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
-    
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
     self.reloading = NO;
     [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
 }

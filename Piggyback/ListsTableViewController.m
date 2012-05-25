@@ -333,10 +333,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"createNewList"]) {
-        NSLog(@"in the createNewList segue");
         [(CreateNewListViewController*)[(PiggybackNavigationController*)segue.destinationViewController topViewController] setRealPresentingViewController:self];
     }
-     
+
     if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
         PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
         [segue.destinationViewController setList:list];
