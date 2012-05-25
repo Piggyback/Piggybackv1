@@ -85,8 +85,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-//    return [self.friends count];
-    return 20;
+    return [self.friends count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -166,15 +165,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];  
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil]; 
     
-    // for testing. remove later
-    PBUser* friend = [PBUser object];
-    friend.userID = [NSNumber numberWithInt:2];
-    friend.firstName = @"Fake";
-    friend.lastName = @"Person";
-    
-    NSArray* testFriends = [NSArray arrayWithObjects:friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,nil];
-    self.friends = testFriends;
-    //-----------------
+//    // for testing. remove later
+//    PBUser* friend = [PBUser object];
+//    friend.userID = [NSNumber numberWithInt:2];
+//    friend.firstName = @"Fake";
+//    friend.lastName = @"Person";
+//    
+//    NSArray* testFriends = [NSArray arrayWithObjects:friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,nil];
+//    self.friends = testFriends;
+//    //-----------------
 }
 
 - (void)viewDidUnload

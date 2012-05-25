@@ -311,6 +311,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    NSLog(@"lists in array are %@",self.lists);
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -335,7 +336,7 @@
         NSLog(@"in the createNewList segue");
         [(CreateNewListViewController*)[(PiggybackNavigationController*)segue.destinationViewController topViewController] setRealPresentingViewController:self];
     }
-        
+     
     if ([segue.destinationViewController respondsToSelector:@selector(setList:)]) {
         PBList *list = [self.lists objectAtIndex:[self.tableView indexPathForCell:sender].row];
         [segue.destinationViewController setList:list];
