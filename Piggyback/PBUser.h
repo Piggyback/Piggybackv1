@@ -22,5 +22,7 @@
 @property (nonatomic, strong) NSString* lastName;
 @property (nonatomic, strong) UIImage* thumbnail;
 @property (nonatomic, strong) NSMutableSet* lists;
+@property (nonatomic, strong) NSMutableSet* friends;
+@property (nonatomic, strong) NSMutableArray *friendsID;
 
 @end

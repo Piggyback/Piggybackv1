@@ -31,14 +31,52 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
     [defaults setObject:[meGraphApiResult objectForKey:@"first_name"] forKey:@"FirstName"];
     [defaults setObject:[meGraphApiResult objectForKey:@"last_name"] forKey:@"LastName"];
     [defaults setObject:[meGraphApiResult objectForKey:@"id"] forKey:@"FBID"];
+    [defaults setObject:[meGraphApiResult objectForKey:@"email"] forKey:@"Email"];
     [defaults synchronize];
 }
 
 - (void)getCurrentUserUidFromLogin:(NSString *)fbid {
     // Load the user object via RestKit	
-    RKObjectManager* objectManager = [RKObjectManager sharedManager];
-    NSString* resourcePath = [RK_USER_FBID_RESOURCE_PATH stringByAppendingString:fbid];
-    [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"user"] delegate:self];
+//    RKObjectManager* objectManager = [RKObjectManager sharedManager];
+//    NSString* resourcePath = [RK_USER_FBID_RESOURCE_PATH stringByAppendingString:fbid];
+//    [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"user"] delegate:self];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    PBUser *currentUser = [PBUser findFirstByAttribute:@"fbid" withValue:[NSNumber numberWithInt:[fbid intValue]]];
+//    if (!currentUser) {
+        self.currentFbAPICall = fbAPIGraphMeFriendsFromLogin;
+        Facebook *facebook = [(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook];
+        
+        [facebook requestWithGraphPath:@"me/friends" andDelegate:self];
+#warning - uncomment the following segment
+//    } else {
+//        [defaults setObject:currentUser.userID forKey:@"UID"];
+//        [defaults synchronize];
+//        
+//        PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
+//        appDelegate.currentUser = currentUser;
+//        
+//        [self.delegate showLoggedIn];
+//    }
+}
+
+- (void)addUserAndFriends:(NSArray *)currentUserFBFriends {
+    NSLog(@"add user");
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    PBUser *newUser = [PBUser object];
+    newUser.fbid = [NSNumber numberWithInt:[[defaults objectForKey:@"FBID"] intValue]];
+    newUser.email = [defaults objectForKey:@"Email"];
+    newUser.firstName = [defaults objectForKey:@"FirstName"];
+    newUser.lastName = [defaults objectForKey:@"LastName"];
+    
+    NSMutableArray *currentUserFBFriendsID = [[NSMutableArray alloc] init];
+    for (NSDictionary *currentFriend in currentUserFBFriends) {
+        [currentUserFBFriendsID addObject:[NSNumber numberWithInt:[[currentFriend objectForKey:@"id"] intValue]]];
+    }
+    
+    newUser.friendsID = currentUserFBFriendsID;
+    
+    [[RKObjectManager sharedManager] postObject:newUser mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"user"] delegate:self]; 
 }
 
 #pragma mark - Public Methods
@@ -54,16 +92,25 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
 #pragma mark - FBRequestDelegate Methods
 
 - (void)request:(FBRequest *)request didLoad:(id)result {
-    if ([result isKindOfClass:[NSArray class]]) {
-        result = [result objectAtIndex:0];
-    }    
+//    if ([result isKindOfClass:[NSDictionary class]]) {
+//        result = [result objectForKey:@"data"];
+//    }
     
     switch (self.currentFbAPICall) {
         case fbAPIGraphMeFromLogin:
         {
+            NSLog(@"ID: %@", [result objectForKey:@"id"]);
             [self storeCurrentUserFbInformation:result];
             [self getCurrentUserUidFromLogin:[result objectForKey:@"id"]];
-            
+
+            break;
+        }
+        case fbAPIGraphMeFriendsFromLogin:
+        {
+            NSArray *currentUserFBFriends = [result objectForKey:@"data"];
+            NSLog(@"num of friends: %i", [currentUserFBFriends count]);
+            [self addUserAndFriends:currentUserFBFriends];
+
             break;
         }
         default: 
@@ -80,6 +127,7 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
 #pragma mark - RKObjectLoaderDelegate methods
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
+    NSLog(@"did load objects");
     switch (self.currentPbAPICall) {
         case pbAPICurrentUserUidFromLogin:
         {
@@ -117,8 +165,8 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
 #pragma mark - IBAction definitions
 
 - (IBAction)loginWithFacebook:(id)sender {
-    PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [[appDelegate facebook] authorize:nil];
+    NSArray *permissions = [[NSArray alloc] initWithObjects:@"email", nil];
+    [[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] authorize:permissions];
 }
 
 @end

@@ -12,6 +12,7 @@
 
 typedef enum fbApiCall {
     fbAPIGraphMeFromLogin,
+    fbAPIGraphMeFriendsFromLogin,
 } fbApiCall;
 
 typedef enum pbApiCall {

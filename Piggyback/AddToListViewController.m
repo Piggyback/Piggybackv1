@@ -39,7 +39,7 @@
     return _lists;
 }
 
-- (NSMutableSet *)selectedListIndexes {
+- (NSMutableSet *)selectedListsIndexes {
     if (!_selectedListsIndexes) {
         _selectedListsIndexes = [[NSMutableSet alloc] init];
     }
@@ -221,10 +221,10 @@
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     if (cell.accessoryType == UITableViewCellAccessoryNone) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        [self.selectedListIndexes addObject:[NSNumber numberWithInt:indexPath.row]];
+        [self.selectedListsIndexes addObject:[NSNumber numberWithInt:indexPath.row]];
     } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
-        [self.selectedListIndexes removeObject:[NSNumber numberWithInt:indexPath.row]];
+        [self.selectedListsIndexes removeObject:[NSNumber numberWithInt:indexPath.row]];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -239,7 +239,7 @@
         UIAlertView *noListsSelectedAlert = [[UIAlertView alloc] initWithTitle:@"No lists selected" message:@"A list must be selected!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
         [noListsSelectedAlert show];
     } else {
-        for (NSNumber *currentListIndex in self.selectedListIndexes) {
+        for (NSNumber *currentListIndex in self.selectedListsIndexes) {
             PBList *currentList = [self.lists objectAtIndex:[currentListIndex intValue]];
             currentList.listCount = [NSNumber numberWithInt:[currentList.listCount intValue] + 1];
             

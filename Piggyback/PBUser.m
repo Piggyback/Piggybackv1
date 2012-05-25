@@ -17,6 +17,8 @@
 @dynamic lastName;
 @dynamic thumbnail;
 @dynamic lists;
+@dynamic friends;
+@synthesize friendsID = _friendsID;
 
 @end
 
