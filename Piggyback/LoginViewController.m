@@ -139,7 +139,7 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
             
             PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
             appDelegate.currentUser = currentUser;
-            
+                    
             [self.delegate showLoggedIn];
 
             break;

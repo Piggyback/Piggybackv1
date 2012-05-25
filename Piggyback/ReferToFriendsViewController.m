@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import "PBUser.h"
 #import "PBReferral.h"
+#import "PiggybackAppDelegate.h"
 
 @interface ReferToFriendsViewController ()
 
@@ -95,7 +96,9 @@
     
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@",[[self.friends objectAtIndex:indexPath.row] firstName],[[self.friends objectAtIndex:indexPath.row] lastName]];
     
-    NSString* imgURL = @"http://profile.ak.fbcdn.net/hprofile-ak-snc4/370403_1068270066_754929813_q.jpg";
+    PBUser* friend = [self.friends objectAtIndex:indexPath.row];
+    NSString* fbid = [friend.fbid stringValue];
+    NSString* imgURL = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture",fbid];
     
     UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
     cell.imageView.layer.cornerRadius = 8.0;
@@ -157,6 +160,18 @@
 {
     [super viewDidLoad];
     
+    // set friends
+//    PBUser* currentUser = [(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] currentUser];
+    PBUser* currentUser = [PBUser findFirstByAttribute:@"userID" withValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
+//    self.friends = [currentUser.friends allObjects];
+    self.friends = [currentUser.friends allObjects];
+    
+    NSLog(@"current user is %@",currentUser);
+//    NSLog(@"friends from app delegate are %@",currentUser.friends);
+//    NSLog(@"friends in this vc are %@",self.friends);
+    
+    [self.tableView reloadData];
+    
     // tap outside of textfield hides keyboard
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     gestureRecognizer.cancelsTouchesInView = NO;
@@ -164,16 +179,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];  
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil]; 
-    
-//    // for testing. remove later
-//    PBUser* friend = [PBUser object];
-//    friend.userID = [NSNumber numberWithInt:2];
-//    friend.firstName = @"Fake";
-//    friend.lastName = @"Person";
-//    
-//    NSArray* testFriends = [NSArray arrayWithObjects:friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,friend,nil];
-//    self.friends = testFriends;
-//    //-----------------
 }
 
 - (void)viewDidUnload
