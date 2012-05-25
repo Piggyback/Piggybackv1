@@ -113,7 +113,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jon-tu-co3">
-                                <rect key="frame" x="20" y="59" width="280" height="32"/>
+                                <rect key="frame" x="20" y="59" width="280" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Submit" image="submit-button.png">
@@ -369,7 +369,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </scrollView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SSa-yX-imi">
-                                        <rect key="frame" x="8" y="163" width="304" height="32"/>
+                                        <rect key="frame" x="8" y="162" width="304" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <state key="normal" title="Add to List">
@@ -1203,6 +1203,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="pOV-NT-cee"/>
         <segue reference="xbg-e1-zdk"/>
-        <segue reference="uqg-Vv-7eF"/>
+        <segue reference="s3i-nX-hRF"/>
     </inferredMetricsTieBreakers>
 </document>
