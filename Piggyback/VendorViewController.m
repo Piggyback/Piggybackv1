@@ -15,6 +15,7 @@
 #import "JSONKit.h"
 #import "PBVendorPhoto.h"
 #import "addToListTableViewController.h"
+#import "ReferToFriendsViewController.h"
 
 @interface VendorViewController () 
 
@@ -726,6 +727,9 @@ const CGFloat photoWidth = 320;
         
         // set addToListTableViewController's vendor to selected vendor
         [(addToListTableViewController*)[segue.destinationViewController topViewController] setVendor:self.vendor];
+    } else if ([[segue identifier] isEqualToString:@"vendorToRefer"]) {
+        [(ReferToFriendsViewController*)[segue.destinationViewController topViewController] setSource:@"vendor"];
+        [(ReferToFriendsViewController*)[segue.destinationViewController topViewController] setVendor:self.vendor];
     }
 }
 

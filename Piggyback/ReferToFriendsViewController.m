@@ -9,6 +9,8 @@
 #import "ReferToFriendsViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Constants.h"
+#import "PBUser.h"
+#import "PBReferral.h"
 
 @interface ReferToFriendsViewController ()
 
@@ -20,12 +22,13 @@
 
 @synthesize friends = _friends;
 @synthesize vendor = _vendor;
-@synthesize list = _list;
+@synthesize lid = _lid;
 @synthesize tableView = _tableView;
 @synthesize commentTextField = _commentTextField;
 @synthesize grayLayer = _grayLayer;
 @synthesize backgroundView = _backgroundView;
 @synthesize selectedFriendsIndexes = _selectedFriendsIndexes;
+@synthesize source = _source;
 
 #pragma mark - getters / setters
 
@@ -83,7 +86,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 //    return [self.friends count];
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -91,12 +94,16 @@
     static NSString *CellIdentifier = @"referToFriendsCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    cell.textLabel.text = @"Random Dude";
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@",[[self.friends objectAtIndex:indexPath.row] firstName],[[self.friends objectAtIndex:indexPath.row] lastName]];
+    
     NSString* imgURL = @"http://profile.ak.fbcdn.net/hprofile-ak-snc4/370403_1068270066_754929813_q.jpg";
+    
     UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
     cell.imageView.layer.cornerRadius = 8.0;
     cell.imageView.layer.masksToBounds = YES;
     cell.imageView.image = img;
+    
+    
     
 //    
 //    PBList* myList = [self.lists objectAtIndex:indexPath.row];
@@ -151,6 +158,16 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];  
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil]; 
+    
+    // for testing. remove later
+    PBUser* friend = [PBUser object];
+    friend.userID = [NSNumber numberWithInt:2];
+    friend.firstName = @"Fake";
+    friend.lastName = @"Person";
+    
+    NSArray* testFriends = [NSArray arrayWithObject:friend];
+    self.friends = testFriends;
+    //-----------------
 }
 
 - (void)viewDidUnload
@@ -171,7 +188,43 @@
 }
 
 - (IBAction)referToFriends:(id)sender {
-    
+    if ([self.selectedFriendsIndexes count] == 0) {
+        UIAlertView *noFriendsSelectedAlert = [[UIAlertView alloc] initWithTitle:@"No Friends Selected" message:@"Must recommend to at least one friend!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
+        [noFriendsSelectedAlert show];
+    } else {
+        for (NSNumber *currentFriendIndex in self.selectedFriendsIndexes) {            
+            PBReferral* newReferral = [[PBReferral alloc] init];
+
+            // set users
+            newReferral.senderUID = [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"];
+            newReferral.receiverUID = [[self.friends objectAtIndex:[currentFriendIndex intValue]] userID];
+            
+            // set date
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+            [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
+            newReferral.date = [dateFormatter stringFromDate:[NSDate date]];
+            
+            // set lid or vendor
+            if ([self.source isEqualToString:@"list"]) {
+                newReferral.lid = self.lid;
+                newReferral.vid = 0;
+            } else if ([self.source isEqualToString:@"vendor"]) {
+                newReferral.lid = 0;
+                newReferral.vid = self.vendor.vendorID;
+            }
+            
+            newReferral.comment = self.commentTextField.text;
+            // add row to referral table on database (without core data)
+            // add vendor to vendor table if it doesnt exist yet in core data and on the database
+            
+            NSLog(@"new referral is %@",newReferral);
+            
+//            [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:self];
+        }
+        
+        [self.navigationController dismissModalViewControllerAnimated:YES];
+    }
 }
 
 @end

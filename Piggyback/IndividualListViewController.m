@@ -13,6 +13,7 @@
 #import "PBVendorReferralComment.h"
 #import "listEntryTableViewCell.h"
 #import "MBProgressHUD.h"
+#import "ReferToFriendsViewController.h"
 
 @interface IndividualListViewController()
 
@@ -483,20 +484,9 @@ double const metersToMilesMultiplier = 0.000621371192;
         // set VendorViewController's vendor to selected vendor
         [(VendorViewController*)segue.destinationViewController setVendor:[[self.shownListEntrys objectAtIndex:[self.listEntryTableView indexPathForCell:sender].row] vendor]];
         [(VendorViewController*)segue.destinationViewController setSource:@"list"];
-        
-//        NSLog(@"VENDOR FROM LIST IS : %@", [(VendorViewController*)segue.destinationViewController vendor]);
-        
-//        NSMutableOrderedSet* uniqueReferrerUIDs = [[NSMutableOrderedSet alloc] init];
-//        NSMutableArray* uniqueReferralComments = [[NSMutableArray alloc] init];
-////        for (PBVendorReferralComment* commentObject in [[self.shownListEntrys objectAtIndex:[self.listEntryTableView indexPathForCell:sender].row] referredBy]) {
-////            if (![uniqueReferrerUIDs containsObject:commentObject.referrer.uid]) {
-////                [uniqueReferrerUIDs addObject:commentObject.referrer.uid];
-////                [uniqueReferralComments addObject:commentObject];
-////            }
-////        }
-//        
-//        // set VendorViewController's referralComments to selected uniqueReferralComments
-//        [(VendorViewController*)segue.destinationViewController setReferralComments:[NSArray arrayWithArray:uniqueReferralComments]];
+    } else if ([[segue identifier] isEqualToString:@"listToRefer"]) {
+        [(ReferToFriendsViewController*)[[segue destinationViewController] topViewController] setSource:@"list"];
+        [(ReferToFriendsViewController*)[[segue destinationViewController] topViewController] setLid:self.list.listID];
     }
 }
 

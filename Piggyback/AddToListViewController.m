@@ -246,7 +246,7 @@
 
 - (IBAction)addToList:(id)sender {
     if ([self.selectedListsIndexes count] == 0) {
-        UIAlertView *noListsSelectedAlert = [[UIAlertView alloc] initWithTitle:@"No lists selected" message:@"A list must be selected!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
+        UIAlertView *noListsSelectedAlert = [[UIAlertView alloc] initWithTitle:@"No Lists Selected" message:@"A list must be selected!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
         [noListsSelectedAlert show];
     } else {
         for (NSNumber *currentListIndex in self.selectedListIndexes) {
