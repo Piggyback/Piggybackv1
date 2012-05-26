@@ -317,15 +317,11 @@ double const metersToMilesMultiplier = 0.000621371192;
         return 90;
     } else {
         CGSize size = [[[self.shownListEntrys objectAtIndex:indexPath.row] comment] sizeWithFont:[UIFont systemFontOfSize:16.0f] constrainedToSize:CGSizeMake(265.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-        
-    //    NSInteger numReferredBy = [[[self.shownListEntrys objectAtIndex:indexPath.row] numUniqueReferredBy] intValue];
-    //    if (numReferredBy == 0 && size.height > 15) {
-    //        size.height = size.height - 20;
-    //    }
+
         if ([[[[self.shownListEntrys objectAtIndex:indexPath.row] vendor] vendorReferralCommentsCount] intValue] > 0) {
-            return size.height + 55;
+            return MAX(65,size.height + 55);
         } else {
-            return size.height + 33;
+            return MAX(65,size.height + 33);
         }
     }
 }

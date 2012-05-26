@@ -167,10 +167,6 @@
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorFirstName,sortDescriptorLastName,nil];
     self.friends = [[currentUser.friends allObjects] sortedArrayUsingDescriptors:sortDescriptors];
     
-    NSLog(@"current user is %@",currentUser);
-//    NSLog(@"friends from app delegate are %@",currentUser.friends);
-//    NSLog(@"friends in this vc are %@",self.friends);
-    
     [self.tableView reloadData];
     
     // tap outside of textfield hides keyboard
