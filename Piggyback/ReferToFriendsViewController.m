@@ -161,10 +161,11 @@
     [super viewDidLoad];
     
     // set friends
-//    PBUser* currentUser = [(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] currentUser];
     PBUser* currentUser = [PBUser findFirstByAttribute:@"userID" withValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
-//    self.friends = [currentUser.friends allObjects];
-    self.friends = [currentUser.friends allObjects];
+    NSSortDescriptor *sortDescriptorFirstName = [[NSSortDescriptor alloc] initWithKey:@"firstName" ascending:YES];
+    NSSortDescriptor *sortDescriptorLastName = [[NSSortDescriptor alloc] initWithKey:@"lastName" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorFirstName,sortDescriptorLastName,nil];
+    self.friends = [[currentUser.friends allObjects] sortedArrayUsingDescriptors:sortDescriptors];
     
     NSLog(@"current user is %@",currentUser);
 //    NSLog(@"friends from app delegate are %@",currentUser.friends);
