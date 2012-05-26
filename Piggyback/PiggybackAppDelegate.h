@@ -15,6 +15,5 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) Facebook *facebook;
-@property (strong, nonatomic) PBUser *currentUser;
 
 @end

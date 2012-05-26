@@ -37,26 +37,19 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
 
 - (void)getCurrentUserUidFromLogin:(NSString *)fbid {
     // Load the user object via RestKit	
-//    RKObjectManager* objectManager = [RKObjectManager sharedManager];
-//    NSString* resourcePath = [RK_USER_FBID_RESOURCE_PATH stringByAppendingString:fbid];
-//    [objectManager loadObjectsAtResourcePath:resourcePath objectMapping:[objectManager.mappingProvider mappingForKeyPath:@"user"] delegate:self];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     PBUser *currentUser = [PBUser findFirstByAttribute:@"fbid" withValue:[NSNumber numberWithInt:[fbid intValue]]];
-//    if (!currentUser) {
+    if (!currentUser) {
         self.currentFbAPICall = fbAPIGraphMeFriendsFromLogin;
         Facebook *facebook = [(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook];
         
         [facebook requestWithGraphPath:@"me/friends" andDelegate:self];
-#warning - uncomment the following segment
-//    } else {
-//        [defaults setObject:currentUser.userID forKey:@"UID"];
-//        [defaults synchronize];
-//        
-//        PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-//        appDelegate.currentUser = currentUser;
-//        
-//        [self.delegate showLoggedIn];
-//    }
+    } else {
+        [defaults setObject:currentUser.userID forKey:@"UID"];
+        [defaults synchronize];
+        
+        [self.delegate showLoggedIn];
+    }
 }
 
 - (void)addUserAndFriends:(NSArray *)currentUserFBFriends {
@@ -90,12 +83,22 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
 }
 
 #pragma mark - FBRequestDelegate Methods
-
-- (void)request:(FBRequest *)request didLoad:(id)result {
-//    if ([result isKindOfClass:[NSDictionary class]]) {
-//        result = [result objectForKey:@"data"];
-//    }
+- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
+    NSMutableDictionary* currentUserDict = [*mappableData mutableCopy];
+    NSMutableArray* friendsWithThumbnails = [[NSMutableArray alloc] init];
+    for (id currentFriendDict in [currentUserDict objectForKey:@"friends"]) {
+        NSLog(@"updating thumbnail for friend");
+        NSMutableDictionary *currentFriendMutableDict = [currentFriendDict mutableCopy];
+        [currentFriendMutableDict setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[currentFriendDict objectForKey:@"thumbnail"]]]] forKey:@"thumbnail"];
+        [friendsWithThumbnails addObject:currentFriendMutableDict];
+    }
     
+    [currentUserDict setObject:friendsWithThumbnails forKey:@"friends"];
+    
+    *mappableData = currentUserDict;
+}
+
+- (void)request:(FBRequest *)request didLoad:(id)result {    
     switch (self.currentFbAPICall) {
         case fbAPIGraphMeFromLogin:
         {
@@ -136,9 +139,6 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:currentUser.userID forKey:@"UID"];
             [defaults synchronize];
-            
-            PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-            appDelegate.currentUser = currentUser;
                     
             [self.delegate showLoggedIn];
 
