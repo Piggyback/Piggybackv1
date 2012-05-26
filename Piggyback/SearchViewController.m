@@ -139,6 +139,8 @@ const NSString* limit = @"20";
         
         // hide spinner
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        UIAlertView *searchConectionError = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Could not connect. Please try again!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
+        [searchConectionError show];
     }
     
     NSLog(@"%@",[NSString stringWithFormat:@"Connection failed: %@", [error description]]);
