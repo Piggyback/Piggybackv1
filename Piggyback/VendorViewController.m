@@ -199,7 +199,7 @@ const CGFloat photoWidth = 320;
         
         
         
-        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+self.photoScrollView.bounds.size.height-10)];
+        [self.scrollView setContentSize:CGSizeMake(320,totalTableHeight+self.photoScrollView.bounds.size.height+10)];
     }
 }
 
