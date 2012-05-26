@@ -135,41 +135,30 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
-- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
-    NSMutableDictionary *userFbPics = [[NSMutableDictionary alloc] init];
-    NSMutableArray *reformattedData = [NSMutableArray arrayWithCapacity:[*mappableData count]];
-    for(id dict in [NSArray arrayWithArray:(NSArray*)*mappableData]) {
-        NSMutableDictionary* newInboxDict = [dict mutableCopy];
-        NSMutableDictionary* newUserDict = [[newInboxDict objectForKey:@"referrer"] mutableCopy];
-        NSNumber* userID = [newUserDict valueForKey:@"userID"];
-        if (![userFbPics objectForKey:userID]) {
-            NSLog(@"new user");
-            UIImage* thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[newUserDict valueForKey:@"thumbnail"]]]];
-            [userFbPics setObject:thumbnail forKey:userID];
-        }
-        UIImage* thumbnail = [userFbPics objectForKey:userID];
-        [newUserDict setValue:thumbnail forKey:@"thumbnail"];
-        [newInboxDict setValue:newUserDict forKey:@"referrer"];
-        [reformattedData addObject:newInboxDict];
-    }
-    
-    *mappableData = reformattedData;
-}
+//- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
+//    NSMutableDictionary *userFbPics = [[NSMutableDictionary alloc] init];
+//    NSMutableArray *reformattedData = [NSMutableArray arrayWithCapacity:[*mappableData count]];
+//    for(id dict in [NSArray arrayWithArray:(NSArray*)*mappableData]) {
+//        NSMutableDictionary* newInboxDict = [dict mutableCopy];
+//        NSMutableDictionary* newUserDict = [[newInboxDict objectForKey:@"referrer"] mutableCopy];
+//        NSNumber* userID = [newUserDict valueForKey:@"userID"];
+//        if (![userFbPics objectForKey:userID]) {
+//            UIImage* thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[newUserDict valueForKey:@"thumbnail"]]]];
+//            [userFbPics setObject:thumbnail forKey:userID];
+//        }
+//        UIImage* thumbnail = [userFbPics objectForKey:userID];
+//        [newUserDict setValue:thumbnail forKey:@"thumbnail"];
+//        [newInboxDict setValue:newUserDict forKey:@"referrer"];
+//        [reformattedData addObject:newInboxDict];
+//    }
+//    
+//    *mappableData = reformattedData;
+//}
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
     // retrieve data from API and use information for displaying
-    if(objectLoader.userData == @"inboxLoader") {
-        // store all user FB pics in a NSMutableDictionary
-//        if ([objects count] > 0) {
-//            for (PBInboxItem* currentInboxItem in objects) {
-//                NSString* fbImageLocation = [[@"http://graph.facebook.com/" stringByAppendingString:[currentInboxItem.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
-//                if (![self.userFbPics objectForKey:currentInboxItem.referrer.fbid]) {
-//                    [self.userFbPics setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:fbImageLocation]]] forKey:currentInboxItem.referrer.fbid];
-//                }
-//            }
-//        }
-        
+    if(objectLoader.userData == @"inboxLoader") {        
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"InboxLastUpdatedAt"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
