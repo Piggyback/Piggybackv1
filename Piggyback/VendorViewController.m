@@ -320,27 +320,27 @@ const CGFloat photoWidth = 320;
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
-- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
-    if (loader.userData == @"vendorReferralCommentsLoader") {
-        NSMutableDictionary *userFbPics = [[NSMutableDictionary alloc] init];
-        NSMutableArray *reformattedData = [NSMutableArray arrayWithCapacity:[*mappableData count]];
-        for(id dict in [NSArray arrayWithArray:(NSArray*)*mappableData]) {
-            NSMutableDictionary* newVendorReferralCommentsDict = [dict mutableCopy];
-            NSMutableDictionary* newUserDict = [[newVendorReferralCommentsDict objectForKey:@"referrer"] mutableCopy];
-            NSNumber* userID = [newUserDict valueForKey:@"userID"];
-            if (![userFbPics objectForKey:userID]) {
-                UIImage* thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[newUserDict valueForKey:@"thumbnail"]]]];
-                [userFbPics setObject:thumbnail forKey:userID];
-            }
-            UIImage* thumbnail = [userFbPics objectForKey:userID];
-            [newUserDict setValue:thumbnail forKey:@"thumbnail"];
-            [newVendorReferralCommentsDict setValue:newUserDict forKey:@"referrer"];
-            [reformattedData addObject:newVendorReferralCommentsDict];
-        }
-
-        *mappableData = reformattedData;
-    }
-}
+//- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
+//    if (loader.userData == @"vendorReferralCommentsLoader") {
+//        NSMutableDictionary *userFbPics = [[NSMutableDictionary alloc] init];
+//        NSMutableArray *reformattedData = [NSMutableArray arrayWithCapacity:[*mappableData count]];
+//        for(id dict in [NSArray arrayWithArray:(NSArray*)*mappableData]) {
+//            NSMutableDictionary* newVendorReferralCommentsDict = [dict mutableCopy];
+//            NSMutableDictionary* newUserDict = [[newVendorReferralCommentsDict objectForKey:@"referrer"] mutableCopy];
+//            NSNumber* userID = [newUserDict valueForKey:@"userID"];
+//            if (![userFbPics objectForKey:userID]) {
+//                UIImage* thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[newUserDict valueForKey:@"thumbnail"]]]];
+//                [userFbPics setObject:thumbnail forKey:userID];
+//            }
+//            UIImage* thumbnail = [userFbPics objectForKey:userID];
+//            [newUserDict setValue:thumbnail forKey:@"thumbnail"];
+//            [newVendorReferralCommentsDict setValue:newUserDict forKey:@"referrer"];
+//            [reformattedData addObject:newVendorReferralCommentsDict];
+//        }
+//
+//        *mappableData = reformattedData;
+//    }
+//}
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
@@ -491,8 +491,9 @@ const CGFloat photoWidth = 320;
         cell.detailTextLabel.text = vendorReferralComment.comment;
         cell.detailTextLabel.numberOfLines = 0;
         
-        NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
-        UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
+//        NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
+//        UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
+        UIImage *img = vendorReferralComment.referrer.thumbnail;
         cell.imageView.layer.cornerRadius = 5.0;
         cell.imageView.layer.masksToBounds = YES;
         cell.imageView.image = img;

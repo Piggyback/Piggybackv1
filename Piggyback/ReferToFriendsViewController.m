@@ -97,10 +97,7 @@
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@",[[self.friends objectAtIndex:indexPath.row] firstName],[[self.friends objectAtIndex:indexPath.row] lastName]];
     
     PBUser* friend = [self.friends objectAtIndex:indexPath.row];
-    NSString* fbid = [friend.fbid stringValue];
-    NSString* imgURL = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture",fbid];
-    
-    UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
+    UIImage* img = friend.thumbnail;
     cell.imageView.layer.cornerRadius = 8.0;
     cell.imageView.layer.masksToBounds = YES;
     cell.imageView.image = img;

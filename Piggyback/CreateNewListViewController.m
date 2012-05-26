@@ -81,8 +81,7 @@
         newList.name = self.listNameTextField.text;
         newList.createdDate = [NSDate date];
         newList.listEntrys = [[NSMutableSet alloc] init];
-        PiggybackAppDelegate *appDelegate = (PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate];
-        newList.listOwner = appDelegate.currentUser;
+        newList.listOwner = [PBUser findFirstByAttribute:@"userID" withValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
         newList.listOwnerID = [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"];
         newList.listCount = [NSNumber numberWithInt:0];
 
