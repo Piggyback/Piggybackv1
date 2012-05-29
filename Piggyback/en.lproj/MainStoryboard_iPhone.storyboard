@@ -63,7 +63,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" text="Create lists at www.getpiggyback.com and stay tuned for mobile app updates!" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gdx-BP-6BU">
+                                        <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" text="Create lists to track your favorite places by using the New List button above!" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gdx-BP-6BU">
                                             <rect key="frame" x="10" y="33" width="268" height="36"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
@@ -116,11 +116,12 @@
                                 <rect key="frame" x="20" y="59" width="280" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Submit" image="submit-button.png">
+                                <state key="normal" title="Submit" image="submit-button.png" backgroundImage="submit-button.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted">
+                                <state key="selected" image="submit-button-pressed.png"/>
+                                <state key="highlighted" image="submit-button-pressed.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -240,8 +241,8 @@
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Add your favorite places at www.getpiggyback.com and stay tuned for mobile app updates!" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S3i-mY-NPP">
-                                                            <rect key="frame" x="10" y="29" width="267" height="54"/>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Add places to this list by looking through your inbox of recommendations or searching for new places!" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S3i-mY-NPP">
+                                                            <rect key="frame" x="10" y="29" width="277" height="54"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
@@ -691,18 +692,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Your inbox is empty!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qCi-fR-y9U">
-                                            <rect key="frame" x="10" y="10" width="179" height="22"/>
+                                            <rect key="frame" x="10" y="7" width="179" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
-                                        <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="LSc-o5-V2M">
-                                            <rect key="frame" x="10" y="32" width="277" height="48"/>
+                                        <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Tell your friends to get Piggyback so that they can recommend you places they think you'll like!" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="LSc-o5-V2M">
+                                            <rect key="frame" x="10" y="29" width="270" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                                            <string key="text">Tell your friends to recommend you places they think you will like at www.getpiggyback.com and stay tuned for mobile app updates!</string>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
@@ -1078,6 +1078,7 @@
         <image name="login_bg.png" width="320" height="480"/>
         <image name="search magnifying glass 22x31 v2.png" width="22" height="31"/>
         <image name="searchMagGlass.png" width="30" height="30"/>
+        <image name="submit-button-pressed.png" width="280" height="35"/>
         <image name="submit-button.png" width="280" height="35"/>
     </resources>
     <classes>
@@ -1201,8 +1202,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="pOV-NT-cee"/>
-        <segue reference="xbg-e1-zdk"/>
-        <segue reference="s3i-nX-hRF"/>
+        <segue reference="pdA-ib-Qlw"/>
+        <segue reference="nrv-nn-45K"/>
+        <segue reference="uqg-Vv-7eF"/>
     </inferredMetricsTieBreakers>
 </document>
