@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "PiggybackAppDelegate.h"
 #import "PBUser.h"
+#import "MBProgressHUD.h"
 
 @interface LoginViewController ()
 @property int currentFbAPICall;
@@ -48,12 +49,12 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
         [defaults setObject:currentUser.userID forKey:@"UID"];
         [defaults synchronize];
         
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.delegate showLoggedIn];
     }
 }
 
 - (void)addUserAndFriends:(NSArray *)currentUserFBFriends {
-    NSLog(@"add user");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     PBUser *newUser = [PBUser object];
@@ -139,7 +140,8 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:currentUser.userID forKey:@"UID"];
             [defaults synchronize];
-                    
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.delegate showLoggedIn];
 
             break;
@@ -167,6 +169,7 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
 - (IBAction)loginWithFacebook:(id)sender {
     NSArray *permissions = [[NSArray alloc] initWithObjects:@"email", nil];
     [[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] authorize:permissions];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 @end
