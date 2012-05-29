@@ -297,7 +297,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <pageControl opaque="NO" alpha="0.60000000000000009" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" id="6Ya-NZ-CQK">
+                                    <pageControl opaque="NO" alpha="0.70000000000000007" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" id="6Ya-NZ-CQK">
                                         <rect key="frame" x="0.0" y="140" width="320" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -373,11 +373,11 @@
                                         <rect key="frame" x="8" y="162" width="304" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                        <state key="normal" title="Add to List">
+                                        <state key="normal" title="Add to List" image="add-to-list-button-normal.png">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="highlighted">
+                                        <state key="highlighted" image="add-to-list-button-pressed.png">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1072,6 +1072,8 @@
     </scenes>
     <resources>
         <image name="LoginWithFacebookNormal.png" width="159" height="29"/>
+        <image name="add-to-list-button-normal.png" width="304" height="35"/>
+        <image name="add-to-list-button-pressed.png" width="304" height="35"/>
         <image name="foursquare-logo.png" width="545" height="149"/>
         <image name="inbox_tabbar_icon.png" width="30" height="30"/>
         <image name="list_tabbar_icon.png" width="30" height="30"/>
@@ -1204,6 +1206,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="pdA-ib-Qlw"/>
         <segue reference="nrv-nn-45K"/>
-        <segue reference="uqg-Vv-7eF"/>
+        <segue reference="s3i-nX-hRF"/>
     </inferredMetricsTieBreakers>
 </document>

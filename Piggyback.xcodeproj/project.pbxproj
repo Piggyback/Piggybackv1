@@ -71,6 +71,10 @@
 		F95B4DE8156E3CA400EC576C /* ReferToFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F95B4DE7156E3CA400EC576C /* ReferToFriendsViewController.m */; };
 		F95B4DEB156E4B4700EC576C /* ReferToFriendsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F95B4DEA156E4B4700EC576C /* ReferToFriendsCell.m */; };
 		F95B4DEE156F0F1E00EC576C /* PBReferral.m in Sources */ = {isa = PBXBuildFile; fileRef = F95B4DED156F0F1E00EC576C /* PBReferral.m */; };
+		F95F45E5157569AB007997EE /* add-to-list-button-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = F95F45E1157569AB007997EE /* add-to-list-button-normal.png */; };
+		F95F45E6157569AB007997EE /* add-to-list-button-normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F95F45E2157569AB007997EE /* add-to-list-button-normal@2x.png */; };
+		F95F45E7157569AB007997EE /* add-to-list-button-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = F95F45E3157569AB007997EE /* add-to-list-button-pressed.png */; };
+		F95F45E8157569AB007997EE /* add-to-list-button-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F95F45E4157569AB007997EE /* add-to-list-button-pressed@2x.png */; };
 		F9645D9015121F4D00A6B0F7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F956DE521511E58D00187A27 /* CoreLocation.framework */; };
 		F9645D9315121FD100A6B0F7 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9645D9215121FD100A6B0F7 /* LocationController.m */; };
 		F985B431150F5097002791B2 /* PBInboxItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B430150F5097002791B2 /* PBInboxItem.m */; };
@@ -233,6 +237,10 @@
 		F95B4DEA156E4B4700EC576C /* ReferToFriendsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferToFriendsCell.m; path = Piggyback/ReferToFriendsCell.m; sourceTree = "<group>"; };
 		F95B4DEC156F0F1E00EC576C /* PBReferral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBReferral.h; path = Piggyback/PBReferral.h; sourceTree = "<group>"; };
 		F95B4DED156F0F1E00EC576C /* PBReferral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBReferral.m; path = Piggyback/PBReferral.m; sourceTree = "<group>"; };
+		F95F45E1157569AB007997EE /* add-to-list-button-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-to-list-button-normal.png"; sourceTree = "<group>"; };
+		F95F45E2157569AB007997EE /* add-to-list-button-normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-to-list-button-normal@2x.png"; sourceTree = "<group>"; };
+		F95F45E3157569AB007997EE /* add-to-list-button-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-to-list-button-pressed.png"; sourceTree = "<group>"; };
+		F95F45E4157569AB007997EE /* add-to-list-button-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-to-list-button-pressed@2x.png"; sourceTree = "<group>"; };
 		F9645D9115121FD100A6B0F7 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
 		F9645D9215121FD100A6B0F7 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		F985B42F150F5097002791B2 /* PBInboxItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBInboxItem.h; path = Piggyback/PBInboxItem.h; sourceTree = "<group>"; };
@@ -432,6 +440,10 @@
 				F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */,
 				F90340951546A76E00F51F8B /* searchMagGlass@2x.png */,
 				F9BDEEAF153F926F0030363B /* search magnifying glass 22x31 v2.png */,
+				F95F45E1157569AB007997EE /* add-to-list-button-normal.png */,
+				F95F45E2157569AB007997EE /* add-to-list-button-normal@2x.png */,
+				F95F45E3157569AB007997EE /* add-to-list-button-pressed.png */,
+				F95F45E4157569AB007997EE /* add-to-list-button-pressed@2x.png */,
 				3E47FED5152C16BD00421FFE /* no_photo.png */,
 				3EAC2AF4152157FF00B69392 /* login_bg.png */,
 				F95B4DDE156DFDBE00EC576C /* submit-button-pressed.png */,
@@ -640,6 +652,10 @@
 				F95B4DE3156DFDBE00EC576C /* submit-button-pressed@2x.png in Resources */,
 				F95B4DE4156DFDBE00EC576C /* submit-button.png in Resources */,
 				F95B4DE5156DFDBE00EC576C /* submit-button@2x.png in Resources */,
+				F95F45E5157569AB007997EE /* add-to-list-button-normal.png in Resources */,
+				F95F45E6157569AB007997EE /* add-to-list-button-normal@2x.png in Resources */,
+				F95F45E7157569AB007997EE /* add-to-list-button-pressed.png in Resources */,
+				F95F45E8157569AB007997EE /* add-to-list-button-pressed@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
