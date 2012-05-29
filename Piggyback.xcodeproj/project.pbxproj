@@ -23,6 +23,7 @@
 		3E734B721508C24C003FD9CB /* PBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B711508C24C003FD9CB /* PBUser.m */; };
 		3E734B751508F4AA003FD9CB /* ListsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B741508F4AA003FD9CB /* ListsTableViewController.m */; };
 		3E734B781508F983003FD9CB /* PBList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B771508F983003FD9CB /* PBList.m */; };
+		3E8F54221574CAC400E8A354 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8F54181574C76000E8A354 /* libRestKit.a */; };
 		3E9472FB15008EF900A261DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FA15008EF900A261DD /* UIKit.framework */; };
 		3E9472FD15008EF900A261DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FC15008EF900A261DD /* Foundation.framework */; };
 		3E9472FF15008EF900A261DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FE15008EF900A261DD /* CoreGraphics.framework */; };
@@ -92,6 +93,44 @@
 		F9D0BDBE1508BC9000D963B7 /* VendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3E8F54171574C76000E8A354 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E8F540D1574C76000E8A354 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160D1614564E810060A5C5;
+			remoteInfo = RestKit;
+		};
+		3E8F54191574C76000E8A354 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E8F540D1574C76000E8A354 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160D2614564E820060A5C5;
+			remoteInfo = RestKitTests;
+		};
+		3E8F541B1574C76000E8A354 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E8F540D1574C76000E8A354 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160E62145651060060A5C5;
+			remoteInfo = RestKitFramework;
+		};
+		3E8F541D1574C76000E8A354 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E8F540D1574C76000E8A354 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160E78145651060060A5C5;
+			remoteInfo = RestKitFrameworkTests;
+		};
+		3E8F54201574CAA500E8A354 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E8F540D1574C76000E8A354 /* RestKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 25160D1514564E810060A5C5;
+			remoteInfo = RestKit;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		3E1E88DA153F8DC70048219C /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		3E1E88DB153F8DC70048219C /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
@@ -130,6 +169,7 @@
 		3E734B741508F4AA003FD9CB /* ListsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListsTableViewController.m; sourceTree = "<group>"; };
 		3E734B761508F983003FD9CB /* PBList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBList.h; path = Piggyback/PBList.h; sourceTree = "<group>"; };
 		3E734B771508F983003FD9CB /* PBList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBList.m; path = Piggyback/PBList.m; sourceTree = "<group>"; };
+		3E8F540D1574C76000E8A354 /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
 		3E9472F615008EF900A261DD /* Piggyback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piggyback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E9472FA15008EF900A261DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E9472FC15008EF900A261DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -229,6 +269,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E8F54221574CAC400E8A354 /* libRestKit.a in Frameworks */,
 				F9645D9015121F4D00A6B0F7 /* CoreLocation.framework in Frameworks */,
 				F9B9B62C150193B60002BCDE /* libxml2.dylib in Frameworks */,
 				F9B9B62A150193AC0002BCDE /* QuartzCore.framework in Frameworks */,
@@ -267,6 +308,17 @@
 				3E1E8902154101770048219C /* SBJsonWriter.h */,
 			);
 			path = "facebook-ios-sdk";
+			sourceTree = "<group>";
+		};
+		3E8F540E1574C76000E8A354 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3E8F54181574C76000E8A354 /* libRestKit.a */,
+				3E8F541A1574C76000E8A354 /* RestKitTests.octest */,
+				3E8F541C1574C76000E8A354 /* RestKit.framework */,
+				3E8F541E1574C76000E8A354 /* RestKitFrameworkTests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		3E9472EB15008EF900A261DD = {
@@ -366,6 +418,7 @@
 		3ED78A191522E84600FE5C69 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3E8F540D1574C76000E8A354 /* RestKit.xcodeproj */,
 				3E1E88F3154101770048219C /* facebook-ios-sdk */,
 			);
 			name = Libraries;
@@ -473,6 +526,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3E8F54211574CAA500E8A354 /* PBXTargetDependency */,
 			);
 			name = Piggyback;
 			productName = Piggyback;
@@ -498,12 +552,49 @@
 			mainGroup = 3E9472EB15008EF900A261DD;
 			productRefGroup = 3E9472F715008EF900A261DD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 3E8F540E1574C76000E8A354 /* Products */;
+					ProjectRef = 3E8F540D1574C76000E8A354 /* RestKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				3E9472F515008EF900A261DD /* Piggyback */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		3E8F54181574C76000E8A354 /* libRestKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRestKit.a;
+			remoteRef = 3E8F54171574C76000E8A354 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3E8F541A1574C76000E8A354 /* RestKitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitTests.octest;
+			remoteRef = 3E8F54191574C76000E8A354 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3E8F541C1574C76000E8A354 /* RestKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RestKit.framework;
+			remoteRef = 3E8F541B1574C76000E8A354 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3E8F541E1574C76000E8A354 /* RestKitFrameworkTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitFrameworkTests.octest;
+			remoteRef = 3E8F541D1574C76000E8A354 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		3E9472F415008EF900A261DD /* Resources */ = {
@@ -596,6 +687,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3E8F54211574CAA500E8A354 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RestKit;
+			targetProxy = 3E8F54201574CAA500E8A354 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		3E94730315008EF900A261DD /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -671,7 +770,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos5.1]" = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SOURCE_ROOT)/RestKit/Build\"/**";
+				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
@@ -699,7 +798,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos5.1]" = "iPhone Developer: Michael Gao (G6PBJCV7M3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Piggyback/Piggyback-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(SOURCE_ROOT)/RestKit/Build\"/**";
+				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"/**";
 				INFOPLIST_FILE = "Piggyback/Piggyback-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
