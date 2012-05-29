@@ -777,10 +777,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/facebook-ios-sdk\"",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
@@ -805,10 +802,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/facebook-ios-sdk\"",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3B8333F5-76C9-4E1D-9897-2D37878E00DA";

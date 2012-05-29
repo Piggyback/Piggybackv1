@@ -95,7 +95,7 @@ const NSString* limit = @"20";
     [textField resignFirstResponder];
 
     // start spinner
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.searchResultsTable animated:YES];
     
     NSString *location = [self.location.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     if ([location length] == 0) {
@@ -138,7 +138,7 @@ const NSString* limit = @"20";
         NSLog(@"Search connection error");
         
         // hide spinner
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.searchResultsTable animated:YES];
         UIAlertView *searchConectionError = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Could not connect. Please try again!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
         [searchConectionError show];
     }
@@ -174,7 +174,7 @@ const NSString* limit = @"20";
         [self.searchResultsTable reloadData];
         
         // hide spinner
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.searchResultsTable animated:YES];
     }
 }
 
@@ -222,7 +222,7 @@ const NSString* limit = @"20";
             if (cell == nil) {
                 cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             }
-            
+                        
             return cell;
         } else {
             static NSString *CellIdentifier = @"searchCell";
@@ -286,7 +286,6 @@ const NSString* limit = @"20";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
-
 
 
 #pragma mark - view lifecycle
