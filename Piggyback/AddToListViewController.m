@@ -117,13 +117,11 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             [self loadObjectsFromDataStore];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
-            [self.navigationController dismissModalViewControllerAnimated:YES];
-
             break;
         }
         case pbAPIAddToList:
         {
+            [self.navigationController dismissModalViewControllerAnimated:YES];
             break;
         }
         default:
@@ -284,7 +282,7 @@
             newListEntryDB.vendor = self.vendor;
             newListEntryDB.assignedList = currentList;
             NSLog(@"vendor in add to list is %@",newListEntryDB.vendor);
-                        
+
             self.currentPbAPICall = pbAPIAddToList;
             
             [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:self];
