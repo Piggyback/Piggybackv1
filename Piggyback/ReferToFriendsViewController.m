@@ -12,14 +12,19 @@
 #import "PBUser.h"
 #import "PBReferral.h"
 #import "PiggybackAppDelegate.h"
+#import "MBProgressHUD.h"
 
 @interface ReferToFriendsViewController ()
 
 @property (nonatomic, strong) NSMutableSet *selectedFriendsIndexes;
+@property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView;
+@property BOOL reloading;
 
 @end
 
 @implementation ReferToFriendsViewController
+
+NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 
 @synthesize friends = _friends;
 @synthesize vendor = _vendor;
@@ -30,6 +35,9 @@
 @synthesize backgroundView = _backgroundView;
 @synthesize selectedFriendsIndexes = _selectedFriendsIndexes;
 @synthesize source = _source;
+@synthesize scrollView = _scrollView;
+@synthesize refreshHeaderView = _refreshHeaderView;
+@synthesize reloading = _reloading;
 
 #pragma mark - getters / setters
 
@@ -46,6 +54,72 @@
         _selectedFriendsIndexes = [[NSMutableSet alloc] init];
     }
     return _selectedFriendsIndexes;
+}
+
+#pragma mark - Private Helper Methods
+
+- (void)loadObjectsFromDataStore {
+    PBUser* currentUser = [PBUser findFirstByAttribute:@"userID" withValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
+    NSSortDescriptor *sortDescriptorFirstName = [[NSSortDescriptor alloc] initWithKey:@"firstName" ascending:YES];
+    NSSortDescriptor *sortDescriptorLastName = [[NSSortDescriptor alloc] initWithKey:@"lastName" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorFirstName,sortDescriptorLastName,nil];
+    self.friends = [[currentUser.friends allObjects] sortedArrayUsingDescriptors:sortDescriptors];
+    
+    [self.tableView reloadData];
+}
+
+- (void)loadData {
+    // load friends from DB
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.reloading = YES;
+    
+    RKObjectManager* objManager = [RKObjectManager sharedManager];
+    RKObjectLoader* friendsLoader = [objManager loadObjectsAtResourcePath:[RK_FRIENDS_RESOURCE_PATH stringByAppendingFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]] objectMapping:[objManager.mappingProvider mappingForKeyPath:@"user"] delegate:self];
+    friendsLoader.userData = @"friendsLoader";
+}
+
+#pragma mark - RKObjectLoaderDelegate methods
+
+- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
+    NSMutableDictionary* currentUserDict = [*mappableData mutableCopy];
+    NSMutableArray* friendsWithThumbnails = [[NSMutableArray alloc] init];
+    for (id currentFriendDict in [currentUserDict objectForKey:@"friends"]) {
+        NSMutableDictionary *currentFriendMutableDict = [currentFriendDict mutableCopy];
+        [currentFriendMutableDict setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[currentFriendDict objectForKey:@"thumbnail"]]]] forKey:@"thumbnail"];
+        [friendsWithThumbnails addObject:currentFriendMutableDict];
+    }
+    
+    [currentUserDict setObject:friendsWithThumbnails forKey:@"friends"];
+    
+    *mappableData = currentUserDict;
+}
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
+    NSLog(@"did load objects!");
+    if(objectLoader.userData == @"friendsLoader") {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"friends"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self loadObjectsFromDataStore];
+        self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+    }
+}
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
+    NSLog(@"ERROR");
+    if (objectLoader.userData == @"friendsLoader") {
+        // handle case where user has no friends
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"friends"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.reloading = NO;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+    } else {
+//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"ReferToFriendsViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alert show];
+//        NSLog(@"ReferToFriendsViewController RK error: %@", error);
+    }
 }
 
 #pragma mark - keyboard delegate functions
@@ -132,14 +206,26 @@
     return REFERFRIENDPICHEIGHT + 3;
 }
 
-#pragma mark - RKObjectLoaderDelegate methods
-
-- (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
-    NSLog(@"did load objects!");
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {	
+	[self.refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
 }
 
-- (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
-    NSLog(@"ERROR");
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+	[self.refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+}
+
+#pragma mark - EGORefreshTableHeaderDelegate Methods
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
+    [self loadData];
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
+	return self.reloading; // should return if data source model is reloading
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"friends"];
 }
 
 #pragma mark - view lifecycle 
@@ -157,14 +243,22 @@
 {
     [super viewDidLoad];
     
-    // set friends
-    PBUser* currentUser = [PBUser findFirstByAttribute:@"userID" withValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
-    NSSortDescriptor *sortDescriptorFirstName = [[NSSortDescriptor alloc] initWithKey:@"firstName" ascending:YES];
-    NSSortDescriptor *sortDescriptorLastName = [[NSSortDescriptor alloc] initWithKey:@"lastName" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorFirstName,sortDescriptorLastName,nil];
-    self.friends = [[currentUser.friends allObjects] sortedArrayUsingDescriptors:sortDescriptors];
+    if (self.refreshHeaderView == nil) {
+        EGORefreshTableHeaderView* view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, -180.0f, self.view.frame.size.width, 180.0f) arrowImageName:@"blackArrow" textColor:[UIColor blackColor]];
+        view.delegate = self;
+        [self.scrollView addSubview:view];
+        self.refreshHeaderView = view;
+        self.scrollView.alwaysBounceVertical = YES;
+    }
     
-    [self.tableView reloadData];
+    [self.refreshHeaderView refreshLastUpdatedDate];
+    
+    // set friends
+//    if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"friends"]]) {
+//        [self loadData];
+//    } else {
+        [self loadObjectsFromDataStore];
+//    }
     
     // tap outside of textfield hides keyboard
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
@@ -177,6 +271,7 @@
 
 - (void)viewDidUnload
 {
+    [self setScrollView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }

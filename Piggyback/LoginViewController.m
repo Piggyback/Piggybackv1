@@ -152,8 +152,9 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
-	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alert show];
+//	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//	[alert show];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 	NSLog(@"RKObjectLoaderDelegate error: %@", error);
 }
 

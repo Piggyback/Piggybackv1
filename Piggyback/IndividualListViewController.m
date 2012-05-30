@@ -101,6 +101,7 @@ double const metersToMilesMultiplier = 0.000621371192;
 
 - (void)loadData {
     // Load the object model via RestKit
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.reloading = YES;
     NSString* listEntrysPath;
     if (!self.fromReferral) {
@@ -449,7 +450,6 @@ double const metersToMilesMultiplier = 0.000621371192;
     [super viewWillAppear:animated];
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]]) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self loadData];
     } else {
         [self loadObjectsFromDataStore];

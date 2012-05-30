@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "PBVendor.h"
 #import "PBList.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface ReferToFriendsViewController : UIViewController <RKObjectLoaderDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface ReferToFriendsViewController : UIViewController <RKObjectLoaderDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, EGORefreshTableHeaderDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) NSArray *friends;
 @property (nonatomic, strong) PBVendor *vendor;
@@ -22,5 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIView *grayLayer;
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
 @property (nonatomic, strong) NSString* source;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
