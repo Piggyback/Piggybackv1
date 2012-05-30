@@ -398,15 +398,6 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     
     // update the last update date
     [self.refreshHeaderView refreshLastUpdatedDate];
-    
-    // Check size of core data
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths objectAtIndex:0];
-//    NSString *persistentStorePath = [documentsDirectory stringByAppendingPathComponent:@"Piggyback.sqlite"];
-//    
-//    NSError *error = nil;
-//    NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:persistentStorePath error:&error];
-//    NSLog(@"Persistent store size: %@ bytes", [fileAttributes objectForKey:NSFileSize]);
 }
 
 - (void)viewDidUnload
@@ -419,9 +410,14 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
 #warning - eventually move to viewDidLoad. put it here for now because viewLoads before user logs in (modal view). still seems to be a bug extending facebook access_token
-//    if ([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid]) {
+    //    if ([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid]) {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
         if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
@@ -432,11 +428,6 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
             [self loadObjectsFromDataStore];
         }
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
