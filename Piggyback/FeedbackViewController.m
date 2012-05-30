@@ -19,6 +19,14 @@
 
 @synthesize currentPbAPICall = _currentPbAPICall;
 
+#pragma mark - keyboard delegate functions
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch * touch = [touches anyObject];
+    if(touch.phase == UITouchPhaseBegan) {
+        [self.textField resignFirstResponder];
+    }
+}
+
 #pragma mark - RKObjectLoaderDelegate methods
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
@@ -72,7 +80,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
 }
 
 - (void)viewDidUnload

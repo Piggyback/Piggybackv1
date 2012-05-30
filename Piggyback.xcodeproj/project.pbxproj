@@ -84,6 +84,7 @@
 		F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B439151010F2002791B2 /* InboxTableCell.m */; };
 		F98F4A5B1558F29B001777D4 /* PBVendorPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = F98F4A5A1558F29B001777D4 /* PBVendorPhoto.m */; };
 		F99C2C8B156CF3C900C8E65B /* foursquare-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */; };
+		F9B5DEBF15763C240034C4F5 /* textFieldBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = F9B5DEBE15763C240034C4F5 /* textFieldBackground.png */; };
 		F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B74037151934E9005D125B /* VendorInfoTableCell.m */; };
 		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
 		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
@@ -260,6 +261,7 @@
 		F98F4A591558F29B001777D4 /* PBVendorPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBVendorPhoto.h; path = Piggyback/PBVendorPhoto.h; sourceTree = "<group>"; };
 		F98F4A5A1558F29B001777D4 /* PBVendorPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendorPhoto.m; path = Piggyback/PBVendorPhoto.m; sourceTree = "<group>"; };
 		F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "foursquare-logo.png"; sourceTree = "<group>"; };
+		F9B5DEBE15763C240034C4F5 /* textFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = textFieldBackground.png; path = ../../../../Users/kimhsiao/Desktop/textFieldBackground.png; sourceTree = "<group>"; };
 		F9B74036151934E9005D125B /* VendorInfoTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VendorInfoTableCell.h; path = Piggyback/VendorInfoTableCell.h; sourceTree = "<group>"; };
 		F9B74037151934E9005D125B /* VendorInfoTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VendorInfoTableCell.m; path = Piggyback/VendorInfoTableCell.m; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -449,6 +451,7 @@
 			isa = PBXGroup;
 			children = (
 				F90340941546A76E00F51F8B /* searchMagGlass.png */,
+				F9B5DEBE15763C240034C4F5 /* textFieldBackground.png */,
 				F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */,
 				F90340951546A76E00F51F8B /* searchMagGlass@2x.png */,
 				F9BDEEAF153F926F0030363B /* search magnifying glass 22x31 v2.png */,
@@ -670,6 +673,7 @@
 				F95F45E6157569AB007997EE /* add-to-list-button-normal@2x.png in Resources */,
 				F95F45E7157569AB007997EE /* add-to-list-button-pressed.png in Resources */,
 				F95F45E8157569AB007997EE /* add-to-list-button-pressed@2x.png in Resources */,
+				F9B5DEBF15763C240034C4F5 /* textFieldBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
