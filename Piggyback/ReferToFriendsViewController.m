@@ -135,10 +135,11 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
             [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
             break;
         }
-        
-        // successful referral will go into error instead of didloadobjects because it returns null
         case pbAPIPostReferral:
         {
+            // successful referral will go into error instead of didloadobjects because call to server returns null instead of mappable core data object
+            
+            // only dismiss view controller after final referral has completed
             self.completedReferrals++;
             if (self.completedReferrals == [self.selectedFriendsIndexes count]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
