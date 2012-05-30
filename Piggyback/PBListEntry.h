@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSNumber* assignedListID;
 @property (nonatomic, strong) PBList* assignedList;
 @property (nonatomic, strong) NSString* comment;
-@property (nonatomic, strong) NSDate* addedDate;
+@property (nonatomic, strong) NSString* addedDate;
 @property (nonatomic, strong) PBVendor* vendor;
 @property (nonatomic, strong) NSString* vendorID;   // vendor and vendorReferralComments foreign key; used to add new list entries to DB
 

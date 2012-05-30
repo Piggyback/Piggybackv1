@@ -79,12 +79,12 @@
 - (IBAction)createNewList:(id)sender {
     if ([[self.listNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+        dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
         [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
-        
+
         PBList *newList = [PBList object];
         newList.name = self.listNameTextField.text;
-        newList.createdDate = [dateFormatter dateFromString:[dateFormatter stringFromDate:[NSDate date]]];
+        newList.createdDate = [dateFormatter stringFromDate:[NSDate date]];
         newList.listEntrys = [[NSMutableSet alloc] init];
         newList.listOwner = [PBUser findFirstByAttribute:@"userID" withValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
         newList.listOwnerID = [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"];

@@ -2,7 +2,7 @@
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11E53" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="PBInboxItem" representedClassName="PBInboxItem" syncable="YES">
         <attribute name="referralComment" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="referralDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="referralDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="referralID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="referrerFirstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="referrerID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -14,7 +14,7 @@
         <relationship name="vendor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBVendor" inverseName="assignedInboxItems" inverseEntity="PBVendor" syncable="YES"/>
     </entity>
     <entity name="PBList" representedClassName="PBList" syncable="YES">
-        <attribute name="createdDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="createdDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="listCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="listID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="listOwnerID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -24,7 +24,7 @@
         <relationship name="listOwner" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBUser" inverseName="lists" inverseEntity="PBUser" syncable="YES"/>
     </entity>
     <entity name="PBListEntry" representedClassName="PBListEntry" syncable="YES">
-        <attribute name="addedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="addedDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="assignedListID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="listEntryID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -72,14 +72,14 @@
         <attribute name="assignedVendorID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="referralAndVendorID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="referralDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="referralDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="referralID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="assignedVendor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PBVendor" inverseName="vendorReferralComments" inverseEntity="PBVendor" syncable="YES"/>
         <relationship name="referrer" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PBUser" inverseName="vendorReferralComments" inverseEntity="PBUser" syncable="YES"/>
     </entity>
     <elements>
         <element name="PBInboxItem" positionX="-234" positionY="-36" width="128" height="210"/>
-        <element name="PBList" positionX="-236" positionY="285" width="128" height="150"/>
+        <element name="PBList" positionX="-236" positionY="285" width="128" height="165"/>
         <element name="PBListEntry" positionX="45" positionY="432" width="128" height="135"/>
         <element name="PBUser" positionX="-0" positionY="585" width="128" height="195"/>
         <element name="PBVendor" positionX="97" positionY="135" width="128" height="300"/>

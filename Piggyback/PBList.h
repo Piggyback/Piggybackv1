@@ -14,7 +14,7 @@
 @interface PBList : NSManagedObject
 
 @property (nonatomic, strong) NSNumber* listID;
-@property (nonatomic, strong) NSDate* createdDate;
+@property (nonatomic, strong) NSString* createdDate;
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSMutableSet* listEntrys;  // array of PBListEntry
 @property (nonatomic, strong) PBUser* listOwner;
