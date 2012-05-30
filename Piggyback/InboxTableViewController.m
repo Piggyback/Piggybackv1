@@ -415,7 +415,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+    NSLog(@"inbox view did appear");
 #warning - eventually move to viewDidLoad. put it here for now because viewLoads before user logs in (modal view). still seems to be a bug extending facebook access_token
     //    if ([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid]) {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
