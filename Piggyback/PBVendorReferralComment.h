@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSString* assignedVendorID;
 @property (nonatomic, strong) PBVendor* assignedVendor;
 @property (nonatomic, strong) NSString* comment;
-@property (nonatomic, strong) NSDate* referralDate;
+@property (nonatomic, strong) NSString* referralDate;
 @property (nonatomic, strong) PBUser* referrer;
 
 @end

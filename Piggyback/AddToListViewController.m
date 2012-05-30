@@ -274,7 +274,7 @@
             newListEntryDB.assignedListID = currentList.listID;
             newListEntryDB.vendorID = self.vendor.vendorID;
             newListEntryDB.comment = [self.commentTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            newListEntryDB.addedDate = [dateFormatter dateFromString:[dateFormatter stringFromDate:[NSDate date]]];
+            newListEntryDB.addedDate = [dateFormatter stringFromDate:[NSDate date]];
             newListEntryDB.vendor = self.vendor;
             newListEntryDB.assignedList = currentList;
             

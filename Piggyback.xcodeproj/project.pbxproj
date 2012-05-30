@@ -338,7 +338,6 @@
 		3E9472EB15008EF900A261DD = {
 			isa = PBXGroup;
 			children = (
-				F90CD05B1575F655007099DF /* MessageUI.framework */,
 				3E94730015008EF900A261DD /* Piggyback */,
 				3E9472F915008EF900A261DD /* Frameworks */,
 				3E9472F715008EF900A261DD /* Products */,
@@ -356,6 +355,7 @@
 		3E9472F915008EF900A261DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F90CD05B1575F655007099DF /* MessageUI.framework */,
 				F956DE521511E58D00187A27 /* CoreLocation.framework */,
 				F9B9B62B150193B60002BCDE /* libxml2.dylib */,
 				F9B9B629150193AC0002BCDE /* QuartzCore.framework */,

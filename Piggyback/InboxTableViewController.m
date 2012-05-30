@@ -241,7 +241,10 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 //            NSLog(@"listNameFrame origin: %f", listNameFrame.origin.x);
         }
         // date
-        cell.date.text = [self timeElapsed:inboxItem.referralDate];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+        dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PST"];
+        cell.date.text = [self timeElapsed:[dateFormatter dateFromString:inboxItem.referralDate]];
         
         // referred by
         cell.referredBy.text = [[[@"From " stringByAppendingString:inboxItem.referrer.firstName] stringByAppendingString:@" "] stringByAppendingString:inboxItem.referrer.lastName];

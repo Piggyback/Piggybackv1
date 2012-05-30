@@ -15,7 +15,7 @@
 @interface PBInboxItem : NSManagedObject
 
 @property (nonatomic, strong) NSNumber* referralID;
-@property (nonatomic, strong) NSDate* referralDate;
+@property (nonatomic, strong) NSString* referralDate;
 @property (nonatomic, strong) NSString* referralComment;
 @property (nonatomic, strong) PBUser* referrer;
 @property (nonatomic, strong) PBVendor* vendor;
