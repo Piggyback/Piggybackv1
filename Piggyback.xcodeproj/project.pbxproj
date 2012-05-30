@@ -62,6 +62,7 @@
 		F90340971546A76E00F51F8B /* searchMagGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F90340951546A76E00F51F8B /* searchMagGlass@2x.png */; };
 		F90CD05C1575F655007099DF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F90CD05B1575F655007099DF /* MessageUI.framework */; };
 		F90CD05F1575F6E5007099DF /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F90CD05E1575F6E5007099DF /* FeedbackViewController.m */; };
+		F90CD0621576079C007099DF /* PBFeedbackSubmission.m in Sources */ = {isa = PBXBuildFile; fileRef = F90CD0611576079C007099DF /* PBFeedbackSubmission.m */; };
 		F936AB7F1508F12F0019F191 /* PBVendorReferralComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB7E1508F12F0019F191 /* PBVendorReferralComment.m */; };
 		F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */; };
 		F936AB85150A5AC70019F191 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB84150A5AC60019F191 /* Constants.m */; };
@@ -225,6 +226,8 @@
 		F90CD05B1575F655007099DF /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F90CD05D1575F6E5007099DF /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
 		F90CD05E1575F6E5007099DF /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		F90CD0601576079C007099DF /* PBFeedbackSubmission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBFeedbackSubmission.h; path = Piggyback/PBFeedbackSubmission.h; sourceTree = "<group>"; };
+		F90CD0611576079C007099DF /* PBFeedbackSubmission.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBFeedbackSubmission.m; path = Piggyback/PBFeedbackSubmission.m; sourceTree = "<group>"; };
 		F936AB7D1508F12F0019F191 /* PBVendorReferralComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBVendorReferralComment.h; path = Piggyback/PBVendorReferralComment.h; sourceTree = "<group>"; };
 		F936AB7E1508F12F0019F191 /* PBVendorReferralComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendorReferralComment.m; path = Piggyback/PBVendorReferralComment.m; sourceTree = "<group>"; };
 		F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferralCommentTableCell.h; path = Piggyback/ReferralCommentTableCell.h; sourceTree = "<group>"; };
@@ -508,6 +511,8 @@
 				F985B430150F5097002791B2 /* PBInboxItem.m */,
 				F95B4DEC156F0F1E00EC576C /* PBReferral.h */,
 				F95B4DED156F0F1E00EC576C /* PBReferral.m */,
+				F90CD0601576079C007099DF /* PBFeedbackSubmission.h */,
+				F90CD0611576079C007099DF /* PBFeedbackSubmission.m */,
 			);
 			name = "PB API Classes";
 			path = ..;
@@ -708,6 +713,7 @@
 				F95B4DEB156E4B4700EC576C /* ReferToFriendsCell.m in Sources */,
 				F95B4DEE156F0F1E00EC576C /* PBReferral.m in Sources */,
 				F90CD05F1575F6E5007099DF /* FeedbackViewController.m in Sources */,
+				F90CD0621576079C007099DF /* PBFeedbackSubmission.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

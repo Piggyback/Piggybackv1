@@ -12,6 +12,7 @@
 
 typedef enum pbApiCall {
     pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals,
+    pbAPIAddToList,
 } pbApiCall;
 
 @interface AddToListViewController : UIViewController <RKObjectLoaderDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>

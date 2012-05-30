@@ -122,14 +122,14 @@
 
             break;
         }
+        case pbAPIAddToList:
+        {
+            break;
+        }
         default:
             break;
     }
 }
-
-//- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjectDictionary:(NSDictionary *)dictionary {
-//    NSLog(@"did load dictionary!");
-//}
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     NSLog(@"failed to map list entry");
@@ -142,6 +142,12 @@
             self.lists = [[NSArray alloc] init];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
+            break;
+        }
+        case pbAPIAddToList:
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error Adding to List" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
             break;
         }
         default:
@@ -274,12 +280,13 @@
             newListEntryDB.assignedListID = currentList.listID;
             newListEntryDB.vendorID = self.vendor.vendorID;
             newListEntryDB.comment = [self.commentTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            newListEntryDB.addedDate = [dateFormatter dateFromString:[dateFormatter stringFromDate:[NSDate date]]];
+            newListEntryDB.addedDate = [dateFormatter stringFromDate:[NSDate date]];
             newListEntryDB.vendor = self.vendor;
             newListEntryDB.assignedList = currentList;
-            
             NSLog(@"vendor in add to list is %@",newListEntryDB.vendor);
                         
+            self.currentPbAPICall = pbAPIAddToList;
+            
             [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:self];
         }
     }
