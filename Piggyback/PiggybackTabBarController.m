@@ -8,6 +8,8 @@
 
 #import "PiggybackTabBarController.h"
 #import "PiggybackAppDelegate.h"
+#import <RestKit/RestKit.h>
+#import <RestKit/CoreData.h>
 
 @implementation PiggybackTabBarController
 
@@ -66,6 +68,10 @@
     // clear NSUserDefaults
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
     
+    // clear coredata
+    [[[RKObjectManager sharedManager] objectStore] deletePersistantStoreUsingSeedDatabaseName:nil];
+    
+    NSLog(@"logout");
     [self showLoggedOut];
 }
 

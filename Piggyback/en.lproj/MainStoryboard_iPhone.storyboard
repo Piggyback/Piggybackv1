@@ -3,7 +3,7 @@
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
     </dependencies>
     <scenes>
         <!--Lists Table View Controller - Lists-->
@@ -144,7 +144,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="3415" y="-887"/>
+            <point key="canvasLocation" x="3941" y="-887"/>
         </scene>
         <!--Individual List View Controller-->
         <scene sceneID="1Eo-1b-xNB">
@@ -297,7 +297,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <pageControl opaque="NO" alpha="0.60000000000000009" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" id="6Ya-NZ-CQK">
+                                    <pageControl opaque="NO" alpha="0.70000000000000007" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" id="6Ya-NZ-CQK">
                                         <rect key="frame" x="0.0" y="140" width="320" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -373,11 +373,11 @@
                                         <rect key="frame" x="8" y="162" width="304" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                        <state key="normal" title="Add to List">
+                                        <state key="normal" title="Add to List" image="add-to-list-button-normal.png">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="highlighted">
+                                        <state key="highlighted" image="add-to-list-button-pressed.png">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -721,6 +721,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Inbox" id="z7b-uk-7iP">
+                        <barButtonItem key="leftBarButtonItem" title="Feedback" id="L2r-MU-Fcd">
+                            <connections>
+                                <segue destination="Xa1-yI-OoI" kind="modal" identifier="inboxToFeedback" id="4wi-5F-hXM"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Logout" id="0qM-q9-zcn">
                             <connections>
                                 <action selector="logout:" destination="t8t-hD-vKt" id="bTH-3I-PCT"/>
@@ -734,6 +739,61 @@
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="2284" y="-939"/>
+        </scene>
+        <!--Feedback View Controller - Send Feedback!-->
+        <scene sceneID="SYU-OO-txj">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J4K-7h-lGm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="z6z-LB-V2A" customClass="FeedbackViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="F2l-sj-WX9">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Submit a comment to report a bug or give feedback!" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" id="ujg-tW-Ygk">
+                                <rect key="frame" x="20" y="0.0" width="280" height="53"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Great app!!" id="EgE-D9-ayt">
+                                <rect key="frame" x="20" y="53" width="280" height="92"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4mL-hI-BFY">
+                                <rect key="frame" x="20" y="157" width="280" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="submit-button.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendFeedback:" destination="z6z-LB-V2A" eventType="touchUpInside" id="8g6-bb-J2I"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Send Feedback!" id="CvA-Ok-32A">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="SsN-IV-ZE7">
+                            <connections>
+                                <action selector="cancelAddToList:" destination="z6z-LB-V2A" id="mzI-V7-Ckh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="textField" destination="EgE-D9-ayt" id="xIz-lD-2jp"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="3216" y="-1422"/>
         </scene>
         <!--Piggyback Navigation Controller - Search-->
         <scene sceneID="KxQ-JU-q0G">
@@ -1060,7 +1120,7 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="2965" y="-887"/>
+            <point key="canvasLocation" x="3491" y="-887"/>
         </scene>
         <!--Piggyback Navigation Controller-->
         <scene sceneID="E3M-Pg-hiD">
@@ -1080,9 +1140,29 @@
             </objects>
             <point key="canvasLocation" x="3676" y="404"/>
         </scene>
+        <!--Piggyback Navigation Controller-->
+        <scene sceneID="Rb1-OT-D9n">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EE4-Kq-asQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController id="Xa1-yI-OoI" customClass="PiggybackNavigationController" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="tBF-qp-K8y">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="z6z-LB-V2A" kind="relationship" relationship="rootViewController" id="vXD-LH-kgH"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="2690" y="-1422"/>
+        </scene>
     </scenes>
     <resources>
         <image name="LoginWithFacebookNormal.png" width="159" height="29"/>
+        <image name="add-to-list-button-normal.png" width="304" height="35"/>
+        <image name="add-to-list-button-pressed.png" width="304" height="35"/>
         <image name="foursquare-logo.png" width="545" height="149"/>
         <image name="inbox_tabbar_icon.png" width="30" height="30"/>
         <image name="list_tabbar_icon.png" width="30" height="30"/>
@@ -1092,122 +1172,6 @@
         <image name="submit-button-pressed.png" width="280" height="35"/>
         <image name="submit-button.png" width="280" height="35"/>
     </resources>
-    <classes>
-        <class className="AddToListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddToListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addToList:"/>
-                <relationship kind="action" name="cancelAddToList:"/>
-                <relationship kind="outlet" name="backgroundView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="commentTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="grayLayer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="CreateNewListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CreateNewListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelCreateNewList:"/>
-                <relationship kind="action" name="createNewList:"/>
-                <relationship kind="outlet" name="listNameTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="submitButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="InboxTableCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxTableCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="comment" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="date" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="numItemsInList" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="referredBy" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="referredTo" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="InboxTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="logout:"/>
-            </relationships>
-        </class>
-        <class className="IndividualListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/IndividualListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="segmentedControlChanged"/>
-                <relationship kind="outlet" name="listEntryTableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="segmentedControl" candidateClass="UISegmentedControl"/>
-            </relationships>
-        </class>
-        <class className="ListEntryTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListEntryTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="descriptionOrBlank" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="distance" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="referredByOrDescription" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ListsTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListsTableViewController.h"/>
-        </class>
-        <class className="LoginViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="loginWithFacebook:"/>
-            </relationships>
-        </class>
-        <class className="PiggybackNavigationController" superclassName="UINavigationController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PiggybackNavigationController.h"/>
-        </class>
-        <class className="PiggybackTabBarController" superclassName="UITabBarController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PiggybackTabBarController.h"/>
-        </class>
-        <class className="ReferToFriendsCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ReferToFriendsCell.h"/>
-        </class>
-        <class className="ReferToFriendsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ReferToFriendsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelReferToFriends:"/>
-                <relationship kind="action" name="referToFriends:"/>
-                <relationship kind="outlet" name="backgroundView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="commentTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="grayLayer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="ReferralCommentTableCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ReferralCommentTableCell.h"/>
-        </class>
-        <class className="SearchTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SearchViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="grayLayer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="location" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="query" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="searchResultsTable" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="VendorViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/VendorViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="photoPageControl" candidateClass="UIPageControl"/>
-                <relationship kind="outlet" name="photoScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="vendorTableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
@@ -1216,6 +1180,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="pdA-ib-Qlw"/>
         <segue reference="nrv-nn-45K"/>
-        <segue reference="uqg-Vv-7eF"/>
+        <segue reference="s3i-nX-hRF"/>
     </inferredMetricsTieBreakers>
 </document>

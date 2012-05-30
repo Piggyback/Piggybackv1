@@ -103,6 +103,8 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
         self.reloading = NO;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+        
+        [self.navigationController dismissModalViewControllerAnimated:YES];
     }
 }
 
@@ -321,8 +323,6 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
             NSLog(@"new referral is %@",newReferral);
             [[RKObjectManager sharedManager] postObject:newReferral delegate:self];
         }
-        
-        [self.navigationController dismissModalViewControllerAnimated:YES];
     }
 }
 

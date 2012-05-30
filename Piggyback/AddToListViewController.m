@@ -118,12 +118,18 @@
             [self loadObjectsFromDataStore];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
+            [self.navigationController dismissModalViewControllerAnimated:YES];
+
             break;
         }
         default:
             break;
     }
 }
+
+//- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjectDictionary:(NSDictionary *)dictionary {
+//    NSLog(@"did load dictionary!");
+//}
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     NSLog(@"failed to map list entry");
@@ -260,20 +266,22 @@
             PBList *currentList = [self.lists objectAtIndex:[currentListIndex intValue]];
             currentList.listCount = [NSNumber numberWithInt:[currentList.listCount intValue] + 1];
             
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+            [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
+
             PBListEntry *newListEntryDB = [PBListEntry object];
             newListEntryDB.assignedListID = currentList.listID;
             newListEntryDB.vendorID = self.vendor.vendorID;
             newListEntryDB.comment = [self.commentTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            newListEntryDB.addedDate = [NSDate date];
+            newListEntryDB.addedDate = [dateFormatter dateFromString:[dateFormatter stringFromDate:[NSDate date]]];
             newListEntryDB.vendor = self.vendor;
             newListEntryDB.assignedList = currentList;
             
             NSLog(@"vendor in add to list is %@",newListEntryDB.vendor);
-            
+                        
             [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:self];
         }
-        
-        [self.navigationController dismissModalViewControllerAnimated:YES];
     }
     
 }
