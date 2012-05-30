@@ -900,27 +900,34 @@
                                             <segue destination="Vgy-5n-1Cy" kind="push" identifier="searchToVendor" id="aUp-Va-zv1"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="defaultSearchCell" rowHeight="33" id="Udo-1n-S9W">
-                                        <rect key="frame" x="0.0" y="93" width="320" height="33"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="defaultSearchCell" rowHeight="51" id="Udo-1n-S9W">
+                                        <rect key="frame" x="0.0" y="93" width="320" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="0.0" width="300" height="32"/>
+                                            <rect key="frame" x="10" y="0.0" width="300" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Use the search bar above to find vendors!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="myl-AA-qql">
-                                                    <rect key="frame" x="9" y="5" width="282" height="21"/>
+                                                <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Search for places!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="myl-AA-qql">
+                                                    <rect key="frame" x="9" y="5" width="282" height="22"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Use the search bar above to find places!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="1ur-71-KT4">
+                                                    <rect key="frame" x="9" y="25" width="260" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="noSearchResultsCell" rowHeight="60" id="X7j-5y-PPb">
-                                        <rect key="frame" x="0.0" y="126" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="144" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="59"/>
@@ -939,7 +946,7 @@
                                         </view>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="foursquareCell" rowHeight="25" id="ezp-mN-Rwh">
-                                        <rect key="frame" x="0.0" y="186" width="320" height="26"/>
+                                        <rect key="frame" x="0.0" y="204" width="320" height="26"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="24"/>
@@ -1307,7 +1314,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="pdA-ib-Qlw"/>
-        <segue reference="nrv-nn-45K"/>
+        <segue reference="aUp-Va-zv1"/>
         <segue reference="s3i-nX-hRF"/>
     </inferredMetricsTieBreakers>
 </document>

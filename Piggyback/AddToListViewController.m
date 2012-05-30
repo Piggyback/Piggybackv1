@@ -17,6 +17,7 @@
 
 @property int currentPbAPICall;
 @property (nonatomic, strong) NSMutableSet *selectedListsIndexes;
+@property (nonatomic, strong) NSMutableSet *completedListAdds;
 
 @end
 
@@ -29,6 +30,7 @@
 @synthesize currentPbAPICall = _currentPbAPICall;
 @synthesize vendor = _vendor;
 @synthesize selectedListsIndexes = _selectedListsIndexes;
+@synthesize completedListAdds = _completedListAdds;
 
 #pragma mark - Getters and Setters
 
@@ -46,6 +48,13 @@
     }
     
     return _selectedListsIndexes;
+}
+
+-(NSMutableSet *)completedListAdds {
+    if (!_completedListAdds) {
+        _completedListAdds = [[NSMutableSet alloc] init];
+    }
+    return _completedListAdds;
 }
 
 - (void)setLists:(NSArray *)lists {
@@ -121,7 +130,11 @@
         }
         case pbAPIAddToList:
         {
-            [self.navigationController dismissModalViewControllerAnimated:YES];
+            [self.completedListAdds addObject:objects];
+            if ([self.completedListAdds count] == [self.selectedListsIndexes count]) {
+                [self.navigationController dismissModalViewControllerAnimated:YES];
+                NSLog(@"dismissing vc");
+            }
             break;
         }
         default:
@@ -266,7 +279,9 @@
         UIAlertView *noListsSelectedAlert = [[UIAlertView alloc] initWithTitle:@"No Lists Selected" message:@"A list must be selected!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
         [noListsSelectedAlert show];
     } else {
+        int counter = 0;
         for (NSNumber *currentListIndex in self.selectedListsIndexes) {
+            counter++;
             PBList *currentList = [self.lists objectAtIndex:[currentListIndex intValue]];
             currentList.listCount = [NSNumber numberWithInt:[currentList.listCount intValue] + 1];
             
@@ -284,7 +299,7 @@
             NSLog(@"vendor in add to list is %@",newListEntryDB.vendor);
 
             self.currentPbAPICall = pbAPIAddToList;
-            
+                
             [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:self];
         }
     }

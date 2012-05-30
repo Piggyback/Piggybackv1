@@ -20,6 +20,7 @@
 @property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView;
 @property BOOL reloading;
 @property int currentPbAPICall;
+@property int completedReferrals;
 
 @end
 
@@ -40,6 +41,7 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 @synthesize refreshHeaderView = _refreshHeaderView;
 @synthesize reloading = _reloading;
 @synthesize currentPbAPICall = _currentPbAPICall;
+@synthesize completedReferrals = _completedReferrals;
 
 #pragma mark - getters / setters
 
@@ -109,11 +111,10 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
             [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
             break;
         }
+        // this should never happen
         case pbAPIPostReferral:
         {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.navigationController dismissModalViewControllerAnimated:YES];
-            });
+            NSLog(@"in did load for refer friends. THIS SHOULDNT HAPPEN? object is %@",objects);
             break;
         }
         default:
@@ -134,11 +135,16 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
             [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
             break;
         }
+        
+        // successful referral will go into error instead of didloadobjects because it returns null
         case pbAPIPostReferral:
         {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.navigationController dismissModalViewControllerAnimated:YES];
-            });
+            self.completedReferrals++;
+            if (self.completedReferrals == [self.selectedFriendsIndexes count]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.navigationController dismissModalViewControllerAnimated:YES];
+                });
+            }
             break;
         }
         default:

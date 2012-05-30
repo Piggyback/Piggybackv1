@@ -269,7 +269,7 @@ const NSString* limit = @"20";
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if ([self.searchResponse count] == 0) {
-        return 33;
+        return 51;
     } else if ([[self.searchResponse objectForKey:@"venues"] count] == 0) {
         return 60;
     } else {
