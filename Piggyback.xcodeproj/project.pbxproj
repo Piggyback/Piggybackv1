@@ -23,7 +23,6 @@
 		3E734B721508C24C003FD9CB /* PBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B711508C24C003FD9CB /* PBUser.m */; };
 		3E734B751508F4AA003FD9CB /* ListsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B741508F4AA003FD9CB /* ListsTableViewController.m */; };
 		3E734B781508F983003FD9CB /* PBList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E734B771508F983003FD9CB /* PBList.m */; };
-		3E8F54221574CAC400E8A354 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8F54181574C76000E8A354 /* libRestKit.a */; };
 		3E9472FB15008EF900A261DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FA15008EF900A261DD /* UIKit.framework */; };
 		3E9472FD15008EF900A261DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FC15008EF900A261DD /* Foundation.framework */; };
 		3E9472FF15008EF900A261DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9472FE15008EF900A261DD /* CoreGraphics.framework */; };
@@ -95,6 +94,7 @@
 		F9BDEEB3153FD3750030363B /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F9BDEEB2153FD3750030363B /* SearchTableViewCell.m */; };
 		F9D0BDBB1508B76000D963B7 /* PBVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBA1508B76000D963B7 /* PBVendor.m */; };
 		F9D0BDBE1508BC9000D963B7 /* VendorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D0BDBD1508BC8F00D963B7 /* VendorViewController.m */; };
+		F9FF0D0C15758EC000F25611 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8F54181574C76000E8A354 /* libRestKit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,7 +277,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E8F54221574CAC400E8A354 /* libRestKit.a in Frameworks */,
+				F9FF0D0C15758EC000F25611 /* libRestKit.a in Frameworks */,
 				F9645D9015121F4D00A6B0F7 /* CoreLocation.framework in Frameworks */,
 				F9B9B62C150193B60002BCDE /* libxml2.dylib in Frameworks */,
 				F9B9B62A150193AC0002BCDE /* QuartzCore.framework in Frameworks */,

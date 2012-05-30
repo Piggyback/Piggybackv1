@@ -12,7 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PBVendorPhoto.h"
 #import "MBProgressHUD.h"
-#import "JSONKit.h"
+#import "Restkit/JSONKit.h"
 #import "PBVendorPhoto.h"
 #import "AddToListViewController.h"
 #import "ReferToFriendsViewController.h"

@@ -125,6 +125,10 @@
     }
 }
 
+//- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjectDictionary:(NSDictionary *)dictionary {
+//    NSLog(@"did load dictionary!");
+//}
+
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     NSLog(@"failed to map list entry");
     switch (self.currentPbAPICall) {
@@ -269,7 +273,7 @@
             newListEntryDB.assignedList = currentList;
             
             NSLog(@"vendor in add to list is %@",newListEntryDB.vendor);
-            
+                        
             [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:self];
         }
         

@@ -7,7 +7,7 @@
 //
 
 #import "SearchViewController.h"
-#import "JSONKit.h"
+#import "Restkit/JSONKit.h"
 #import "SearchTableViewCell.h"
 #import "LocationController.h"
 #import "VendorViewController.h"
