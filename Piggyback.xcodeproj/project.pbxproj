@@ -60,6 +60,8 @@
 		4F4DACB3151AD58200E6E65C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4DACB1151AD58200E6E65C /* Icon@2x.png */; };
 		F90340961546A76E00F51F8B /* searchMagGlass.png in Resources */ = {isa = PBXBuildFile; fileRef = F90340941546A76E00F51F8B /* searchMagGlass.png */; };
 		F90340971546A76E00F51F8B /* searchMagGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F90340951546A76E00F51F8B /* searchMagGlass@2x.png */; };
+		F90CD05C1575F655007099DF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F90CD05B1575F655007099DF /* MessageUI.framework */; };
+		F90CD05F1575F6E5007099DF /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F90CD05E1575F6E5007099DF /* FeedbackViewController.m */; };
 		F936AB7F1508F12F0019F191 /* PBVendorReferralComment.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB7E1508F12F0019F191 /* PBVendorReferralComment.m */; };
 		F936AB82150A2B800019F191 /* ReferralCommentTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB81150A2B7F0019F191 /* ReferralCommentTableCell.m */; };
 		F936AB85150A5AC70019F191 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = F936AB84150A5AC60019F191 /* Constants.m */; };
@@ -220,6 +222,9 @@
 		4F4DACB1151AD58200E6E65C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		F90340941546A76E00F51F8B /* searchMagGlass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchMagGlass.png; sourceTree = "<group>"; };
 		F90340951546A76E00F51F8B /* searchMagGlass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchMagGlass@2x.png"; sourceTree = "<group>"; };
+		F90CD05B1575F655007099DF /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		F90CD05D1575F6E5007099DF /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		F90CD05E1575F6E5007099DF /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		F936AB7D1508F12F0019F191 /* PBVendorReferralComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBVendorReferralComment.h; path = Piggyback/PBVendorReferralComment.h; sourceTree = "<group>"; };
 		F936AB7E1508F12F0019F191 /* PBVendorReferralComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendorReferralComment.m; path = Piggyback/PBVendorReferralComment.m; sourceTree = "<group>"; };
 		F936AB80150A2B7F0019F191 /* ReferralCommentTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferralCommentTableCell.h; path = Piggyback/ReferralCommentTableCell.h; sourceTree = "<group>"; };
@@ -277,6 +282,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F90CD05C1575F655007099DF /* MessageUI.framework in Frameworks */,
 				F9FF0D0C15758EC000F25611 /* libRestKit.a in Frameworks */,
 				F9645D9015121F4D00A6B0F7 /* CoreLocation.framework in Frameworks */,
 				F9B9B62C150193B60002BCDE /* libxml2.dylib in Frameworks */,
@@ -332,6 +338,7 @@
 		3E9472EB15008EF900A261DD = {
 			isa = PBXGroup;
 			children = (
+				F90CD05B1575F655007099DF /* MessageUI.framework */,
 				3E94730015008EF900A261DD /* Piggyback */,
 				3E9472F915008EF900A261DD /* Frameworks */,
 				3E9472F715008EF900A261DD /* Products */,
@@ -393,6 +400,8 @@
 				3E21FC2A156B320900A9A088 /* CreateNewListViewController.m */,
 				F95B4DE6156E3CA400EC576C /* ReferToFriendsViewController.h */,
 				F95B4DE7156E3CA400EC576C /* ReferToFriendsViewController.m */,
+				F90CD05D1575F6E5007099DF /* FeedbackViewController.h */,
+				F90CD05E1575F6E5007099DF /* FeedbackViewController.m */,
 				3E36D55E152331F0001C9070 /* EGORefreshTableHeaderView.h */,
 				3E36D55F152331F0001C9070 /* EGORefreshTableHeaderView.m */,
 				F929ACBC15121296008B7463 /* Views */,
@@ -698,6 +707,7 @@
 				F95B4DE8156E3CA400EC576C /* ReferToFriendsViewController.m in Sources */,
 				F95B4DEB156E4B4700EC576C /* ReferToFriendsCell.m in Sources */,
 				F95B4DEE156F0F1E00EC576C /* PBReferral.m in Sources */,
+				F90CD05F1575F6E5007099DF /* FeedbackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

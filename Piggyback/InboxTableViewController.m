@@ -447,15 +447,17 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    PBInboxItem* inboxItem = [self.inboxItems objectAtIndex:[self.tableView indexPathForSelectedRow].row];
-    if([[segue identifier] isEqualToString:@"inboxToVendor"]) {
-        // set vendor for display on vendor detail view
-        [segue.destinationViewController setVendor:inboxItem.vendor];
-        [segue.destinationViewController setSource:@"inboxVendorReferral"];
-        
-    } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
-        [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];
-        [segue.destinationViewController setFromReferral:YES];
+    if (![[segue identifier] isEqualToString:@"inboxToFeedback"]) {
+        PBInboxItem* inboxItem = [self.inboxItems objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        if([[segue identifier] isEqualToString:@"inboxToVendor"]) {
+            // set vendor for display on vendor detail view
+            [segue.destinationViewController setVendor:inboxItem.vendor];
+            [segue.destinationViewController setSource:@"inboxVendorReferral"];
+            
+        } else if ([[segue identifier] isEqualToString:@"inboxToList"]) {
+            [(IndividualListViewController*)segue.destinationViewController setList:inboxItem.list];
+            [segue.destinationViewController setFromReferral:YES];
+        }
     }
 }
 
