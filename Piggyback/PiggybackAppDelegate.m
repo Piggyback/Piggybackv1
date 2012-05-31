@@ -20,6 +20,7 @@
 #import "PBVendorPhoto.h"
 #import "PBReferral.h"
 #import "PBFeedbackSubmission.h"
+#import "FlurryAnalytics.h"
 
 @implementation PiggybackAppDelegate
 
@@ -33,10 +34,15 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // set uncaught exception handler
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
+    // start FlurryAnalytics
+    [FlurryAnalytics startSession:@"7IKL8MIBLVBNV27G1U7E"];
+    
     /* Setting up RestKit SDK */
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:RK_BASE_URL];
     objectManager.acceptMIMEType = RKMIMETypeJSON;
-//    objectManager.serializationMIMEType = RKMIMETypeFormURLEncoded;
     objectManager.serializationMIMEType = RKMIMETypeJSON;
     
     objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
@@ -264,6 +270,10 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     return [self.facebook handleOpenURL:url];
+}
+
+void uncaughtExceptionHandler(NSException *exception) {
+    [FlurryAnalytics logError:@"Uncaught Exception!" message:@"Crash!" exception:exception];
 }
 
 @end

@@ -18,6 +18,7 @@
 #import "InboxTableCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MBProgressHUD.h"
+#import "FlurryAnalytics.h"
 
 @interface InboxTableViewController()
 
@@ -413,6 +414,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [FlurryAnalytics logEvent:@"VIEWED_INBOX"];
 }
 
 - (void)viewDidAppear:(BOOL)animated

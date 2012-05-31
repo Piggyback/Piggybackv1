@@ -14,6 +14,7 @@
 #import "listEntryTableViewCell.h"
 #import "MBProgressHUD.h"
 #import "ReferToFriendsViewController.h"
+#import "FlurryAnalytics.h"
 
 @interface IndividualListViewController()
 
@@ -448,6 +449,8 @@ double const metersToMilesMultiplier = 0.000621371192;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [FlurryAnalytics logEvent:@"VIEWED_INDIVIDUAL_LIST"];
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]]) {
         [self loadData];

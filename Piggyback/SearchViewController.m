@@ -13,6 +13,7 @@
 #import "VendorViewController.h"
 #import "Constants.h"
 #import "MBProgressHUD.h"
+#import "FlurryAnalytics.h"
 
 @interface SearchViewController ()
 
@@ -147,6 +148,8 @@ const NSString* limit = @"20";
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    [FlurryAnalytics logEvent:@"PERFORMED_SEARCH"];
+    
     if (connection == self.geocodeConnection) {
         // fetch lat and lng of requested location
         NSDictionary *geocodeResponse = [[[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding] objectFromJSONString];

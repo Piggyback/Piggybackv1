@@ -15,5 +15,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) Facebook *facebook;
+void uncaughtExceptionHandler(NSException *exception);
 
 @end
