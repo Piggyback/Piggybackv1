@@ -316,8 +316,8 @@ const NSString* limit = @"20";
     self.location.returnKeyType = UIReturnKeySearch;
     
     // change height of text fields
-    self.query.frame = CGRectMake(self.query.frame.origin.x,self.query.frame.origin.y,self.query.frame.size.width,25);
-    self.location.frame = CGRectMake(self.location.frame.origin.x,self.location.frame.origin.y,self.location.frame.size.width,25);
+//    self.query.frame = CGRectMake(self.query.frame.origin.x,self.query.frame.origin.y,self.query.frame.size.width,25);
+//    self.location.frame = CGRectMake(self.location.frame.origin.x,self.location.frame.origin.y,self.location.frame.size.width,25);
     
     // tap outside of textfield hides keyboard
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
