@@ -659,13 +659,6 @@ const CGFloat photoWidth = 320;
         } else {
             [self loadPhotosObjectsFromDataStore];
         }
-        
-        // get referral comments
-        if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
-            [self loadReferralCommentsData];
-        } else {
-            [self loadReferralCommentsObjectsFromDataStore];
-        }
     }
     
     // update the last update date
@@ -674,6 +667,13 @@ const CGFloat photoWidth = 320;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    // get referral comments
+//    if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vid%@LastUpdatedAt", self.vendor.vendorID]]) {
+        [self loadReferralCommentsData];
+//    } else {
+//        [self loadReferralCommentsObjectsFromDataStore];
+//    }
     
     [self resizeReferralCommentsTable];
 
