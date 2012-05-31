@@ -78,7 +78,7 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
     self.reloading = YES;
     
     RKObjectManager* objManager = [RKObjectManager sharedManager];
-    RKObjectLoader* friendsLoader = [objManager loadObjectsAtResourcePath:[RK_FRIENDS_RESOURCE_PATH stringByAppendingFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]] objectMapping:[objManager.mappingProvider mappingForKeyPath:@"user"] delegate:self];
+    [objManager loadObjectsAtResourcePath:[RK_FRIENDS_RESOURCE_PATH stringByAppendingFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]] objectMapping:[objManager.mappingProvider mappingForKeyPath:@"user"] delegate:self];
     self.currentPbAPICall = pbAPIRefreshFriends;
 }
 
@@ -293,7 +293,7 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 //    if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"friends"]]) {
 //        [self loadData];
 //    } else {
-        [self loadObjectsFromDataStore];
+//        [self loadObjectsFromDataStore];
 //    }
     
     // tap outside of textfield hides keyboard
@@ -303,6 +303,13 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];  
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil]; 
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self loadData];
 }
 
 - (void)viewDidUnload

@@ -84,7 +84,6 @@
 		F985B43A151010F2002791B2 /* InboxTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F985B439151010F2002791B2 /* InboxTableCell.m */; };
 		F98F4A5B1558F29B001777D4 /* PBVendorPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = F98F4A5A1558F29B001777D4 /* PBVendorPhoto.m */; };
 		F99C2C8B156CF3C900C8E65B /* foursquare-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */; };
-		F9B5DEBF15763C240034C4F5 /* textFieldBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = F9B5DEBE15763C240034C4F5 /* textFieldBackground.png */; };
 		F9B5DEC71576F68F0034C4F5 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B5DEC61576F68F0034C4F5 /* libFlurryAnalytics.a */; };
 		F9B5DEC9157704B10034C4F5 /* no_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F9B5DEC8157704B10034C4F5 /* no_photo@2x.png */; };
 		F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B74037151934E9005D125B /* VendorInfoTableCell.m */; };
@@ -193,6 +192,7 @@
 		3E94730D15008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		3E94731215008EF900A261DD /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		3E94731315008EF900A261DD /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		3E9576901577609A00FAA569 /* textFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textFieldBackground.png; sourceTree = "<group>"; };
 		3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndividualListViewController.h; sourceTree = "<group>"; };
 		3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndividualListViewController.m; sourceTree = "<group>"; };
 		3EAC2AF3152157FF00B69392 /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_bg@2x.png"; sourceTree = "<group>"; };
@@ -263,7 +263,6 @@
 		F98F4A591558F29B001777D4 /* PBVendorPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBVendorPhoto.h; path = Piggyback/PBVendorPhoto.h; sourceTree = "<group>"; };
 		F98F4A5A1558F29B001777D4 /* PBVendorPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBVendorPhoto.m; path = Piggyback/PBVendorPhoto.m; sourceTree = "<group>"; };
 		F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "foursquare-logo.png"; sourceTree = "<group>"; };
-		F9B5DEBE15763C240034C4F5 /* textFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = textFieldBackground.png; path = ../../../../Users/kimhsiao/Desktop/textFieldBackground.png; sourceTree = "<group>"; };
 		F9B5DEC51576F68F0034C4F5 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
 		F9B5DEC61576F68F0034C4F5 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		F9B5DEC8157704B10034C4F5 /* no_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no_photo@2x.png"; sourceTree = "<group>"; };
@@ -457,8 +456,8 @@
 		3EFDB51C1501793200CC57A8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E9576901577609A00FAA569 /* textFieldBackground.png */,
 				F90340941546A76E00F51F8B /* searchMagGlass.png */,
-				F9B5DEBE15763C240034C4F5 /* textFieldBackground.png */,
 				F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */,
 				F90340951546A76E00F51F8B /* searchMagGlass@2x.png */,
 				F9BDEEAF153F926F0030363B /* search magnifying glass 22x31 v2.png */,
@@ -691,7 +690,7 @@
 				F95F45E6157569AB007997EE /* add-to-list-button-normal@2x.png in Resources */,
 				F95F45E7157569AB007997EE /* add-to-list-button-pressed.png in Resources */,
 				F95F45E8157569AB007997EE /* add-to-list-button-pressed@2x.png in Resources */,
-				F9B5DEBF15763C240034C4F5 /* textFieldBackground.png in Resources */,
+				F9B5DEC9157704B10034C4F5 /* no_photo@2x.png in Resources */,
 				F9B5DEC9157704B10034C4F5 /* no_photo@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

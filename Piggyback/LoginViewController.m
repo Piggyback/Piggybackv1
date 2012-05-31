@@ -103,6 +103,7 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
     switch (self.currentFbAPICall) {
         case fbAPIGraphMeFromLogin:
         {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             NSLog(@"ID: %@", [result objectForKey:@"id"]);
             [self storeCurrentUserFbInformation:result];
             [self getCurrentUserUidFromLogin:[result objectForKey:@"id"]];
@@ -170,7 +171,6 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
 - (IBAction)loginWithFacebook:(id)sender {
     NSArray *permissions = [[NSArray alloc] initWithObjects:@"email", nil];
     [[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] authorize:permissions];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 @end
