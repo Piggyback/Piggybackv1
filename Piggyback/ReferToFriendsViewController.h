@@ -11,6 +11,11 @@
 #import "PBList.h"
 #import "EGORefreshTableHeaderView.h"
 
+typedef enum pbApiReferralCall {
+    pbAPIPostReferral,
+    pbAPIRefreshFriends,
+} pbApiReferralCall;
+
 @interface ReferToFriendsViewController : UIViewController <RKObjectLoaderDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, EGORefreshTableHeaderDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) NSArray *friends;

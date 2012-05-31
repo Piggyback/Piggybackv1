@@ -359,13 +359,6 @@ const CGFloat photoWidth = 320;
     }
     
     if(objectLoader.userData == @"vendorPhotoLoader") {
-//        for (PBVendorPhoto* photo in objects) {
-//            photo.vendor = self.vendor; 
-//        }
-//        
-//        NSError* error;
-//        [[NSManagedObject managedObjectContext] save:&error];
-        
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadPhotosObjectsFromDataStore];

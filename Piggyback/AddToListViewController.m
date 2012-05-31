@@ -17,6 +17,7 @@
 
 @property int currentPbAPICall;
 @property (nonatomic, strong) NSMutableSet *selectedListsIndexes;
+@property (nonatomic, strong) NSMutableSet *completedListAdds;
 
 @end
 
@@ -29,6 +30,7 @@
 @synthesize currentPbAPICall = _currentPbAPICall;
 @synthesize vendor = _vendor;
 @synthesize selectedListsIndexes = _selectedListsIndexes;
+@synthesize completedListAdds = _completedListAdds;
 
 #pragma mark - Getters and Setters
 
@@ -46,6 +48,13 @@
     }
     
     return _selectedListsIndexes;
+}
+
+-(NSMutableSet *)completedListAdds {
+    if (!_completedListAdds) {
+        _completedListAdds = [[NSMutableSet alloc] init];
+    }
+    return _completedListAdds;
 }
 
 - (void)setLists:(NSArray *)lists {
@@ -117,19 +126,21 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             [self loadObjectsFromDataStore];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
-            [self.navigationController dismissModalViewControllerAnimated:YES];
-
+            break;
+        }
+        case pbAPIAddToList:
+        {
+            [self.completedListAdds addObject:objects];
+            if ([self.completedListAdds count] == [self.selectedListsIndexes count]) {
+                [self.navigationController dismissModalViewControllerAnimated:YES];
+                NSLog(@"dismissing vc");
+            }
             break;
         }
         default:
             break;
     }
 }
-
-//- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjectDictionary:(NSDictionary *)dictionary {
-//    NSLog(@"did load dictionary!");
-//}
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     NSLog(@"failed to map list entry");
@@ -142,6 +153,12 @@
             self.lists = [[NSArray alloc] init];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
+            break;
+        }
+        case pbAPIAddToList:
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error Adding to List" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
             break;
         }
         default:
@@ -262,7 +279,9 @@
         UIAlertView *noListsSelectedAlert = [[UIAlertView alloc] initWithTitle:@"No Lists Selected" message:@"A list must be selected!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
         [noListsSelectedAlert show];
     } else {
+        int counter = 0;
         for (NSNumber *currentListIndex in self.selectedListsIndexes) {
+            counter++;
             PBList *currentList = [self.lists objectAtIndex:[currentListIndex intValue]];
             currentList.listCount = [NSNumber numberWithInt:[currentList.listCount intValue] + 1];
             
@@ -277,9 +296,10 @@
             newListEntryDB.addedDate = [dateFormatter stringFromDate:[NSDate date]];
             newListEntryDB.vendor = self.vendor;
             newListEntryDB.assignedList = currentList;
-            
             NSLog(@"vendor in add to list is %@",newListEntryDB.vendor);
-                        
+
+            self.currentPbAPICall = pbAPIAddToList;
+                
             [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:self];
         }
     }

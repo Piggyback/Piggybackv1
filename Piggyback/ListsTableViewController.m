@@ -15,6 +15,7 @@
 #import "Constants.h"
 #import "CreateNewListViewController.h"
 #import "PiggybackNavigationController.h"
+#import "FlurryAnalytics.h"
 
 @interface ListsTableViewController ()
 
@@ -299,6 +300,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [FlurryAnalytics logEvent:@"VIEWED_YOUR_LISTS"];
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];

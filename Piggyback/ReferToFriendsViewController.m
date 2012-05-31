@@ -19,6 +19,8 @@
 @property (nonatomic, strong) NSMutableSet *selectedFriendsIndexes;
 @property (nonatomic, strong) EGORefreshTableHeaderView* refreshHeaderView;
 @property BOOL reloading;
+@property int currentPbAPICall;
+@property int completedReferrals;
 
 @end
 
@@ -38,6 +40,8 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 @synthesize scrollView = _scrollView;
 @synthesize refreshHeaderView = _refreshHeaderView;
 @synthesize reloading = _reloading;
+@synthesize currentPbAPICall = _currentPbAPICall;
+@synthesize completedReferrals = _completedReferrals;
 
 #pragma mark - getters / setters
 
@@ -75,7 +79,7 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
     
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* friendsLoader = [objManager loadObjectsAtResourcePath:[RK_FRIENDS_RESOURCE_PATH stringByAppendingFormat:@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]] objectMapping:[objManager.mappingProvider mappingForKeyPath:@"user"] delegate:self];
-    friendsLoader.userData = @"friendsLoader";
+    self.currentPbAPICall = pbAPIRefreshFriends;
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
@@ -96,31 +100,61 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
     NSLog(@"did load objects!");
-    if(objectLoader.userData == @"friendsLoader") {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"friends"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self loadObjectsFromDataStore];
-        self.reloading = NO;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
-        
-        [self.navigationController dismissModalViewControllerAnimated:YES];
+    switch (self.currentPbAPICall) {
+        case pbAPIRefreshFriends:
+        {
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"friends"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [self loadObjectsFromDataStore];
+            self.reloading = NO;
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+            break;
+        }
+        // this should never happen
+        case pbAPIPostReferral:
+        {
+            NSLog(@"in did load for refer friends. THIS SHOULDNT HAPPEN? object is %@",objects);
+            break;
+        }
+        default:
+            break;
     }
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     NSLog(@"ERROR");
-    if (objectLoader.userData == @"friendsLoader") {
-        // handle case where user has no friends
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"friends"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        self.reloading = NO;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
-    } else {
-//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"ReferToFriendsViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [alert show];
-//        NSLog(@"ReferToFriendsViewController RK error: %@", error);
+    switch (self.currentPbAPICall) {
+        case pbAPIRefreshFriends:
+        {
+            // handle case where user has no friends
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"friends"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            self.reloading = NO;
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+            break;
+        }
+        case pbAPIPostReferral:
+        {
+            // successful referral will go into error instead of didloadobjects because call to server returns null instead of mappable core data object
+            
+            // only dismiss view controller after final referral has completed
+            self.completedReferrals++;
+            if (self.completedReferrals == [self.selectedFriendsIndexes count]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.navigationController dismissModalViewControllerAnimated:YES];
+                });
+            }
+            break;
+        }
+        default:
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"ReferToFriendsViewController RK Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            NSLog(@"ReferToFriendsViewController RK error: %@", error);
+            break;
+        }
     }
 }
 
@@ -132,14 +166,14 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 
 - (void)keyboardDidShow:(NSNotification *)note 
 {
-    NSLog(@"hello keyboard showde");
-    [self.view bringSubviewToFront:self.grayLayer];
+    NSLog(@"hello keyboard showed in refer to friends");
+    [self.scrollView bringSubviewToFront:self.grayLayer];
 }
 
 - (void)keyboardDidHide:(NSNotification *)note 
 {
-    [self.view bringSubviewToFront:self.backgroundView];
-    [self.view bringSubviewToFront:self.tableView];
+    [self.scrollView bringSubviewToFront:self.backgroundView];
+    [self.scrollView bringSubviewToFront:self.tableView];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -316,11 +350,12 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
                 newReferral.vendor = self.vendor;
             }
             
+            // set comment
             newReferral.comment = self.commentTextField.text;
-            // add row to referral table on database (without core data)
-            // add vendor to vendor table if it doesnt exist yet in core data and on the database
-            
+
             NSLog(@"new referral is %@",newReferral);
+            
+            self.currentPbAPICall = pbAPIPostReferral;
             [[RKObjectManager sharedManager] postObject:newReferral delegate:self];
         }
     }

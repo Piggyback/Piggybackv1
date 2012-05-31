@@ -7,6 +7,7 @@
 //
 
 #import "LocationController.h"
+#import "FlurryAnalytics.h"
 
 @interface LocationController()
 @property (nonatomic, strong) CLLocationManager* locationManager;
@@ -34,7 +35,12 @@
 }
 
 -(BOOL) locationKnown { 
-    if (self.currentLocation) return YES; else return NO;
+    if (self.currentLocation) {
+        return YES; 
+    }
+    else {
+        return NO;
+    }
 }
 
 -(CLLocation*) getCurrentLocationAndStopLocationManager {
@@ -44,6 +50,13 @@
         // block
     }
     [self stop];
+    
+    // get geographic information about users
+    [FlurryAnalytics setLatitude:self.currentLocation.coordinate.latitude            
+                       longitude:self.currentLocation.coordinate.longitude            
+              horizontalAccuracy:self.currentLocation.horizontalAccuracy            
+                verticalAccuracy:self.currentLocation.verticalAccuracy];
+    
     return self.currentLocation;
 }
 

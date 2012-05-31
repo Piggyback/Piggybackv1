@@ -19,6 +19,8 @@
 #import "PBInboxItem.h"
 #import "PBVendorPhoto.h"
 #import "PBReferral.h"
+#import "PBFeedbackSubmission.h"
+#import "FlurryAnalytics.h"
 
 @implementation PiggybackAppDelegate
 
@@ -32,10 +34,15 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // set uncaught exception handler
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
+    // start FlurryAnalytics
+    [FlurryAnalytics startSession:@"7IKL8MIBLVBNV27G1U7E"];
+    
     /* Setting up RestKit SDK */
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:RK_BASE_URL];
     objectManager.acceptMIMEType = RKMIMETypeJSON;
-//    objectManager.serializationMIMEType = RKMIMETypeFormURLEncoded;
     objectManager.serializationMIMEType = RKMIMETypeJSON;
     
     objectManager.client.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;     // Enable automatic network activity indicator management
@@ -59,6 +66,7 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [router routeClass:[PBReferral class] toResourcePath:@"/referapi/restRefer" forMethod:RKRequestMethodPOST];
     [router routeClass:[PBUser class] toResourcePath:@"/userapi/user"];
     [router routeClass:[PBUser class] toResourcePath:@"/userapi/user" forMethod:RKRequestMethodPOST];
+    [router routeClass:[PBFeedbackSubmission class] toResourcePath:@"/feedbackapi/feedback" forMethod:RKRequestMethodPOST];
     objectManager.router = router;
     
     // Setup our object mappings
@@ -158,6 +166,10 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
     [referralSerializationMapping mapKeyPath:@"vendor" toRelationship:@"vendor" withMapping:vendorSerializationMapping];
     [objectManager.mappingProvider setSerializationMapping:referralSerializationMapping forClass:[PBReferral class]];
 
+    RKObjectMapping *feedbackSerializationMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
+    [feedbackSerializationMapping mapAttributes:@"comment",@"uid",@"date",nil];
+    [objectManager.mappingProvider setSerializationMapping:feedbackSerializationMapping forClass:[PBFeedbackSubmission class]];
+    
 //    RKObjectMapping* vendorPhotoMapping = [RKObjectMapping mappingForClass:[PBVendorPhoto class]];
 //    [vendorPhotoMapping mapAttributes:@"vid",@"pid",@"photoURL",nil];
 //    [objectManager.mappingProvider setMapping:vendorPhotoMapping forKeyPath:@"vendor-photo"];
@@ -258,6 +270,10 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     return [self.facebook handleOpenURL:url];
+}
+
+void uncaughtExceptionHandler(NSException *exception) {
+    [FlurryAnalytics logError:@"Uncaught Exception!" message:@"Crash!" exception:exception];
 }
 
 @end

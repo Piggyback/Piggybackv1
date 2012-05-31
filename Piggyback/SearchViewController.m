@@ -13,6 +13,7 @@
 #import "VendorViewController.h"
 #import "Constants.h"
 #import "MBProgressHUD.h"
+#import "FlurryAnalytics.h"
 
 @interface SearchViewController ()
 
@@ -147,6 +148,8 @@ const NSString* limit = @"20";
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    [FlurryAnalytics logEvent:@"PERFORMED_SEARCH"];
+    
     if (connection == self.geocodeConnection) {
         // fetch lat and lng of requested location
         NSDictionary *geocodeResponse = [[[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding] objectFromJSONString];
@@ -269,7 +272,7 @@ const NSString* limit = @"20";
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     if ([self.searchResponse count] == 0) {
-        return 33;
+        return 51;
     } else if ([[self.searchResponse objectForKey:@"venues"] count] == 0) {
         return 60;
     } else {
@@ -313,8 +316,8 @@ const NSString* limit = @"20";
     self.location.returnKeyType = UIReturnKeySearch;
     
     // change height of text fields
-    self.query.frame = CGRectMake(self.query.frame.origin.x,self.query.frame.origin.y,self.query.frame.size.width,25);
-    self.location.frame = CGRectMake(self.location.frame.origin.x,self.location.frame.origin.y,self.location.frame.size.width,25);
+//    self.query.frame = CGRectMake(self.query.frame.origin.x,self.query.frame.origin.y,self.query.frame.size.width,25);
+//    self.location.frame = CGRectMake(self.location.frame.origin.x,self.location.frame.origin.y,self.location.frame.size.width,25);
     
     // tap outside of textfield hides keyboard
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];

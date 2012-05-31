@@ -63,11 +63,12 @@
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
     NSLog(@"in did load objects");
     NSLog(@"num of lists returned: %i", [objects count]);
-            
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
-    NSLog(@"in failed to load objects");
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"CreateNewListViewController RK Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+    NSLog(@"CreateNewListViewController RK error: %@", error);
 }
 
 
@@ -89,8 +90,10 @@
         newList.listOwnerID = [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"];
         newList.listCount = [NSNumber numberWithInt:0];
 
-        [[RKObjectManager sharedManager] postObject:newList mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"list"] delegate:(id<RKObjectLoaderDelegate>)self.realPresentingViewController]; 
+        [[RKObjectManager sharedManager] postObject:newList mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"list"] delegate:(id<RKObjectLoaderDelegate>)self.realPresentingViewController];
+        
         [self.navigationController dismissModalViewControllerAnimated:YES];
+
     } else {
         UIAlertView *emptyNameAlert = [[UIAlertView alloc] initWithTitle:@"Empty list name" message:@"Name cannot be blank!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
         [emptyNameAlert show];
