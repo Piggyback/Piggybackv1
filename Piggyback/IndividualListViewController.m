@@ -332,34 +332,42 @@ double const metersToMilesMultiplier = 0.000621371192;
     
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    // If row is deleted, remove it from the list.
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {        
-        // delete from piggyback api
-        NSNumber* leid = [[self.shownListEntrys objectAtIndex:indexPath.row] listEntryID];
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Detemine if it's in editing mode
+    if (!self.fromReferral) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return UITableViewCellEditingStyleNone;
+}
 
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
-        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
-        NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
-                
-        NSDictionary* params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:leid,timeStamp,nil] forKeys:[NSArray arrayWithObjects:@"leid",@"date",nil]];
-        [[RKClient sharedClient] put:@"listapi/coreDataListEntryDelete" params:params delegate:self];
-        
-        // delete from core data
-        PBListEntry* deletedListEntry = [self.shownListEntrys objectAtIndex:indexPath.row];
-        [[[[RKObjectManager sharedManager] objectStore] managedObjectContext] deleteObject:deletedListEntry];
-        [[[[RKObjectManager sharedManager] objectStore] managedObjectContext] save:nil];
-        
-        // delete from view
-        [self.shownListEntrys removeObjectAtIndex:indexPath.row];
-        [self.sortedDateListEntrys removeObject:deletedListEntry];
-        [self.listEntryTableView reloadData];
-        
-        // decrement list count after deleting
-        self.list.listCount = [NSNumber numberWithInt:([self.list.listCount intValue] - 1)];
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.fromReferral) {
+        if (editingStyle == UITableViewCellEditingStyleDelete)
+        {        
+            // delete from piggyback api
+            NSNumber* leid = [[self.shownListEntrys objectAtIndex:indexPath.row] listEntryID];
+
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+            [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
+            NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
+                    
+            NSDictionary* params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:leid,timeStamp,nil] forKeys:[NSArray arrayWithObjects:@"leid",@"date",nil]];
+            [[RKClient sharedClient] put:@"listapi/coreDataListEntryDelete" params:params delegate:self];
+            
+            // delete from core data
+            PBListEntry* deletedListEntry = [self.shownListEntrys objectAtIndex:indexPath.row];
+            [[[[RKObjectManager sharedManager] objectStore] managedObjectContext] deleteObject:deletedListEntry];
+            [[[[RKObjectManager sharedManager] objectStore] managedObjectContext] save:nil];
+            
+            // delete from view
+            [self.shownListEntrys removeObjectAtIndex:indexPath.row];
+            [self.sortedDateListEntrys removeObject:deletedListEntry];
+            [self.listEntryTableView reloadData];
+            
+            // decrement list count after deleting
+            self.list.listCount = [NSNumber numberWithInt:([self.list.listCount intValue] - 1)];
+        }
     }
 }
 
