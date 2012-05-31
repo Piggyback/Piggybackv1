@@ -640,7 +640,8 @@ const CGFloat photoWidth = 320;
             NSString *date = [dateFormat stringFromDate:now];
             
             NSURLRequest *detailsRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@?client_id=%@&client_secret=%@&v=%@",self.vendor.vendorID,FOURSQUARECLIENTID,FOURSQUARECLIENTSECRET,date]]];
-            NSURLConnection *detailsConnection = [[NSURLConnection alloc] initWithRequest:detailsRequest delegate:self];
+//            NSURLConnection *detailsConnection = [[NSURLConnection alloc] initWithRequest:detailsRequest delegate:self];
+            [NSURLConnection connectionWithRequest:detailsRequest delegate:self];
         } else {
             [self loadPhotosObjectsFromDataStore];
         }
