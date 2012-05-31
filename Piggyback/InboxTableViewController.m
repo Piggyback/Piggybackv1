@@ -229,7 +229,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
             
             // set position of number of items in list
             CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(500.0f,9999.0f) lineBreakMode:UILineBreakModeTailTruncation];
-#warning - hacky solution because sizeWithFont cuts off the last word regardless of the lineBreakMode set (returns width less than 185 when expected is 185)
+            //hacky solution because sizeWithFont cuts off the last word regardless of the lineBreakMode set (returns width less than 185 when expected is 185)
             if (listNameSize.width > 185.0f) {
                 listNameSize.width = 185.0f;
             }
@@ -419,7 +419,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 {
     [super viewDidAppear:animated];
     NSLog(@"inbox view did appear");
-#warning - eventually move to viewDidLoad. put it here for now because viewLoads before user logs in (modal view). still seems to be a bug extending facebook access_token
+    
     //    if ([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid]) {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {

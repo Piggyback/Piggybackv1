@@ -284,7 +284,6 @@ double const metersToMilesMultiplier = 0.000621371192;
             cell.referredByOrDescription.text = [[self.shownListEntrys objectAtIndex:indexPath.row] comment];
             cell.referredByOrDescription.textColor = [UIColor colorWithRed:78/255.0f green:78/255.0f blue:78/255.0f alpha:1.0f];
             cell.referredByOrDescription.frame = newFrame;
-    #warning - need to optimize and change font color
             
             // set description to blank
             cell.descriptionOrBlank.text = @"";
