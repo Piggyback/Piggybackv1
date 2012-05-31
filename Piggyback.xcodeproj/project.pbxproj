@@ -86,6 +86,7 @@
 		F99C2C8B156CF3C900C8E65B /* foursquare-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F99C2C8A156CF3C900C8E65B /* foursquare-logo.png */; };
 		F9B5DEBF15763C240034C4F5 /* textFieldBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = F9B5DEBE15763C240034C4F5 /* textFieldBackground.png */; };
 		F9B5DEC71576F68F0034C4F5 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B5DEC61576F68F0034C4F5 /* libFlurryAnalytics.a */; };
+		F9B5DEC9157704B10034C4F5 /* no_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F9B5DEC8157704B10034C4F5 /* no_photo@2x.png */; };
 		F9B74038151934E9005D125B /* VendorInfoTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B74037151934E9005D125B /* VendorInfoTableCell.m */; };
 		F9B9B620150193810002BCDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B61F150193810002BCDE /* CFNetwork.framework */; };
 		F9B9B622150193880002BCDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B9B621150193880002BCDE /* CoreData.framework */; };
@@ -265,6 +266,7 @@
 		F9B5DEBE15763C240034C4F5 /* textFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = textFieldBackground.png; path = ../../../../Users/kimhsiao/Desktop/textFieldBackground.png; sourceTree = "<group>"; };
 		F9B5DEC51576F68F0034C4F5 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
 		F9B5DEC61576F68F0034C4F5 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
+		F9B5DEC8157704B10034C4F5 /* no_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no_photo@2x.png"; sourceTree = "<group>"; };
 		F9B74036151934E9005D125B /* VendorInfoTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VendorInfoTableCell.h; path = Piggyback/VendorInfoTableCell.h; sourceTree = "<group>"; };
 		F9B74037151934E9005D125B /* VendorInfoTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VendorInfoTableCell.m; path = Piggyback/VendorInfoTableCell.m; sourceTree = "<group>"; };
 		F9B9B61F150193810002BCDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -465,6 +467,7 @@
 				F95F45E3157569AB007997EE /* add-to-list-button-pressed.png */,
 				F95F45E4157569AB007997EE /* add-to-list-button-pressed@2x.png */,
 				3E47FED5152C16BD00421FFE /* no_photo.png */,
+				F9B5DEC8157704B10034C4F5 /* no_photo@2x.png */,
 				3EAC2AF4152157FF00B69392 /* login_bg.png */,
 				F95B4DDE156DFDBE00EC576C /* submit-button-pressed.png */,
 				F95B4DDF156DFDBE00EC576C /* submit-button-pressed@2x.png */,
@@ -689,6 +692,7 @@
 				F95F45E7157569AB007997EE /* add-to-list-button-pressed.png in Resources */,
 				F95F45E8157569AB007997EE /* add-to-list-button-pressed@2x.png in Resources */,
 				F9B5DEBF15763C240034C4F5 /* textFieldBackground.png in Resources */,
+				F9B5DEC9157704B10034C4F5 /* no_photo@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
