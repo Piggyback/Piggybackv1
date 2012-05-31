@@ -31,6 +31,8 @@
 		3E94730B15008EF900A261DD /* PiggybackAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */; };
 		3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */; };
 		3E94731415008EF900A261DD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* LoginViewController.m */; };
+		3E9576911577609A00FAA569 /* textFieldBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9576901577609A00FAA569 /* textFieldBackground.png */; };
+		3E95769315776F2600FAA569 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E95769215776F2600FAA569 /* MainStoryboard_iPad.storyboard */; };
 		3E9795C9150EAFDF00E0E662 /* IndividualListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */; };
 		3EAC2AF5152157FF00B69392 /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EAC2AF3152157FF00B69392 /* login_bg@2x.png */; };
 		3EAC2AF6152157FF00B69392 /* login_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EAC2AF4152157FF00B69392 /* login_bg.png */; };
@@ -193,6 +195,7 @@
 		3E94731215008EF900A261DD /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		3E94731315008EF900A261DD /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		3E9576901577609A00FAA569 /* textFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textFieldBackground.png; sourceTree = "<group>"; };
+		3E95769215776F2600FAA569 /* MainStoryboard_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndividualListViewController.h; sourceTree = "<group>"; };
 		3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndividualListViewController.m; sourceTree = "<group>"; };
 		3EAC2AF3152157FF00B69392 /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_bg@2x.png"; sourceTree = "<group>"; };
@@ -386,6 +389,7 @@
 			isa = PBXGroup;
 			children = (
 				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
+				3E95769215776F2600FAA569 /* MainStoryboard_iPad.storyboard */,
 				3ED78A1A1522E92E00FE5C69 /* Piggyback.xcdatamodeld */,
 				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
 				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
@@ -690,8 +694,13 @@
 				F95F45E6157569AB007997EE /* add-to-list-button-normal@2x.png in Resources */,
 				F95F45E7157569AB007997EE /* add-to-list-button-pressed.png in Resources */,
 				F95F45E8157569AB007997EE /* add-to-list-button-pressed@2x.png in Resources */,
+<<<<<<< HEAD
 				F9B5DEC9157704B10034C4F5 /* no_photo@2x.png in Resources */,
 				F9B5DEC9157704B10034C4F5 /* no_photo@2x.png in Resources */,
+=======
+				3E9576911577609A00FAA569 /* textFieldBackground.png in Resources */,
+				3E95769315776F2600FAA569 /* MainStoryboard_iPad.storyboard in Resources */,
+>>>>>>> 62126fcc619d9c52527b6dd70f8a04d0a3364b9e
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
