@@ -166,14 +166,14 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 
 - (void)keyboardDidShow:(NSNotification *)note 
 {
-    NSLog(@"hello keyboard showde");
-    [self.view bringSubviewToFront:self.grayLayer];
+    NSLog(@"hello keyboard showed in refer to friends");
+    [self.scrollView bringSubviewToFront:self.grayLayer];
 }
 
 - (void)keyboardDidHide:(NSNotification *)note 
 {
-    [self.view bringSubviewToFront:self.backgroundView];
-    [self.view bringSubviewToFront:self.tableView];
+    [self.scrollView bringSubviewToFront:self.backgroundView];
+    [self.scrollView bringSubviewToFront:self.tableView];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
