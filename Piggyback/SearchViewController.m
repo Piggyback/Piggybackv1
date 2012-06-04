@@ -137,13 +137,12 @@ const NSString* limit = @"20";
         NSLog(@"Geocode connection error");
     } else if (connection == self.searchConnection) {
         NSLog(@"Search connection error");
-        
-        // hide spinner
-        [MBProgressHUD hideHUDForView:self.searchResultsTable animated:YES];
-        UIAlertView *searchConectionError = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Could not connect. Please try again!" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-        [searchConectionError show];
     }
     
+    // hide spinner
+    [MBProgressHUD hideHUDForView:self.searchResultsTable animated:YES];
+    UIAlertView *searchConectionError = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [searchConectionError show];
     NSLog(@"%@",[NSString stringWithFormat:@"Connection failed: %@", [error description]]);
 }
 

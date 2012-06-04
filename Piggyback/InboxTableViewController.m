@@ -19,6 +19,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MBProgressHUD.h"
 #import "FlurryAnalytics.h"
+#import "Reachability.h"
 
 @interface InboxTableViewController()
 
@@ -66,6 +67,40 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 }
 
 #pragma mark - Private Helper Methods
+- (void) reachabilityChanged:(NSNotification *)note {
+    Reachability * reach = [note object];
+    
+    if([reach isReachable])
+    {
+        [self loadData];
+    } else
+    {
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.reloading = NO;
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) checkHostStatus {
+    // allocate a reachability object
+    Reachability* reach = [Reachability reachabilityWithHostname:@"beta.getpiggyback.com"];
+    
+    // tell the reachability that we DONT want to be reachable on 3G/EDGE/CDMA
+    reach.reachableOnWWAN = YES;
+    
+    // here we set up a NSNotification observer. The Reachability that caused the notification
+    // is passed in the object parameter
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(reachabilityChanged:) 
+                                                 name:kReachabilityChangedNotification 
+                                               object:nil];
+    
+    [reach startNotifier];
+}
+
 - (void)loadObjectsFromDataStore {
     NSFetchRequest* request = [PBInboxItem fetchRequest];
     NSSortDescriptor* descriptor = [NSSortDescriptor sortDescriptorWithKey:@"referralDate" ascending:NO];
@@ -136,26 +171,6 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 }
 
 #pragma mark - RKObjectLoaderDelegate methods
-//- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
-//    NSMutableDictionary *userFbPics = [[NSMutableDictionary alloc] init];
-//    NSMutableArray *reformattedData = [NSMutableArray arrayWithCapacity:[*mappableData count]];
-//    for(id dict in [NSArray arrayWithArray:(NSArray*)*mappableData]) {
-//        NSMutableDictionary* newInboxDict = [dict mutableCopy];
-//        NSMutableDictionary* newUserDict = [[newInboxDict objectForKey:@"referrer"] mutableCopy];
-//        NSNumber* userID = [newUserDict valueForKey:@"userID"];
-//        if (![userFbPics objectForKey:userID]) {
-//            UIImage* thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[newUserDict valueForKey:@"thumbnail"]]]];
-//            [userFbPics setObject:thumbnail forKey:userID];
-//        }
-//        UIImage* thumbnail = [userFbPics objectForKey:userID];
-//        [newUserDict setValue:thumbnail forKey:@"thumbnail"];
-//        [newInboxDict setValue:newUserDict forKey:@"referrer"];
-//        [reformattedData addObject:newInboxDict];
-//    }
-//    
-//    *mappableData = reformattedData;
-//}
-
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
     // retrieve data from API and use information for displaying
@@ -170,21 +185,30 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 }
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
-{    
-    if (objectLoader.userData == @"inboxLoader") {
-        // handle case where user has no inbox items
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"InboxLastUpdatedAt"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        self.inboxItems = [[NSMutableArray alloc] init];
+{   
+    if (error.code == 2) {
+        
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
         self.reloading = NO;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
     } else {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-        NSLog(@"InboxTableViewController RK error: %@", error);
+        if (objectLoader.userData == @"inboxLoader") {
+            // handle case where user has no inbox items
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"InboxLastUpdatedAt"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            self.inboxItems = [[NSMutableArray alloc] init];
+            self.reloading = NO;
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+        } else {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            NSLog(@"InboxTableViewController RK error: %@", error);
+        }
     }
-
 }
 
 #pragma mark - UITableViewDataSource methods
@@ -354,7 +378,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 
 #pragma mark - EGORefreshTableHeaderDelegate Methods
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
-    [self loadData];
+    [self checkHostStatus];
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
@@ -414,7 +438,6 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [FlurryAnalytics logEvent:@"VIEWED_INBOX"];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -422,12 +445,14 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     [super viewDidAppear:animated];
     NSLog(@"inbox view did appear");
     
+    [FlurryAnalytics logEvent:@"VIEWED_INBOX"];
+    
     //    if ([[(PiggybackAppDelegate *)[[UIApplication sharedApplication] delegate] facebook] isSessionValid]) {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
         if (![[NSUserDefaults standardUserDefaults] objectForKey:@"InboxLastUpdatedAt"]) {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [self loadData];
+            [self checkHostStatus];
         } else {
             NSLog(@"loading inbox from core data");
             [self loadObjectsFromDataStore];

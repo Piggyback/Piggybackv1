@@ -16,6 +16,7 @@
 #import "CreateNewListViewController.h"
 #import "PiggybackNavigationController.h"
 #import "FlurryAnalytics.h"
+#import "Reachability.h"
 
 @interface ListsTableViewController ()
 
@@ -50,6 +51,39 @@
 }
 
 #pragma mark - Private Helper Methods
+- (void) reachabilityChanged:(NSNotification *)note {
+    Reachability * reach = [note object];
+    if([reach isReachable])
+    {
+        [self loadData];
+    } else
+    {
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.reloading = NO;
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) checkHostStatus {
+    // allocate a reachability object
+    Reachability* reach = [Reachability reachabilityWithHostname:@"beta.getpiggyback.com"];
+    
+    // tell the reachability that we DONT want to be reachable on 3G/EDGE/CDMA
+    reach.reachableOnWWAN = YES;
+    
+    // here we set up a NSNotification observer. The Reachability that caused the notification
+    // is passed in the object parameter
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(reachabilityChanged:) 
+                                                 name:kReachabilityChangedNotification 
+                                               object:nil];
+    
+    [reach startNotifier];
+}
+
 
 - (void)loadObjectsFromDataStore {
     // fetch current user & set self.lists to currentUser.lists   
@@ -65,7 +99,7 @@
     NSString* listsPath = [RK_LISTS_ID_RESOURCE_PATH stringByAppendingFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* listsLoader = [objManager loadObjectsAtResourcePath:listsPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"list"] delegate:self];
-    NSLog(@"list table view controllerp ath is %@",listsPath);
+    NSLog(@"list table view controller path is %@",listsPath);
     listsLoader.userData = @"listsLoader";
 }
 
@@ -83,7 +117,7 @@
             self.reloading = NO;
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-            
+
             break;
         }
         default:
@@ -93,26 +127,31 @@
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     NSLog(@"in failed to load objects");
-    switch (self.currentPbAPICall) {
-        case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
-        {
-            // handle case where user has no lists
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"ListsLastUpdatedAt"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            self.lists = [[NSMutableArray alloc] init];
-            self.reloading = NO;
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-            
-            break;
-        }
-        default:
-        {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-            NSLog(@"ListsTableViewController RK error: %@", error);
-            
-            break;
+    if (error.code == 2) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        switch (self.currentPbAPICall) {
+            case pbAPIGetCurrentUserListsAndListEntrysandIncomingReferrals:
+            {
+                // handle case where user has no lists
+                [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"ListsLastUpdatedAt"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                self.lists = [[NSMutableArray alloc] init];
+                self.reloading = NO;
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+                
+                break;
+            }
+            default:
+            {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+                NSLog(@"ListsTableViewController RK error: %@", error);
+                
+                break;
+            }
         }
     }
 }
@@ -241,7 +280,7 @@
 
 #pragma mark - EGORefreshTableHeaderDelegate Methods
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
-    [self loadData];
+    [self checkHostStatus];
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
@@ -305,7 +344,7 @@
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ListsLastUpdatedAt"]) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self loadData];
+        [self checkHostStatus];
     } else {
         [self loadObjectsFromDataStore];
     }

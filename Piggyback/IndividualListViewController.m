@@ -201,20 +201,27 @@ double const metersToMilesMultiplier = 0.000621371192;
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
 {    
-    if (objectLoader.userData == @"listEntrysLoader") {
-        // handle case where user has no inbox items
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        self.shownListEntrys = [[NSMutableArray alloc] init];
-        self.reloading = NO;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
-    } else {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"InboxTableViewController RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    if (error.code == 2) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
-        NSLog(@"InboxTableViewController RK error: %@", error);
+    } else {
+        if (objectLoader.userData == @"listEntrysLoader") {
+            // handle case where user has no inbox items
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:[NSString stringWithFormat:@"lid%@LastUpdatedAt", self.list.listID]];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            self.shownListEntrys = [[NSMutableArray alloc] init];
+            self.reloading = NO;
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+        } else {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Individual List RK Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            NSLog(@"InboxTableViewController RK error: %@", error);
+        }
     }
-    
 }
 
 #pragma mark - Table view data source
