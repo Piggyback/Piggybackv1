@@ -694,13 +694,9 @@
 				F95F45E6157569AB007997EE /* add-to-list-button-normal@2x.png in Resources */,
 				F95F45E7157569AB007997EE /* add-to-list-button-pressed.png in Resources */,
 				F95F45E8157569AB007997EE /* add-to-list-button-pressed@2x.png in Resources */,
-<<<<<<< HEAD
 				F9B5DEC9157704B10034C4F5 /* no_photo@2x.png in Resources */,
-				F9B5DEC9157704B10034C4F5 /* no_photo@2x.png in Resources */,
-=======
 				3E9576911577609A00FAA569 /* textFieldBackground.png in Resources */,
 				3E95769315776F2600FAA569 /* MainStoryboard_iPad.storyboard in Resources */,
->>>>>>> 62126fcc619d9c52527b6dd70f8a04d0a3364b9e
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
