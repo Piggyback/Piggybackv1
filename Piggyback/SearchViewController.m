@@ -94,23 +94,31 @@ const NSString* limit = @"20";
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 
     [textField resignFirstResponder];
-
-    // start spinner
-    [MBProgressHUD showHUDAddedTo:self.searchResultsTable animated:YES];
     
     NSString *location = [self.location.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     if ([location length] == 0) {
-        LocationController* locationController = [[LocationController alloc] init];
-        dispatch_queue_t getCurrentLocationQueue = dispatch_queue_create("getCurrentLocation", NULL);
-        dispatch_async(getCurrentLocationQueue, ^{
-            CLLocation* currentLocation = [locationController getCurrentLocationAndStopLocationManager];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSString* currentLatLng = [NSString stringWithFormat:@"%f%@%f",currentLocation.coordinate.latitude,@",",currentLocation.coordinate.longitude];
-                NSLog(@"location is %@",currentLatLng);
-                [self callGeocodeAPI:currentLatLng];
+        if ([CLLocationManager locationServicesEnabled]) {
+            // start spinner
+            [MBProgressHUD showHUDAddedTo:self.searchResultsTable animated:YES];
+            
+            LocationController* locationController = [[LocationController alloc] init];
+            dispatch_queue_t getCurrentLocationQueue = dispatch_queue_create("getCurrentLocation", NULL);
+            dispatch_async(getCurrentLocationQueue, ^{
+                CLLocation* currentLocation = [locationController getCurrentLocationAndStopLocationManager];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSString* currentLatLng = [NSString stringWithFormat:@"%f%@%f",currentLocation.coordinate.latitude,@",",currentLocation.coordinate.longitude];
+                    NSLog(@"location is %@",currentLatLng);
+                    [self callGeocodeAPI:currentLatLng];
+                });
             });
-        });
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Find Current Location" message:@"Could not establish connection with GPS" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            
+            [alert show];
+        }
     } else {
+        // start spinner
+        [MBProgressHUD showHUDAddedTo:self.searchResultsTable animated:YES];
         // get lat and lng of specified text-location
         [self callGeocodeAPI:location];
     }
@@ -141,7 +149,7 @@ const NSString* limit = @"20";
     
     // hide spinner
     [MBProgressHUD hideHUDForView:self.searchResultsTable animated:YES];
-    UIAlertView *searchConectionError = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    UIAlertView *searchConectionError = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [searchConectionError show];
     NSLog(@"%@",[NSString stringWithFormat:@"Connection failed: %@", [error description]]);
 }

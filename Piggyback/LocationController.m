@@ -67,7 +67,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     UIAlertView *alert;
-    alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    alert = [[UIAlertView alloc] initWithTitle:@"GPS Connection Error" message:@"Could not establish connection with GPS" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
 }
 
