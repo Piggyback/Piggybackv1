@@ -46,21 +46,27 @@
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
-    switch (self.currentPbAPICall) {
-        case pbAPIPostFeedback:
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.navigationController dismissModalViewControllerAnimated:YES];
-            });
-            break;
-        }
-        default:
-        {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"FeedbackViewController RK Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-            NSLog(@"FeedbackViewController RK error: %@", error);
-            break;
-            break;
+    // reachability handling
+    if (error.code == 2) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connecton with server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        switch (self.currentPbAPICall) {
+            case pbAPIPostFeedback:
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.navigationController dismissModalViewControllerAnimated:YES];
+                });
+                break;
+            }
+            default:
+            {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"FeedbackViewController RK Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+                NSLog(@"FeedbackViewController RK error: %@", error);
+                break;
+                break;
+            }
         }
     }
 }

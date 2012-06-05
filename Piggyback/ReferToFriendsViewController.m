@@ -13,6 +13,7 @@
 #import "PBReferral.h"
 #import "PiggybackAppDelegate.h"
 #import "MBProgressHUD.h"
+#import "Reachability.h"
 
 @interface ReferToFriendsViewController ()
 
@@ -61,6 +62,38 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 }
 
 #pragma mark - Private Helper Methods
+- (void) reachabilityChanged:(NSNotification *)note {
+    Reachability * reach = [note object];
+    if([reach isReachable])
+    {
+        [self loadData];
+    } else
+    {
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.reloading = NO;
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) checkHostStatus {
+    // allocate a reachability object
+    Reachability* reach = [Reachability reachabilityWithHostname:@"beta.getpiggyback.com"];
+    
+    // tell the reachability that we DONT want to be reachable on 3G/EDGE/CDMA
+    reach.reachableOnWWAN = YES;
+    
+    // here we set up a NSNotification observer. The Reachability that caused the notification
+    // is passed in the object parameter
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(reachabilityChanged:) 
+                                                 name:kReachabilityChangedNotification 
+                                               object:nil];
+    
+    [reach startNotifier];
+}
 
 - (void)loadObjectsFromDataStore {
     PBUser* currentUser = [PBUser findFirstByAttribute:@"userID" withValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
@@ -124,36 +157,41 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     NSLog(@"ERROR");
-    switch (self.currentPbAPICall) {
-        case pbAPIRefreshFriends:
-        {
-            // handle case where user has no friends
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"friends"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            self.reloading = NO;
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
-            break;
-        }
-        case pbAPIPostReferral:
-        {
-            // successful referral will go into error instead of didloadobjects because call to server returns null instead of mappable core data object
-            
-            // only dismiss view controller after final referral has completed
-            self.completedReferrals++;
-            if (self.completedReferrals == [self.selectedFriendsIndexes count]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.navigationController dismissModalViewControllerAnimated:YES];
-                });
+    if (error.code == 2) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        switch (self.currentPbAPICall) {
+            case pbAPIRefreshFriends:
+            {
+                // handle case where user has no friends
+                [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"friends"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                self.reloading = NO;
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.scrollView];
+                break;
             }
-            break;
-        }
-        default:
-        {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"ReferToFriendsViewController RK Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-            NSLog(@"ReferToFriendsViewController RK error: %@", error);
-            break;
+            case pbAPIPostReferral:
+            {
+                // successful referral will go into error instead of didloadobjects because call to server returns null instead of mappable core data object
+                
+                // only dismiss view controller after final referral has completed
+                self.completedReferrals++;
+                if (self.completedReferrals == [self.selectedFriendsIndexes count]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.navigationController dismissModalViewControllerAnimated:YES];
+                    });
+                }
+                break;
+            }
+            default:
+            {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"ReferToFriendsViewController RK Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+                NSLog(@"ReferToFriendsViewController RK error: %@", error);
+                break;
+            }
         }
     }
 }
@@ -253,7 +291,7 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 
 #pragma mark - EGORefreshTableHeaderDelegate Methods
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
-    [self loadData];
+    [self checkHostStatus];
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
@@ -309,7 +347,7 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 {
     [super viewWillAppear:animated];
     
-    [self loadData];
+    [self checkHostStatus];
 }
 
 - (void)viewDidUnload
