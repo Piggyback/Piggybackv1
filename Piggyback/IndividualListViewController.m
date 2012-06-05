@@ -340,6 +340,7 @@ double const metersToMilesMultiplier = 0.000621371192;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"from referral is %d",self.fromReferral);
     // Detemine if it's in editing mode
     if (!self.fromReferral) {
         return UITableViewCellEditingStyleDelete;
@@ -351,6 +352,7 @@ double const metersToMilesMultiplier = 0.000621371192;
     if (!self.fromReferral) {
         if (editingStyle == UITableViewCellEditingStyleDelete)
         {        
+            NSLog(@"inside of commit editing style where fromreferral=1 and editingstyle=delete");
             // delete from piggyback api
             NSNumber* leid = [[self.shownListEntrys objectAtIndex:indexPath.row] listEntryID];
 
