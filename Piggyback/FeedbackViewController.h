@@ -7,13 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Restkit/Restkit.h>
 
-typedef enum pbApiFeedbackCall {
-    pbAPIPostFeedback,
-} pbApiFeedbackCall;
-
-@interface FeedbackViewController : UIViewController <RKObjectLoaderDelegate>
+@interface FeedbackViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextView *textField;
 - (IBAction)cancelAddToList:(id)sender;

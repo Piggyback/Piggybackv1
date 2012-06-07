@@ -64,7 +64,7 @@
     newList.listOwnerID = [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"];
     newList.listCount = [NSNumber numberWithInt:0];
     
-    [[RKObjectManager sharedManager] postObject:newList mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"list"] delegate:(id<RKObjectLoaderDelegate>)self.realPresentingViewController];
+    [[RKObjectManager sharedManager] postObject:newList mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"list"] delegate:nil];
     
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
@@ -110,8 +110,6 @@
 #pragma mark - RKObjectLoaderDelegate methods
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
-    NSLog(@"in did load objects");
-    NSLog(@"num of lists returned: %i", [objects count]);
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.navigationController dismissModalViewControllerAnimated:YES];
     });
@@ -119,7 +117,6 @@
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
     UIAlertView *alert;
-    NSLog(@"error code: %i", error.code);
     if (error.code == 2) {
         alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }

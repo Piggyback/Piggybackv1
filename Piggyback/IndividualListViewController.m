@@ -362,7 +362,7 @@ double const metersToMilesMultiplier = 0.000621371192;
             NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
                     
             NSDictionary* params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:leid,timeStamp,nil] forKeys:[NSArray arrayWithObjects:@"leid",@"date",nil]];
-            [[RKClient sharedClient] put:@"listapi/coreDataListEntryDelete" params:params delegate:self];
+            [[RKClient sharedClient] put:@"listapi/coreDataListEntryDelete" params:params delegate:nil];
             
             // delete from core data
             PBListEntry* deletedListEntry = [self.shownListEntrys objectAtIndex:indexPath.row];
@@ -441,6 +441,7 @@ double const metersToMilesMultiplier = 0.000621371192;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"individual list view controller did load");
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     if (self.refreshHeaderView == nil) {
@@ -475,16 +476,31 @@ double const metersToMilesMultiplier = 0.000621371192;
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewWillUnload
+{
+    [super viewWillUnload];
+}
+
 - (void)viewDidUnload
 {
+    [super viewDidUnload];
     self.list = nil;
     [self setListEntryTableView:nil];
     self.shownListEntrys = nil;
     [self setSegmentedControl:nil];
     [self setScrollView:nil];
-    [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)dealloc {
+    [[[[RKObjectManager sharedManager] client] requestQueue] cancelRequestsWithDelegate:self];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
