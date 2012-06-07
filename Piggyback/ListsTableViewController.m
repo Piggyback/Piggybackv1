@@ -238,7 +238,7 @@
         // delete from piggyback api
         NSNumber* lid = [[self.lists objectAtIndex:indexPath.row] listID];
         NSDictionary* params = [NSDictionary dictionaryWithObject:lid forKey:@"lid"];
-        [[RKClient sharedClient] put:@"listapi/coreDataListDelete" params:params delegate:self];
+        [[RKClient sharedClient] put:@"listapi/coreDataListDelete" params:params delegate:nil];
         
         // delete from core data
         PBList* deletedList = [self.lists objectAtIndex:indexPath.row];
@@ -364,6 +364,11 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+}
+
+- (void)dealloc
+{
+    [[[[RKObjectManager sharedManager] client] requestQueue] cancelRequestsWithDelegate:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

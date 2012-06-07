@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
 
-@interface CreateNewListViewController : UIViewController <UITextFieldDelegate, RKObjectLoaderDelegate>
+@interface CreateNewListViewController : UIViewController <UITextFieldDelegate>
 
 - (IBAction)cancelCreateNewList:(id)sender;
 - (IBAction)createNewList:(id)sender;

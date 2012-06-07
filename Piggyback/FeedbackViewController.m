@@ -8,6 +8,7 @@
 
 #import "FeedbackViewController.h"
 #import "PBFeedbackSubmission.h"
+#import "PiggybackTabBarController.h"
 
 @interface FeedbackViewController ()
 
@@ -24,50 +25,6 @@
     UITouch * touch = [touches anyObject];
     if(touch.phase == UITouchPhaseBegan) {
         [self.textField resignFirstResponder];
-    }
-}
-
-#pragma mark - RKObjectLoaderDelegate methods
-
-- (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
-    switch (self.currentPbAPICall) {
-        case pbAPIPostFeedback:
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.navigationController dismissModalViewControllerAnimated:YES];
-            });
-            break;
-        }
-        default:
-        {
-            break;
-        }
-    }
-}
-
-- (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
-    // reachability handling
-    if (error.code == 2) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connecton with server" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-    } else {
-        switch (self.currentPbAPICall) {
-            case pbAPIPostFeedback:
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.navigationController dismissModalViewControllerAnimated:YES];
-                });
-                break;
-            }
-            default:
-            {
-                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"FeedbackViewController RK Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [alert show];
-                NSLog(@"FeedbackViewController RK error: %@", error);
-                break;
-                break;
-            }
-        }
     }
 }
 
@@ -103,7 +60,7 @@
 #pragma mark - storyboard stuff
 
 - (IBAction)cancelAddToList:(id)sender {
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+    [self.presentingViewController dismissModalViewControllerAnimated:YES];
 }
 
 - (IBAction)sendFeedback:(id)sender {
@@ -122,9 +79,9 @@
         [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"PST"]];
         feedback.date = [dateFormatter stringFromDate:[NSDate date]];
         
-        self.currentPbAPICall = pbAPIPostFeedback;
+        [[RKObjectManager sharedManager] postObject:feedback delegate:nil];
         
-        [[RKObjectManager sharedManager] postObject:feedback delegate:self];
+        [self.presentingViewController dismissModalViewControllerAnimated:YES];
     }
 }
 

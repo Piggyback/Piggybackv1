@@ -8,7 +8,6 @@
 
 #import "PiggybackTabBarController.h"
 #import "PiggybackAppDelegate.h"
-#import <RestKit/RestKit.h>
 #import <RestKit/CoreData.h>
 
 @implementation PiggybackTabBarController

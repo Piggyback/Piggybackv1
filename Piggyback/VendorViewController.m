@@ -689,6 +689,11 @@ const CGFloat photoWidth = 320;
     [super viewDidUnload];
 }
 
+- (void)dealloc
+{
+    [[[[RKObjectManager sharedManager] client] requestQueue] cancelRequestsWithDelegate:self];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);

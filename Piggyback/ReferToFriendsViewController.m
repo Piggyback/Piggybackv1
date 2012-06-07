@@ -117,19 +117,19 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
 
 #pragma mark - RKObjectLoaderDelegate methods
 
-- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
-    NSMutableDictionary* currentUserDict = [*mappableData mutableCopy];
-    NSMutableArray* friendsWithThumbnails = [[NSMutableArray alloc] init];
-    for (id currentFriendDict in [currentUserDict objectForKey:@"friends"]) {
-        NSMutableDictionary *currentFriendMutableDict = [currentFriendDict mutableCopy];
-        [currentFriendMutableDict setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[currentFriendDict objectForKey:@"thumbnail"]]]] forKey:@"thumbnail"];
-        [friendsWithThumbnails addObject:currentFriendMutableDict];
-    }
-    
-    [currentUserDict setObject:friendsWithThumbnails forKey:@"friends"];
-    
-    *mappableData = currentUserDict;
-}
+//- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
+//    NSMutableDictionary* currentUserDict = [*mappableData mutableCopy];
+//    NSMutableArray* friendsWithThumbnails = [[NSMutableArray alloc] init];
+//    for (id currentFriendDict in [currentUserDict objectForKey:@"friends"]) {
+//        NSMutableDictionary *currentFriendMutableDict = [currentFriendDict mutableCopy];
+//        [currentFriendMutableDict setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[currentFriendDict objectForKey:@"thumbnail"]]]] forKey:@"thumbnail"];
+//        [friendsWithThumbnails addObject:currentFriendMutableDict];
+//    }
+//    
+//    [currentUserDict setObject:friendsWithThumbnails forKey:@"friends"];
+//    
+//    *mappableData = currentUserDict;
+//}
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
     NSLog(@"did load objects!");
@@ -357,6 +357,11 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
     // Release any retained subviews of the main view.
 }
 
+- (void)dealloc
+{
+    [[[[RKObjectManager sharedManager] client] requestQueue] cancelRequestsWithDelegate:self];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -401,8 +406,9 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
             NSLog(@"new referral is %@",newReferral);
             
             self.currentPbAPICall = pbAPIPostReferral;
-            [[RKObjectManager sharedManager] postObject:newReferral delegate:self];
+            [[RKObjectManager sharedManager] postObject:newReferral delegate:nil];
         }
+        [self.navigationController dismissModalViewControllerAnimated:YES];
     }
 }
 

@@ -115,7 +115,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
     NSLog(@"inbox path is %@",inboxPath);
     RKObjectManager* objManager = [RKObjectManager sharedManager];
     RKObjectLoader* inboxLoader = [objManager loadObjectsAtResourcePath:inboxPath objectMapping:[objManager.mappingProvider mappingForKeyPath:@"inbox"] delegate:self];
-    inboxLoader.userData = @"inboxLoader";
+    inboxLoader.userData = @"getInbox";
 }
 
 // get string for time elapsed e.g., "2 days ago"
@@ -174,7 +174,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects 
 {
     // retrieve data from API and use information for displaying
-    if(objectLoader.userData == @"inboxLoader") {        
+    if(objectLoader.userData == @"getInbox") {        
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"InboxLastUpdatedAt"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self loadObjectsFromDataStore];
@@ -186,6 +186,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 
 - (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error 
 {   
+    NSLog(@"inbox did fail with error");
     if (error.code == 2) {
         
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"Cannot establish connection with server" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -195,7 +196,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
     } else {
-        if (objectLoader.userData == @"inboxLoader") {
+        if (objectLoader.userData == @"getInbox") {
             // handle case where user has no inbox items
             [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"InboxLastUpdatedAt"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -350,7 +351,7 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
         // delete from piggyback api
         NSNumber* rid = [[self.inboxItems objectAtIndex:indexPath.row] referralID];
         NSDictionary* params = [NSDictionary dictionaryWithObject:rid forKey:@"rid"];
-        [[RKClient sharedClient] put:@"inboxapi/coreDataInboxItemDelete" params:params delegate:self];
+        [[RKClient sharedClient] put:@"inboxapi/coreDataInboxItemDelete" params:params delegate:nil];
         
         // delete from core data
         PBInboxItem* deletedInboxItem = [self.inboxItems objectAtIndex:indexPath.row];
@@ -468,6 +469,11 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+}
+
+- (void)dealloc
+{
+    [[[[RKObjectManager sharedManager] client] requestQueue] cancelRequestsWithDelegate:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
