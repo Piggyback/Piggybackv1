@@ -58,7 +58,8 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     PBUser *newUser = [PBUser object];
-    newUser.fbid = [NSNumber numberWithInt:[[defaults objectForKey:@"FBID"] intValue]];
+    
+    newUser.fbid = [NSNumber numberWithLongLong:[[defaults objectForKey:@"FBID"] longLongValue]];
     newUser.email = [defaults objectForKey:@"Email"];
     newUser.firstName = [defaults objectForKey:@"FirstName"];
     newUser.lastName = [defaults objectForKey:@"LastName"];
