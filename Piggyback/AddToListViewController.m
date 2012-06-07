@@ -344,6 +344,7 @@
             self.currentPbAPICall = pbAPIAddToList;
                 
             [[RKObjectManager sharedManager] postObject:newListEntryDB mapResponseWith:[[[RKObjectManager sharedManager] mappingProvider] mappingForKeyPath:@"listEntry"] delegate:nil];
+            [self.navigationController dismissModalViewControllerAnimated:YES];
         }
     }
     
