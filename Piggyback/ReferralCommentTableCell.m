@@ -14,19 +14,29 @@
 {   
     [super layoutSubviews];
     
-    // set alignment of friend's picture to top left of the table cell
-    self.imageView.frame = CGRectMake(FACEBOOKPICMARGIN,
-                                      FACEBOOKPICMARGIN,
-                                      FACEBOOKPICWIDTH,
-                                      FACEBOOKPICHEIGHT);
+//    // set alignment of friend's picture to top left of the table cell
+//    self.imageView.frame = CGRectMake(FACEBOOKPICMARGIN,
+//                                      FACEBOOKPICMARGIN,
+//                                      FACEBOOKPICWIDTH,
+//                                      FACEBOOKPICHEIGHT);
+//    
+//    self.textLabel.frame = CGRectMake(FACEBOOKPICWIDTH + 2*FACEBOOKPICMARGIN,
+//                                      FACEBOOKPICMARGIN/1.5,
+//                                      self.textLabel.frame.size.width,
+//                                      self.textLabel.frame.size.height);
+//    
+//    self.detailTextLabel.frame = CGRectMake(FACEBOOKPICWIDTH + 2*FACEBOOKPICMARGIN,
+//                                            2.8*FACEBOOKPICMARGIN,
+//                                            self.detailTextLabel.frame.size.width,
+//                                            self.detailTextLabel.frame.size.height);
     
-    self.textLabel.frame = CGRectMake(FACEBOOKPICWIDTH + 2*FACEBOOKPICMARGIN,
-                                      FACEBOOKPICMARGIN/1.5,
+    self.textLabel.frame = CGRectMake(9,
+                                      5,
                                       self.textLabel.frame.size.width,
                                       self.textLabel.frame.size.height);
     
-    self.detailTextLabel.frame = CGRectMake(FACEBOOKPICWIDTH + 2*FACEBOOKPICMARGIN,
-                                            2.8*FACEBOOKPICMARGIN,
+    self.detailTextLabel.frame = CGRectMake(9,
+                                            25,
                                             self.detailTextLabel.frame.size.width,
                                             self.detailTextLabel.frame.size.height);
 }

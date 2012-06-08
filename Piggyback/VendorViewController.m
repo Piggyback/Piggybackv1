@@ -486,10 +486,11 @@ const CGFloat photoWidth = 320;
         
 //        NSString* imgURL = [[@"http://graph.facebook.com/" stringByAppendingString:[vendorReferralComment.referrer.fbid stringValue]] stringByAppendingString:@"/picture"];
 //        UIImage* img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgURL]]];
-        UIImage *img = vendorReferralComment.referrer.thumbnail;
-        cell.imageView.layer.cornerRadius = 5.0;
-        cell.imageView.layer.masksToBounds = YES;
-        cell.imageView.image = img;
+        
+//        UIImage *img = vendorReferralComment.referrer.thumbnail;
+//        cell.imageView.layer.cornerRadius = 5.0;
+//        cell.imageView.layer.masksToBounds = YES;
+//        cell.imageView.image = img;
     }
         
     return cell;
@@ -512,10 +513,10 @@ const CGFloat photoWidth = 320;
     } else if (indexPath.section == vendorReferralsSection) {
         PBVendorReferralComment* vendorReferralComment = [self.referralComments objectAtIndex:indexPath.row];
         
-        CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(220.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
-        if ((size.height + 12) < FACEBOOKPICHEIGHT)
-            return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
-        else
+        CGSize size = [vendorReferralComment.comment sizeWithFont:[UIFont systemFontOfSize:13.0f] constrainedToSize:CGSizeMake(280.0f,9999.0f) lineBreakMode:UILineBreakModeWordWrap];
+//        if ((size.height + 12) < FACEBOOKPICHEIGHT)
+//            return FACEBOOKPICHEIGHT + 2*FACEBOOKPICMARGIN;
+//        else
             return size.height + 2*FACEBOOKPICMARGIN + 20;
     }
     
