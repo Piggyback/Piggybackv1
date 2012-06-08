@@ -244,11 +244,11 @@ NSString* const RK_FRIENDS_RESOURCE_PATH = @"/userapi/userFriends/user/"; // ?
     
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@",[[self.friends objectAtIndex:indexPath.row] firstName],[[self.friends objectAtIndex:indexPath.row] lastName]];
     
-    PBUser* friend = [self.friends objectAtIndex:indexPath.row];
-    UIImage* img = friend.thumbnail;
-    cell.imageView.layer.cornerRadius = 8.0;
-    cell.imageView.layer.masksToBounds = YES;
-    cell.imageView.image = img;
+//    PBUser* friend = [self.friends objectAtIndex:indexPath.row];
+//    UIImage* img = friend.thumbnail;
+//    cell.imageView.layer.cornerRadius = 8.0;
+//    cell.imageView.layer.masksToBounds = YES;
+//    cell.imageView.image = img;
     
     // set checkmark
     if ([self.selectedFriendsIndexes containsObject:[NSNumber numberWithInt:indexPath.row]]) {
