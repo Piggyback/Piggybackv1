@@ -85,20 +85,20 @@ NSString* const RK_USER_FBID_RESOURCE_PATH = @"/userapi/user/fbid/";
 }
 
 #pragma mark - FBRequestDelegate Methods
-- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
-    NSMutableDictionary* currentUserDict = [*mappableData mutableCopy];
-    NSMutableArray* friendsWithThumbnails = [[NSMutableArray alloc] init];
-    for (id currentFriendDict in [currentUserDict objectForKey:@"friends"]) {
-        NSLog(@"updating thumbnail for friend");
-        NSMutableDictionary *currentFriendMutableDict = [currentFriendDict mutableCopy];
-        [currentFriendMutableDict setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[currentFriendDict objectForKey:@"thumbnail"]]]] forKey:@"thumbnail"];
-        [friendsWithThumbnails addObject:currentFriendMutableDict];
-    }
-    
-    [currentUserDict setObject:friendsWithThumbnails forKey:@"friends"];
-    
-    *mappableData = currentUserDict;
-}
+//- (void)objectLoader:(RKObjectLoader*)loader willMapData:(inout id *)mappableData {
+//    NSMutableDictionary* currentUserDict = [*mappableData mutableCopy];
+//    NSMutableArray* friendsWithThumbnails = [[NSMutableArray alloc] init];
+//    for (id currentFriendDict in [currentUserDict objectForKey:@"friends"]) {
+//        NSLog(@"updating thumbnail for friend");
+//        NSMutableDictionary *currentFriendMutableDict = [currentFriendDict mutableCopy];
+//        [currentFriendMutableDict setObject:[[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[currentFriendDict objectForKey:@"thumbnail"]]]] forKey:@"thumbnail"];
+//        [friendsWithThumbnails addObject:currentFriendMutableDict];
+//    }
+//    
+//    [currentUserDict setObject:friendsWithThumbnails forKey:@"friends"];
+//    
+//    *mappableData = currentUserDict;
+//}
 
 - (void)request:(FBRequest *)request didLoad:(id)result {    
     switch (self.currentFbAPICall) {
