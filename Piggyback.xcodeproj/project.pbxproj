@@ -30,10 +30,9 @@
 		3E94730515008EF900A261DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730315008EF900A261DD /* InfoPlist.strings */; };
 		3E94730715008EF900A261DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94730615008EF900A261DD /* main.m */; };
 		3E94730B15008EF900A261DD /* PiggybackAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */; };
-		3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */; };
+		3E94730E15008EF900A261DD /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E94730C15008EF900A261DD /* MainStoryboard.storyboard */; };
 		3E94731415008EF900A261DD /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E94731315008EF900A261DD /* LoginViewController.m */; };
 		3E9576911577609A00FAA569 /* textFieldBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9576901577609A00FAA569 /* textFieldBackground.png */; };
-		3E95769315776F2600FAA569 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E95769215776F2600FAA569 /* MainStoryboard_iPad.storyboard */; };
 		3E9795C9150EAFDF00E0E662 /* IndividualListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */; };
 		3EAC2AF5152157FF00B69392 /* login_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EAC2AF3152157FF00B69392 /* login_bg@2x.png */; };
 		3EAC2AF6152157FF00B69392 /* login_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EAC2AF4152157FF00B69392 /* login_bg.png */; };
@@ -192,11 +191,10 @@
 		3E94730815008EF900A261DD /* Piggyback-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Piggyback-Prefix.pch"; sourceTree = "<group>"; };
 		3E94730915008EF900A261DD /* PiggybackAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PiggybackAppDelegate.h; sourceTree = "<group>"; };
 		3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PiggybackAppDelegate.m; sourceTree = "<group>"; };
-		3E94730D15008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		3E94730D15008EF900A261DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		3E94731215008EF900A261DD /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		3E94731315008EF900A261DD /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		3E9576901577609A00FAA569 /* textFieldBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textFieldBackground.png; sourceTree = "<group>"; };
-		3E95769215776F2600FAA569 /* MainStoryboard_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		3E9795C7150EAFDF00E0E662 /* IndividualListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndividualListViewController.h; sourceTree = "<group>"; };
 		3E9795C8150EAFDF00E0E662 /* IndividualListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndividualListViewController.m; sourceTree = "<group>"; };
 		3EAC2AF3152157FF00B69392 /* login_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_bg@2x.png"; sourceTree = "<group>"; };
@@ -391,8 +389,7 @@
 		3E94730015008EF900A261DD /* Piggyback */ = {
 			isa = PBXGroup;
 			children = (
-				3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */,
-				3E95769215776F2600FAA569 /* MainStoryboard_iPad.storyboard */,
+				3E94730C15008EF900A261DD /* MainStoryboard.storyboard */,
 				3ED78A1A1522E92E00FE5C69 /* Piggyback.xcdatamodeld */,
 				3E94730915008EF900A261DD /* PiggybackAppDelegate.h */,
 				3E94730A15008EF900A261DD /* PiggybackAppDelegate.m */,
@@ -657,7 +654,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E94730515008EF900A261DD /* InfoPlist.strings in Resources */,
-				3E94730E15008EF900A261DD /* MainStoryboard_iPhone.storyboard in Resources */,
+				3E94730E15008EF900A261DD /* MainStoryboard.storyboard in Resources */,
 				3EB2BB8C15183BDD0034820F /* list_tabbar_icon@2x.png in Resources */,
 				3EB2BB9015183C5B0034820F /* list_tabbar_icon.png in Resources */,
 				3EB5B3C7151953E10009980F /* piggyback_titlebar.png in Resources */,
@@ -701,7 +698,6 @@
 				F95F45E8157569AB007997EE /* add-to-list-button-pressed@2x.png in Resources */,
 				F9B5DEC9157704B10034C4F5 /* no_photo@2x.png in Resources */,
 				3E9576911577609A00FAA569 /* textFieldBackground.png in Resources */,
-				3E95769315776F2600FAA569 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,12 +765,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		3E94730C15008EF900A261DD /* MainStoryboard_iPhone.storyboard */ = {
+		3E94730C15008EF900A261DD /* MainStoryboard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				3E94730D15008EF900A261DD /* en */,
 			);
-			name = MainStoryboard_iPhone.storyboard;
+			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

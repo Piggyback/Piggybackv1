@@ -3,7 +3,7 @@
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
     <scenes>
         <!--Lists Table View Controller - Lists-->
@@ -637,7 +637,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="name" lineBreakMode="tailTruncation" minimumFontSize="11" adjustsFontSizeToFit="NO" id="pPt-To-nVN">
-                                            <rect key="frame" x="53" y="4" width="185" height="18"/>
+                                            <rect key="frame" x="7" y="4" width="200" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -645,14 +645,14 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="recommended by.." lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" id="xs1-2e-92M">
-                                            <rect key="frame" x="53" y="20" width="199" height="22"/>
+                                            <rect key="frame" x="7" y="20" width="199" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="SAL-nm-qKY">
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="SAL-nm-qKY">
                                             <rect key="frame" x="7" y="6" width="38" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
@@ -665,7 +665,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="(#)" lineBreakMode="wordWrap" numberOfLines="0" minimumFontSize="10" id="pSB-xg-7Zu">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="(#)" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="pSB-xg-7Zu">
                                             <rect key="frame" x="113" y="1" width="23" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -1183,7 +1183,7 @@
         <image name="searchMagGlass.png" width="30" height="30"/>
         <image name="submit-button-pressed.png" width="280" height="35"/>
         <image name="submit-button.png" width="280" height="35"/>
-        <image name="textFieldBackground.png" width="16" height="16"/>
+        <image name="textFieldBackground.png" width="280" height="99"/>
     </resources>
     <classes>
         <class className="AddToListViewController" superclassName="UIViewController">
@@ -1316,7 +1316,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="pdA-ib-Qlw"/>
-        <segue reference="aUp-Va-zv1"/>
+        <segue reference="nrv-nn-45K"/>
         <segue reference="s3i-nX-hRF"/>
     </inferredMetricsTieBreakers>
 </document>

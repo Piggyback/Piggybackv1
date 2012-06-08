@@ -251,17 +251,27 @@ NSString* const NO_INBOX_DETAILED_TEXT = @"Tell your friends to recommend you pl
             cell.numItemsInList.text = @"";
         } else {    
             cell.name.text = inboxItem.list.name;
-            cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d",[inboxItem.list.listCount intValue]] stringByAppendingString:@")"];
+            int numItems = [inboxItem.list.listCount intValue];
+            if (numItems == 1) {
+                cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d item",[inboxItem.list.listCount intValue]] stringByAppendingString:@")"];
+            } else {
+                cell.numItemsInList.text = [[@" (" stringByAppendingFormat:@"%d items",[inboxItem.list.listCount intValue]] stringByAppendingString:@")"];
+            }
+            
             
             // set position of number of items in list
             CGSize listNameSize = [inboxItem.list.name sizeWithFont:[UIFont boldSystemFontOfSize:15.0f] constrainedToSize:CGSizeMake(500.0f,9999.0f) lineBreakMode:UILineBreakModeTailTruncation];
             //hacky solution because sizeWithFont cuts off the last word regardless of the lineBreakMode set (returns width less than 185 when expected is 185)
-            if (listNameSize.width > 185.0f) {
-                listNameSize.width = 185.0f;
+//            if (listNameSize.width > 185.0f) {
+//                listNameSize.width = 185.0f;
+//            }
+            // use 200.0f when removing thumbnail
+            if (listNameSize.width > 195.0f) {
+                listNameSize.width = 195.0f;
             }
             CGRect listNameFrame = cell.name.frame;
-            listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width;
-            listNameFrame.size.width = listNameSize.width;
+            listNameFrame.origin.x = listNameFrame.origin.x + listNameSize.width + 5.0f;
+            listNameFrame.size.width = 60.0f;
             cell.numItemsInList.frame = listNameFrame;
             NSLog(@"listName width: %f", listNameFrame.size.width);
 //            NSLog(@"listNameFrame origin: %f", listNameFrame.origin.x);
