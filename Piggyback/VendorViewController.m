@@ -299,6 +299,7 @@ const CGFloat photoWidth = 320;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     self.detailsResponse = [[[[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding] objectFromJSONString] objectForKey:@"response"];
+    NSLog(@"details response is %@",self.detailsResponse);
     self.vendor.website = [[self.detailsResponse objectForKey:@"venue"] objectForKey:@"url"];
     
     NSMutableArray* photos = [[NSMutableArray alloc] init];
@@ -635,12 +636,14 @@ const CGFloat photoWidth = 320;
         // get photos from foursquare API or core data
         if (![[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"vidPhotos%@LastUpdatedAt", self.vendor.vendorID]]) {
             NSLog(@"CALLING FOURSQUARE API FOR PHOTOS");
-            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"yyyyMMdd"];
-            NSDate* now = [NSDate date];
-            NSString *date = [dateFormat stringFromDate:now];
+//            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//            [dateFormat setDateFormat:@"yyyyMMdd"];
+//            NSDate* now = [NSDate date];
+//            NSString *date = [dateFormat stringFromDate:now];
+            NSString *date = @"20120605";
             
             NSURLRequest *detailsRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@?client_id=%@&client_secret=%@&v=%@",self.vendor.vendorID,FOURSQUARECLIENTID,FOURSQUARECLIENTSECRET,date]]];
+            NSLog(@"foursquare api call is %@",[NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@?client_id=%@&client_secret=%@&v=%@",self.vendor.vendorID,FOURSQUARECLIENTID,FOURSQUARECLIENTSECRET,date]);
 //            NSURLConnection *detailsConnection = [[NSURLConnection alloc] initWithRequest:detailsRequest delegate:self];
             [NSURLConnection connectionWithRequest:detailsRequest delegate:self];
         } else {
