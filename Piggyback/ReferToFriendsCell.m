@@ -18,9 +18,9 @@
     [super layoutSubviews];
     
     // set alignment of friend's picture to top left of the table cell
-    self.imageView.frame = CGRectMake(1,1,REFERFRIENDPICWIDTH,REFERFRIENDPICHEIGHT);
+//    self.imageView.frame = CGRectMake(1,1,REFERFRIENDPICWIDTH,REFERFRIENDPICHEIGHT);
     
-    self.textLabel.frame = CGRectMake(REFERFRIENDPICWIDTH + FACEBOOKPICMARGIN,
+    self.textLabel.frame = CGRectMake(FACEBOOKPICMARGIN,
                                       0,
                                       self.textLabel.frame.size.width - FACEBOOKPICMARGIN,
                                       self.textLabel.frame.size.height);
