@@ -25,8 +25,8 @@
 @implementation PiggybackAppDelegate
 
 NSString* const FB_APP_ID = @"251920381531962";
-//NSString* RK_BASE_URL = @"http://beta.getpiggyback.com/api";
-NSString* RK_BASE_URL = @"http://test.getpiggyback.com/api";
+NSString* RK_BASE_URL = @"http://beta.getpiggyback.com/api";
+//NSString* RK_BASE_URL = @"http://test.getpiggyback.com/api";
 NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
 
 @synthesize window = _window;
