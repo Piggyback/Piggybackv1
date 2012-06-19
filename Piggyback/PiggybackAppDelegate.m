@@ -215,7 +215,7 @@ NSString* const RK_DATE_FORMAT = @"yyyy-MM-dd HH:mm:ss";
         self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
         NSLog(@"fb token expiration date: %@", self.facebook.expirationDate);
     } else {
-        UIStoryboard *iphoneStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+        UIStoryboard *iphoneStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         LoginViewController *loginViewController = [iphoneStoryboard instantiateViewControllerWithIdentifier:@"loginViewController"];
         loginViewController.delegate = rootViewController;
         
